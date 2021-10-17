@@ -1,17 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.InPhoto" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.InPhoto" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
     <style name="TextButton">
@@ -19,6 +20,7 @@
         <item name="android:paddingBottom">@dimen/padding_all_general</item>
         <item name="android:paddingStart">@dimen/padding_all_general_large</item>
         <item name="android:paddingEnd">@dimen/padding_all_general_large</item>
+        <item name="android:textColor">@drawable/background_text_button</item>
         <item name="android:textSize">@dimen/font_all_small</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
@@ -27,11 +29,22 @@
     </style>
 
     <style name="FilledTextButton" parent="TextButton">
+        <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/background_filled_button</item>
     </style>
 
     <style name="OutlinedTextButton" parent="TextButton">
+        <item name="android:textColor">@color/black</item>
         <item name="android:background">@drawable/background_outlined_button</item>
+    </style>
+
+    <style name="TextField">
+        <item name="android:padding">@dimen/padding_all_general</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black_50</item>
+        <item name="android:textSize">@dimen/font_all_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:imeOptions">actionNext</item>
     </style>
 
 </resources>

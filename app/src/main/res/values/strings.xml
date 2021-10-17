@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">InPhoto</string>
+    <string name="hint_password_label">password</string>
+    <string name="hint_email_label">email</string>
+    <string name="welcome_back_label">Welcome\nBack!</string>
+    <string name="forgot_password_label">Forgot Password?</string>
+    <string name="sign_up_label">Sign Up</string>
+    <string name="sign_in_label">Sign In</string>
 </resources>
