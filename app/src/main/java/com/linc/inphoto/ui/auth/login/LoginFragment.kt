@@ -24,16 +24,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel, LoginUi
 
     override fun getViewBinding() = FragmentLoginBinding.inflate(layoutInflater)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun handleUiState(state: LoginUiState) = when(state) {
         else -> null
     }
 
     override fun handleUiEffect(effect: LoginUiEffect) = when(effect) {
         else -> null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.signInButton.setOnClickListener {
+            println("signInButton")
+        }
+
+        binding.signUnButton.setOnClickListener {
+            println("signUnButton")
+        }
     }
 
 }

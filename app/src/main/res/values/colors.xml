@@ -16,4 +16,11 @@
     <color name="dream_setting">#f675bf</color>
     <color name="sultan_of_pink">#e7a1c6</color>
 
+
+    <color name="white_15">#26FFFFFF</color>
+
+    <color name="black_50">#80000000</color>
+    <color name="black_25">#40000000</color>
+    <color name="black_15">#26000000</color>
+
 </resources>

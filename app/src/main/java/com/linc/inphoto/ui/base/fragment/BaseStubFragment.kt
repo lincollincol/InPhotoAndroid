@@ -1,6 +1,5 @@
 package com.linc.inphoto.ui.base.fragment
 
-import androidx.databinding.ViewDataBinding
 import androidx.viewbinding.ViewBinding
 import com.linc.inphoto.ui.base.viewmodel.BaseStubViewModel
 import com.linc.inphoto.ui.base.UiEffect

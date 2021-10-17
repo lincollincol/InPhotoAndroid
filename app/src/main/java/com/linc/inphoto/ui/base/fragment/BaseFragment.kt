@@ -4,20 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.databinding.BindingAdapter
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.utils.Inflate
 import com.linc.inphoto.utils.UnusedResult
 import kotlinx.coroutines.flow.collect
 
 abstract class BaseFragment<B : ViewBinding, V : BaseViewModel<S, E>, S, E> : Fragment() {
 
-    private var _binding: B? = null
+    protected var _binding: B? = null
     protected val binding get() = _binding!!
     protected abstract val viewModel: V
 
@@ -44,7 +41,8 @@ abstract class BaseFragment<B : ViewBinding, V : BaseViewModel<S, E>, S, E> : Fr
 //        _binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
 //        return _binding?.root
         _binding = getViewBinding()
-        return getViewBinding().root
+//        _binding = inflateViewBinding().invoke(inflater, container, false)
+        return _binding?.root
     }
 
     override fun onDestroyView() {
@@ -57,9 +55,6 @@ abstract class BaseFragment<B : ViewBinding, V : BaseViewModel<S, E>, S, E> : Fr
 
     @UnusedResult
     abstract fun handleUiEffect(effect: E) : Any?
-
-//    @LayoutRes
-//    abstract fun getLayoutId() : Int
 
     abstract fun getViewBinding() : B
 
