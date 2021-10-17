@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/polaroid_photos_image"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/top_line"
+        />
+
+    <TextView
+        android:id="@+id/welcome_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Welcome\nBack!"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_all_large"
+        android:textStyle="bold"
+        android:fontFamily="@font/noto_serif_regular"
+        app:layout_constraintTop_toTopOf="@id/top_line"
+        app:layout_constraintStart_toStartOf="@id/start_line"
+        app:layout_constraintEnd_toEndOf="@id/end_line"/>
+
+    <EditText
+        android:id="@+id/email_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_all_general"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="email"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_all_small"
+        android:inputType="textEmailAddress"
+        android:imeOptions="actionNext"
+        android:layout_marginTop="@dimen/margin_all_general_huge"
+        app:layout_constraintTop_toBottomOf="@id/welcome_label"
+        app:layout_constraintStart_toStartOf="@id/start_line"
+        app:layout_constraintEnd_toEndOf="@id/end_line"/>
+
+    <EditText
+        android:id="@+id/password_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_all_general"
+        android:layout_marginTop="@dimen/margin_all_general_large"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="password"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_all_small"
+        android:inputType="textPassword"
+        android:imeOptions="actionNext"
+        app:layout_constraintTop_toBottomOf="@id/email_field"
+        app:layout_constraintStart_toStartOf="@id/start_line"
+        app:layout_constraintEnd_toEndOf="@id/end_line"/>
+
+    <TextView
+        android:id="@+id/sign_in_button"
+        style="@style/FilledTextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_all_general_huge"
+        android:text="Sign In"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/password_field"
+        app:layout_constraintStart_toStartOf="@id/start_line"
+        app:layout_constraintEnd_toEndOf="@id/end_line"/>
+
+    <TextView
+        android:id="@+id/sign_un_button"
+        style="@style/OutlinedTextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_all_general"
+        android:text="Sign Up"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/sign_in_button"
+        app:layout_constraintStart_toStartOf="@id/start_line"
+        app:layout_constraintEnd_toEndOf="@id/end_line"/>
+
+    <TextView
+        android:id="@+id/forgot_password_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_all_general"
+        android:layout_marginBottom="@dimen/margin_all_general"
+        android:text="Forgot Password?"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/start_line"
+        app:layout_constraintEnd_toEndOf="@id/end_line"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
