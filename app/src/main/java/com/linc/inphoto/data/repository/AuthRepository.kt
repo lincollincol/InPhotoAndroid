@@ -47,6 +47,14 @@ class AuthRepository @Inject constructor(
         return@withContext Result.failure(response.error.toException())
     }
 
+    suspend fun hasUserData() : Boolean {
+        localPreferences.get<String?>(ACCESS_TOKEN) ?: return false
+        val userId = localPreferences.get<String?>(USER_ID) ?: return false
+        val user = userDao.getUserById(userId)
+        user ?: return false
+        return true
+    }
+
     private suspend fun saveUser(user: UserResponse) {
         // Save base access user data
         localPreferences.put(ACCESS_TOKEN, user.accessToken)

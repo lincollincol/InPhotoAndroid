@@ -1,6 +1,8 @@
 package com.linc.inphoto.ui.base.viewmodel
 
 import com.github.terrakok.cicerone.Router
+import com.linc.inphoto.ui.base.BaseUiEffect
+import com.linc.inphoto.ui.base.EmptyUiState
 import com.linc.inphoto.ui.base.UiEffect
 import com.linc.inphoto.ui.base.UiState
 

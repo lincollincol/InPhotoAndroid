@@ -3,6 +3,7 @@ package com.linc.inphoto.ui
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.sign_in.SignInFragment
 import com.linc.inphoto.ui.auth.sign_up.SignUpFragment
+import com.linc.inphoto.ui.profile.ProfileFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 
 object AppScreens {
@@ -17,6 +18,10 @@ object AppScreens {
 
     fun SignUpScreen() = FragmentScreen {
         SignUpFragment.newInstance()
+    }
+
+    fun ProfileScreen() = FragmentScreen {
+        ProfileFragment.newInstance()
     }
 
 }

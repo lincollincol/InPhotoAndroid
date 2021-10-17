@@ -12,6 +12,7 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.utils.FragmentBackPressedListener
 import com.linc.inphoto.utils.Inflate
 import com.linc.inphoto.utils.UnusedResult
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect

@@ -3,15 +3,18 @@ package com.linc.inphoto.ui.auth.sign_in
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.linc.inphoto.databinding.FragmentLoginBinding
+import com.linc.inphoto.databinding.FragmentSignInBinding
 import com.linc.inphoto.ui.base.BaseUiEffect
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.base.fragment.BaseStubFragment
 import com.linc.inphoto.ui.model.auth.Credentials
 import com.linc.inphoto.utils.extensions.textToString
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignInFragment : BaseFragment<FragmentLoginBinding, SignInViewModel, SignInUiState, BaseUiEffect>() {
+class SignInFragment : BaseStubFragment<FragmentSignInBinding, SignInViewModel>() {
+
+    // {"email":"xlinc@linc.com","password":"12345678","username":"xlinc"}
 
     override val viewModel: SignInViewModel by viewModels()
 
@@ -20,24 +23,15 @@ class SignInFragment : BaseFragment<FragmentLoginBinding, SignInViewModel, SignI
         fun newInstance() = SignInFragment()
     }
 
-    override fun getViewBinding() = FragmentLoginBinding.inflate(layoutInflater)
-
-    override fun handleUiState(state: SignInUiState) = when(state) {
-        else -> null
-    }
-
-    override fun handleUiEffect(effect: BaseUiEffect) = when(effect) {
-        is BaseUiEffect.Loading -> {}
-        is BaseUiEffect.Error -> {}
-    }
+    override fun getViewBinding() = FragmentSignInBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.signInButton.setOnClickListener {
             safeResumedLaunch {
                 viewModel.signIn(Credentials.SignIn(
-                    binding.emailField.textToString(),
-                    binding.passwordField.textToString(),
+                    binding.emailInputField.textToString(),
+                    binding.passwordInputField.textToString(),
                 ))
             }
         }
