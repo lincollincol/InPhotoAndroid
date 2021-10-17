@@ -6,4 +6,7 @@
     <string name="forgot_password_label">Forgot Password?</string>
     <string name="sign_up_label">Sign Up</string>
     <string name="sign_in_label">Sign In</string>
+    <string name="username_label">username</string>
+    <string name="repeat_password_label">repeat password</string>
+    <string name="create_account_label">Create Account</string>
 </resources>

@@ -45,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_serif_regular"
-            android:text="@string/welcome_back_label"
+            android:text="@string/create_account_label"
             android:textColor="@color/black"
             android:textSize="@dimen/font_all_large"
             android:textStyle="bold"
@@ -66,50 +66,53 @@
             app:layout_constraintTop_toBottomOf="@id/welcome_label" />
 
         <EditText
+            android:id="@+id/username_field"
+            android:layout_width="0dp"
+            style="@style/TextField"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_all_general_large"
+            android:hint="@string/username_label"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="@id/end_line"
+            app:layout_constraintStart_toStartOf="@id/start_line"
+            app:layout_constraintTop_toBottomOf="@id/email_field" />
+
+        <EditText
             android:id="@+id/password_field"
             style="@style/TextField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_all_general_large"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNext"
             android:hint="@string/hint_password_label"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/email_field" />
+            app:layout_constraintTop_toBottomOf="@id/username_field" />
 
-        <TextView
-            android:id="@+id/sign_in_button"
-            style="@style/FilledTextButton"
+        <EditText
+            android:id="@+id/repeat_password_field"
+            style="@style/TextField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general_huge"
-            android:text="@string/sign_in_label"
+            android:layout_marginTop="@dimen/margin_all_general_large"
+            android:imeOptions="actionDone"
+            android:hint="@string/repeat_password_label"
+            android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
             app:layout_constraintTop_toBottomOf="@id/password_field" />
 
         <TextView
             android:id="@+id/sign_up_button"
-            style="@style/OutlinedTextButton"
+            style="@style/FilledTextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general"
+            android:layout_marginTop="@dimen/margin_all_general_huge"
             android:text="@string/sign_up_label"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/sign_in_button" />
-
-        <TextView
-            android:id="@+id/forgot_password_button"
-            style="@style/TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general_huge"
-            android:text="@string/forgot_password_label"
-            app:layout_constraintTop_toBottomOf="@id/sign_up_button"
-            app:layout_constraintEnd_toEndOf="@id/end_line"
-            app:layout_constraintStart_toStartOf="@id/start_line" />
+            app:layout_constraintTop_toBottomOf="@id/repeat_password_field" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

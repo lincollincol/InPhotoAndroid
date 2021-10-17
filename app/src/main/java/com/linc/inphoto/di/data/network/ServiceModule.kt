@@ -1,6 +1,6 @@
 package com.linc.inphoto.di.data.network
 
-import com.linc.inphoto.data.api.AuthService
+import com.linc.inphoto.data.api.service.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

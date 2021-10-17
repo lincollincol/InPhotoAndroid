@@ -8,4 +8,8 @@ object Constants {
     // Network
     const val READ_TIMEOUT = 60L
     const val CONNECT_TIMEOUT = 60L
+
+    // Preferences keys
+    const val ACCESS_TOKEN = "access_token"
+    const val USER_ID = "user_id"
 }

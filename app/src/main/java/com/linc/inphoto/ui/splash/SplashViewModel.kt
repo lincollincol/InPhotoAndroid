@@ -11,12 +11,12 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val router: Router
-) : BaseStubViewModel() {
+) : BaseStubViewModel(router) {
 
     fun checkLoggedIn() {
         launchCoroutine {
             delay(SPLASH_DELAY)
-            router.newRootScreen(AppScreens.LoginScreen())
+            router.newRootScreen(AppScreens.SignInScreen())
         }
     }
 

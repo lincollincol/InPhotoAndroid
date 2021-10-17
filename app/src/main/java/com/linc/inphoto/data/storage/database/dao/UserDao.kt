@@ -7,12 +7,12 @@ import com.linc.inphoto.data.storage.database.entity.UserEntity
 interface UserDao {
 
     @Query("SELECT * FROM users WHERE id = :id")
-    fun getUserById(id: String) : UserEntity
+    suspend fun getUserById(id: String) : UserEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUser(user: UserEntity)
+    suspend fun insertUser(user: UserEntity)
 
     @Delete
-    fun deleteUser(user: UserEntity)
+    suspend fun deleteUser(user: UserEntity)
 
 }
