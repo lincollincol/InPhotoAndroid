@@ -1,40 +1,30 @@
 package com.linc.inphoto.ui.splash
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.linc.inphoto.databinding.FragmentLoginBinding
+import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSplashBinding
+import com.linc.inphoto.ui.base.fragment.BaseStubFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SplashFragment : Fragment() {
+class SplashFragment : BaseStubFragment<FragmentSplashBinding, SplashViewModel>() {
 
-    private val viewModel: SplashViewModel by viewModels()
-    private var binding: FragmentSplashBinding? = null
+    override val viewModel: SplashViewModel by viewModels()
 
     companion object {
         @JvmStatic
         fun newInstance() = SplashFragment()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentSplashBinding.inflate(inflater, container, false)
-        return binding?.root
-    }
+    override fun getViewBinding() = FragmentSplashBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenResumed {
-            viewModel.onEvent(SplashEvent.CheckLoggedInEvent)
+            viewModel.checkLoggedIn()
         }
     }
 
