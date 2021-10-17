@@ -23,17 +23,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
     override fun getViewBinding() = FragmentProfileBinding.inflate(layoutInflater)
 
     override fun handleUiState(state: ProfileUiState) = when(state) {
-        else -> null
+        is ProfileUiState.UpdateUserData -> {
+            binding.usernameTextField.text = state.userModel.name
+        }
     }
 
     override fun handleUiEffect(effect: BaseUiEffect) = when(effect) {
         is BaseUiEffect.Loading -> {}
-        is BaseUiEffect.Error -> {}
+        is BaseUiEffect.Error -> showErrorMessage(effect.message)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        safeResumedLaunch {
+            viewModel.getUserData()
+        }
     }
 
 }

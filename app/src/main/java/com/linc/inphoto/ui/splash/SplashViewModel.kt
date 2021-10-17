@@ -2,6 +2,7 @@ package com.linc.inphoto.ui.splash
 
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.AuthRepository
+import com.linc.inphoto.data.repository.UsersRepository
 import com.linc.inphoto.ui.AppScreens
 import com.linc.inphoto.ui.base.viewmodel.BaseStubViewModel
 import com.linc.inphoto.utils.Constants.SPLASH_DELAY
@@ -12,12 +13,12 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val router: Router,
-    private val authRepository: AuthRepository
+    private val usersRepository: UsersRepository
 ) : BaseStubViewModel(router) {
 
     fun checkLoggedIn() {
         launchCoroutine {
-            val isLoggedIn = authRepository.hasUserData()
+            val isLoggedIn = usersRepository.hasUserData()
 
             delay(SPLASH_DELAY)
 

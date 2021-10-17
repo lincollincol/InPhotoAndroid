@@ -4,7 +4,7 @@ import com.linc.inphoto.data.api.dto.auth.SignInRequest
 import com.linc.inphoto.data.api.dto.auth.SignUpRequest
 import com.linc.inphoto.data.api.dto.user.UserResponse
 import com.linc.inphoto.data.api.service.AuthService
-import com.linc.inphoto.data.mapper.toUserEntity
+import com.linc.inphoto.data.mappers.toUserEntity
 import com.linc.inphoto.data.storage.LocalPreferences
 import com.linc.inphoto.data.storage.database.dao.UserDao
 import com.linc.inphoto.utils.Constants.ACCESS_TOKEN
@@ -45,14 +45,6 @@ class AuthRepository @Inject constructor(
             return@withContext Result.success(Unit)
         }
         return@withContext Result.failure(response.error.toException())
-    }
-
-    suspend fun hasUserData() : Boolean {
-        localPreferences.get<String?>(ACCESS_TOKEN) ?: return false
-        val userId = localPreferences.get<String?>(USER_ID) ?: return false
-        val user = userDao.getUserById(userId)
-        user ?: return false
-        return true
     }
 
     private suspend fun saveUser(user: UserResponse) {
