@@ -3,19 +3,27 @@ package com.linc.inphoto.ui.profile
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.BaseUiEffect
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.model.auth.Credentials
-import com.linc.inphoto.utils.extensions.textToString
+import com.linc.inphoto.ui.profile.item.ProfilePhotoItem
+import com.linc.inphoto.utils.SpaceItemDecoration
+import com.linc.inphoto.utils.extensions.getDimension
+import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, ProfileUiState, BaseUiEffect>() {
 
     override val viewModel: ProfileViewModel by viewModels()
+    private var photosAdapter: GroupieAdapter? = null
 
     companion object {
+        private const val LIST_PHOTOS_SPAN_COUNT = 3
+
         @JvmStatic
         fun newInstance() = ProfileFragment()
     }
@@ -24,7 +32,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
 
     override fun handleUiState(state: ProfileUiState) = when(state) {
         is ProfileUiState.UpdateUserData -> {
-            binding.usernameTextField.text = state.userModel.name
+            binding.profileNameTextField.text = state.userModel.name
         }
     }
 
@@ -38,6 +46,29 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
         safeResumedLaunch {
             viewModel.getUserData()
         }
+        initUi()
+    }
+
+    private fun initUi() {
+        photosAdapter = GroupieAdapter()
+        binding.profilePhotosList.apply {
+            layoutManager = verticalGridLayoutManager(LIST_PHOTOS_SPAN_COUNT)
+            adapter = photosAdapter
+            addItemDecoration(SpaceItemDecoration(
+                getDimension(R.dimen.margin_all_general_small))
+            )
+        }
+
+        mockPhotos()
+    }
+
+    private fun mockPhotos() {
+        val photos = mutableListOf<ProfilePhotoItem>().apply {
+            repeat(20) {
+                add(ProfilePhotoItem())
+            }
+        }
+        photosAdapter?.addAll(photos)
     }
 
 }

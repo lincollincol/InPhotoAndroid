@@ -26,6 +26,7 @@
         <item name="android:gravity">center</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+        <item name="android:elevation">5dp</item>
     </style>
 
     <style name="FilledTextButton" parent="TextButton">
@@ -38,13 +39,31 @@
         <item name="android:background">@drawable/background_outlined_button</item>
     </style>
 
-    <style name="TextField">
+    <style name="TextInputField">
         <item name="android:padding">@dimen/padding_all_general</item>
+        <item name="android:fontFamily">@font/noto_serif_regular</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/black_50</item>
         <item name="android:textSize">@dimen/font_all_small</item>
         <item name="android:textStyle">bold</item>
         <item name="android:imeOptions">actionNext</item>
+    </style>
+
+    <style name="TextField">
+        <item name="android:fontFamily">@font/noto_serif_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextFieldBold" parent="TextField">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextFieldItalic" parent="TextField">
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize50" parent="">
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

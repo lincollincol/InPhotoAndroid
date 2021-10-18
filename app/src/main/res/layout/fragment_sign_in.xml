@@ -56,7 +56,7 @@
         <EditText
             android:id="@+id/email_input_field"
             android:layout_width="0dp"
-            style="@style/TextField"
+            style="@style/TextInputField"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_all_general_huge"
             android:hint="@string/hint_email_label"
@@ -67,7 +67,7 @@
 
         <EditText
             android:id="@+id/password_input_field"
-            style="@style/TextField"
+            style="@style/TextInputField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_all_general_large"
