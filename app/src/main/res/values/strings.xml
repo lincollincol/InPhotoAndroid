@@ -9,4 +9,7 @@
     <string name="username_label">username</string>
     <string name="repeat_password_label">repeat password</string>
     <string name="create_account_label">Create Account</string>
+
+    <string name="mock_status">Turkish actor. Was born on April 10, 1988, in Bursa, Turkey. Studied International Relations at Koc University, Istanbul. Had a great interest in acting</string>
+
 </resources>

@@ -55,8 +55,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
             layoutManager = verticalGridLayoutManager(LIST_PHOTOS_SPAN_COUNT)
             adapter = photosAdapter
             addItemDecoration(SpaceItemDecoration(
-                getDimension(R.dimen.margin_all_general_small))
-            )
+                getDimension(R.dimen.margin_all_general_small),
+                getDimension(R.dimen.margin_all_general)
+            ))
         }
 
         mockPhotos()
@@ -64,7 +65,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
 
     private fun mockPhotos() {
         val photos = mutableListOf<ProfilePhotoItem>().apply {
-            repeat(20) {
+            repeat(30) {
                 add(ProfilePhotoItem())
             }
         }
