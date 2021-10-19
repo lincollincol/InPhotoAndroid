@@ -62,10 +62,21 @@
         <item name="android:textStyle">italic</item>
     </style>
 
-    <style name="CircleImageShape" parent="">
+    <style name="CircleImageShape50" parent="">
         <item name="cornerSize">50%</item>
         <item name="cornerFamily">rounded</item>
-<!--        <item name="cornerSize">50dp</item>-->
+    </style>
+
+    <style name="CircleImageShape25" parent="">
+        <item name="cornerSize">10%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="CircleImageButton">
+        <item name="android:background">@drawable/background_circle_image_button</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:elevation">5dp</item>
     </style>
 
 </resources>

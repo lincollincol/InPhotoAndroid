@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <Transition
+        app:constraintSetStart="@id/header_state"
+        app:constraintSetEnd="@id/toolbar_state">
+
+        <OnSwipe
+            app:touchAnchorId="@+id/profile_photos_list"
+            app:touchAnchorSide="top"
+            app:dragDirection="dragUp"/>
+
+        <KeyFrameSet>
+
+            <KeyAttribute
+                android:alpha="0.2"
+                app:framePosition="20"
+                app:motionTarget="@id/profile_content_layout"/>
+
+            <KeyAttribute
+                android:rotationX="-20"
+                app:framePosition="90"
+                app:motionTarget="@id/profile_content_layout"/>
+
+        </KeyFrameSet>
+
+    </Transition>
+
+    <ConstraintSet
+        android:id="@+id/header_state">
+
+        <Constraint
+            android:id="@id/start_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/margin_all_general_small"/>
+
+        <Constraint
+            android:id="@id/end_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/margin_all_general_small"/>
+
+        <Constraint
+            android:id="@id/back_button"
+            style="@style/CircleImageButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="@dimen/margin_all_general"
+            android:src="@drawable/ic_back_arrow"
+            android:alpha="0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/header_image"/>
+
+        <Constraint
+            android:id="@id/header_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/header"
+            app:layout_constraintDimensionRatio="H,2:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint
+            android:id="@id/profile_avatar_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:elevation="5dp"
+            app:srcCompat="@drawable/avatar"
+            app:shapeAppearanceOverlay="@style/CircleImageShape50"
+            app:layout_constraintTop_toBottomOf="@id/header_image"
+            app:layout_constraintBottom_toBottomOf="@id/header_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint
+            android:id="@id/profile_name_text_field"
+            style="@style/TextFieldBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_all_general"
+            android:textSize="@dimen/font_all_normal"
+            app:layout_constraintTop_toBottomOf="@id/profile_avatar_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint
+            android:id="@+id/profile_content_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            app:layout_constraintTop_toBottomOf="@id/header_image"
+            app:layout_constraintStart_toStartOf="@id/start_line"
+            app:layout_constraintEnd_toEndOf="@id/end_line"/>
+
+        <Constraint
+            android:id="@id/profile_photos_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@id/profile_content_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </ConstraintSet>
+
+    <ConstraintSet
+        android:id="@+id/toolbar_state"
+        app:deriveConstraintsFrom="@id/header_state">
+
+        <Constraint
+            android:id="@id/back_button"
+            style="@style/CircleImageButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="@dimen/margin_all_general"
+            android:src="@drawable/ic_back_arrow"
+            android:alpha="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/header_image"/>
+
+        <Constraint
+            android:id="@id/header_image"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/header"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint
+            android:id="@id/profile_avatar_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:elevation="5dp"
+            android:layout_marginEnd="@dimen/margin_all_general"
+            app:srcCompat="@drawable/avatar"
+            app:shapeAppearanceOverlay="@style/CircleImageShape50"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintTop_toTopOf="@id/header_image"
+            app:layout_constraintBottom_toBottomOf="@id/header_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint
+            android:id="@id/profile_name_text_field"
+            style="@style/TextFieldBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_all_normal"
+            app:layout_constraintTop_toTopOf="@id/header_image"
+            app:layout_constraintBottom_toBottomOf="@id/header_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint
+            android:id="@+id/profile_content_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="@id/header_image"
+            app:layout_constraintStart_toStartOf="@id/start_line"
+            app:layout_constraintEnd_toEndOf="@id/end_line"/>
+
+    </ConstraintSet>
+
+
+
+</MotionScene>
