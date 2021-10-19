@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.profile
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.BaseUiEffect
@@ -10,6 +11,8 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.profile.item.ProfilePhotoItem
 import com.linc.inphoto.utils.SpaceItemDecoration
 import com.linc.inphoto.utils.extensions.getDimension
+import com.linc.inphoto.utils.extensions.scrollToStart
+import com.linc.inphoto.utils.extensions.smoothScrollToStart
 import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieAdapter
@@ -54,10 +57,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
         binding.profilePhotosList.apply {
             layoutManager = verticalGridLayoutManager(LIST_PHOTOS_SPAN_COUNT)
             adapter = photosAdapter
-            addItemDecoration(SpaceItemDecoration(
+            /*addItemDecoration(SpaceItemDecoration(
                 getDimension(R.dimen.margin_all_general_small),
                 getDimension(R.dimen.margin_all_general)
-            ))
+            ))*/
+        }
+
+        binding.moveUpButton.setOnClickListener {
+            binding.profilePhotosList.scrollToStart()
+            binding.profileMotionLayout.transitionToStart()
         }
 
         mockPhotos()
@@ -65,7 +73,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
 
     private fun mockPhotos() {
         val photos = mutableListOf<ProfilePhotoItem>().apply {
-            repeat(30) {
+            repeat(50) {
                 add(ProfilePhotoItem())
             }
         }

@@ -5,6 +5,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+fun RecyclerView.scrollToStart() {
+    scrollToPosition(0)
+}
+
+fun RecyclerView.smoothScrollToStart() {
+    smoothScrollToPosition(0)
+}
+
 fun RecyclerView.verticalGridLayoutManager(spanCount: Int) =
     gridLayoutManager(spanCount, GridLayoutManager.VERTICAL)
 

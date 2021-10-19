@@ -3,13 +3,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:elevation="5dp"
+        android:layout_marginBottom="@dimen/padding_all_general_small"
+        android:layout_marginHorizontal="@dimen/padding_all_general_tiny"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/mango"
         app:shapeAppearanceOverlay="@style/CircleImageShape25"

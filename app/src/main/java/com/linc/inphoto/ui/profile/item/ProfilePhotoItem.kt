@@ -5,10 +5,10 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemProfilePhotoBinding
 import com.xwray.groupie.viewbinding.BindableItem
 
-class ProfilePhotoItem : BindableItem<ItemProfilePhotoBinding>() {
+class ProfilePhotoItem(
+) : BindableItem<ItemProfilePhotoBinding>() {
 
     override fun bind(viewBinding: ItemProfilePhotoBinding, position: Int) {
-
     }
 
     override fun getLayout() = R.layout.item_profile_photo
