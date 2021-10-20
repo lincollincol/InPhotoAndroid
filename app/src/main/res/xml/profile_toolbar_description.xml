@@ -24,6 +24,12 @@
                 app:framePosition="90"
                 app:motionTarget="@id/profile_content_layout"/>
 
+            <KeyPosition
+                app:keyPositionType="parentRelative"
+                app:percentY="0.05"
+                app:framePosition="40"
+                app:motionTarget="@id/profile_avatar_image" />
+
         </KeyFrameSet>
 
     </Transition>
