@@ -8,11 +8,11 @@ import androidx.room.PrimaryKey
 data class UserEntity(
     @PrimaryKey
     val id: String,
-    val name: String?,
+    val name: String,
     val email: String,
     val status: String?,
     @ColumnInfo(name = "is_public")
     val publicProfile: Boolean,
-    @ColumnInfo(name = "avatar_id")
+    @ColumnInfo(name = "avatar_url")
     val avatarId: String?
 )

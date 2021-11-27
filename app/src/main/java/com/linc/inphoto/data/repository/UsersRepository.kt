@@ -1,6 +1,6 @@
 package com.linc.inphoto.data.repository
 
-import com.linc.inphoto.data.mappers.toUserModel
+import com.linc.inphoto.data.mapper.toUserModel
 import com.linc.inphoto.data.storage.LocalPreferences
 import com.linc.inphoto.data.storage.database.dao.UserDao
 import com.linc.inphoto.ui.model.user.UserModel
