@@ -1,24 +1,26 @@
-package com.linc.inphoto.ui.auth.sign_in
+package com.linc.inphoto.ui.auth.signup
 
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.AuthRepository
-import com.linc.inphoto.ui.AppScreens
+import com.linc.inphoto.ui.navigation.AppScreens
 import com.linc.inphoto.ui.base.BaseUiEffect
-import com.linc.inphoto.ui.base.viewmodel.BaseStubViewModel
+import com.linc.inphoto.ui.auth.model.Credentials
+import com.linc.inphoto.ui.base.UiEffect
+import com.linc.inphoto.ui.base.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.model.auth.Credentials
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+class SignUpViewModel @Inject constructor(
     private val router: Router,
     private val authRepository: AuthRepository
-) : BaseStubViewModel(router) {
+) : BaseViewModel<UiState, UiEffect>(router) {
 
-    fun signIn(credentials: Credentials.SignIn) = launchCoroutine {
-        val result = authRepository.signIn(
+    fun signUp(credentials: Credentials.SignUp) = launchCoroutine {
+        val result = authRepository.signUp(
             credentials.email,
+            credentials.username,
             credentials.password
         )
         result.fold(
@@ -29,10 +31,6 @@ class SignInViewModel @Inject constructor(
                 setEffect(BaseUiEffect.Error(it.message!!))
             }
         )
-    }
-
-    fun onSignUp() {
-        router.navigateTo(AppScreens.SignUpScreen())
     }
 
     override fun onCoroutineError(e: Exception) {

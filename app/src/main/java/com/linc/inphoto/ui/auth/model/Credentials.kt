@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.model.auth
+package com.linc.inphoto.ui.auth.model
 
 sealed class Credentials(
     val email: String,

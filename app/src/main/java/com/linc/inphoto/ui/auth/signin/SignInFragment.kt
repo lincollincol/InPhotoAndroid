@@ -1,13 +1,11 @@
-package com.linc.inphoto.ui.auth.sign_in
+package com.linc.inphoto.ui.auth.signin
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.linc.inphoto.databinding.FragmentSignInBinding
-import com.linc.inphoto.ui.base.BaseUiEffect
-import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.base.fragment.BaseStubFragment
-import com.linc.inphoto.ui.model.auth.Credentials
+import com.linc.inphoto.ui.auth.model.Credentials
 import com.linc.inphoto.utils.extensions.textToString
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +27,8 @@ class SignInFragment : BaseStubFragment<FragmentSignInBinding, SignInViewModel>(
         super.onViewCreated(view, savedInstanceState)
         binding.signInButton.setOnClickListener {
             safeResumedLaunch {
-                viewModel.signIn(Credentials.SignIn(
+                viewModel.signIn(
+                    Credentials.SignIn(
                     binding.emailInputField.textToString(),
                     binding.passwordInputField.textToString(),
                 ))

@@ -65,6 +65,11 @@ abstract class BaseFragment<B : ViewBinding, V : BaseViewModel<S, E>, S, E> : Fr
         viewModel.onBackPressed()
     }
 
+    protected open fun showInfoMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT)
+            .show()
+    }
+
     protected open fun showErrorMessage(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }

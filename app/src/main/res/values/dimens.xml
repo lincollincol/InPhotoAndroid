@@ -2,6 +2,14 @@
 <resources>
     <dimen name="app_toolbar_height">56dp</dimen>
 
+    <!--Elevation-->
+    <dimen name="elevation_general_extra_tiny">2dp</dimen>
+    <dimen name="elevation_general_tiny">4dp</dimen>
+    <dimen name="elevation_general_small">8dp</dimen>
+    <dimen name="elevation_general">16dp</dimen>
+    <dimen name="elevation_general_large">32dp</dimen>
+    <dimen name="elevation_general_huge">64dp</dimen>
+
     <!--Padding-->
     <dimen name="padding_all_general_extra_tiny">2dp</dimen>
     <dimen name="padding_all_general_tiny">4dp</dimen>

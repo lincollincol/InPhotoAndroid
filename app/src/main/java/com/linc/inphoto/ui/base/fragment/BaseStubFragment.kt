@@ -7,9 +7,10 @@ import com.linc.inphoto.ui.base.EmptyUiState
 import com.linc.inphoto.ui.base.viewmodel.BaseStubViewModel
 import com.linc.inphoto.ui.base.UiEffect
 import com.linc.inphoto.ui.base.UiState
+import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-abstract class BaseStubFragment<B : ViewBinding, V : BaseStubViewModel> : BaseFragment<B, V, UiState, UiEffect>() {
+abstract class BaseStubFragment<B : ViewBinding, V : BaseViewModel<UiState, UiEffect>> : BaseFragment<B, V, UiState, UiEffect>() {
 
     override fun handleUiState(state: UiState) = null
     override fun handleUiEffect(effect: UiEffect) = null

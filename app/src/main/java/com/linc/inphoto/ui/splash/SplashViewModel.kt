@@ -1,10 +1,12 @@
 package com.linc.inphoto.ui.splash
 
 import com.github.terrakok.cicerone.Router
-import com.linc.inphoto.data.repository.AuthRepository
 import com.linc.inphoto.data.repository.UsersRepository
-import com.linc.inphoto.ui.AppScreens
+import com.linc.inphoto.ui.base.UiEffect
+import com.linc.inphoto.ui.base.UiState
+import com.linc.inphoto.ui.navigation.AppScreens
 import com.linc.inphoto.ui.base.viewmodel.BaseStubViewModel
+import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.utils.Constants.SPLASH_DELAY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -14,7 +16,7 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val router: Router,
     private val usersRepository: UsersRepository
-) : BaseStubViewModel(router) {
+) : BaseViewModel<UiState, UiEffect>(router) {
 
     fun checkLoggedIn() {
         launchCoroutine {

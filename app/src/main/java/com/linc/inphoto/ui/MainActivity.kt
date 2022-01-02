@@ -2,11 +2,11 @@ package com.linc.inphoto.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Replace
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.linc.inphoto.R
+import com.linc.inphoto.ui.navigation.AppScreens
 import com.linc.inphoto.utils.FragmentBackPressedListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

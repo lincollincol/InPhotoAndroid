@@ -1,14 +1,24 @@
 <resources>
     <string name="app_name">InPhoto</string>
-    <string name="hint_password_label">password</string>
-    <string name="hint_email_label">email</string>
-    <string name="welcome_back_label">Welcome\nBack!</string>
-    <string name="forgot_password_label">Forgot Password?</string>
-    <string name="sign_up_label">Sign Up</string>
-    <string name="sign_in_label">Sign In</string>
-    <string name="username_label">username</string>
-    <string name="repeat_password_label">repeat password</string>
-    <string name="create_account_label">Create Account</string>
+
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="got_it">Got It</string>
+
+    <string name="hint_password">password</string>
+    <string name="hint_email">email</string>
+    <string name="welcome_back">Welcome\nBack!</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="username">username</string>
+    <string name="repeat_password">repeat password</string>
+    <string name="create_account">Create Account</string>
+
+    <string name="permissions">Permissions</string>
+
+    <string name="profile_permissions_message">You must allow at least one permission to update profile avatar</string>
+
 
     <string name="mock_status">Turkish actor. Was born on April 10, 1988, in Bursa, Turkey. Studied International Relations at Koc University, Istanbul. Had a great interest in acting</string>
 

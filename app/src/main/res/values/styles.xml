@@ -34,6 +34,13 @@
         <item name="android:background">@drawable/background_filled_button</item>
     </style>
 
+    <style name="FilledTextButtonSmall" parent="FilledTextButton">
+        <item name="android:paddingTop">@dimen/padding_all_general_small</item>
+        <item name="android:paddingBottom">@dimen/padding_all_general_small</item>
+        <item name="android:paddingStart">@dimen/padding_all_general</item>
+        <item name="android:paddingEnd">@dimen/padding_all_general</item>
+    </style>
+
     <style name="OutlinedTextButton" parent="TextButton">
         <item name="android:textColor">@color/black</item>
         <item name="android:background">@drawable/background_outlined_button</item>

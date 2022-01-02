@@ -1,13 +1,11 @@
-package com.linc.inphoto.ui.auth.sign_up
+package com.linc.inphoto.ui.auth.signup
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.linc.inphoto.databinding.FragmentSignUpBinding
-import com.linc.inphoto.ui.base.BaseUiEffect
-import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.base.fragment.BaseStubFragment
-import com.linc.inphoto.ui.model.auth.Credentials
+import com.linc.inphoto.ui.auth.model.Credentials
 import com.linc.inphoto.utils.extensions.textToString
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +25,8 @@ class SignUpFragment : BaseStubFragment<FragmentSignUpBinding, SignUpViewModel>(
         super.onViewCreated(view, savedInstanceState)
         binding.signUpButton.setOnClickListener {
             safeResumedLaunch {
-                viewModel.signUp(Credentials.SignUp(
+                viewModel.signUp(
+                    Credentials.SignUp(
                     binding.emailInputField.textToString(),
                     binding.usernameInputField.textToString(),
                     binding.passwordInputField.textToString(),

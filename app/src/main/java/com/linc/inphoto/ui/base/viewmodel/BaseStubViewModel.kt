@@ -5,7 +5,14 @@ import com.linc.inphoto.ui.base.BaseUiEffect
 import com.linc.inphoto.ui.base.EmptyUiState
 import com.linc.inphoto.ui.base.UiEffect
 import com.linc.inphoto.ui.base.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-abstract class BaseStubViewModel(
+@HiltViewModel
+class BaseStubViewModel @Inject constructor(
     private val router: Router
-) : BaseViewModel<UiState, UiEffect>(router)
+) : BaseViewModel<UiState, UiEffect>(router) {
+    override fun onCoroutineError(e: Exception) {
+        // DO nothing
+    }
+}

@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.model.user
+package com.linc.inphoto.ui.common.model.user
 
 data class UserModel(
     val id: String,
