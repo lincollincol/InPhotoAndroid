@@ -1,15 +1,12 @@
 package com.linc.inphoto.ui.profile
 
 import android.Manifest
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
-import com.linc.inphoto.ui.base.BaseUiEffect
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
 import com.linc.inphoto.ui.profile.item.ProfilePhotoItem
@@ -17,12 +14,25 @@ import com.linc.inphoto.utils.extensions.scrollToStart
 import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, ProfileUiState, BaseUiEffect>() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
+
+    companion object {
+        private const val LIST_PHOTOS_SPAN_COUNT = 3
+
+        @JvmStatic
+        fun newInstance() = ProfileFragment()
+    }
 
     override val viewModel: ProfileViewModel by viewModels()
-    private var photosAdapter: GroupieAdapter? = null
+
+    override val binding: FragmentProfileBinding by lazy {
+        FragmentProfileBinding.inflate(layoutInflater)
+    }
+
+    private val photosAdapter: GroupieAdapter by lazy { GroupieAdapter() }
 
     private val updateAvatarPermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -34,24 +44,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
         viewModel.onUpdateAvatar(options)
     }
 
-    companion object {
-        private const val LIST_PHOTOS_SPAN_COUNT = 3
 
-        @JvmStatic
-        fun newInstance() = ProfileFragment()
-    }
+    override suspend fun observeUiState() = with(binding) {
+        viewModel.uiState.collect { state ->
+            profileNameTextField.text = state.user?.name
 
-    override fun getViewBinding() = FragmentProfileBinding.inflate(layoutInflater)
-
-    override fun handleUiState(state: ProfileUiState) = when(state) {
-        is ProfileUiState.UpdateUserData -> {
-            binding.profileNameTextField.text = state.userModel.name
         }
-    }
-
-    override fun handleUiEffect(effect: BaseUiEffect) = when(effect) {
-        is BaseUiEffect.Loading -> {}
-        is BaseUiEffect.Error -> showErrorMessage(effect.message)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,7 +61,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
     }
 
     private fun initUi() {
-        photosAdapter = GroupieAdapter()
         with(binding) {
             profilePhotosList.apply {
                 layoutManager = verticalGridLayoutManager(LIST_PHOTOS_SPAN_COUNT)
@@ -95,7 +92,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
                 add(ProfilePhotoItem())
             }
         }
-        photosAdapter?.addAll(photos)
+        photosAdapter.addAll(photos)
     }
 
 }

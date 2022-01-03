@@ -1,39 +1,36 @@
 package com.linc.inphoto.ui.splash
 
+import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.UsersRepository
-import com.linc.inphoto.ui.base.UiEffect
-import com.linc.inphoto.ui.base.UiState
-import com.linc.inphoto.ui.navigation.AppScreens
-import com.linc.inphoto.ui.base.viewmodel.BaseStubViewModel
+import com.linc.inphoto.ui.base.state.EmptyUiState
+import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.navigation.AppScreens
 import com.linc.inphoto.utils.Constants.SPLASH_DELAY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val router: Router,
     private val usersRepository: UsersRepository
-) : BaseViewModel<UiState, UiEffect>(router) {
+) : BaseViewModel<UiState>(router) {
 
-    fun checkLoggedIn() {
-        launchCoroutine {
-            val isLoggedIn = usersRepository.hasUserData()
+    fun checkLoggedIn() = viewModelScope.launch {
+        val isLoggedIn = usersRepository.hasUserData()
 
-            delay(SPLASH_DELAY)
+        delay(SPLASH_DELAY)
 
-            val screen = when {
-                isLoggedIn -> AppScreens.ProfileScreen()
-                else -> AppScreens.SignInScreen()
-            }
-            router.newRootScreen(screen)
+        val screen = when {
+            isLoggedIn -> AppScreens.ProfileScreen()
+            else -> AppScreens.SignInScreen()
         }
+        router.newRootScreen(screen)
     }
 
-    override fun onCoroutineError(e: Exception) {
-
-    }
-
+    override val _uiState = MutableStateFlow<UiState>(EmptyUiState())
 }

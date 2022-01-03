@@ -3,7 +3,7 @@ package com.linc.inphoto.data.repository
 import com.linc.inphoto.data.mapper.toUserModel
 import com.linc.inphoto.data.storage.LocalPreferences
 import com.linc.inphoto.data.storage.database.dao.UserDao
-import com.linc.inphoto.ui.common.model.user.UserModel
+import com.linc.inphoto.entity.User
 import com.linc.inphoto.utils.Constants.ACCESS_TOKEN
 import com.linc.inphoto.utils.Constants.USER_ID
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,7 +16,7 @@ class UsersRepository @Inject constructor(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
-    suspend fun getLoggedInUser() : UserModel {
+    suspend fun getLoggedInUser(): User {
         val userId = localPreferences.get<String>(USER_ID)
         return userDao.getUserById(userId).toUserModel()
     }

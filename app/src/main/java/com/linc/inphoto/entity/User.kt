@@ -1,6 +1,6 @@
-package com.linc.inphoto.ui.common.model.user
+package com.linc.inphoto.entity
 
-data class UserModel(
+data class User(
     val id: String,
     val name: String?,
     val email: String,

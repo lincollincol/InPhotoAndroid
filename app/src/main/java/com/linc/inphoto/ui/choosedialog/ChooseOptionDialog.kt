@@ -5,18 +5,19 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.linc.inphoto.databinding.DialogChooseOptionBinding
-import com.linc.inphoto.ui.base.fragment.BaseStubFragment
-import com.linc.inphoto.ui.base.viewmodel.BaseStubViewModel
-import com.linc.inphoto.ui.choosedialog.item.ChooseOptionItem
+import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
-import com.linc.inphoto.utils.extensions.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChooseOptionDialog : BaseStubFragment<DialogChooseOptionBinding, ChooseDialogViewModel>() {
+class ChooseOptionDialog : BaseFragment<DialogChooseOptionBinding, ChooseDialogViewModel>() {
 
     override val viewModel: ChooseDialogViewModel by viewModels()
+    override val binding: DialogChooseOptionBinding by lazy {
+        DialogChooseOptionBinding.inflate(layoutInflater)
+    }
+
     private var optionsAdapter: GroupieAdapter? = null
 
     companion object {
@@ -26,11 +27,13 @@ class ChooseOptionDialog : BaseStubFragment<DialogChooseOptionBinding, ChooseDia
         fun newInstance(
             options: List<ChooseOptionModel>
         ) = ChooseOptionDialog().apply {
-            arguments = bundleOf(OPTIONS_ARG to options,)
+            arguments = bundleOf(OPTIONS_ARG to options)
         }
     }
 
-    override fun getViewBinding() = DialogChooseOptionBinding.inflate(layoutInflater)
+    override suspend fun observeUiState() {
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,7 +41,7 @@ class ChooseOptionDialog : BaseStubFragment<DialogChooseOptionBinding, ChooseDia
     }
 
     private fun initUi() {
-        optionsAdapter = GroupieAdapter()
+        /*optionsAdapter = GroupieAdapter()
 
         with(binding) {
             optionsRecyclerView.apply {
@@ -54,7 +57,7 @@ class ChooseOptionDialog : BaseStubFragment<DialogChooseOptionBinding, ChooseDia
                 val position = adapter.getAdapterPosition(item)
                 viewModel.onFinishWithResult(position)
             }
-        }
+        }*/
     }
 
 }

@@ -8,42 +8,24 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.utils.FragmentBackPressedListener
-import com.linc.inphoto.utils.Inflate
-import com.linc.inphoto.utils.UnusedResult
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
-import java.lang.Exception
 
-abstract class BaseFragment<B : ViewBinding, V : BaseViewModel<S, E>, S, E> : Fragment(), FragmentBackPressedListener {
+abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel<out UiState>> :
+    Fragment(), FragmentBackPressedListener {
 
-    protected abstract val viewModel: V
+    protected abstract val viewModel: ViewModel
 
-    protected val binding get() = _binding!!
-    private var _binding: B? = null
+    protected abstract val binding: Binding
 
-    @UnusedResult
-    abstract fun handleUiState(state: S) : Any?
-
-    @UnusedResult
-    abstract fun handleUiEffect(effect: E) : Any?
-
-    abstract fun getViewBinding() : B
+    protected abstract suspend fun observeUiState()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         safeStartedLaunch {
-            viewModel.uiState.collect { state ->
-                state?.let { handleUiState(state) }
-            }
-        }
-        safeResumedLaunch {
-            viewModel.uiEffect.collect { effect ->
-                effect?.let { handleUiEffect(effect) }
-            }
+            observeUiState()
         }
     }
 
@@ -52,13 +34,7 @@ abstract class BaseFragment<B : ViewBinding, V : BaseViewModel<S, E>, S, E> : Fr
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = getViewBinding()
-        return _binding?.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return binding.root
     }
 
     override fun onBackPressed() {

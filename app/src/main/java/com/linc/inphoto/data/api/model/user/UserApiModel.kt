@@ -1,6 +1,6 @@
-package com.linc.inphoto.data.api.dto.user
+package com.linc.inphoto.data.api.model.user
 
-data class UserResponse(
+data class UserApiModel(
     val id: String,
     val name: String,
     val email: String,
