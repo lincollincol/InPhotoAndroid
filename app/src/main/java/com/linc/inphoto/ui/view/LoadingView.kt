@@ -60,8 +60,6 @@ class LoadingView constructor(
         val windowBackground = context.getActivity()?.window?.decorView?.background
         val rootView = rootView.findViewById<View>(android.R.id.content)?.safeCast<ViewGroup>()
 
-
-
         binding = LoadingOverlayLayoutBinding.inflate(context.inflater, this, true)
         binding?.run {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -78,9 +76,12 @@ class LoadingView constructor(
                     .setBlurRadius(blurRadius)
                     .setOverlayColor(blurColor)
                     .setBlurEnabled(blurEnabled)
-                    .setBlurAutoUpdate(true)
+                    .setBlurAutoUpdate(false)
                     .setHasFixedTransformationMatrix(true)
                 alreadyBlurred = true
+            }
+            root.setOnTouchListener { _, _ ->
+                return@setOnTouchListener true
             }
         }
     }

@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.WindowMetrics
+import android.view.inputmethod.InputMethodManager
 
 
 val Context.inflater: LayoutInflater get() = LayoutInflater.from(this)
@@ -75,3 +76,9 @@ fun Context?.getActivity(): Activity? {
 
 fun Context.windowManager(): WindowManager? =
     getSystemService(Context.WINDOW_SERVICE)?.safeCast<WindowManager>()
+
+inline fun <reified T : Number> Context.getDimension(id: Int) =
+    resources.getDimension(id).safeCast<T>()
+
+fun Context.getKeyboard() =
+    getSystemService(Context.INPUT_METHOD_SERVICE).safeCast<InputMethodManager>()

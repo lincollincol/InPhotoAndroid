@@ -42,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/welcome_label"
+            android:id="@+id/welcome_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_serif_regular"
@@ -64,14 +64,14 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/welcome_label" />
+            app:layout_constraintTop_toBottomOf="@id/welcome_text_view" />
 
         <EditText
             android:id="@+id/password_edit_text"
             style="@style/TextInputField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_general"
             android:imeOptions="actionDone"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
@@ -79,23 +79,36 @@
             app:layout_constraintStart_toStartOf="@id/start_line"
             app:layout_constraintTop_toBottomOf="@id/login_edit_text" />
 
+        <TextView
+            android:id="@+id/auth_error_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_general"
+            android:fontFamily="@font/noto_serif_regular"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:textSize="@dimen/font_tiny"
+            app:layout_constraintEnd_toEndOf="@id/end_line"
+            app:layout_constraintStart_toStartOf="@id/start_line"
+            app:layout_constraintTop_toBottomOf="@id/password_edit_text" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_in_button"
             style="@style/MaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_huge"
+            android:layout_marginTop="@dimen/margin_large"
             android:text="@string/sign_in"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/password_edit_text" />
+            app:layout_constraintTop_toBottomOf="@id/auth_error_text_view" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_up_button"
             style="@style/OutlinedMaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_general"
+            android:layout_marginTop="@dimen/margin_small"
             android:text="@string/sign_up"
             android:outlineProvider="bounds"
             app:elevation="5dp"
@@ -118,6 +131,7 @@
             android:id="@+id/loading_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:translationZ="@dimen/translation_top"
             app:blurOverlayColor="@color/black_25"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

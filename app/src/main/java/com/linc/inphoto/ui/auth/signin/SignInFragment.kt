@@ -7,6 +7,8 @@ import androidx.fragment.app.viewModels
 import com.linc.inphoto.databinding.FragmentSignInBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.utils.extensions.enable
+import com.linc.inphoto.utils.extensions.hideKeyboard
+import com.linc.inphoto.utils.extensions.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -28,8 +30,11 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, SignInViewModel>() {
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             signInButton.enable(state.signInEnabled)
-
-
+            loadingView.show(state.isLoading)
+            authErrorTextView.apply {
+                text = state.signInErrorMessage.orEmpty()
+                show(!state.signInErrorMessage.isNullOrEmpty())
+            }
         }
     }
 
@@ -46,10 +51,12 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, SignInViewModel>() {
             }
 
             signInButton.setOnClickListener {
+                hideKeyboard()
                 viewModel.signIn()
             }
 
             signUpButton.setOnClickListener {
+                hideKeyboard()
                 viewModel.onSignUp()
             }
         }
