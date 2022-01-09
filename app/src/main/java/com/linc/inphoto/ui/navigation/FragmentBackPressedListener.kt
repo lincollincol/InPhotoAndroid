@@ -1,4 +1,4 @@
-package com.linc.inphoto.utils
+package com.linc.inphoto.ui.navigation
 
 interface FragmentBackPressedListener {
     fun onBackPressed()

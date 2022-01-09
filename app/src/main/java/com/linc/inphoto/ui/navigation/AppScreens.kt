@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
-import com.linc.inphoto.ui.choosedialog.ChooseOptionDialog
+import com.linc.inphoto.ui.choosedialog.ChooseOptionFragment
 import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
 import com.linc.inphoto.ui.infodialog.InfoMessageDialog
 import com.linc.inphoto.ui.profile.ProfileFragment
@@ -32,7 +32,7 @@ object AppScreens {
         key = ScreenResultKey.CHOOSE_OPTION_RESULT,
         clearContainer = false
     ) {
-        ChooseOptionDialog.newInstance(options)
+        ChooseOptionFragment.newInstance(options)
     }
 
     fun InfoMessageScreen(

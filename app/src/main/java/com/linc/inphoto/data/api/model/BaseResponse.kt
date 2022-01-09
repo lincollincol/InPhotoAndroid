@@ -1,7 +1,6 @@
 package com.linc.inphoto.data.api.model
 
 data class BaseResponse<T>(
-    val success: Boolean,
-    val error: String? = null,
+    val status: String,
     val body: T?
 )

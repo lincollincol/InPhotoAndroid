@@ -3,36 +3,44 @@
     <dimen name="app_toolbar_height">56dp</dimen>
 
     <!--Elevation-->
-    <dimen name="elevation_general_extra_tiny">2dp</dimen>
-    <dimen name="elevation_general_tiny">4dp</dimen>
-    <dimen name="elevation_general_small">8dp</dimen>
+    <dimen name="elevation_extra_tiny">2dp</dimen>
+    <dimen name="elevation_tiny">4dp</dimen>
+    <dimen name="elevation_small">8dp</dimen>
     <dimen name="elevation_general">16dp</dimen>
-    <dimen name="elevation_general_large">32dp</dimen>
-    <dimen name="elevation_general_huge">64dp</dimen>
+    <dimen name="elevation_large">32dp</dimen>
+    <dimen name="elevation_huge">64dp</dimen>
 
     <!--Padding-->
-    <dimen name="padding_all_general_extra_tiny">2dp</dimen>
-    <dimen name="padding_all_general_tiny">4dp</dimen>
-    <dimen name="padding_all_general_small">8dp</dimen>
-    <dimen name="padding_all_general">16dp</dimen>
-    <dimen name="padding_all_general_large">32dp</dimen>
-    <dimen name="padding_all_general_huge">64dp</dimen>
+    <dimen name="padding_extra_tiny">2dp</dimen>
+    <dimen name="padding_tiny">4dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_general">16dp</dimen>
+    <dimen name="padding_large">32dp</dimen>
+    <dimen name="padding_huge">64dp</dimen>
 
     <!--Margin-->
-    <dimen name="margin_all_general_extra_tiny">2dp</dimen>
-    <dimen name="margin_all_general_tiny">4dp</dimen>
-    <dimen name="margin_all_general_small">8dp</dimen>
-    <dimen name="margin_all_general">16dp</dimen>
-    <dimen name="margin_all_general_large">32dp</dimen>
-    <dimen name="margin_all_general_huge">64dp</dimen>
+    <dimen name="margin_extra_tiny">2dp</dimen>
+    <dimen name="margin_tiny">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_general">16dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+    <dimen name="margin_huge">64dp</dimen>
 
     <!--Font-->
-    <dimen name="font_all_huge">33sp</dimen>
-    <dimen name="font_all_large">26sp</dimen>
-    <dimen name="font_all_title">22sp</dimen>
-    <dimen name="font_all_normal">18sp</dimen>
-    <dimen name="font_all_small">16sp</dimen>
-    <dimen name="font_all_tiny">14sp</dimen>
-    <dimen name="font_all_very_tiny">12sp</dimen>
+    <dimen name="font_huge">33sp</dimen>
+    <dimen name="font_large">26sp</dimen>
+    <dimen name="font_title">22sp</dimen>
+    <dimen name="font_normal">18sp</dimen>
+    <dimen name="font_small">16sp</dimen>
+    <dimen name="font_tiny">14sp</dimen>
+    <dimen name="font_extra_tiny">12sp</dimen>
+
+    <!--Corners-->
+    <dimen name="corner_extra_tiny">2dp</dimen>
+    <dimen name="corner_tiny">4dp</dimen>
+    <dimen name="corner_small">8dp</dimen>
+    <dimen name="corner_general">16dp</dimen>
+    <dimen name="corner_large">32dp</dimen>
+    <dimen name="corner_huge">64dp</dimen>
 
 </resources>

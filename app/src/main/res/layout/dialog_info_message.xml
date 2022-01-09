@@ -23,30 +23,30 @@
             style="@style/TextFieldBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general_large"
-            android:layout_marginHorizontal="@dimen/margin_all_general"
+            android:layout_marginHorizontal="@dimen/margin_general"
+            android:layout_marginTop="@dimen/margin_large"
             android:gravity="center"
-            android:textSize="@dimen/font_all_title"
-            tools:text="Title"/>
+            android:textSize="@dimen/font_title"
+            tools:text="Title" />
 
         <TextView
             android:id="@+id/message_text_view"
             style="@style/TextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_all_general"
+            android:layout_margin="@dimen/margin_general"
             android:gravity="center"
-            android:textSize="@dimen/font_all_small"
+            android:textSize="@dimen/font_small"
             tools:text="Message"/>
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/got_it_button"
-            style="@style/FilledTextButtonSmall"
+            style="@style/SmallMaterialButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_all_general_huge"
-            android:layout_marginTop="@dimen/margin_all_general"
-            android:layout_marginBottom="@dimen/margin_all_general_large"
+            android:layout_marginHorizontal="@dimen/margin_huge"
+            android:layout_marginTop="@dimen/margin_general"
+            android:layout_marginBottom="@dimen/margin_large"
             android:text="@string/got_it" />
 
     </LinearLayout>

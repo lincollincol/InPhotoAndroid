@@ -21,7 +21,7 @@ class SignUpViewModel @Inject constructor(
 
     fun signUp(credentials: Credentials.SignUp) = viewModelScope.launch {
         try {
-            val result = authRepository.signUp(
+            authRepository.signUp(
                 credentials.email,
                 credentials.username,
                 credentials.password

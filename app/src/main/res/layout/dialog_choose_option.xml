@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_round_25"
         android:backgroundTint="@color/white"
-        android:elevation="@dimen/elevation_general_small"
+        android:elevation="@dimen/elevation_small"
         tools:itemCount="4"
         tools:listitem="@layout/item_choose_option"
         app:layout_constraintWidth_percent="0.9"

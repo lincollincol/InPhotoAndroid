@@ -15,36 +15,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/margin_all_general_small"/>
+        app:layout_constraintGuide_begin="@dimen/margin_small" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/end_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/margin_all_general_small"/>
+        app:layout_constraintGuide_end="@dimen/margin_small" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/back_button"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_arrow_back"
         android:elevation="5dp"
+        app:srcCompat="@drawable/ic_arrow_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/move_up_button"
         style="@style/CircleImageButton"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_margin="@dimen/margin_all_general"
+        android:layout_margin="@dimen/margin_general"
         android:src="@drawable/ic_arrow_up"
         android:alpha="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/header_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -53,7 +53,7 @@
         app:layout_constraintDimensionRatio="H,2:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_avatar_image"
@@ -72,12 +72,12 @@
         style="@style/TextFieldBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_all_general"
-        android:textSize="@dimen/font_all_normal"
+        android:layout_marginTop="@dimen/margin_general"
+        android:textSize="@dimen/font_normal"
         tools:text="Linc"
         app:layout_constraintTop_toBottomOf="@id/profile_avatar_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_content_layout"
@@ -93,19 +93,19 @@
             style="@style/TextFieldBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general_small"
-            android:textSize="@dimen/font_all_normal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textSize="@dimen/font_normal"
             android:text="100k"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/profile_audience_internal_space"/>
+            app:layout_constraintEnd_toStartOf="@id/profile_audience_internal_space" />
 
         <TextView
             android:id="@+id/followers_label"
             style="@style/TextField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_all_small"
+            android:textSize="@dimen/font_small"
             android:textColor="@color/black_50"
             android:text="Followers"
             app:layout_constraintTop_toBottomOf="@id/followers_count_text_field"
@@ -125,19 +125,19 @@
             style="@style/TextFieldBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general_small"
-            android:textSize="@dimen/font_all_normal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textSize="@dimen/font_normal"
             android:text="115"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/profile_audience_internal_space"/>
+            app:layout_constraintStart_toEndOf="@id/profile_audience_internal_space" />
 
         <TextView
             android:id="@+id/following_label"
             style="@style/TextField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_all_small"
+            android:textSize="@dimen/font_small"
             android:textColor="@color/black_50"
             android:text="Following"
             app:layout_constraintTop_toBottomOf="@id/following_count_text_field"
@@ -164,7 +164,7 @@
             style="@style/TextField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_all_small"
+            android:textSize="@dimen/font_small"
             android:textColor="@color/black_50"
             android:gravity="center"
             android:maxLines="3"
@@ -174,34 +174,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/follow_button"
-            style="@style/FilledTextButton"
+            style="@style/MaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_all_general"
-            android:layout_marginStart="@dimen/margin_all_general_large"
-            android:layout_marginEnd="@dimen/margin_all_general"
+            android:layout_marginVertical="@dimen/margin_general"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_general"
             android:text="Follow"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintTop_toBottomOf="@id/profile_status_text_field"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/message_button"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/message_button"
-            style="@style/OutlinedTextButton"
+            style="@style/OutlinedMaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_all_general"
-            android:layout_marginEnd="@dimen/margin_all_general_large"
-            android:layout_marginStart="@dimen/margin_all_general"
+            android:layout_marginVertical="@dimen/margin_general"
+            android:layout_marginStart="@dimen/margin_general"
+            android:layout_marginEnd="@dimen/margin_large"
             android:text="Message"
             app:layout_constraintTop_toBottomOf="@id/profile_status_text_field"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/follow_button"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

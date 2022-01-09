@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.utils.FragmentBackPressedListener
+import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import kotlinx.coroutines.CancellationException
 
 abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel<out UiState>> :

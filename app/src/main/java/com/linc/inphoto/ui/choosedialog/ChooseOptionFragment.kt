@@ -6,19 +6,14 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.linc.inphoto.databinding.DialogChooseOptionBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.choosedialog.item.ChooseOptionItem
 import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
+import com.linc.inphoto.utils.extensions.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChooseOptionDialog : BaseFragment<DialogChooseOptionBinding, ChooseDialogViewModel>() {
-
-    override val viewModel: ChooseDialogViewModel by viewModels()
-    override val binding: DialogChooseOptionBinding by lazy {
-        DialogChooseOptionBinding.inflate(layoutInflater)
-    }
-
-    private var optionsAdapter: GroupieAdapter? = null
+class ChooseOptionFragment : BaseFragment<DialogChooseOptionBinding, ChooseDialogViewModel>() {
 
     companion object {
         private const val OPTIONS_ARG = "options"
@@ -26,13 +21,20 @@ class ChooseOptionDialog : BaseFragment<DialogChooseOptionBinding, ChooseDialogV
         @JvmStatic
         fun newInstance(
             options: List<ChooseOptionModel>
-        ) = ChooseOptionDialog().apply {
+        ) = ChooseOptionFragment().apply {
             arguments = bundleOf(OPTIONS_ARG to options)
         }
     }
 
-    override suspend fun observeUiState() {
+    override val viewModel: ChooseDialogViewModel by viewModels()
+    override val binding: DialogChooseOptionBinding by lazy {
+        DialogChooseOptionBinding.inflate(layoutInflater)
+    }
 
+    private val optionsAdapter: GroupieAdapter by lazy { GroupieAdapter() }
+
+    override suspend fun observeUiState() {
+        // Empty UI state
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,24 +42,20 @@ class ChooseOptionDialog : BaseFragment<DialogChooseOptionBinding, ChooseDialogV
         initUi()
     }
 
-    private fun initUi() {
-        /*optionsAdapter = GroupieAdapter()
-
-        with(binding) {
-            optionsRecyclerView.apply {
-                layoutManager = verticalLinearLayoutManager()
-                adapter = optionsAdapter
-            }
+    private fun initUi() = with(binding) {
+        optionsRecyclerView.apply {
+            layoutManager = verticalLinearLayoutManager()
+            adapter = optionsAdapter
         }
 
         val options = requireArguments().getParcelableArrayList<ChooseOptionModel>(OPTIONS_ARG)
-        optionsAdapter?.let { adapter ->
+        optionsAdapter.let { adapter ->
             adapter.addAll(options?.map { ChooseOptionItem(it) } ?: emptyList())
             adapter.setOnItemClickListener { item, _ ->
                 val position = adapter.getAdapterPosition(item)
                 viewModel.onFinishWithResult(position)
             }
-        }*/
+        }
     }
 
 }

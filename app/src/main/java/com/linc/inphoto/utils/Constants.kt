@@ -9,6 +9,7 @@ object Constants {
     const val CONNECT_TIMEOUT = 60L
 
     // Preferences keys
+    // TODO: 03.01.22 move to preferences private variables
     const val ACCESS_TOKEN = "access_token"
     const val USER_ID = "user_id"
 }

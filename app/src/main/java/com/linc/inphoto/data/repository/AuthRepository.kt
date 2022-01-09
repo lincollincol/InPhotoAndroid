@@ -9,7 +9,6 @@ import com.linc.inphoto.data.storage.LocalPreferences
 import com.linc.inphoto.data.storage.database.dao.UserDao
 import com.linc.inphoto.utils.Constants.ACCESS_TOKEN
 import com.linc.inphoto.utils.Constants.USER_ID
-import com.linc.inphoto.utils.toException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -25,24 +24,16 @@ class AuthRepository @Inject constructor(
         password: String
     ) = withContext(Dispatchers.IO) {
         val response = authService.signIn(SignInApiModel(email, password))
-        if (response.success) {
-            saveUser(response.body!!)
-        } else {
-            throw Exception(response.error)
-        }
+        saveUser(response.body!!)
     }
 
     suspend fun signUp(
         email: String,
         username: String,
         password: String
-    ): Result<Unit> = withContext(Dispatchers.IO) {
+    ) = withContext(Dispatchers.IO) {
         val response = authService.signUp(SignUpApiModel(email, username, password))
-        if (response.success) {
-            saveUser(response.body!!)
-            return@withContext Result.success(Unit)
-        }
-        return@withContext Result.failure(response.error.toException())
+        saveUser(response.body!!)
     }
 
     private suspend fun saveUser(user: UserApiModel) {
