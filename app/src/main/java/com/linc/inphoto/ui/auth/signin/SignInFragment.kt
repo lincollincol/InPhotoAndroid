@@ -28,11 +28,14 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, SignInViewModel>() {
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             signInButton.enable(state.signInEnabled)
+
+
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         with(binding) {
             loginEditText.doOnTextChanged { text, _, _, _ ->
                 viewModel.updateLogin(text.toString())

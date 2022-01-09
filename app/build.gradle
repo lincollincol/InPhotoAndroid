@@ -16,7 +16,6 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -108,4 +107,7 @@ dependencies {
 
     //Cicerone
     implementation "com.github.terrakok:cicerone:7.1"
+
+    // Blur lib
+    implementation 'com.eightbitlab:blurview:1.6.6'
 }

@@ -114,5 +114,15 @@
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line" />
 
+        <com.linc.inphoto.ui.view.LoadingView
+            android:id="@+id/loading_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:blurOverlayColor="@color/black_25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
