@@ -3,12 +3,14 @@ package com.linc.inphoto.ui.splash
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSplashBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SplashFragment : BaseFragment<FragmentSplashBinding, SplashViewModel>() {
+class SplashFragment : BaseFragment(R.layout.fragment_splash) {
 
     companion object {
         @JvmStatic
@@ -17,9 +19,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding, SplashViewModel>() {
 
     override val viewModel: SplashViewModel by viewModels()
 
-    override val binding: FragmentSplashBinding by lazy {
-        FragmentSplashBinding.inflate(layoutInflater)
-    }
+    private val binding by viewBinding(FragmentSplashBinding::bind)
 
     override suspend fun observeUiState() {
         // Empty UI state

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
@@ -17,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
+class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     companion object {
         private const val LIST_PHOTOS_SPAN_COUNT = 3
@@ -28,9 +29,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
     override val viewModel: ProfileViewModel by viewModels()
 
-    override val binding: FragmentProfileBinding by lazy {
-        FragmentProfileBinding.inflate(layoutInflater)
-    }
+    private val binding by viewBinding(FragmentProfileBinding::bind)
 
     private val photosAdapter: GroupieAdapter by lazy { GroupieAdapter() }
 

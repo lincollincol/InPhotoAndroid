@@ -1,24 +1,20 @@
 package com.linc.inphoto.ui.base.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.ViewBinding
 import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import kotlinx.coroutines.CancellationException
 
-abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel<out UiState>> :
-    Fragment(), FragmentBackPressedListener {
+abstract class BaseFragment(
+    @LayoutRes layoutId: Int
+) : Fragment(layoutId), FragmentBackPressedListener {
 
-    protected abstract val viewModel: ViewModel
-
-    protected abstract val binding: Binding
+    protected abstract val viewModel: BaseViewModel<out UiState>
 
     protected abstract suspend fun observeUiState()
 
@@ -27,14 +23,6 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel<out
         safeStartedLaunch {
             observeUiState()
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return binding.root
     }
 
     override fun onBackPressed() {

@@ -12,34 +12,40 @@ import com.linc.inphoto.ui.splash.SplashFragment
 
 object AppScreens {
 
+    object Common {
+        fun ChooseOptionScreen(
+            options: List<ChooseOptionModel>
+        ) = FragmentScreen(
+            key = ScreenResultKey.CHOOSE_OPTION_RESULT,
+            clearContainer = false
+        ) {
+            ChooseOptionFragment.newInstance(options)
+        }
+
+        fun InfoMessageScreen(
+            @StringRes title: Int,
+            @StringRes message: Int
+        ) = FragmentScreen(clearContainer = false) {
+            InfoMessageDialog.newInstance(title, message)
+        }
+    }
+
+    object Auth {
+        fun SignInScreen() = FragmentScreen {
+            SignInFragment.newInstance()
+        }
+
+        fun SignUpScreen() = FragmentScreen {
+            SignUpFragment.newInstance()
+        }
+    }
+
     fun SplashScreen() = FragmentScreen {
         SplashFragment.newInstance()
     }
 
-    fun SignInScreen() = FragmentScreen {
-        SignInFragment.newInstance()
-    }
-
-    fun SignUpScreen() = FragmentScreen {
-        SignUpFragment.newInstance()
-    }
-
     fun ProfileScreen() = FragmentScreen {
         ProfileFragment.newInstance()
-    }
-
-    fun ChooseOptionScreen(options: List<ChooseOptionModel>) = FragmentScreen(
-        key = ScreenResultKey.CHOOSE_OPTION_RESULT,
-        clearContainer = false
-    ) {
-        ChooseOptionFragment.newInstance(options)
-    }
-
-    fun InfoMessageScreen(
-        @StringRes title: Int,
-        @StringRes message: Int
-    ) = FragmentScreen(clearContainer = false) {
-        InfoMessageDialog.newInstance(title, message)
     }
 
 }

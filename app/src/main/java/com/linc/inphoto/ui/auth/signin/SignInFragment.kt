@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSignInBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.utils.extensions.enable
@@ -13,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class SignInFragment : BaseFragment<FragmentSignInBinding, SignInViewModel>() {
+class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
     // {"email":"xlinc@linc.com","password":"12345678","username":"xlinc"}
 
@@ -23,9 +25,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, SignInViewModel>() {
     }
 
     override val viewModel: SignInViewModel by viewModels()
-    override val binding: FragmentSignInBinding by lazy {
-        FragmentSignInBinding.inflate(layoutInflater)
-    }
+    private val binding by viewBinding(FragmentSignInBinding::bind)
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->

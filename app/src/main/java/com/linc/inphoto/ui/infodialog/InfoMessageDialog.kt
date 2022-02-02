@@ -5,13 +5,15 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.linc.inphoto.R
 import com.linc.inphoto.databinding.DialogInfoMessageBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.base.viewmodel.EmptyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class InfoMessageDialog : BaseFragment<DialogInfoMessageBinding, EmptyViewModel>() {
+class InfoMessageDialog : BaseFragment(R.layout.dialog_info_message) {
 
     override val viewModel: EmptyViewModel by viewModels()
 
@@ -31,9 +33,7 @@ class InfoMessageDialog : BaseFragment<DialogInfoMessageBinding, EmptyViewModel>
         }
     }
 
-    override val binding: DialogInfoMessageBinding by lazy {
-        DialogInfoMessageBinding.inflate(layoutInflater)
-    }
+    private val binding by viewBinding(DialogInfoMessageBinding::bind)
 
     override suspend fun observeUiState() {
         // Empty UI State

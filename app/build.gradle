@@ -110,4 +110,7 @@ dependencies {
 
     // Blur lib
     implementation 'com.eightbitlab:blurview:1.6.6'
+
+    // ViewBinding
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.3'
 }

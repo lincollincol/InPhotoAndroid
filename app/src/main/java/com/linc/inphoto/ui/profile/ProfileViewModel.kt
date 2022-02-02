@@ -35,7 +35,7 @@ class ProfileViewModel @Inject constructor(
         try {
             if (options.all { !it.enabled }) {
                 router.navigateTo(
-                    AppScreens.InfoMessageScreen(
+                    AppScreens.Common.InfoMessageScreen(
                         R.string.permissions,
                         R.string.profile_permissions_message
                     )
@@ -47,7 +47,7 @@ class ProfileViewModel @Inject constructor(
                 // TODO: 28.11.21 open file picker or camera
 //            println(photoUri.path)
             }
-            router.navigateTo(AppScreens.ChooseOptionScreen(options))
+            router.navigateTo(AppScreens.Common.ChooseOptionScreen(options))
 
         } catch (e: Exception) {
 

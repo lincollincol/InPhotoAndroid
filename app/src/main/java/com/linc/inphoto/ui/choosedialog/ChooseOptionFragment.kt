@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.linc.inphoto.R
 import com.linc.inphoto.databinding.DialogChooseOptionBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.choosedialog.item.ChooseOptionItem
@@ -13,7 +15,7 @@ import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChooseOptionFragment : BaseFragment<DialogChooseOptionBinding, ChooseDialogViewModel>() {
+class ChooseOptionFragment : BaseFragment(R.layout.dialog_choose_option) {
 
     companion object {
         private const val OPTIONS_ARG = "options"
@@ -27,9 +29,7 @@ class ChooseOptionFragment : BaseFragment<DialogChooseOptionBinding, ChooseDialo
     }
 
     override val viewModel: ChooseDialogViewModel by viewModels()
-    override val binding: DialogChooseOptionBinding by lazy {
-        DialogChooseOptionBinding.inflate(layoutInflater)
-    }
+    private val binding by viewBinding(DialogChooseOptionBinding::bind)
 
     private val optionsAdapter: GroupieAdapter by lazy { GroupieAdapter() }
 
