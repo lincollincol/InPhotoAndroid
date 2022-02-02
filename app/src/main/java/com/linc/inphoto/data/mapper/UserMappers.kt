@@ -1,7 +1,7 @@
 package com.linc.inphoto.data.mapper
 
-import com.linc.inphoto.data.api.model.user.UserApiModel
-import com.linc.inphoto.data.storage.database.entity.UserEntity
+import com.linc.inphoto.data.database.entity.UserEntity
+import com.linc.inphoto.data.network.model.user.UserApiModel
 import com.linc.inphoto.entity.User
 
 fun UserApiModel.toUserEntity() = UserEntity(

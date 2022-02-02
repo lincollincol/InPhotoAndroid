@@ -1,7 +1,7 @@
-package com.linc.inphoto.data.storage.database.dao
+package com.linc.inphoto.data.database.dao
 
 import androidx.room.*
-import com.linc.inphoto.data.storage.database.entity.UserEntity
+import com.linc.inphoto.data.database.entity.UserEntity
 
 @Dao
 interface UserDao {

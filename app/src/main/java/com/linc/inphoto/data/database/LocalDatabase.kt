@@ -1,12 +1,9 @@
-package com.linc.inphoto.data.storage.database
+package com.linc.inphoto.data.database
 
 import androidx.room.Database
-import androidx.room.DatabaseConfiguration
-import androidx.room.InvalidationTracker
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteOpenHelper
-import com.linc.inphoto.data.storage.database.dao.UserDao
-import com.linc.inphoto.data.storage.database.entity.UserEntity
+import com.linc.inphoto.data.database.dao.UserDao
+import com.linc.inphoto.data.database.entity.UserEntity
 
 @Database(
     entities = [UserEntity::class],

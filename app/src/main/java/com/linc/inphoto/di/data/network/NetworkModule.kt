@@ -1,8 +1,8 @@
 package com.linc.inphoto.di.data.network
 
 import com.linc.inphoto.BuildConfig
-import com.linc.inphoto.utils.Constants.CONNECT_TIMEOUT
-import com.linc.inphoto.utils.Constants.READ_TIMEOUT
+import com.linc.inphoto.data.network.utils.TokenAuthenticator
+import com.rhythmoya.data.network.helper.TokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,29 +24,38 @@ object NetworkModule {
     fun provideRetrofit(
         converterFactory: Converter.Factory,
         okHttpClient: OkHttpClient
-    ) : Retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(converterFactory)
-            .client(okHttpClient)
-            .build()
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient() : OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
-        .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
-        .apply {
-            if (BuildConfig.DEBUG) {
-                addInterceptor(HttpLoggingInterceptor().apply {
-                    setLevel(HttpLoggingInterceptor.Level.BODY)
-                })
-            }
-        }
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(BuildConfig.BASE_URL)
+        .addConverterFactory(converterFactory)
+        .client(okHttpClient)
         .build()
 
     @Provides
     @Singleton
-    fun provideConverterFactory(): Converter.Factory =
-        GsonConverterFactory.create()
+    fun provideOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        tokenInterceptor: TokenInterceptor,
+        tokenAuthenticator: TokenAuthenticator
+    ): OkHttpClient = OkHttpClient.Builder()
+        .connectTimeout(45, TimeUnit.SECONDS)
+        .readTimeout(45, TimeUnit.SECONDS)
+        .addInterceptor(loggingInterceptor)
+        .addInterceptor(tokenInterceptor)
+        .authenticator(tokenAuthenticator)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().apply {
+            level = when {
+                BuildConfig.DEBUG -> HttpLoggingInterceptor.Level.BODY
+                else -> HttpLoggingInterceptor.Level.NONE
+            }
+        }
+
+    @Provides
+    @Singleton
+    fun provideConverterFactory(): Converter.Factory = GsonConverterFactory.create()
 
 }

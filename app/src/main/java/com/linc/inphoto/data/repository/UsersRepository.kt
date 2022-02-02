@@ -1,35 +1,33 @@
 package com.linc.inphoto.data.repository
 
+import com.linc.inphoto.data.database.dao.UserDao
 import com.linc.inphoto.data.mapper.toUserModel
-import com.linc.inphoto.data.storage.LocalPreferences
-import com.linc.inphoto.data.storage.database.dao.UserDao
+import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.User
-import com.linc.inphoto.utils.Constants.ACCESS_TOKEN
-import com.linc.inphoto.utils.Constants.USER_ID
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UsersRepository @Inject constructor(
     private val userDao: UserDao,
-    private val localPreferences: LocalPreferences,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val authPreferences: AuthPreferences,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
-    suspend fun getLoggedInUser(): User {
-        val userId = localPreferences.get<String>(USER_ID)
-        return userDao.getUserById(userId).toUserModel()
+    suspend fun getLoggedInUser(): User? = withContext(ioDispatcher) {
+        val userId = authPreferences.userId ?: return@withContext null
+        return@withContext userDao.getUserById(userId).toUserModel()
     }
 
-    suspend fun getUser(usedId: String) {
+    suspend fun getUser(usedId: String) = withContext(ioDispatcher) {
 
     }
 
-    suspend fun hasUserData() : Boolean {
-        localPreferences.get<String?>(ACCESS_TOKEN) ?: return false
-        val userId = localPreferences.get<String?>(USER_ID) ?: return false
-        val user = userDao.getUserById(userId) ?: return false
-        return true
+    suspend fun hasUserData(): Boolean = withContext(ioDispatcher) {
+        val userId = authPreferences.userId ?: return@withContext false
+        val user = userDao.getUserById(userId)
+        return@withContext true
     }
 
 }

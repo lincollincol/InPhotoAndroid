@@ -1,21 +1,19 @@
-package com.linc.inphoto.data.storage
+package com.linc.inphoto.data.preferences
 
 import android.content.SharedPreferences
-import javax.inject.Inject
-import javax.inject.Singleton
 
-class LocalPreferences @Inject constructor(
-    private val preferences: SharedPreferences
+abstract class BasePreferences constructor(
+    protected val preferences: SharedPreferences
 ) {
 
     companion object {
         const val PREFERENCES_NAME = "InPhotoPreferences"
     }
 
-    fun <T> put(key: String, value: T) {
+    protected fun <T> put(key: String, value: T) {
         val editor = preferences.edit()
 
-        val task = when(value) {
+        val task = when (value) {
             is Int -> editor.putInt(key, value)
             is Long -> editor.putLong(key, value)
             is Float -> editor.putFloat(key, value)
@@ -28,11 +26,11 @@ class LocalPreferences @Inject constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> get(key: String) : T {
+    protected fun <T> get(key: String): T {
         return preferences.all[key] as T
     }
 
-    fun has(key: String): Boolean {
+    protected fun has(key: String): Boolean {
         return preferences.contains(key)
     }
 

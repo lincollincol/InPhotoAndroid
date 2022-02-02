@@ -1,4 +1,4 @@
-package com.linc.inphoto.data.storage.database.entity
+package com.linc.inphoto.data.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

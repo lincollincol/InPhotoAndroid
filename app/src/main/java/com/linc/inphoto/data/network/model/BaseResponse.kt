@@ -1,4 +1,4 @@
-package com.linc.inphoto.data.api.model
+package com.linc.inphoto.data.network.model
 
 data class BaseResponse<T>(
     val status: String,
