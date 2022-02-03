@@ -39,6 +39,7 @@ class AuthRepository @Inject constructor(
     private suspend fun saveUser(user: UserApiModel) = withContext(ioDispatcher) {
         // Save base access user data
         with(authPreferences) {
+            userId = user.id
             accessToken = user.accessToken
             // TODO: 02.02.22 replace with refreshToken
             refreshToken = user.accessToken

@@ -7,11 +7,11 @@ import com.linc.inphoto.ui.base.state.EmptyUiState
 import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.AppScreens
-import com.linc.inphoto.utils.Constants.SPLASH_DELAY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,16 +20,27 @@ class SplashViewModel @Inject constructor(
     private val usersRepository: UsersRepository
 ) : BaseViewModel<UiState>(router) {
 
-    fun checkLoggedIn() = viewModelScope.launch {
-        val isLoggedIn = usersRepository.hasUserData()
+    companion object {
+        private const val SPLASH_DELAY = 1000L
+    }
 
-        delay(SPLASH_DELAY)
+    fun checkLoggedIn() {
+        viewModelScope.launch {
+            try {
+                val isLoggedIn = usersRepository.getLoggedInUser() != null
 
-        val screen = when {
-            isLoggedIn -> AppScreens.ProfileScreen()
-            else -> AppScreens.Auth.SignInScreen()
+                delay(SPLASH_DELAY)
+
+                val screen = when {
+                    isLoggedIn -> AppScreens.ProfileScreen()
+                    else -> AppScreens.Auth.SignInScreen()
+                }
+
+                router.newRootScreen(screen)
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
         }
-        router.newRootScreen(screen)
     }
 
     override val _uiState = MutableStateFlow<UiState>(EmptyUiState())

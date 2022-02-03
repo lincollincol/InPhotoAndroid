@@ -16,18 +16,11 @@ class UsersRepository @Inject constructor(
 ) {
 
     suspend fun getLoggedInUser(): User? = withContext(ioDispatcher) {
-        val userId = authPreferences.userId ?: return@withContext null
-        return@withContext userDao.getUserById(userId).toUserModel()
+        return@withContext getUserById(authPreferences.userId)
     }
 
-    suspend fun getUser(usedId: String) = withContext(ioDispatcher) {
-
-    }
-
-    suspend fun hasUserData(): Boolean = withContext(ioDispatcher) {
-        val userId = authPreferences.userId ?: return@withContext false
-        val user = userDao.getUserById(userId)
-        return@withContext true
+    suspend fun getUserById(userId: String?): User? = withContext(ioDispatcher) {
+        return@withContext userDao.getUserById(userId.orEmpty())?.toUserModel()
     }
 
 }
