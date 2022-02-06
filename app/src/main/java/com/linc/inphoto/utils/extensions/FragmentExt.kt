@@ -11,3 +11,5 @@ fun Fragment.showKeyboard(view: EditText) {
 
 fun Fragment.hideKeyboard() =
     requireContext().getKeyboard()?.hideSoftInputFromWindow(view?.applicationWindowToken, 0)
+
+fun <T> Fragment.getArgument(key: String): T? = requireArguments().get(key) as? T

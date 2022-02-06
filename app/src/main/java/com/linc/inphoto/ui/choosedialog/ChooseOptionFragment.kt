@@ -48,12 +48,14 @@ class ChooseOptionFragment : BaseFragment(R.layout.dialog_choose_option) {
             adapter = optionsAdapter
         }
 
+//        getArgument<ArrayList<ChooseOptionModel>>(OPTIONS_ARG)
         val options = requireArguments().getParcelableArrayList<ChooseOptionModel>(OPTIONS_ARG)
         optionsAdapter.let { adapter ->
             adapter.addAll(options?.map { ChooseOptionItem(it) } ?: emptyList())
             adapter.setOnItemClickListener { item, _ ->
                 val position = adapter.getAdapterPosition(item)
-                viewModel.onFinishWithResult(position)
+
+                viewModel.onFinishWithResult(options?.get(position))
             }
         }
     }

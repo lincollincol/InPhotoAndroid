@@ -6,7 +6,7 @@ import com.linc.inphoto.data.repository.UsersRepository
 import com.linc.inphoto.ui.base.state.EmptyUiState
 import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.navigation.AppScreens
+import com.linc.inphoto.ui.navigation.Navigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,8 +32,8 @@ class SplashViewModel @Inject constructor(
                 delay(SPLASH_DELAY)
 
                 val screen = when {
-                    isLoggedIn -> AppScreens.ProfileScreen()
-                    else -> AppScreens.Auth.SignInScreen()
+                    isLoggedIn -> Navigation.ProfileScreen()
+                    else -> Navigation.Auth.SignInScreen()
                 }
 
                 router.newRootScreen(screen)

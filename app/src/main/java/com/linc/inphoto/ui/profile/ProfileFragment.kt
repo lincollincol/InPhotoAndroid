@@ -9,8 +9,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
 import com.linc.inphoto.ui.profile.item.ProfilePhotoItem
+import com.linc.inphoto.ui.profile.model.SourceType
 import com.linc.inphoto.utils.extensions.scrollToStart
 import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
 import com.xwray.groupie.GroupieAdapter
@@ -33,22 +33,36 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     private val photosAdapter: GroupieAdapter by lazy { GroupieAdapter() }
 
-    private val updateAvatarPermissions = registerForActivityResult(
+    private val imagePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        val options = listOf(R.string.camera, R.string.gallery)
-            .zip(permissions.values)
-            .map { ChooseOptionModel(it.first, it.second) }
-
-        viewModel.onUpdateAvatar(options)
+        val source = permissions.map { permission ->
+            when (permission.key) {
+                Manifest.permission.CAMERA -> SourceType.Camera(permission.value)
+                else -> SourceType.Gallery(permission.value)
+            }
+        }
+        viewModel.selectImageSource(source)
     }
 
-
     override suspend fun observeUiState() = with(binding) {
-        viewModel.uiState.collect { state ->
-            profileNameTextField.text = state.user?.name
+        safeResumedLaunch {
+            viewModel.uiState.collect { state ->
+                profileNameTextField.text = state.user?.name
 
+            }
         }
+        /*safeResumedLaunch {
+            viewModel.selectGalleryImageEvent.filterNotNull().collect {
+                Timber.d("Open gallery")
+            }
+        }
+        safeResumedLaunch {
+            viewModel.selectCameraImageEvent.filterNotNull().collect {
+                Timber.d("Open camera")
+            }
+        }*/
+        return@with
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,10 +90,12 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             }
 
             profileAvatarImage.setOnClickListener {
-                updateAvatarPermissions.launch(arrayOf(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ))
+                imagePermissions.launch(
+                    arrayOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                )
             }
         }
         mockPhotos()

@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.AuthRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.navigation.AppScreens
+import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +27,7 @@ class SignInViewModel @Inject constructor(
                 state.login.orEmpty(),
                 state.password.orEmpty()
             )
-            router.newRootScreen(AppScreens.ProfileScreen())
+            router.newRootScreen(Navigation.ProfileScreen())
         } catch (e: Exception) {
             _uiState.update { copy(signInErrorMessage = e.message) }
             e.printStackTrace()
@@ -55,7 +55,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun onSignUp() {
-        router.navigateTo(AppScreens.Auth.SignUpScreen())
+        router.navigateTo(Navigation.Auth.SignUpScreen())
     }
 
 }

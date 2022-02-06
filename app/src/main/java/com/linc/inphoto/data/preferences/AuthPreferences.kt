@@ -13,21 +13,21 @@ class AuthPreferences @Inject constructor(
         private const val USER_ID = "user_id"
     }
 
-    var accessToken: String?
-        get() = get(ACCESS_TOKEN)
+    var accessToken: String
+        get() = get(ACCESS_TOKEN) ?: ""
         set(value) = put(ACCESS_TOKEN, value)
 
-    var refreshToken: String?
-        get() = get(REFRESH_TOKEN)
+    var refreshToken: String
+        get() = get(REFRESH_TOKEN) ?: ""
         set(value) = put(REFRESH_TOKEN, value)
 
-    var userId: String?
-        get() = get(USER_ID)
+    var userId: String
+        get() = get(USER_ID) ?: ""
         set(value) = put(USER_ID, value)
 
     fun clear() {
-        accessToken = null
-        refreshToken = null
-        userId = null
+        accessToken = ""
+        refreshToken = ""
+        userId = ""
     }
 }

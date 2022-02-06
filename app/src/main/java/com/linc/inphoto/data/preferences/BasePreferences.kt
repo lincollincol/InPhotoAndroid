@@ -26,8 +26,8 @@ abstract class BasePreferences constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    protected fun <T> get(key: String): T {
-        return preferences.all[key] as T
+    protected fun <T> get(key: String): T? {
+        return preferences.all[key] as? T
     }
 
     protected fun has(key: String): Boolean {

@@ -10,13 +10,18 @@ import com.linc.inphoto.ui.infodialog.InfoMessageDialog
 import com.linc.inphoto.ui.profile.ProfileFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 
-object AppScreens {
+object Navigation {
+
+    object NavResult {
+        const val CHOOSE_OPTION_RESULT = "choose_result"
+
+    }
 
     object Common {
         fun ChooseOptionScreen(
             options: List<ChooseOptionModel>
         ) = FragmentScreen(
-            key = ScreenResultKey.CHOOSE_OPTION_RESULT,
+            key = NavResult.CHOOSE_OPTION_RESULT,
             clearContainer = false
         ) {
             ChooseOptionFragment.newInstance(options)

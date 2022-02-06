@@ -15,20 +15,20 @@ import javax.inject.Singleton
 @Singleton
 class TokenAuthenticator @Inject constructor(
     private val authPreferences: AuthPreferences,
-    private val tokenApi: Lazy<AuthApiService>
+    private val authApiService: Lazy<AuthApiService>
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         synchronized(this) {
-            if (tokenApi.get() == null || authPreferences.refreshToken.isNullOrEmpty()) {
+            if (authApiService.get() == null || authPreferences.refreshToken.isEmpty()) {
                 return null
             }
 
             val requestBodyModel = RefreshApiModel(
-                authPreferences.accessToken!!,
-                authPreferences.refreshToken!!
+                authPreferences.accessToken,
+                authPreferences.refreshToken
             )
-            val refreshResult = tokenApi.get().refresh(requestBodyModel)
+            val refreshResult = authApiService.get().refresh(requestBodyModel)
                 .execute()
                 .body()
                 ?.body
@@ -42,7 +42,7 @@ class TokenAuthenticator @Inject constructor(
             return response.request.newBuilder()
                 .header(
                     HttpHelper.Header.AUTHORIZATION,
-                    HttpHelper.bearer(authPreferences.accessToken!!)
+                    HttpHelper.bearer(authPreferences.accessToken)
                 )
                 .build()
         }
