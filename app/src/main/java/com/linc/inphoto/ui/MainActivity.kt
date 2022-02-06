@@ -1,13 +1,13 @@
 package com.linc.inphoto.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Replace
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.linc.inphoto.R
-import com.linc.inphoto.ui.navigation.AppScreens
-import com.linc.inphoto.utils.FragmentBackPressedListener
+import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
+import com.linc.inphoto.ui.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if(savedInstanceState == null) {
-            navigator.applyCommands(arrayOf(Replace(AppScreens.SplashScreen())))
+            navigator.applyCommands(arrayOf(Replace(Navigation.SplashScreen())))
         }
     }
 

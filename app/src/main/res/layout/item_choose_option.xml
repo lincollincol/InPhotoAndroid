@@ -5,8 +5,8 @@
     android:id="@+id/choose_option"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/margin_all_general"
-    android:paddingVertical="@dimen/margin_all_general"
+    android:paddingHorizontal="@dimen/margin_general"
+    android:paddingVertical="@dimen/margin_general"
     android:textAlignment="center"
-    android:textSize="@dimen/font_all_small"
-    tools:text="Option"/>
+    android:textSize="@dimen/font_small"
+    tools:text="Option" />

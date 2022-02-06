@@ -1,38 +1,24 @@
 package com.linc.inphoto.ui.profile
 
 import android.Manifest
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
-import com.linc.inphoto.ui.base.BaseUiEffect
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
 import com.linc.inphoto.ui.profile.item.ProfilePhotoItem
+import com.linc.inphoto.ui.profile.model.SourceType
 import com.linc.inphoto.utils.extensions.scrollToStart
 import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, ProfileUiState, BaseUiEffect>() {
-
-    override val viewModel: ProfileViewModel by viewModels()
-    private var photosAdapter: GroupieAdapter? = null
-
-    private val updateAvatarPermissions = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val options = listOf(R.string.camera, R.string.gallery)
-            .zip(permissions.values)
-            .map { ChooseOptionModel(it.first, it.second) }
-
-        viewModel.onUpdateAvatar(options)
-    }
+class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     companion object {
         private const val LIST_PHOTOS_SPAN_COUNT = 3
@@ -41,17 +27,42 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
         fun newInstance() = ProfileFragment()
     }
 
-    override fun getViewBinding() = FragmentProfileBinding.inflate(layoutInflater)
+    override val viewModel: ProfileViewModel by viewModels()
 
-    override fun handleUiState(state: ProfileUiState) = when(state) {
-        is ProfileUiState.UpdateUserData -> {
-            binding.profileNameTextField.text = state.userModel.name
+    private val binding by viewBinding(FragmentProfileBinding::bind)
+
+    private val photosAdapter: GroupieAdapter by lazy { GroupieAdapter() }
+
+    private val imagePermissions = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val source = permissions.map { permission ->
+            when (permission.key) {
+                Manifest.permission.CAMERA -> SourceType.Camera(permission.value)
+                else -> SourceType.Gallery(permission.value)
+            }
         }
+        viewModel.selectImageSource(source)
     }
 
-    override fun handleUiEffect(effect: BaseUiEffect) = when(effect) {
-        is BaseUiEffect.Loading -> {}
-        is BaseUiEffect.Error -> showErrorMessage(effect.message)
+    override suspend fun observeUiState() = with(binding) {
+        safeResumedLaunch {
+            viewModel.uiState.collect { state ->
+                profileNameTextField.text = state.user?.name
+
+            }
+        }
+        /*safeResumedLaunch {
+            viewModel.selectGalleryImageEvent.filterNotNull().collect {
+                Timber.d("Open gallery")
+            }
+        }
+        safeResumedLaunch {
+            viewModel.selectCameraImageEvent.filterNotNull().collect {
+                Timber.d("Open camera")
+            }
+        }*/
+        return@with
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,7 +74,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
     }
 
     private fun initUi() {
-        photosAdapter = GroupieAdapter()
         with(binding) {
             profilePhotosList.apply {
                 layoutManager = verticalGridLayoutManager(LIST_PHOTOS_SPAN_COUNT)
@@ -80,10 +90,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
             }
 
             profileAvatarImage.setOnClickListener {
-                updateAvatarPermissions.launch(arrayOf(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ))
+                imagePermissions.launch(
+                    arrayOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                )
             }
         }
         mockPhotos()
@@ -95,7 +107,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel, P
                 add(ProfilePhotoItem())
             }
         }
-        photosAdapter?.addAll(photos)
+        photosAdapter.addAll(photos)
     }
 
 }

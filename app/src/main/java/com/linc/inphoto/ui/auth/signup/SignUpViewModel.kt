@@ -1,40 +1,36 @@
 package com.linc.inphoto.ui.auth.signup
 
+import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.AuthRepository
-import com.linc.inphoto.ui.navigation.AppScreens
-import com.linc.inphoto.ui.base.BaseUiEffect
 import com.linc.inphoto.ui.auth.model.Credentials
-import com.linc.inphoto.ui.base.UiEffect
-import com.linc.inphoto.ui.base.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.navigation.Navigation
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val router: Router,
     private val authRepository: AuthRepository
-) : BaseViewModel<UiState, UiEffect>(router) {
+) : BaseViewModel<SignUpUiState>(router) {
 
-    fun signUp(credentials: Credentials.SignUp) = launchCoroutine {
-        val result = authRepository.signUp(
-            credentials.email,
-            credentials.username,
-            credentials.password
-        )
-        result.fold(
-            onSuccess = {
-                router.newRootScreen(AppScreens.ProfileScreen())
-            },
-            onFailure = {
-                setEffect(BaseUiEffect.Error(it.message!!))
-            }
-        )
-    }
+    override val _uiState = MutableStateFlow(SignUpUiState())
 
-    override fun onCoroutineError(e: Exception) {
+    fun signUp(credentials: Credentials.SignUp) = viewModelScope.launch {
+        try {
+            authRepository.signUp(
+                credentials.email,
+                credentials.username,
+                credentials.password
+            )
 
+            router.newRootScreen(Navigation.ProfileScreen())
+        } catch (e: Exception) {
+
+        }
     }
 
 }

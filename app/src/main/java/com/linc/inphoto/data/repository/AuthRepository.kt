@@ -1,56 +1,49 @@
 package com.linc.inphoto.data.repository
 
-import com.linc.inphoto.data.api.dto.auth.SignInRequest
-import com.linc.inphoto.data.api.dto.auth.SignUpRequest
-import com.linc.inphoto.data.api.dto.user.UserResponse
-import com.linc.inphoto.data.api.service.AuthService
+import com.linc.inphoto.data.database.dao.UserDao
 import com.linc.inphoto.data.mapper.toUserEntity
-import com.linc.inphoto.data.storage.LocalPreferences
-import com.linc.inphoto.data.storage.database.dao.UserDao
-import com.linc.inphoto.utils.Constants.ACCESS_TOKEN
-import com.linc.inphoto.utils.Constants.USER_ID
-import com.linc.inphoto.utils.toException
+import com.linc.inphoto.data.network.api.AuthApiService
+import com.linc.inphoto.data.network.model.auth.SignInApiModel
+import com.linc.inphoto.data.network.model.auth.SignUpApiModel
+import com.linc.inphoto.data.network.model.user.UserApiModel
+import com.linc.inphoto.data.preferences.AuthPreferences
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
-    private val authService: AuthService,
+    private val authApiService: AuthApiService,
     private val userDao: UserDao,
-    private val localPreferences: LocalPreferences,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val authPreferences: AuthPreferences,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     suspend fun signIn(
         email: String,
         password: String
-    ) : Result<Unit> = withContext(dispatcher) {
-        val response = authService.signIn(SignInRequest(email, password))
-        if(response.success) {
-            saveUser(response.body!!)
-            return@withContext Result.success(Unit)
-        }
-        return@withContext Result.failure(response.error.toException())
+    ) = withContext(ioDispatcher) {
+        val response = authApiService.signIn(SignInApiModel(email, password))
+        saveUser(response.body!!)
     }
 
     suspend fun signUp(
         email: String,
         username: String,
         password: String
-    ) : Result<Unit> = withContext(dispatcher) {
-        val response = authService.signUp(SignUpRequest(email, username, password))
-        if(response.success) {
-            saveUser(response.body!!)
-            return@withContext Result.success(Unit)
-        }
-        return@withContext Result.failure(response.error.toException())
+    ) = withContext(ioDispatcher) {
+        val response = authApiService.signUp(SignUpApiModel(email, username, password))
+        saveUser(response.body!!)
     }
 
-    private suspend fun saveUser(user: UserResponse) {
+    private suspend fun saveUser(user: UserApiModel) = withContext(ioDispatcher) {
         // Save base access user data
-        localPreferences.put(ACCESS_TOKEN, user.accessToken)
-        localPreferences.put(USER_ID, user.id)
+        with(authPreferences) {
+            userId = user.id
+            accessToken = user.accessToken
+            // TODO: 02.02.22 replace with refreshToken
+            refreshToken = user.accessToken
+        }
 
         // Save user
         userDao.insertUser(user.toUserEntity())

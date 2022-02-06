@@ -1,12 +1,10 @@
 package com.linc.inphoto.di.data.storage
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.linc.inphoto.data.storage.LocalPreferences
-import com.linc.inphoto.data.storage.database.LocalDatabase
-import dagger.Binds
+import com.linc.inphoto.data.database.LocalDatabase
+import com.linc.inphoto.data.preferences.BasePreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,7 +31,7 @@ object LocalStorageModule {
     fun provideSharedPreferences(
         @ApplicationContext context: Context
     ) : SharedPreferences = context.getSharedPreferences(
-        LocalPreferences.PREFERENCES_NAME,
+        BasePreferences.PREFERENCES_NAME,
         Context.MODE_PRIVATE
     )
 

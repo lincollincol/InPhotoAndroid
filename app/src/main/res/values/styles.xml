@@ -15,43 +15,52 @@
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
-    <style name="TextButton">
-        <item name="android:paddingTop">@dimen/padding_all_general</item>
-        <item name="android:paddingBottom">@dimen/padding_all_general</item>
-        <item name="android:paddingStart">@dimen/padding_all_general_large</item>
-        <item name="android:paddingEnd">@dimen/padding_all_general_large</item>
+    <style name="MaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">@dimen/corner_large</item>
+        <item name="textAllCaps">false</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.MediumComponent
+        </item>
+        <item name="elevation">@dimen/elevation_general</item>
+        <item name="android:paddingTop">@dimen/padding_general</item>
+        <item name="android:paddingBottom">@dimen/padding_general</item>
+    </style>
+
+    <style name="SmallMaterialButton" parent="MaterialButton">
+        <item name="cornerRadius">@dimen/corner_general</item>
+        <item name="textAllCaps">false</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.MediumComponent
+        </item>
+        <item name="elevation">@dimen/elevation_small</item>
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
+    </style>
+
+    <style name="OutlinedMaterialButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerRadius">@dimen/corner_large</item>
+        <item name="textAllCaps">false</item>
+        <item name="strokeColor">@color/black</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.MediumComponent
+        </item>
+        <item name="elevation">@dimen/elevation_general</item>
+        <item name="android:paddingTop">@dimen/padding_general</item>
+        <item name="android:paddingBottom">@dimen/padding_general</item>
+    </style>
+
+    <style name="TextMaterialButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="cornerRadius">@dimen/corner_large</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:paddingTop">@dimen/padding_general</item>
+        <item name="android:paddingBottom">@dimen/padding_general</item>
         <item name="android:textColor">@drawable/background_text_button</item>
-        <item name="android:textSize">@dimen/font_all_small</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-        <item name="android:elevation">5dp</item>
-    </style>
-
-    <style name="FilledTextButton" parent="TextButton">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/background_filled_button</item>
-    </style>
-
-    <style name="FilledTextButtonSmall" parent="FilledTextButton">
-        <item name="android:paddingTop">@dimen/padding_all_general_small</item>
-        <item name="android:paddingBottom">@dimen/padding_all_general_small</item>
-        <item name="android:paddingStart">@dimen/padding_all_general</item>
-        <item name="android:paddingEnd">@dimen/padding_all_general</item>
-    </style>
-
-    <style name="OutlinedTextButton" parent="TextButton">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:background">@drawable/background_outlined_button</item>
+        <item name="rippleColor">@android:color/transparent</item>
     </style>
 
     <style name="TextInputField">
-        <item name="android:padding">@dimen/padding_all_general</item>
+        <item name="android:padding">@dimen/padding_general</item>
         <item name="android:fontFamily">@font/noto_serif_regular</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/black_50</item>
-        <item name="android:textSize">@dimen/font_all_small</item>
+        <item name="android:textSize">@dimen/font_small</item>
         <item name="android:textStyle">bold</item>
         <item name="android:imeOptions">actionNext</item>
     </style>
