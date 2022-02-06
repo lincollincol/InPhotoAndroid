@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoadingView">
+        <attr name="blurRadius" format="float" />
+        <attr name="blurOverlayColor" format="color" />
+        <attr name="enable" format="boolean" />
+    </declare-styleable>
+</resources>

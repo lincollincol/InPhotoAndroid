@@ -1,6 +1,6 @@
 package com.linc.inphoto.di.data.storage
 
-import com.linc.inphoto.data.storage.database.LocalDatabase
+import com.linc.inphoto.data.database.LocalDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

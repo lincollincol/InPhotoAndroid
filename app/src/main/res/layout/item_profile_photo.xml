@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:elevation="5dp"
-        android:layout_marginBottom="@dimen/padding_all_general_small"
-        android:layout_marginHorizontal="@dimen/padding_all_general_tiny"
+        android:layout_marginHorizontal="@dimen/padding_tiny"
+        android:layout_marginBottom="@dimen/padding_small"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/mango"
         app:shapeAppearanceOverlay="@style/CircleImageShape25"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

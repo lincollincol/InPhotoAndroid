@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/top_line"
@@ -31,85 +32,111 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.9" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/polaroid_photos_image"
+            app:srcCompat="@drawable/polaroid_photos_image"
             app:layout_constraintBottom_toBottomOf="@id/top_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/welcome_label"
+            android:id="@+id/welcome_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_serif_regular"
             android:text="@string/welcome_back"
             android:textColor="@color/black"
-            android:textSize="@dimen/font_all_large"
+            android:textSize="@dimen/font_large"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
             app:layout_constraintTop_toTopOf="@id/top_line" />
 
         <EditText
-            android:id="@+id/email_input_field"
+            android:id="@+id/login_edit_text"
             android:layout_width="0dp"
             style="@style/TextInputField"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general_huge"
+            android:layout_marginTop="@dimen/margin_huge"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/welcome_label" />
+            app:layout_constraintTop_toBottomOf="@id/welcome_text_view" />
 
         <EditText
-            android:id="@+id/password_input_field"
+            android:id="@+id/password_edit_text"
             style="@style/TextInputField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general_large"
+            android:layout_marginTop="@dimen/margin_general"
             android:imeOptions="actionDone"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/email_input_field" />
+            app:layout_constraintTop_toBottomOf="@id/login_edit_text" />
 
         <TextView
-            android:id="@+id/sign_in_button"
-            style="@style/FilledTextButton"
+            android:id="@+id/auth_error_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general_huge"
+            android:layout_marginTop="@dimen/margin_general"
+            android:fontFamily="@font/noto_serif_regular"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:textSize="@dimen/font_tiny"
+            app:layout_constraintEnd_toEndOf="@id/end_line"
+            app:layout_constraintStart_toStartOf="@id/start_line"
+            app:layout_constraintTop_toBottomOf="@id/password_edit_text" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sign_in_button"
+            style="@style/MaterialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
             android:text="@string/sign_in"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/password_input_field" />
+            app:layout_constraintTop_toBottomOf="@id/auth_error_text_view" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_up_button"
-            style="@style/OutlinedTextButton"
+            style="@style/OutlinedMaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general"
+            android:layout_marginTop="@dimen/margin_small"
             android:text="@string/sign_up"
+            android:outlineProvider="bounds"
+            app:elevation="5dp"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line"
             app:layout_constraintTop_toBottomOf="@id/sign_in_button" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/forgot_password_button"
-            style="@style/TextButton"
+            style="@style/TextMaterialButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_all_general_huge"
+            android:layout_marginTop="@dimen/margin_huge"
             android:text="@string/forgot_password"
             app:layout_constraintTop_toBottomOf="@id/sign_up_button"
             app:layout_constraintEnd_toEndOf="@id/end_line"
             app:layout_constraintStart_toStartOf="@id/start_line" />
+
+        <com.linc.inphoto.ui.view.LoadingView
+            android:id="@+id/loading_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:translationZ="@dimen/translation_top"
+            app:blurOverlayColor="@color/black_25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

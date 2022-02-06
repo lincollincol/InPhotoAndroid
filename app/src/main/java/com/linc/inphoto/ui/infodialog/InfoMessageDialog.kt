@@ -5,15 +5,17 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.linc.inphoto.R
 import com.linc.inphoto.databinding.DialogInfoMessageBinding
-import com.linc.inphoto.ui.base.fragment.BaseStubFragment
-import com.linc.inphoto.ui.base.viewmodel.BaseStubViewModel
+import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.base.viewmodel.EmptyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class InfoMessageDialog : BaseStubFragment<DialogInfoMessageBinding, BaseStubViewModel>() {
+class InfoMessageDialog : BaseFragment(R.layout.dialog_info_message) {
 
-    override val viewModel: BaseStubViewModel by viewModels()
+    override val viewModel: EmptyViewModel by viewModels()
 
     companion object {
         private const val TITLE_ARG = "title"
@@ -31,7 +33,11 @@ class InfoMessageDialog : BaseStubFragment<DialogInfoMessageBinding, BaseStubVie
         }
     }
 
-    override fun getViewBinding() = DialogInfoMessageBinding.inflate(layoutInflater)
+    private val binding by viewBinding(DialogInfoMessageBinding::bind)
+
+    override suspend fun observeUiState() {
+        // Empty UI State
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

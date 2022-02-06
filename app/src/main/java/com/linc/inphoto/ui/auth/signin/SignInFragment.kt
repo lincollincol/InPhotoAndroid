@@ -2,42 +2,63 @@ package com.linc.inphoto.ui.auth.signin
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSignInBinding
-import com.linc.inphoto.ui.base.fragment.BaseStubFragment
-import com.linc.inphoto.ui.auth.model.Credentials
-import com.linc.inphoto.utils.extensions.textToString
+import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.utils.extensions.enable
+import com.linc.inphoto.utils.extensions.hideKeyboard
+import com.linc.inphoto.utils.extensions.show
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class SignInFragment : BaseStubFragment<FragmentSignInBinding, SignInViewModel>() {
+class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
     // {"email":"xlinc@linc.com","password":"12345678","username":"xlinc"}
-
-    override val viewModel: SignInViewModel by viewModels()
 
     companion object {
         @JvmStatic
         fun newInstance() = SignInFragment()
     }
 
-    override fun getViewBinding() = FragmentSignInBinding.inflate(layoutInflater)
+    override val viewModel: SignInViewModel by viewModels()
+    private val binding by viewBinding(FragmentSignInBinding::bind)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.signInButton.setOnClickListener {
-            safeResumedLaunch {
-                viewModel.signIn(
-                    Credentials.SignIn(
-                    binding.emailInputField.textToString(),
-                    binding.passwordInputField.textToString(),
-                ))
+    override suspend fun observeUiState() = with(binding) {
+        viewModel.uiState.collect { state ->
+            signInButton.enable(state.signInEnabled)
+            loadingView.show(state.isLoading)
+            authErrorTextView.apply {
+                text = state.signInErrorMessage.orEmpty()
+                show(!state.signInErrorMessage.isNullOrEmpty())
             }
-        }
-
-        binding.signUpButton.setOnClickListener {
-            viewModel.onSignUp()
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(binding) {
+            loginEditText.doOnTextChanged { text, _, _, _ ->
+                viewModel.updateLogin(text.toString())
+            }
+
+            passwordEditText.doOnTextChanged { text, _, _, _ ->
+                viewModel.updatePassword(text.toString())
+            }
+
+            signInButton.setOnClickListener {
+                hideKeyboard()
+                viewModel.signIn()
+            }
+
+            signUpButton.setOnClickListener {
+                hideKeyboard()
+                viewModel.onSignUp()
+            }
+        }
+    }
 }

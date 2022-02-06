@@ -11,7 +11,7 @@
         android:fontFamily="@font/noto_serif_bold"
         android:text="@string/app_name"
         android:textColor="@color/black"
-        android:textSize="@dimen/font_all_huge"
+        android:textSize="@dimen/font_huge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
