@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.33" />
+        <entry key="app/src/main/res/drawable/background_circle_image_button.xml" value="0.34010416666666665" />
+        <entry key="app/src/main/res/drawable/background_filled_button.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/drawable/background_outlined_button.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/drawable/background_text_button.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/drawable/gradient_pink.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/drawable/shape_round_25.xml" value="0.16875" />
+        <entry key="app/src/main/res/drawable/shape_round_50.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/drawable/stroke_black_round_50.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16197916666666667" />
+        <entry key="app/src/main/res/layout/dialog_choose_option.xml" value="0.3234375" />
+        <entry key="app/src/main/res/layout/dialog_info.xml" value="0.3234375" />
+        <entry key="app/src/main/res/layout/dialog_info_message.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/dialog_single_option.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_image_picker.xml" value="0.15260416666666668" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.1765625" />
+        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/item_choose_option.xml" value="0.15260416666666668" />
+        <entry key="app/src/main/res/layout/item_profile_photo.xml" value="0.1765625" />
+        <entry key="app/src/main/res/layout/progress_overlay_layout.xml" value="0.1765625" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
