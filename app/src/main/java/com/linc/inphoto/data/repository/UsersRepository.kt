@@ -32,10 +32,11 @@ class UsersRepository @Inject constructor(
     }
 
     suspend fun updateUserAvatar(uri: Uri?) = withContext(ioDispatcher) {
-        val image = fileSystemManager.fileByUri(uri) ?: return@withContext
+        val image = fileSystemManager.uriToFile(uri) ?: return@withContext
         val requestBody = image.asRequestBody("multipart/form-data".toMediaType())
         val body = MultipartBody.Part.createFormData("image", image.name, requestBody)
         userApiService.updateUserAvatar(body, authPreferences.userId)
+        image.delete()
     }
 
 }

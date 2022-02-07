@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val router: Router,
+    router: Router,
     private val authRepository: AuthRepository
 ) : BaseViewModel<SignInUiState>(router) {
 

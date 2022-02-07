@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val router: Router,
+    router: Router,
     private val usersRepository: UsersRepository
 ) : BaseViewModel<UiState>(router) {
 

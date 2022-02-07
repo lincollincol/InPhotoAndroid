@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 abstract class BaseViewModel<StateEntity>(
-    private val router: Router
+    protected val router: Router
 ) : ViewModel() {
 
     protected abstract val _uiState: MutableStateFlow<StateEntity>

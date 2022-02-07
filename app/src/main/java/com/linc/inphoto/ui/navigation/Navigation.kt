@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
+import com.linc.inphoto.ui.camera.CameraFragment
 import com.linc.inphoto.ui.choosedialog.ChooseOptionFragment
 import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
 import com.linc.inphoto.ui.infodialog.InfoMessageDialog
@@ -14,6 +15,7 @@ object Navigation {
 
     object NavResult {
         const val CHOOSE_OPTION_RESULT = "choose_result"
+        const val CAMERA_IMAGE_RESULT = "camera_image_result"
 
     }
 
@@ -32,6 +34,10 @@ object Navigation {
             @StringRes message: Int
         ) = FragmentScreen(clearContainer = false) {
             InfoMessageDialog.newInstance(title, message)
+        }
+
+        fun CameraScreen() = FragmentScreen {
+            CameraFragment.newInstance()
         }
     }
 

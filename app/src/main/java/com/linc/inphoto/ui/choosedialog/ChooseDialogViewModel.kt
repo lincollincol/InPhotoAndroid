@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChooseDialogViewModel @Inject constructor(
-    private val router: Router
+    router: Router
 ) : BaseViewModel<EmptyUiState>(router) {
 
     fun onFinishWithResult(option: ChooseOptionModel?) {
