@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.choosedialog
+package com.linc.inphoto.ui.optionpicker
 
 import android.os.Bundle
 import android.view.View
@@ -6,30 +6,30 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
-import com.linc.inphoto.databinding.DialogChooseOptionBinding
+import com.linc.inphoto.databinding.FragmentOptionPickerBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.choosedialog.item.ChooseOptionItem
-import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
+import com.linc.inphoto.ui.optionpicker.item.OptionItem
+import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.utils.extensions.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChooseOptionFragment : BaseFragment(R.layout.dialog_choose_option) {
+class OptionPickerFragment : BaseFragment(R.layout.fragment_option_picker) {
 
     companion object {
         private const val OPTIONS_ARG = "options"
 
         @JvmStatic
         fun newInstance(
-            options: List<ChooseOptionModel>
-        ) = ChooseOptionFragment().apply {
+            options: List<OptionModel>
+        ) = OptionPickerFragment().apply {
             arguments = bundleOf(OPTIONS_ARG to options)
         }
     }
 
-    override val viewModel: ChooseDialogViewModel by viewModels()
-    private val binding by viewBinding(DialogChooseOptionBinding::bind)
+    override val viewModel: OptionPickerViewModel by viewModels()
+    private val binding by viewBinding(FragmentOptionPickerBinding::bind)
 
     private val optionsAdapter: GroupieAdapter by lazy { GroupieAdapter() }
 
@@ -48,13 +48,19 @@ class ChooseOptionFragment : BaseFragment(R.layout.dialog_choose_option) {
             adapter = optionsAdapter
         }
 
-//        getArgument<ArrayList<ChooseOptionModel>>(OPTIONS_ARG)
-        val options = requireArguments().getParcelableArrayList<ChooseOptionModel>(OPTIONS_ARG)
+        optionsLayout.setOnClickListener {
+            // Clicks ignored
+        }
+
+        root.setOnClickListener {
+            viewModel.onFinishWithResult(null)
+        }
+
+        val options = requireArguments().getParcelableArrayList<OptionModel>(OPTIONS_ARG)
         optionsAdapter.let { adapter ->
-            adapter.addAll(options?.map { ChooseOptionItem(it) } ?: emptyList())
+            adapter.addAll(options?.map(::OptionItem) ?: emptyList())
             adapter.setOnItemClickListener { item, _ ->
                 val position = adapter.getAdapterPosition(item)
-
                 viewModel.onFinishWithResult(options?.get(position))
             }
         }

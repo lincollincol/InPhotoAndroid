@@ -16,13 +16,13 @@ class CameraViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(CameraUiState())
 
     fun handleCapturedImage(imageUri: Uri?) {
+        router.exit()
         if (imageUri != null) {
             router.sendResult(
                 Navigation.NavResult.CAMERA_IMAGE_RESULT,
                 imageUri
             )
         }
-        router.exit()
     }
 
 }

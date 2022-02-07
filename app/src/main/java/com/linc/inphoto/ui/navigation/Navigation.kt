@@ -5,9 +5,9 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
-import com.linc.inphoto.ui.choosedialog.ChooseOptionFragment
-import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
 import com.linc.inphoto.ui.infodialog.InfoMessageDialog
+import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
+import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.ui.profile.ProfileFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 
@@ -21,12 +21,12 @@ object Navigation {
 
     object Common {
         fun ChooseOptionScreen(
-            options: List<ChooseOptionModel>
+            options: List<OptionModel>
         ) = FragmentScreen(
             key = NavResult.CHOOSE_OPTION_RESULT,
             clearContainer = false
         ) {
-            ChooseOptionFragment.newInstance(options)
+            OptionPickerFragment.newInstance(options)
         }
 
         fun InfoMessageScreen(
