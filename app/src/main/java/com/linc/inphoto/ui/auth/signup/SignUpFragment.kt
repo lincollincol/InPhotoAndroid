@@ -8,8 +8,8 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSignUpBinding
 import com.linc.inphoto.ui.auth.model.Credentials
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.utils.extensions.enable
 import com.linc.inphoto.utils.extensions.textToString
+import com.linc.inphoto.utils.extensions.view.enable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 

@@ -4,8 +4,8 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemOptionBinding
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
-import com.linc.inphoto.utils.extensions.enable
-import com.linc.inphoto.utils.extensions.show
+import com.linc.inphoto.utils.extensions.view.enable
+import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
 
 class OptionItem(
@@ -20,7 +20,7 @@ class OptionItem(
             optionIcon.apply {
                 if (option.icon != null) {
                     show()
-                    setImageResource(option.icon!!)
+                    setImageResource(option.icon)
                 }
             }
         }

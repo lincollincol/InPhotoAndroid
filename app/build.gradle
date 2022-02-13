@@ -68,6 +68,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.preference:preference-ktx:1.1.1"
+//    implementation "com.anggrayudi:storage:1.1.0"
 
     // Retrofit
     def retrofit_version = "2.9.0"
@@ -96,6 +97,7 @@ dependencies {
     def glide_version = "4.12.0"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
 
     // RecyclerView/Groupie
     def groupie_version = "2.9.0"
@@ -111,9 +113,6 @@ dependencies {
     def hilt_version = "2.38.1"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-
-    // Files
-    implementation "com.anggrayudi:storage:0.12.0"
 
     //Cicerone
     implementation "com.github.terrakok:cicerone:7.1"

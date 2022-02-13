@@ -25,11 +25,6 @@ class ProfileViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(ProfileUiState())
 
-    /*private val _selectGalleryImageEvent = MutableStateFlow(false)
-    val selectGalleryImageEvent: Flow<Boolean> get() = _selectGalleryImageEvent
-    private val _selectCameraImageEvent = MutableSharedFlow(false)
-    val selectCameraImageEvent: Flow<Boolean> get() = _selectCameraImageEvent*/
-
     fun loadProfileData() = viewModelScope.launch {
         try {
             val user = usersRepository.getLoggedInUser()
@@ -62,7 +57,7 @@ class ProfileViewModel @Inject constructor(
             try {
                 // Navigate to source screen
                 val screen = when (source) {
-                    is SourceType.Gallery -> Navigation.Common.CameraScreen()
+                    is SourceType.Gallery -> Navigation.Common.GalleryScreen()
                     is SourceType.Camera -> Navigation.Common.CameraScreen()
                 }
                 router.navigateTo(screen)

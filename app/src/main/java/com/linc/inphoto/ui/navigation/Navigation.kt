@@ -5,6 +5,7 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
+import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageDialog
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
@@ -38,6 +39,10 @@ object Navigation {
 
         fun CameraScreen() = FragmentScreen {
             CameraFragment.newInstance()
+        }
+
+        fun GalleryScreen() = FragmentScreen {
+            GalleryFragment.newInstance()
         }
     }
 
