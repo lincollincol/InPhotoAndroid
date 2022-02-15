@@ -7,6 +7,7 @@ import com.linc.inphoto.data.mapper.toUserModel
 import com.linc.inphoto.data.network.api.UserApiService
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.User
+import com.rhythmoya.data.network.helper.HttpHelper.MediaType.MULTIPART_FORM_DATA
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,7 +34,7 @@ class UsersRepository @Inject constructor(
 
     suspend fun updateUserAvatar(uri: Uri?) = withContext(ioDispatcher) {
         val image = mediaLocalDataSource.getFileFromUri(uri) ?: return@withContext
-        val requestBody = image.asRequestBody("multipart/form-data".toMediaType())
+        val requestBody = image.asRequestBody(MULTIPART_FORM_DATA.toMediaType())
         val body = MultipartBody.Part.createFormData("image", image.name, requestBody)
         userApiService.updateUserAvatar(body, authPreferences.userId)
         image.delete()

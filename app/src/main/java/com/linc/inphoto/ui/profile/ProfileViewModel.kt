@@ -63,10 +63,9 @@ class ProfileViewModel @Inject constructor(
                 router.navigateTo(screen)
 
                 // Wait for selected image and update avatar
-                router.setResultListener<Uri>(
-                    Navigation.NavResult.CAMERA_IMAGE_RESULT,
-                    usersRepository::updateUserAvatar
-                )
+                router.setResultListener<Uri>(Navigation.NavResult.CAMERA_IMAGE_RESULT) {
+                    usersRepository.updateUserAvatar(it.getOrNull())
+                }
             } catch (e: Exception) {
                 Timber.e(e)
             }

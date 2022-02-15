@@ -6,6 +6,11 @@ object HttpHelper {
 
     object Header {
         const val AUTHORIZATION = "Authorization"
+        const val MULTIPART_REQUEST = "Multipart: true"
+    }
+
+    object MediaType {
+        const val MULTIPART_FORM_DATA = "multipart/form-data"
     }
 
     object Code {
