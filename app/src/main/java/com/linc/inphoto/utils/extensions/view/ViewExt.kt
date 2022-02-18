@@ -32,6 +32,18 @@ fun View.disable() {
     isEnabled = false
 }
 
+fun View.select(condition: Boolean) {
+    if (condition) select() else deselect()
+}
+
+fun View.select() {
+    isSelected = true
+}
+
+fun View.deselect() {
+    isSelected = false
+}
+
 fun View.setMargin(
     startMargin: Int = 0,
     topMargin: Int = 0,

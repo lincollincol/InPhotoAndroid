@@ -1,11 +1,13 @@
 package com.linc.inphoto.ui.navigation
 
+import android.net.Uri
 import androidx.annotation.StringRes
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
 import com.linc.inphoto.ui.gallery.GalleryFragment
+import com.linc.inphoto.ui.imageeditor.ImageEditorFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageDialog
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
@@ -17,6 +19,8 @@ object Navigation {
     object NavResult {
         const val CHOOSE_OPTION_RESULT = "choose_result"
         const val CAMERA_IMAGE_RESULT = "camera_image_result"
+
+        const val PREPARE_NEW_IMAGE_RESULT = "prepare_new_image_result"
 
     }
 
@@ -43,6 +47,10 @@ object Navigation {
 
         fun GalleryScreen() = FragmentScreen {
             GalleryFragment.newInstance()
+        }
+
+        fun ImageEditorScreen(image: Uri) = FragmentScreen {
+            ImageEditorFragment.newInstance(image)
         }
     }
 

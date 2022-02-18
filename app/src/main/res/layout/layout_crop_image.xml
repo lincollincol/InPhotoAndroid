@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<com.takusemba.cropme.CropLayout
+        android:id="@+id/cropLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cropme_background_alpha="80%"
+        app:cropme_frame_height_percent="25%"
+        app:cropme_frame_width_percent="50%"
+        app:cropme_max_scale="2.0"
+        app:cropme_overlay_shape="circle"
+        app:cropme_with_border="false" />-->
+
+    <com.steelkiwi.cropiwa.CropIwaView
+        android:id="@+id/cropView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:ci_dynamic_aspect_ratio="true"
+        app:ci_scale_enabled="true"
+        app:layout_constraintBottom_toTopOf="@id/ratioRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ratioRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
