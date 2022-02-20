@@ -12,6 +12,7 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.imageeditor.item.CropRatioItem
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.horizontalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.setAspectRatio
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -33,30 +34,24 @@ class ImageEditorFragment : BaseFragment(R.layout.fragment_image_editor) {
     private val binding by viewBinding(FragmentImageEditorBinding::bind)
     private val ratioAdapter by lazy { GroupieAdapter() }
 
-    override suspend fun observeUiState() {
+    override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             ratioAdapter.update(state.ratioItems.map(::CropRatioItem))
+            cropImageLayout.cropView.configureOverlay()
+                .setAspectRatio(state.currentRatio)
+                .apply()
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-//            cropImageLayout.cropLayout.apply {
-//                setUri(getArgument(IMAGE_URI_ARG) ?: Uri.EMPTY)
-//            }
             cropImageLayout.ratioRecyclerView.apply {
                 layoutManager = horizontalLinearLayoutManager()
                 adapter = ratioAdapter
             }
             cropImageLayout.cropView.apply {
                 setImageUri(getArgument(IMAGE_URI_ARG))
-                /*crop(
-                    CropIwaSaveConfig.Builder(getArgument(IMAGE_URI_ARG) ?: Uri.EMPTY)
-                        .setCompressFormat(Bitmap.CompressFormat.PNG)
-                        .setQuality(100) //Hint for lossy compression formats
-                        .build()
-                )*/
             }
         }
         viewModel.loadAvailableRatios()

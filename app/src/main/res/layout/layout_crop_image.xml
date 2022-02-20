@@ -4,17 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<com.takusemba.cropme.CropLayout
-        android:id="@+id/cropLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cropme_background_alpha="80%"
-        app:cropme_frame_height_percent="25%"
-        app:cropme_frame_width_percent="50%"
-        app:cropme_max_scale="2.0"
-        app:cropme_overlay_shape="circle"
-        app:cropme_with_border="false" />-->
-
     <com.steelkiwi.cropiwa.CropIwaView
         android:id="@+id/cropView"
         android:layout_width="0dp"

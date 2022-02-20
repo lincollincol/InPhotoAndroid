@@ -16,7 +16,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
 
-class UsersRepository @Inject constructor(
+class UserRepository @Inject constructor(
     private val userDao: UserDao,
     private val userApiService: UserApiService,
     private val authPreferences: AuthPreferences,

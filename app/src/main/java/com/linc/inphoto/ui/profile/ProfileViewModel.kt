@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.R
-import com.linc.inphoto.data.repository.UsersRepository
+import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.ui.profile.model.SourceType
@@ -20,14 +20,14 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     router: Router,
-    private val usersRepository: UsersRepository
+    private val userRepository: UserRepository
 ) : BaseViewModel<ProfileUiState>(router) {
 
     override val _uiState = MutableStateFlow(ProfileUiState())
 
     fun loadProfileData() = viewModelScope.launch {
         try {
-            val user = usersRepository.getLoggedInUser()
+            val user = userRepository.getLoggedInUser()
             _uiState.update { copy(user = user) }
         } catch (e: Exception) {
 
@@ -64,7 +64,7 @@ class ProfileViewModel @Inject constructor(
 
                 // Wait for selected image and update avatar
                 router.setResultListener<Uri>(Navigation.NavResult.CAMERA_IMAGE_RESULT) {
-                    usersRepository.updateUserAvatar(it.getOrNull())
+                    userRepository.updateUserAvatar(it.getOrNull())
                 }
             } catch (e: Exception) {
                 Timber.e(e)
