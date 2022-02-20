@@ -15,6 +15,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.linc.inphoto.ui.view.SettingsTextView
+        android:id="@+id/cropShapeLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="@dimen/padding_general"
+        app:layout_constraintBottom_toTopOf="@id/ratioRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:textSize="@dimen/font_small"
+        app:textTitle="Crop shape"
+        app:textValue="Rect" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ratioRecyclerView"
         android:layout_width="0dp"

@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="LoadingView">
         <attr name="blurRadius" format="float" />
         <attr name="blurOverlayColor" format="color" />
         <attr name="enable" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="SettingsTextView">
+        <attr name="textTitle" format="string" localization="suggested" />
+        <attr name="textValue" format="string" localization="suggested" />
+        <attr name="textColorTitle" format="color" />
+        <attr name="textColorValue" format="color" />
+        <attr name="textTitleBold" format="boolean" />
+        <attr name="textValueBold" format="boolean" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+
 </resources>

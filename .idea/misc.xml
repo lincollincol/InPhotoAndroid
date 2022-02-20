@@ -33,8 +33,10 @@
         <entry key="app/src/main/res/layout/item_choose_option.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_crop_ratio.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_gallery_image.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/item_option.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_profile_photo.xml" value="0.1765625" />
         <entry key="app/src/main/res/layout/layout_crop_image.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/layout_settings_value_text_view.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/progress_overlay_layout.xml" value="0.1765625" />
       </map>
     </option>

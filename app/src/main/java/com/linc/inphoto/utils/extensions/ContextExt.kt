@@ -12,6 +12,8 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.WindowMetrics
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 
 
 val Context.inflater: LayoutInflater get() = LayoutInflater.from(this)
@@ -82,3 +84,6 @@ inline fun <reified T : Number> Context.getDimension(id: Int) =
 
 fun Context.getKeyboard() =
     getSystemService(Context.INPUT_METHOD_SERVICE).safeCast<InputMethodManager>()
+
+
+fun Context.getColorInt(@ColorRes id: Int) = ContextCompat.getColor(this, id)

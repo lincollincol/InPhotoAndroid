@@ -1,4 +1,4 @@
-package com.linc.inphoto.utils
+package com.linc.inphoto.utils.glide
 
 import android.content.Context
 import android.util.Log
