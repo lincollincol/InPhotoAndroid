@@ -22,6 +22,7 @@
     <string name="mock_status">Turkish actor. Was born on April 10, 1988, in Bursa, Turkey. Studied International Relations at Koc University, Istanbul. Had a great interest in acting</string>
     <string name="choose_option">Choose Option</string>
 
+    <string name="crop_dynamic_overlay">Dynamic overlay</string>
     <string name="settings_crop_shape">Crop shape</string>
     <string name="settings_crop_rectangle">Rectangle</string>
     <string name="settings_crop_circle">Circle</string>

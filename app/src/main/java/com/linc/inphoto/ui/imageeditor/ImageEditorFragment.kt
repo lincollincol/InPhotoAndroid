@@ -11,10 +11,8 @@ import com.linc.inphoto.databinding.FragmentImageEditorBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.imageeditor.item.CropRatioItem
 import com.linc.inphoto.ui.imageeditor.model.CropShape
-import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.horizontalLinearLayoutManager
-import com.linc.inphoto.utils.extensions.setAspectRatio
-import com.linc.inphoto.utils.extensions.toggleShape
+import com.linc.inphoto.utils.extensions.*
+import com.linc.inphoto.utils.extensions.view.show
 import com.steelkiwi.cropiwa.AspectRatio
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,11 +37,19 @@ class ImageEditorFragment : BaseFragment(R.layout.fragment_image_editor) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            autoAnimateTargets(
+                root,
+                cropImageLayout.ratioRecyclerView,
+                cropImageLayout.shapeSettingsTextView,
+                cropImageLayout.dynamicOverlaySwitch
+            )
             ratioAdapter.update(state.ratioItems.map(::CropRatioItem))
             cropImageLayout.cropView.configureOverlay()
+                .setDynamicCrop(state.isDynamicOverlay)
                 .setAspectRatio(state.currentRatio)
                 .toggleShape(state.cropShape is CropShape.Rect)
                 .apply()
+            cropImageLayout.ratioRecyclerView.show(!state.isDynamicOverlay)
             cropImageLayout.shapeSettingsTextView.setValue(state.cropShape.value)
         }
     }
@@ -63,6 +69,9 @@ class ImageEditorFragment : BaseFragment(R.layout.fragment_image_editor) {
             }
             cropImageLayout.shapeSettingsTextView.setOnClickListener {
                 viewModel.selectCropShape()
+            }
+            cropImageLayout.dynamicOverlaySwitch.setOnCheckedChangeListener { _, checked ->
+                viewModel.changeOverlayType(checked)
             }
         }
         viewModel.loadAvailableRatios()

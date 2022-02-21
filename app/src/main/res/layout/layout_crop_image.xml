@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         app:ci_dynamic_aspect_ratio="true"
         app:ci_scale_enabled="true"
-        app:layout_constraintBottom_toTopOf="@id/ratioRecyclerView"
+        app:layout_constraintBottom_toTopOf="@id/shapeSettingsTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,6 +20,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/dynamicOverlaySwitch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:textSize="@dimen/font_small"
+        app:textTitle="@string/settings_crop_shape" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/dynamicOverlaySwitch"
+        style="@style/SwitchIos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="@dimen/padding_general"
+        android:text="@string/crop_dynamic_overlay"
         app:layout_constraintBottom_toTopOf="@id/ratioRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

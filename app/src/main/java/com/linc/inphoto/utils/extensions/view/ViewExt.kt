@@ -5,22 +5,34 @@ import android.graphics.drawable.RippleDrawable
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
+import androidx.annotation.IntDef
+import androidx.core.view.isVisible
 import com.linc.inphoto.utils.extensions.safeCast
 
-fun View.show(condition: Boolean) {
-    if(condition) show() else hide()
+@IntDef(ANIM_NONE, ANIM_FADE)
+annotation class ViewAnimation
+
+const val ANIM_NONE = 0
+const val ANIM_FADE = 1
+
+fun View.show(condition: Boolean, @ViewAnimation animation: Int = ANIM_NONE) {
+    if (condition == isVisible) return
+    if (condition) show(animation) else hide(animation)
 }
 
-fun View.show() {
+fun View.show(@ViewAnimation animation: Int = ANIM_NONE) {
     visibility = View.VISIBLE
+    if (animation != ANIM_NONE) animate().alpha(1f).start()
 }
 
-fun View.hide() {
+fun View.hide(@ViewAnimation animation: Int = ANIM_NONE) {
     visibility = View.GONE
+    if (animation != ANIM_NONE) animate().alpha(1f).start()
 }
 
-fun View.dissolve() {
+fun View.dissolve(@ViewAnimation animation: Int = ANIM_NONE) {
     visibility = View.INVISIBLE
+    if (animation != ANIM_NONE) animate().alpha(1f).start()
 }
 
 fun View.enable(condition: Boolean) {

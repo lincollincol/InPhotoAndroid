@@ -26,7 +26,6 @@ class ImageEditorViewModel @Inject constructor(
     fun loadAvailableRatios() {
         viewModelScope.launch {
             try {
-
                 val ratioItems = settingsRepository.loadAspectRatios()
                     .map { RatioUiState(it, onClick = { selectRatio(it) }) }
                 _uiState.update { copy(ratioItems = ratioItems) }
@@ -43,6 +42,13 @@ class ImageEditorViewModel @Inject constructor(
             _uiState.update { copy(cropShape = selectedShape) }
         }
         router.navigateTo(Navigation.Common.ChooseOptionScreen(shapeOptions))
+    }
+
+    fun changeOverlayType(isDynamic: Boolean) {
+        val ratioItems = _uiState.value.ratioItems.map { it.copy(selected = false) }
+        _uiState.update {
+            copy(isDynamicOverlay = isDynamic, ratioItems = ratioItems, currentRatio = null)
+        }
     }
 
     private fun selectRatio(ratio: AspectRatio) {

@@ -27,7 +27,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
 
     override suspend fun observeUiState() {
         viewModel.uiState.collect { state ->
-            imagesAdapter.update(state.images.map(::GalleryImageItem))
+            imagesAdapter.replaceAll(state.images.map(::GalleryImageItem))
         }
     }
 

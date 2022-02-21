@@ -11,6 +11,8 @@
         <entry key="app/src/main/res/drawable/background_text_button.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/drawable/gradient_pink.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/drawable/ic_crop_circle.xml" value="0.21302083333333333" />
+        <entry key="app/src/main/res/drawable/selector_switch_thumb.xml" value="0.10989583333333333" />
+        <entry key="app/src/main/res/drawable/selector_switch_track.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/drawable/shape_bottom_round_25.xml" value="0.340625" />
         <entry key="app/src/main/res/drawable/shape_round_25.xml" value="0.16875" />
         <entry key="app/src/main/res/drawable/shape_round_50.xml" value="0.19270833333333334" />
@@ -36,7 +38,7 @@
         <entry key="app/src/main/res/layout/item_gallery_image.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/item_option.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_profile_photo.xml" value="0.1765625" />
-        <entry key="app/src/main/res/layout/layout_crop_image.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/layout_crop_image.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_settings_text_view.xml" value="0.2" />
         <entry key="app/src/main/res/layout/layout_settings_value_text_view.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/progress_overlay_layout.xml" value="0.1765625" />
