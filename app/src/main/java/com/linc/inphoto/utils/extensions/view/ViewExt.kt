@@ -1,7 +1,10 @@
 package com.linc.inphoto.utils.extensions.view
 
+import android.content.res.ColorStateList
+import android.graphics.drawable.RippleDrawable
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorInt
 import com.linc.inphoto.utils.extensions.safeCast
 
 fun View.show(condition: Boolean) {
@@ -108,4 +111,12 @@ fun View.onThrottledClick(
         isClickable = false
         postDelayed({ isClickable = true }, throttleDelay)
     }
+}
+
+fun View.setBackgroundRipple(@ColorInt color: Int) {
+    background = RippleDrawable(
+        ColorStateList(arrayOf(intArrayOf()), intArrayOf(color)),
+        background,
+        null
+    )
 }

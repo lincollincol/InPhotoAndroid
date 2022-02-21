@@ -10,9 +10,12 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentImageEditorBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.imageeditor.item.CropRatioItem
+import com.linc.inphoto.ui.imageeditor.model.CropShape
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.horizontalLinearLayoutManager
 import com.linc.inphoto.utils.extensions.setAspectRatio
+import com.linc.inphoto.utils.extensions.toggleShape
+import com.steelkiwi.cropiwa.AspectRatio
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -39,7 +42,9 @@ class ImageEditorFragment : BaseFragment(R.layout.fragment_image_editor) {
             ratioAdapter.update(state.ratioItems.map(::CropRatioItem))
             cropImageLayout.cropView.configureOverlay()
                 .setAspectRatio(state.currentRatio)
+                .toggleShape(state.cropShape is CropShape.Rect)
                 .apply()
+            cropImageLayout.shapeSettingsTextView.setValue(state.cropShape.value)
         }
     }
 
@@ -52,6 +57,12 @@ class ImageEditorFragment : BaseFragment(R.layout.fragment_image_editor) {
             }
             cropImageLayout.cropView.apply {
                 setImageUri(getArgument(IMAGE_URI_ARG))
+                configureOverlay()
+                    .setAspectRatio(AspectRatio.IMG_SRC)
+                    .apply()
+            }
+            cropImageLayout.shapeSettingsTextView.setOnClickListener {
+                viewModel.selectCropShape()
             }
         }
         viewModel.loadAvailableRatios()

@@ -8,6 +8,7 @@
     </declare-styleable>
 
     <declare-styleable name="SettingsTextView">
+        <attr name="rippleColor" format="color" />
         <attr name="textTitle" format="string" localization="suggested" />
         <attr name="textValue" format="string" localization="suggested" />
         <attr name="textColorTitle" format="color" />
@@ -15,6 +16,7 @@
         <attr name="textTitleBold" format="boolean" />
         <attr name="textValueBold" format="boolean" />
         <attr name="textSize" format="dimension" />
+        <attr name="textPaddingHorizontal" format="dimension" />
     </declare-styleable>
 
 </resources>

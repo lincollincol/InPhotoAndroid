@@ -10,6 +10,7 @@ import com.linc.inphoto.databinding.FragmentOptionPickerBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.optionpicker.item.OptionItem
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
+import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,7 +57,7 @@ class OptionPickerFragment : BaseFragment(R.layout.fragment_option_picker) {
             viewModel.onFinishWithResult(null)
         }
 
-        val options = requireArguments().getParcelableArrayList<OptionModel>(OPTIONS_ARG)
+        val options = getArgument<List<OptionModel>>(OPTIONS_ARG)
         optionsAdapter.let { adapter ->
             adapter.addAll(options?.map(::OptionItem) ?: emptyList())
             adapter.setOnItemClickListener { item, _ ->

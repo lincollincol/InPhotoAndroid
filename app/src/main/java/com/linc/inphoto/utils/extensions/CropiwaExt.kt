@@ -2,6 +2,15 @@ package com.linc.inphoto.utils.extensions
 
 import com.steelkiwi.cropiwa.AspectRatio
 import com.steelkiwi.cropiwa.config.CropIwaOverlayConfig
+import com.steelkiwi.cropiwa.shape.CropIwaOvalShape
+import com.steelkiwi.cropiwa.shape.CropIwaRectShape
+
+fun CropIwaOverlayConfig.toggleShape(isRect: Boolean) =
+    if (isRect) setRectCropShape() else setCircleCropShape()
+
+fun CropIwaOverlayConfig.setCircleCropShape() = setCropShape(CropIwaOvalShape(this))
+
+fun CropIwaOverlayConfig.setRectCropShape() = setCropShape(CropIwaRectShape(this))
 
 fun CropIwaOverlayConfig.setAspectRatio(
     aspectRatio: com.linc.inphoto.entity.AspectRatio?
