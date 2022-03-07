@@ -6,8 +6,9 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
+import com.linc.inphoto.ui.cropimage.CropImageFragment
+import com.linc.inphoto.ui.editimage.EditImageFragment
 import com.linc.inphoto.ui.gallery.GalleryFragment
-import com.linc.inphoto.ui.imageeditor.ImageEditorFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageDialog
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
@@ -16,22 +17,12 @@ import com.linc.inphoto.ui.splash.SplashFragment
 
 object Navigation {
 
-    object NavResult {
-        const val CHOOSE_OPTION_RESULT = "choose_result"
-        const val CAMERA_IMAGE_RESULT = "camera_image_result"
-
-        const val PREPARE_NEW_IMAGE_RESULT = "prepare_new_image_result"
-
-    }
-
     object Common {
         fun ChooseOptionScreen(
+            resultKey: String,
             options: List<OptionModel>
-        ) = FragmentScreen(
-            key = NavResult.CHOOSE_OPTION_RESULT,
-            clearContainer = false
-        ) {
-            OptionPickerFragment.newInstance(options)
+        ) = FragmentScreen(clearContainer = false) {
+            OptionPickerFragment.newInstance(resultKey, options)
         }
 
         fun InfoMessageScreen(
@@ -39,18 +30,6 @@ object Navigation {
             @StringRes message: Int
         ) = FragmentScreen(clearContainer = false) {
             InfoMessageDialog.newInstance(title, message)
-        }
-
-        fun CameraScreen() = FragmentScreen {
-            CameraFragment.newInstance()
-        }
-
-        fun GalleryScreen() = FragmentScreen {
-            GalleryFragment.newInstance()
-        }
-
-        fun ImageEditorScreen(image: Uri) = FragmentScreen {
-            ImageEditorFragment.newInstance(image)
         }
     }
 
@@ -61,6 +40,24 @@ object Navigation {
 
         fun SignUpScreen() = FragmentScreen {
             SignUpFragment.newInstance()
+        }
+    }
+
+    object ImageModule {
+        fun CameraScreen(resultKey: String) = FragmentScreen {
+            CameraFragment.newInstance(resultKey)
+        }
+
+        fun GalleryScreen(resultKey: String) = FragmentScreen {
+            GalleryFragment.newInstance(resultKey)
+        }
+
+        fun EditImageScreen(resultKey: String, image: Uri) = FragmentScreen {
+            EditImageFragment.newInstance(image)
+        }
+
+        fun CropImageScreen(resultKey: String, image: Uri) = FragmentScreen {
+            CropImageFragment.newInstance(resultKey, image)
         }
     }
 

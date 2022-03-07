@@ -19,13 +19,18 @@ import dagger.hilt.android.AndroidEntryPoint
 class OptionPickerFragment : BaseFragment(R.layout.fragment_option_picker) {
 
     companion object {
+        private const val RESULT_KEY_ARG = "result_key"
         private const val OPTIONS_ARG = "options"
 
         @JvmStatic
         fun newInstance(
+            resultKey: String,
             options: List<OptionModel>
         ) = OptionPickerFragment().apply {
-            arguments = bundleOf(OPTIONS_ARG to options)
+            arguments = bundleOf(
+                RESULT_KEY_ARG to resultKey,
+                OPTIONS_ARG to options
+            )
         }
     }
 
@@ -54,7 +59,7 @@ class OptionPickerFragment : BaseFragment(R.layout.fragment_option_picker) {
         }
 
         root.setOnClickListener {
-            viewModel.onFinishWithResult(null)
+            viewModel.selectOption(getArgument(RESULT_KEY_ARG), null)
         }
 
         val options = getArgument<List<OptionModel>>(OPTIONS_ARG)
@@ -62,7 +67,7 @@ class OptionPickerFragment : BaseFragment(R.layout.fragment_option_picker) {
             adapter.addAll(options?.map(::OptionItem) ?: emptyList())
             adapter.setOnItemClickListener { item, _ ->
                 val position = adapter.getAdapterPosition(item)
-                viewModel.onFinishWithResult(options?.get(position))
+                viewModel.selectOption(getArgument(RESULT_KEY_ARG), options?.get(position))
             }
         }
     }

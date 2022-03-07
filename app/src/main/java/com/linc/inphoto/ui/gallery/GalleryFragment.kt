@@ -2,12 +2,14 @@ package com.linc.inphoto.ui.gallery
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentGalleryBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.gallery.item.GalleryImageItem
+import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,8 +19,12 @@ import kotlinx.coroutines.flow.collect
 class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
 
     companion object {
+        private const val RESULT_KEY_ARG = "result_key"
+
         @JvmStatic
-        fun newInstance() = GalleryFragment()
+        fun newInstance(resultKey: String) = GalleryFragment().apply {
+            arguments = bundleOf(RESULT_KEY_ARG to resultKey)
+        }
     }
 
     override val viewModel: GalleryViewModel by viewModels()
@@ -39,6 +45,6 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
                 adapter = imagesAdapter
             }
         }
-        viewModel.loadImages()
+        viewModel.loadImages(getArgument(RESULT_KEY_ARG))
     }
 }

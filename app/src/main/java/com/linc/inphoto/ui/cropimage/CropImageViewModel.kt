@@ -1,11 +1,11 @@
-package com.linc.inphoto.ui.imageeditor
+package com.linc.inphoto.ui.cropimage
 
 import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.SettingsRepository
 import com.linc.inphoto.entity.AspectRatio
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.imageeditor.model.CropShape
+import com.linc.inphoto.ui.cropimage.model.CropShape
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.update
@@ -16,12 +16,16 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ImageEditorViewModel @Inject constructor(
+class CropImageViewModel @Inject constructor(
     router: Router,
     private val settingsRepository: SettingsRepository
-) : BaseViewModel<ImageEditorUiState>(router) {
+) : BaseViewModel<CropImageUiState>(router) {
 
-    override val _uiState = MutableStateFlow(ImageEditorUiState())
+    companion object {
+        private const val CHOOSE_SHAPE_RESULT = "shape_result"
+    }
+
+    override val _uiState = MutableStateFlow(CropImageUiState())
 
     fun loadAvailableRatios() {
         viewModelScope.launch {
@@ -37,11 +41,11 @@ class ImageEditorViewModel @Inject constructor(
 
     fun selectCropShape() {
         val shapeOptions = listOf(CropShape.Rect(), CropShape.Circle())
-        router.setResultListener(Navigation.NavResult.CHOOSE_OPTION_RESULT) { result ->
+        router.setResultListener(CHOOSE_SHAPE_RESULT) { result ->
             val selectedShape = result.safeCast<CropShape>() ?: return@setResultListener
             _uiState.update { copy(cropShape = selectedShape) }
         }
-        router.navigateTo(Navigation.Common.ChooseOptionScreen(shapeOptions))
+        router.navigateTo(Navigation.Common.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
     }
 
     fun changeOverlayType(isDynamic: Boolean) {

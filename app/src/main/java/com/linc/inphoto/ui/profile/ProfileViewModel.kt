@@ -23,6 +23,12 @@ class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseViewModel<ProfileUiState>(router) {
 
+    companion object {
+        private const val EDIT_IMAGE_RESULT = "edit_image"
+        private const val SELECT_IMAGE_RESULT = "select_image"
+        private const val SELECT_SOURCE_RESULT = "select_source"
+    }
+
     override val _uiState = MutableStateFlow(ProfileUiState())
 
     fun loadProfileData() = viewModelScope.launch {
@@ -41,11 +47,16 @@ class ProfileViewModel @Inject constructor(
                     showInfo(R.string.permissions, R.string.profile_permissions_message)
                     return@launch
                 }
-                router.setResultListener(Navigation.NavResult.CHOOSE_OPTION_RESULT) { result ->
+                router.setResultListener(SELECT_SOURCE_RESULT) { result ->
                     val selectedSource = result.safeCast<SourceType>() ?: return@setResultListener
                     handleSelectedSource(selectedSource)
                 }
-                router.navigateTo(Navigation.Common.ChooseOptionScreen(sources))
+                router.navigateTo(
+                    Navigation.Common.ChooseOptionScreen(
+                        SELECT_SOURCE_RESULT,
+                        sources
+                    )
+                )
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -57,14 +68,22 @@ class ProfileViewModel @Inject constructor(
             try {
                 // Navigate to source screen
                 val screen = when (source) {
-                    is SourceType.Gallery -> Navigation.Common.GalleryScreen()
-                    is SourceType.Camera -> Navigation.Common.CameraScreen()
+                    is SourceType.Gallery -> Navigation.ImageModule.GalleryScreen(
+                        SELECT_IMAGE_RESULT
+                    )
+                    is SourceType.Camera -> Navigation.ImageModule.CameraScreen(SELECT_IMAGE_RESULT)
                 }
                 router.navigateTo(screen)
 
-                // Wait for selected image and update avatar
-                router.setResultListener<Uri>(Navigation.NavResult.CAMERA_IMAGE_RESULT) {
+                router.setResultListener(SELECT_IMAGE_RESULT) {
+                    router.navigateTo(
+                        Navigation.ImageModule.EditImageScreen(EDIT_IMAGE_RESULT, it as Uri)
+                    )
+                }
+
+                router.setResultListener<Uri>(EDIT_IMAGE_RESULT) {
                     userRepository.updateUserAvatar(it.getOrNull())
+
                 }
             } catch (e: Exception) {
                 Timber.e(e)

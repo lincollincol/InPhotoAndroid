@@ -8,12 +8,14 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentCameraBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.utils.extensions.aspectRatio
+import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.getFirstAvailableCameraLens
 import com.linc.inphoto.utils.extensions.getOutputFileOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,8 +28,12 @@ import java.util.concurrent.Executors
 class CameraFragment : BaseFragment(R.layout.fragment_camera) {
 
     companion object {
+        private const val RESULT_KEY_ARG = "result_key"
+
         @JvmStatic
-        fun newInstance() = CameraFragment()
+        fun newInstance(resultKey: String) = CameraFragment().apply {
+            arguments = bundleOf(RESULT_KEY_ARG to resultKey)
+        }
     }
 
     override val viewModel: CameraViewModel by viewModels()
@@ -66,7 +72,10 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
                     cameraExecutor!!,
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            viewModel.handleCapturedImage(outputFileResults.savedUri)
+                            viewModel.handleCapturedImage(
+                                getArgument(RESULT_KEY_ARG),
+                                outputFileResults.savedUri
+                            )
                         }
 
                         override fun onError(error: ImageCaptureException) {

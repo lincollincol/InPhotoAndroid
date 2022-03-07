@@ -3,7 +3,6 @@ package com.linc.inphoto.ui.camera
 import android.net.Uri
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.navigation.Navigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -15,13 +14,10 @@ class CameraViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(CameraUiState())
 
-    fun handleCapturedImage(imageUri: Uri?) {
+    fun handleCapturedImage(resultKey: String?, imageUri: Uri?) {
         router.exit()
-        if (imageUri != null) {
-            router.sendResult(
-                Navigation.NavResult.CAMERA_IMAGE_RESULT,
-                imageUri
-            )
+        if (resultKey != null && imageUri != null) {
+            router.sendResult(resultKey, imageUri)
         }
     }
 

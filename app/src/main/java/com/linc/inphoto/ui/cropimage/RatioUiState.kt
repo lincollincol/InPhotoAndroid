@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.imageeditor
+package com.linc.inphoto.ui.cropimage
 
 import com.linc.inphoto.entity.AspectRatio
 

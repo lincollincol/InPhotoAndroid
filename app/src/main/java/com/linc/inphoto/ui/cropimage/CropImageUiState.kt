@@ -1,10 +1,10 @@
-package com.linc.inphoto.ui.imageeditor
+package com.linc.inphoto.ui.cropimage
 
 import com.linc.inphoto.entity.AspectRatio
 import com.linc.inphoto.ui.base.state.UiState
-import com.linc.inphoto.ui.imageeditor.model.CropShape
+import com.linc.inphoto.ui.cropimage.model.CropShape
 
-data class ImageEditorUiState(
+data class CropImageUiState(
     val ratioItems: List<RatioUiState> = listOf(),
     val currentRatio: AspectRatio? = null,
     val isDynamicOverlay: Boolean = false,

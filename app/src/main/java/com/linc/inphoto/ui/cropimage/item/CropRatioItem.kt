@@ -1,9 +1,9 @@
-package com.linc.inphoto.ui.imageeditor.item
+package com.linc.inphoto.ui.cropimage.item
 
 import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemCropRatioBinding
-import com.linc.inphoto.ui.imageeditor.RatioUiState
+import com.linc.inphoto.ui.cropimage.RatioUiState
 import com.linc.inphoto.utils.extensions.FORMAT_ASPECT_RATIO_F_0_DGT
 import com.linc.inphoto.utils.extensions.view.select
 import com.xwray.groupie.viewbinding.BindableItem

@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.imageeditor.model
+package com.linc.inphoto.ui.cropimage.model
 
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
