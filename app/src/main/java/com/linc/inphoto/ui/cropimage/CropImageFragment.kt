@@ -13,6 +13,7 @@ import com.linc.inphoto.ui.cropimage.item.CropRatioItem
 import com.linc.inphoto.utils.extensions.autoAnimateTargets
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.horizontalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.view.getCroppedBitmap
 import com.linc.inphoto.utils.extensions.view.setAspectRatio
 import com.linc.inphoto.utils.extensions.view.setCropShape
 import com.linc.inphoto.utils.extensions.view.show
@@ -75,7 +76,8 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
             cropView.apply {
                 setImageUriAsync(getArgument(IMAGE_URI_ARG))
                 setOnCropImageCompleteListener { view, result ->
-                    viewModel.saveCroppedImage(getArgument(RESULT_KEY_ARG), result.uriContent)
+                    val croppedImage = result.getCroppedBitmap(view)
+                    viewModel.saveCroppedImage(getArgument(RESULT_KEY_ARG), croppedImage)
                 }
             }
             editorToolbarView.setOnDoneClickListener {

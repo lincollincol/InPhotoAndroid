@@ -1,5 +1,6 @@
 package com.linc.inphoto.data.repository
 
+import android.graphics.Bitmap
 import android.net.Uri
 import com.linc.inphoto.data.android.MediaLocalDataSource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,13 +17,9 @@ class MediaRepository @Inject constructor(
         mediaLocalDataSource.loadDCIMFiles()
     }
 
-    fun copyToTempUri(src: Uri): Uri {
-        val imageUri = mediaLocalDataSource.createTempUri()
-        mediaLocalDataSource.copyUri(src, imageUri)
-        return imageUri
+    fun createTempUri(bitmap: Bitmap): Uri {
+        val imageFile = mediaLocalDataSource.createTempFromBmp(bitmap)
+        return Uri.fromFile(imageFile)
     }
 
-    fun getTempOutputUri(): Uri {
-        return mediaLocalDataSource.createTempUri()
-    }
 }

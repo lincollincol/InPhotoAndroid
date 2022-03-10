@@ -2,6 +2,7 @@ package com.linc.inphoto.data.android
 
 import android.content.ContentUris
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -13,9 +14,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.BufferedOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 import javax.inject.Inject
+
 
 class MediaLocalDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -77,6 +81,14 @@ class MediaLocalDataSource @Inject constructor(
         temp.createNewFile()
         temp.deleteOnExit()
         return temp
+    }
+
+    fun createTempFromBmp(bitmap: Bitmap): File {
+        val file = createTempFile()
+        val os = BufferedOutputStream(FileOutputStream(file))
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, os)
+        os.close()
+        return file
     }
 
     fun copyUri(src: Uri, dst: Uri) {
