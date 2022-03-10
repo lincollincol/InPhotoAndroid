@@ -10,7 +10,9 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentEditImageBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.editimage.item.EditOperationItem
+import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.horizontalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.view.loadUriImage
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -34,8 +36,14 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            previewImageView.loadUriImage(state.imageUri)
             editorActionsAdapter.update(state.editOperations.map(::EditOperationItem))
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.applyImage(getArgument(IMAGE_URI_ARG))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,8 +53,13 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
                 layoutManager = horizontalLinearLayoutManager()
                 adapter = editorActionsAdapter
             }
+            editorToolbarView.setOnDoneClickListener {
+                viewModel.finishEditing()
+            }
+            editorToolbarView.setOnCancelClickListener {
+                viewModel.cancelEditing()
+            }
         }
-        viewModel.loadOperations()
     }
 
 

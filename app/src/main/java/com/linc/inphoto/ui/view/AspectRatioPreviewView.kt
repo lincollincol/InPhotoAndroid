@@ -7,10 +7,9 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import com.linc.inphoto.R
+import com.linc.inphoto.entity.AspectRatio
+import com.linc.inphoto.utils.extensions.getColorInt
 import com.linc.inphoto.utils.extensions.toPx
-import com.steelkiwi.cropiwa.AspectRatio
-import com.steelkiwi.cropiwa.util.ResUtil
-import java.util.*
 
 class AspectRatioPreviewView : View {
     private var colorRectNotSelected = 0
@@ -62,10 +61,6 @@ class AspectRatioPreviewView : View {
     }
 
     fun setAspectRatio(w: Float, h: Float) {
-        setAspectRatio(AspectRatio(w.toInt(), h.toInt()))
-    }
-
-    fun setAspectRatio(w: Int, h: Int) {
         setAspectRatio(AspectRatio(w, h))
     }
 
@@ -78,7 +73,6 @@ class AspectRatioPreviewView : View {
     }
 
     private fun configurePreviewRect() {
-        val str = aspectRatioString
         val freeSpace = RectF(0f, 0f, width.toFloat(), height.toFloat())
         val calculateFromWidth = (ratio!!.height < ratio!!.width
                 || ratio!!.isSquare && freeSpace.width() < freeSpace.height())
@@ -97,17 +91,9 @@ class AspectRatioPreviewView : View {
         )
     }
 
-    private val aspectRatioString: String
-        get() = if (ratio == null) {
-            ""
-        } else {
-            String.format(Locale.US, "%d:%d", ratio!!.width, ratio!!.height)
-        }
-
     init {
-        val r = ResUtil(context)
-        colorRectSelected = r.color(R.color.dream_setting)
-        colorRectNotSelected = r.color(R.color.black)
+        colorRectSelected = context.getColorInt(R.color.dream_setting)
+        colorRectNotSelected = context.getColorInt(R.color.black)
         rectPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.STROKE
             strokeWidth = 2.toPx

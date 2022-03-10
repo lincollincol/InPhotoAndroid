@@ -7,6 +7,6 @@ import com.linc.inphoto.ui.cropimage.model.CropShape
 data class CropImageUiState(
     val ratioItems: List<RatioUiState> = listOf(),
     val currentRatio: AspectRatio? = null,
-    val isDynamicOverlay: Boolean = false,
+    val isFixedAspectRatio: Boolean = true,
     val cropShape: CropShape = CropShape.Rect()
 ) : UiState

@@ -4,28 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/controllersLayout"
+    <com.linc.inphoto.ui.view.EditorToolbarView
+        android:id="@+id/editorToolbarView"
         android:layout_width="0dp"
         android:layout_height="@dimen/app_toolbar_height"
         android:paddingHorizontal="@dimen/padding_general"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            app:srcCompat="@drawable/ic_close" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            app:srcCompat="@drawable/ic_check" />
-
-    </FrameLayout>
+        app:textTitle="@string/edit_image_toolbar" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/previewImageView"
@@ -35,7 +22,7 @@
         app:layout_constraintBottom_toTopOf="@id/operationsRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/controllersLayout" />
+        app:layout_constraintTop_toBottomOf="@id/editorToolbarView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/operationsRecyclerView"

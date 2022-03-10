@@ -26,7 +26,7 @@ fun ImageView.clearImage() {
 }
 
 fun ImageView.loadUrlImage(
-    url: String,
+    url: String?,
     size: Size? = null,
     blurRadius: Int? = null,
     @DrawableRes placeholder: Int = R.drawable.ic_image,
@@ -46,7 +46,7 @@ fun ImageView.loadUrlImage(
 }
 
 fun ImageView.loadUriImage(
-    uri: Uri,
+    uri: Uri?,
     size: Size? = null,
     blurRadius: Int? = null,
     @DrawableRes placeholder: Int = R.drawable.ic_image,

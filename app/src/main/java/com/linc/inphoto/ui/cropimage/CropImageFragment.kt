@@ -10,10 +10,12 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentCropImageBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.cropimage.item.CropRatioItem
-import com.linc.inphoto.ui.cropimage.model.CropShape
-import com.linc.inphoto.utils.extensions.*
+import com.linc.inphoto.utils.extensions.autoAnimateTargets
+import com.linc.inphoto.utils.extensions.getArgument
+import com.linc.inphoto.utils.extensions.horizontalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.view.setAspectRatio
+import com.linc.inphoto.utils.extensions.view.setCropShape
 import com.linc.inphoto.utils.extensions.view.show
-import com.steelkiwi.cropiwa.AspectRatio
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -41,30 +43,24 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
     override val viewModel: CropImageViewModel by viewModels()
     private val binding by viewBinding(FragmentCropImageBinding::bind)
     private val ratioAdapter by lazy { GroupieAdapter() }
-    private val editorActionsAdapter by lazy { GroupieAdapter() }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            cropView.apply {
-                setImageUri(getArgument(IMAGE_URI_ARG))
-                configureOverlay()
-                    .setAspectRatio(AspectRatio.IMG_SRC)
-                    .apply()
-
-            }
             autoAnimateTargets(
                 root,
                 ratioRecyclerView,
                 shapeSettingsTextView,
-                dynamicOverlaySwitch
+                fixedRatioSwitch
             )
             ratioAdapter.update(state.ratioItems.map(::CropRatioItem))
-            cropView.configureOverlay()
-                .setDynamicCrop(state.isDynamicOverlay)
-                .setAspectRatio(state.currentRatio)
-                .toggleShape(state.cropShape is CropShape.Rect)
-                .apply()
-            ratioRecyclerView.show(!state.isDynamicOverlay)
+            cropView.apply {
+                setFixedAspectRatio(state.isFixedAspectRatio)
+                setAspectRatio(state.currentRatio)
+                setCropShape(state.cropShape)
+            }
+
+            ratioRecyclerView.show(state.isFixedAspectRatio)
+            fixedRatioSwitch.isChecked = state.isFixedAspectRatio
             shapeSettingsTextView.setValue(state.cropShape.value)
         }
     }
@@ -77,18 +73,24 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
                 adapter = ratioAdapter
             }
             cropView.apply {
-                setImageUri(getArgument(IMAGE_URI_ARG))
-                configureOverlay()
-                    .setAspectRatio(AspectRatio.IMG_SRC)
-                    .apply()
+                setImageUriAsync(getArgument(IMAGE_URI_ARG))
+                setOnCropImageCompleteListener { view, result ->
+                    viewModel.saveCroppedImage(getArgument(RESULT_KEY_ARG), result.uriContent)
+                }
+            }
+            editorToolbarView.setOnDoneClickListener {
+                cropView.croppedImageAsync()
+            }
+            editorToolbarView.setOnCancelClickListener {
+                viewModel.cancelCropping()
             }
             shapeSettingsTextView.setOnClickListener {
                 viewModel.selectCropShape()
             }
-            dynamicOverlaySwitch.setOnCheckedChangeListener { _, checked ->
-                viewModel.changeOverlayType(checked)
+            fixedRatioSwitch.setOnCheckedChangeListener { _, checked ->
+                viewModel.changeRatioState(checked)
             }
         }
-        viewModel.loadAvailableRatios()
+        viewModel.prepareCrop()
     }
 }

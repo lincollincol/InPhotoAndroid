@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.R
+import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.Navigation
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     router: Router,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val mediaRepository: MediaRepository
 ) : BaseViewModel<ProfileUiState>(router) {
 
     companion object {
@@ -76,6 +78,7 @@ class ProfileViewModel @Inject constructor(
                 router.navigateTo(screen)
 
                 router.setResultListener(SELECT_IMAGE_RESULT) {
+//                    val selectedImage = mediaRepository.copyToTempUri(it as Uri)
                     router.navigateTo(
                         Navigation.ImageModule.EditImageScreen(EDIT_IMAGE_RESULT, it as Uri)
                     )

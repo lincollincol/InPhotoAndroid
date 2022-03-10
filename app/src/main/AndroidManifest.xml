@@ -16,6 +16,7 @@
         android:name=".InPhotoApp"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         android:allowClearUserData="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

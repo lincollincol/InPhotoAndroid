@@ -1,7 +1,9 @@
 package com.linc.inphoto.ui.cropimage
 
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
+import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.SettingsRepository
 import com.linc.inphoto.entity.AspectRatio
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
@@ -18,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CropImageViewModel @Inject constructor(
     router: Router,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val mediaRepository: MediaRepository
 ) : BaseViewModel<CropImageUiState>(router) {
 
     companion object {
@@ -27,7 +30,7 @@ class CropImageViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(CropImageUiState())
 
-    fun loadAvailableRatios() {
+    fun prepareCrop() {
         viewModelScope.launch {
             try {
                 val ratioItems = settingsRepository.loadAspectRatios()
@@ -48,11 +51,23 @@ class CropImageViewModel @Inject constructor(
         router.navigateTo(Navigation.Common.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
     }
 
-    fun changeOverlayType(isDynamic: Boolean) {
+    fun changeRatioState(isFixed: Boolean) {
         val ratioItems = _uiState.value.ratioItems.map { it.copy(selected = false) }
         _uiState.update {
-            copy(isDynamicOverlay = isDynamic, ratioItems = ratioItems, currentRatio = null)
+            copy(isFixedAspectRatio = isFixed, ratioItems = ratioItems, currentRatio = null)
         }
+    }
+
+    fun saveCroppedImage(resultKey: String?, imageUri: Uri?) {
+        router.exit()
+        if (resultKey != null && imageUri != null) {
+//            router.navigateTo(Navigation.ImageModule.EditImageScreen("RRR", imageUri))
+            router.sendResult(resultKey, imageUri)
+        }
+    }
+
+    fun cancelCropping() {
+        router.exit()
     }
 
     private fun selectRatio(ratio: AspectRatio) {

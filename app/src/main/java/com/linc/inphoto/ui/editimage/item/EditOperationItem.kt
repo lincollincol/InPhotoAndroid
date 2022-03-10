@@ -3,15 +3,21 @@ package com.linc.inphoto.ui.editimage.item
 import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemEditOperationBinding
-import com.linc.inphoto.ui.editimage.model.EditOperation
+import com.linc.inphoto.ui.editimage.EditorOperationUiState
 import com.xwray.groupie.viewbinding.BindableItem
 
 class EditOperationItem(
-    private val editOperation: EditOperation
-) : BindableItem<ItemEditOperationBinding>(editOperation.title.hashCode().toLong()) {
+    private val editorOperationUiState: EditorOperationUiState
+) : BindableItem<ItemEditOperationBinding>(editorOperationUiState.operation.hashCode().toLong()) {
 
     override fun bind(viewBinding: ItemEditOperationBinding, position: Int) {
-
+        with(viewBinding) {
+            iconImageView.setImageResource(editorOperationUiState.operation.icon)
+            actionTextView.setText(editorOperationUiState.operation.title)
+            root.setOnClickListener {
+                editorOperationUiState.onClick?.invoke()
+            }
+        }
     }
 
     override fun getLayout(): Int = R.layout.item_edit_operation

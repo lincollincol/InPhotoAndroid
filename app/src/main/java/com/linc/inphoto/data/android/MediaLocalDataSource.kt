@@ -3,7 +3,9 @@ package com.linc.inphoto.data.android
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
+import android.os.Environment
 import android.provider.MediaStore
+import androidx.core.net.toUri
 import com.linc.inphoto.entity.LocalMedia
 import com.linc.inphoto.utils.extensions.getUriExtension
 import com.linc.inphoto.utils.extensions.readUriBytes
@@ -63,4 +65,30 @@ class MediaLocalDataSource @Inject constructor(
             .also { audio -> audio.writeBytes(data) }
     }
 
+    fun createTempUri(): Uri {
+        return createTempFile().toUri()
+    }
+
+    fun createTempFile(): File {
+        val temp = File(
+            context.getExternalFilesDir(Environment.DIRECTORY_DCIM),
+            UUID.randomUUID().toString()
+        )
+        temp.createNewFile()
+        temp.deleteOnExit()
+        return temp
+    }
+
+    fun copyUri(src: Uri, dst: Uri) {
+        val inputStream = context.contentResolver.openInputStream(src)
+        val outputStream = context.contentResolver.openOutputStream(dst)
+        val b = ByteArray(4096)
+        var read: Int = -1
+        while (inputStream?.read(b)?.also { read = it } != -1) {
+            outputStream?.write(b, 0, read)
+        }
+        outputStream?.flush()
+        outputStream?.close()
+        inputStream.close()
+    }
 }
