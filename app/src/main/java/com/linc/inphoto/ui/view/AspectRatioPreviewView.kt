@@ -7,7 +7,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import com.linc.inphoto.R
-import com.linc.inphoto.entity.AspectRatio
+import com.linc.inphoto.entity.media.image.AspectRatio
 import com.linc.inphoto.utils.extensions.getColorInt
 import com.linc.inphoto.utils.extensions.toPx
 

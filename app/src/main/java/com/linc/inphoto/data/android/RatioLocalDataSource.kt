@@ -1,6 +1,6 @@
 package com.linc.inphoto.data.android
 
-import com.linc.inphoto.entity.AspectRatio
+import com.linc.inphoto.entity.media.image.AspectRatio
 import javax.inject.Inject
 
 

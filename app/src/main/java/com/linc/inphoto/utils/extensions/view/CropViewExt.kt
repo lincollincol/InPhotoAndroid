@@ -1,10 +1,11 @@
 package com.linc.inphoto.utils.extensions.view
 
-import android.graphics.Bitmap
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageView
-import com.linc.inphoto.entity.AspectRatio
+import com.linc.inphoto.entity.media.image.AspectRatio
 import com.linc.inphoto.ui.cropimage.model.CropShape
+import com.linc.inphoto.utils.extensions.copyUri
+import com.linc.inphoto.utils.extensions.createTempUri
 
 fun CropImageView.setAspectRatio(
     aspectRatio: AspectRatio?
@@ -23,10 +24,15 @@ fun CropImageView.setCropShape(
     this.cornerShape = cornerShape
 }
 
-fun CropImageView.CropResult.getCroppedBitmap(view: CropImageView): Bitmap? {
-    val bitmap = getBitmap(view.context) ?: return null
-    return when (view.cropShape) {
-        CropImageView.CropShape.OVAL -> CropImage.toOvalBitmap(bitmap)
-        else -> bitmap
+fun CropImageView.CropResult.applyShape(view: CropImageView) {
+    uriContent ?: return
+    val croppedBitmap = getBitmap(view.context) ?: return
+    val shapeBitmap = when (view.cropShape) {
+        CropImageView.CropShape.OVAL -> CropImage.toOvalBitmap(croppedBitmap)
+        else -> croppedBitmap
+    }
+    with(view.context) {
+        val shapeUri = createTempUri(shapeBitmap)
+        copyUri(shapeUri, uriContent!!)
     }
 }

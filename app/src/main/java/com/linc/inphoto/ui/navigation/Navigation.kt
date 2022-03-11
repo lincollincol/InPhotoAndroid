@@ -59,6 +59,7 @@ object Navigation {
         fun CropImageScreen(resultKey: String, image: Uri) = FragmentScreen {
             CropImageFragment.newInstance(resultKey, image)
         }
+
     }
 
     fun SplashScreen() = FragmentScreen {

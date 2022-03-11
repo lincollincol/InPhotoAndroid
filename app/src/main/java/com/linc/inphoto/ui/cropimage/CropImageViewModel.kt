@@ -1,11 +1,11 @@
 package com.linc.inphoto.ui.cropimage
 
-import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.SettingsRepository
-import com.linc.inphoto.entity.AspectRatio
+import com.linc.inphoto.entity.media.image.AspectRatio
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.cropimage.model.CropShape
 import com.linc.inphoto.ui.navigation.Navigation
@@ -58,13 +58,10 @@ class CropImageViewModel @Inject constructor(
         }
     }
 
-    fun saveCroppedImage(resultKey: String?, imageBitmap: Bitmap?) {
+    fun saveCroppedImage(resultKey: String?, imageUri: Uri?) {
         router.exit()
-        if (resultKey != null && imageBitmap != null) {
-            router.sendResult(
-                resultKey,
-                mediaRepository.createTempUri(imageBitmap)
-            )
+        if (resultKey != null && imageUri != null) {
+            router.sendResult(resultKey, mediaRepository.convertToTempUri(imageUri))
         }
     }
 

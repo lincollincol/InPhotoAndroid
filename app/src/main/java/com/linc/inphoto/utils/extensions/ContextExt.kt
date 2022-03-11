@@ -3,8 +3,10 @@ package com.linc.inphoto.utils.extensions
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.graphics.Bitmap
 import android.graphics.Insets
 import android.graphics.Point
+import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -12,8 +14,14 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.WindowMetrics
 import android.view.inputmethod.InputMethodManager
+import android.webkit.MimeTypeMap
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
 
 
 val Context.inflater: LayoutInflater get() = LayoutInflater.from(this)
@@ -87,3 +95,57 @@ fun Context.getKeyboard() =
 
 
 fun Context.getColorInt(@ColorRes id: Int) = ContextCompat.getColor(this, id)
+
+fun Context.createTempUri(): Uri {
+    return createTempFile().toUri()
+}
+
+fun Context.createTempUri(bitmap: Bitmap): Uri {
+    return createTempFile(bitmap).toUri()
+}
+
+fun Context.createTempFile(extension: String? = null): File {
+    val temp = File(this.cacheDir, "${UUID.randomUUID()}${extension?.let { ".$it" }.orEmpty()}")
+    temp.createNewFile()
+    temp.deleteOnExit()
+    return temp
+}
+
+fun Context.createTempFile(uri: Uri): File? {
+    val data = readUriBytes(uri) ?: return null
+    val extension = getUriExtension(uri)
+    return createTempFile(extension).also { audio -> audio.writeBytes(data) }
+}
+
+fun Context.createTempFile(bitmap: Bitmap): File {
+    val file = createTempFile()
+    val outputStream = BufferedOutputStream(FileOutputStream(file))
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+    outputStream.close()
+    return file
+}
+
+fun Context.deleteUri(uri: Uri?) = uri?.let {
+    contentResolver.delete(it, null, null)
+}
+
+fun Context.copyUri(src: Uri, dst: Uri) {
+    val inputStream = contentResolver.openInputStream(src)
+    val outputStream = contentResolver.openOutputStream(dst)
+    val b = ByteArray(4096)
+    var read: Int = -1
+    while (inputStream?.read(b)?.also { read = it } != -1) {
+        outputStream?.write(b, 0, read)
+    }
+    outputStream?.flush()
+    outputStream?.close()
+    inputStream.close()
+}
+
+fun Context.readUriBytes(uri: Uri): ByteArray? =
+    contentResolver.openInputStream(uri)
+        ?.buffered()
+        ?.use { it.readBytes() }
+
+fun Context.getUriExtension(uri: Uri): String? =
+    MimeTypeMap.getSingleton().getMimeTypeFromExtension(contentResolver.getType(uri))

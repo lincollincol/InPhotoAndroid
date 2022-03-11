@@ -1,6 +1,6 @@
 package com.linc.inphoto.ui.cropimage
 
-import com.linc.inphoto.entity.AspectRatio
+import com.linc.inphoto.entity.media.image.AspectRatio
 import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.cropimage.model.CropShape
 

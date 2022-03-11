@@ -35,7 +35,7 @@ class GalleryViewModel @Inject constructor(
     private fun selectImage(resultKey: String?, imageUri: Uri?) {
         router.exit()
         if (resultKey != null && imageUri != null) {
-            router.sendResult(resultKey, imageUri)
+            router.sendResult(resultKey, mediaRepository.createTempUri(imageUri))
         }
     }
 

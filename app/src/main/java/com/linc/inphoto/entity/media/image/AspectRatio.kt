@@ -1,4 +1,4 @@
-package com.linc.inphoto.entity
+package com.linc.inphoto.entity.media.image
 
 data class AspectRatio(
     val width: Float,

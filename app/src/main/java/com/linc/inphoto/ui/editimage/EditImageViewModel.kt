@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.editimage
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
+import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.SettingsRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.editimage.model.EditOperation
@@ -60,7 +61,10 @@ class EditImageViewModel @Inject constructor(
                 EDITOR_OPERATION_RESULT,
                 imageUri
             )
-            else -> return
+            else -> {
+                showInfo(R.string.unavailable, R.string.unavailable_function_description)
+                return
+            }
         }
         router.setResultListener(EDITOR_OPERATION_RESULT) { result ->
             _uiState.update { copy(imageUri = Uri.parse(result.toString())) }

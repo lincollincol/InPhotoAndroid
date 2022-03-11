@@ -17,9 +17,32 @@ class MediaRepository @Inject constructor(
         mediaLocalDataSource.loadDCIMFiles()
     }
 
+    /**
+     * Create temporary copy of `uri` and delete source `uri`
+     */
+    fun convertToTempUri(uri: Uri): Uri {
+        val tempUriCopy = createTempUri(uri)
+        deleteLocalUri(uri)
+        return tempUriCopy
+    }
+
+    /**
+     * Create temporary copy of `uri`
+     */
+    fun createTempUri(uri: Uri): Uri {
+        return mediaLocalDataSource.copyToTempUri(uri)
+    }
+
+    /**
+     * Create temporary copy of `bitmap`
+     */
     fun createTempUri(bitmap: Bitmap): Uri {
-        val imageFile = mediaLocalDataSource.createTempFromBmp(bitmap)
+        val imageFile = mediaLocalDataSource.createTempFile(bitmap)
         return Uri.fromFile(imageFile)
+    }
+
+    fun deleteLocalUri(uri: Uri) {
+        mediaLocalDataSource.deleteUri(uri)
     }
 
 }

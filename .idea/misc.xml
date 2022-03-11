@@ -26,6 +26,7 @@
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_crop_image.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/fragment_edit_image.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_filter_image.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.14166666666666666" />
         <entry key="app/src/main/res/layout/fragment_image_editor.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/layout/fragment_image_picker.xml" value="0.15260416666666668" />
@@ -39,6 +40,7 @@
         <entry key="app/src/main/res/layout/item_crop_ratio.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_edit_operation.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_editor_action.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_editor_filter.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_gallery_image.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/item_option.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_profile_photo.xml" value="0.1765625" />

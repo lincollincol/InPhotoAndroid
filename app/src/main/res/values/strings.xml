@@ -5,6 +5,9 @@
     <string name="option_avatar_camera">Take a picture</string>
     <string name="got_it">Got It</string>
 
+    <string name="unavailable">Unavailable</string>
+    <string name="unavailable_function_description">This function is currently unavailable!</string>
+
     <string name="hint_password">password</string>
     <string name="hint_email">email</string>
     <string name="welcome_back">Welcome\nBack!</string>
