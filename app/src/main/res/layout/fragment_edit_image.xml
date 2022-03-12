@@ -9,6 +9,8 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/app_toolbar_height"
         android:paddingHorizontal="@dimen/padding_general"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_general"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +30,8 @@
         android:id="@+id/operationsRecyclerView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_general"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

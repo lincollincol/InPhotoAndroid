@@ -6,6 +6,7 @@ import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.Insets
 import android.graphics.Point
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
@@ -15,8 +16,11 @@ import android.view.WindowManager
 import android.view.WindowMetrics
 import android.view.inputmethod.InputMethodManager
 import android.webkit.MimeTypeMap
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import java.io.BufferedOutputStream
 import java.io.File
@@ -96,6 +100,16 @@ fun Context.getKeyboard() =
 
 fun Context.getColorInt(@ColorRes id: Int) = ContextCompat.getColor(this, id)
 
+fun Context.getDrawable(
+    @DrawableRes id: Int?,
+    @ColorInt color: Int?
+): Drawable? {
+    id ?: return null
+    return ContextCompat.getDrawable(this, id).also { drawable ->
+        if (drawable != null && color != null) DrawableCompat.setTint(drawable, color)
+    }
+}
+
 fun Context.createTempUri(): Uri {
     return createTempFile().toUri()
 }
@@ -126,7 +140,11 @@ fun Context.createTempFile(bitmap: Bitmap): File {
 }
 
 fun Context.deleteUri(uri: Uri?) = uri?.let {
-    contentResolver.delete(it, null, null)
+    try {
+        contentResolver.delete(it, null, null)
+    } catch (iae: IllegalArgumentException) {
+        // Unknown URL ignored
+    }
 }
 
 fun Context.copyUri(src: Uri, dst: Uri) {

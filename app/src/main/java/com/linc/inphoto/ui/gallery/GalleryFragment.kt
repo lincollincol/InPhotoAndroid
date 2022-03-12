@@ -9,7 +9,9 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentGalleryBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.gallery.item.GalleryImageItem
+import com.linc.inphoto.utils.GridSpaceItemDecoration
 import com.linc.inphoto.utils.extensions.getArgument
+import com.linc.inphoto.utils.extensions.getDimension
 import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +21,7 @@ import kotlinx.coroutines.flow.collect
 class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
 
     companion object {
+        private const val ROW_IMAGES_COUNT = 3
         private const val RESULT_KEY_ARG = "result_key"
 
         @JvmStatic
@@ -37,14 +40,28 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.loadImages(getArgument(RESULT_KEY_ARG))
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             imagesRecyclerView.apply {
-                layoutManager = verticalGridLayoutManager(3)
+                layoutManager = verticalGridLayoutManager(ROW_IMAGES_COUNT)
                 adapter = imagesAdapter
+                addItemDecoration(
+                    GridSpaceItemDecoration(
+                        ROW_IMAGES_COUNT,
+                        getDimension(R.dimen.margin_small),
+                        true
+                    )
+                )
+            }
+            galleryToolbar.setOnCancelClickListener {
+                viewModel.cancelImageSelecting()
             }
         }
-        viewModel.loadImages(getArgument(RESULT_KEY_ARG))
     }
 }

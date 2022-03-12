@@ -32,6 +32,10 @@ class GalleryViewModel @Inject constructor(
         }
     }
 
+    fun cancelImageSelecting() {
+        router.exit()
+    }
+
     private fun selectImage(resultKey: String?, imageUri: Uri?) {
         router.exit()
         if (resultKey != null && imageUri != null) {

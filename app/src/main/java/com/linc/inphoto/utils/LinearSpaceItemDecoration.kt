@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
-class SpaceItemDecoration : ItemDecoration {
+class LinearSpaceItemDecoration : ItemDecoration {
 
     private var space: Array<Int>
     private var lastItemBottomSpace = 0

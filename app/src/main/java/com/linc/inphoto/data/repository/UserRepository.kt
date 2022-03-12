@@ -3,6 +3,7 @@ package com.linc.inphoto.data.repository
 import android.net.Uri
 import com.linc.inphoto.data.android.MediaLocalDataSource
 import com.linc.inphoto.data.database.dao.UserDao
+import com.linc.inphoto.data.mapper.toUserEntity
 import com.linc.inphoto.data.mapper.toUserModel
 import com.linc.inphoto.data.network.api.UserApiService
 import com.linc.inphoto.data.preferences.AuthPreferences
@@ -32,12 +33,17 @@ class UserRepository @Inject constructor(
         return@withContext userDao.getUserById(userId.orEmpty())?.toUserModel()
     }
 
-    suspend fun updateUserAvatar(uri: Uri?) = withContext(ioDispatcher) {
-        val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext
+    suspend fun updateUserAvatar(uri: Uri?): User? = withContext(ioDispatcher) {
+        val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
         val requestBody = image.asRequestBody(MULTIPART_FORM_DATA.toMediaType())
         val body = MultipartBody.Part.createFormData("image", image.name, requestBody)
-        userApiService.updateUserAvatar(body, authPreferences.userId)
+        val response = userApiService.updateUserAvatar(body, authPreferences.userId)
+        val user = response.body?.toUserEntity()
+        if (user != null) {
+            userDao.updateUser(user)
+        }
         image.delete()
+        return@withContext user?.toUserModel()
     }
 
 }

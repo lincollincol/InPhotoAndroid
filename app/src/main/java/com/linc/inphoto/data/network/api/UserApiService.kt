@@ -1,5 +1,7 @@
 package com.linc.inphoto.data.network.api
 
+import com.linc.inphoto.data.network.model.BaseResponse
+import com.linc.inphoto.data.network.model.user.UserApiModel
 import com.rhythmoya.data.network.helper.HttpHelper.Header.MULTIPART_REQUEST
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -12,6 +14,6 @@ interface UserApiService {
     suspend fun updateUserAvatar(
         @Part image: MultipartBody.Part,
         @Path("id") id: String
-    )
+    ): BaseResponse<UserApiModel>
 
 }

@@ -96,7 +96,8 @@ class ProfileViewModel @Inject constructor(
     private fun handleSelectedAvatar(imageUri: Uri?) {
         viewModelScope.launch {
             try {
-                userRepository.updateUserAvatar(imageUri)
+                val user = userRepository.updateUserAvatar(imageUri)
+                _uiState.update { copy(user = user) }
             } catch (e: Exception) {
                 Timber.e(e)
             }

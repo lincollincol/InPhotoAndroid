@@ -6,5 +6,5 @@ data class User(
     val email: String,
     val status: String?,
     val publicProfile: Boolean,
-    val avatarId: String?
+    val avatarUrl: String?
 )

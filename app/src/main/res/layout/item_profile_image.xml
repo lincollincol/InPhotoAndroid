@@ -9,8 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:elevation="5dp"
-        android:layout_marginHorizontal="@dimen/padding_tiny"
-        android:layout_marginBottom="@dimen/padding_small"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/mango"
         app:shapeAppearanceOverlay="@style/CircleImageShape25"

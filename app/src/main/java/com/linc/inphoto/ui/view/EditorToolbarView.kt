@@ -10,6 +10,7 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutEditorToolbarBinding
 import com.linc.inphoto.utils.extensions.getColorInt
 import com.linc.inphoto.utils.extensions.inflater
+import com.linc.inphoto.utils.extensions.view.show
 
 class EditorToolbarView(
     context: Context,
@@ -27,6 +28,8 @@ class EditorToolbarView(
     private var textColorTitle: Int
     private var textTitleBold: Boolean
     private var textSize: Int
+    private var doneVisible: Boolean
+    private var cancelVisible: Boolean
 
     init {
         val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.EditorToolbarView)
@@ -42,6 +45,14 @@ class EditorToolbarView(
         textSize = attributes.getDimensionPixelSize(
             R.styleable.EditorToolbarView_textSize,
             resources.getDimensionPixelSize(R.dimen.font_small)
+        )
+        doneVisible = attributes.getBoolean(
+            R.styleable.EditorToolbarView_doneVisible,
+            true
+        )
+        cancelVisible = attributes.getBoolean(
+            R.styleable.EditorToolbarView_cancelVisible,
+            true
         )
         attributes.recycle()
     }
@@ -60,11 +71,17 @@ class EditorToolbarView(
                 setTextColor(textColorTitle)
                 setTypeface(typeface, if (textTitleBold) Typeface.BOLD else Typeface.NORMAL)
             }
-            doneImageView.setOnClickListener {
-                onDoneClickListener?.invoke()
+            doneImageView.apply {
+                show(doneVisible)
+                setOnClickListener {
+                    onDoneClickListener?.invoke()
+                }
             }
-            cancelImageView.setOnClickListener {
-                onCancelClickListener?.invoke()
+            cancelImageView.apply {
+                show(cancelVisible)
+                setOnClickListener {
+                    onCancelClickListener?.invoke()
+                }
             }
         }
     }

@@ -1,13 +1,13 @@
 package com.linc.inphoto.ui.gallery.item
 
+import android.graphics.Color
 import android.view.View
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemGalleryImageBinding
 import com.linc.inphoto.ui.gallery.ImageUiState
 import com.linc.inphoto.utils.extensions.view.IMAGE_BLUR_SMALL
 import com.linc.inphoto.utils.extensions.view.THUMB_SMALL
-import com.linc.inphoto.utils.extensions.view.loadUriImage
+import com.linc.inphoto.utils.extensions.view.loadImage
 import com.xwray.groupie.viewbinding.BindableItem
 
 class GalleryImageItem(
@@ -16,17 +16,16 @@ class GalleryImageItem(
 
     override fun bind(viewBinding: ItemGalleryImageBinding, position: Int) {
         with(viewBinding) {
-            galleryImageView.loadUriImage(
-                uri = imageUiState.uri,
-                diskCacheStrategy = DiskCacheStrategy.ALL
+            galleryImageView.loadImage(
+                image = imageUiState.uri,
+                placeholderTint = Color.BLACK,
+                errorTint = Color.BLACK
             )
-            blurredImageView.loadUriImage(
-                uri = imageUiState.uri,
+            blurredImageView.loadImage(
+                image = imageUiState.uri,
                 size = THUMB_SMALL,
                 blurRadius = IMAGE_BLUR_SMALL,
-                placeholder = 0,
-                errorPlaceholder = 0,
-                diskCacheStrategy = DiskCacheStrategy.ALL
+                errorPlaceholder = null
             )
             root.setOnClickListener {
                 imageUiState.onClick()

@@ -35,5 +35,6 @@
 
     <string name="edit_image_toolbar">Edit Image</string>
     <string name="crop_image_toolbar">Crop Image</string>
+    <string name="select_image_toolbar">Select Image</string>
 
 </resources>

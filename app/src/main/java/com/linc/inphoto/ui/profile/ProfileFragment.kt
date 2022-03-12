@@ -9,10 +9,14 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.profile.item.ProfilePhotoItem
+import com.linc.inphoto.ui.profile.item.ProfileImageItem
 import com.linc.inphoto.ui.profile.model.SourceType
+import com.linc.inphoto.utils.GridSpaceItemDecoration
+import com.linc.inphoto.utils.extensions.getDimension
 import com.linc.inphoto.utils.extensions.scrollToStart
 import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
+import com.linc.inphoto.utils.extensions.view.THUMB_MEDIUM
+import com.linc.inphoto.utils.extensions.view.loadImage
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -21,7 +25,7 @@ import kotlinx.coroutines.flow.collect
 class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     companion object {
-        private const val LIST_PHOTOS_SPAN_COUNT = 3
+        private const val ROW_IMAGES_COUNT = 3
 
         @JvmStatic
         fun newInstance() = ProfileFragment()
@@ -49,19 +53,13 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         safeResumedLaunch {
             viewModel.uiState.collect { state ->
                 profileNameTextField.text = state.user?.name
-
+                profileAvatarImage.loadImage(
+                    image = state.user?.avatarUrl,
+                    size = THUMB_MEDIUM,
+                    errorPlaceholder = R.drawable.avatar_thumb
+                )
             }
         }
-        /*safeResumedLaunch {
-            viewModel.selectGalleryImageEvent.filterNotNull().collect {
-                Timber.d("Open gallery")
-            }
-        }
-        safeResumedLaunch {
-            viewModel.selectCameraImageEvent.filterNotNull().collect {
-                Timber.d("Open camera")
-            }
-        }*/
         return@with
     }
 
@@ -76,12 +74,15 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private fun initUi() {
         with(binding) {
             profilePhotosList.apply {
-                layoutManager = verticalGridLayoutManager(LIST_PHOTOS_SPAN_COUNT)
+                layoutManager = verticalGridLayoutManager(ROW_IMAGES_COUNT)
                 adapter = photosAdapter
-                /*addItemDecoration(SpaceItemDecoration(
-                    getDimension(R.dimen.margin_all_general_small),
-                    getDimension(R.dimen.margin_all_general)
-                ))*/
+                addItemDecoration(
+                    GridSpaceItemDecoration(
+                        ROW_IMAGES_COUNT,
+                        getDimension(R.dimen.margin_small),
+                        true
+                    )
+                )
             }
 
             moveUpButton.setOnClickListener {
@@ -102,9 +103,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     }
 
     private fun mockPhotos() {
-        val photos = mutableListOf<ProfilePhotoItem>().apply {
+        val photos = mutableListOf<ProfileImageItem>().apply {
             repeat(50) {
-                add(ProfilePhotoItem())
+                add(ProfileImageItem())
             }
         }
         photosAdapter.addAll(photos)
