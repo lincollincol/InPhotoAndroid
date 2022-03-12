@@ -22,11 +22,18 @@ import kotlinx.coroutines.flow.collect
 class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
 
     companion object {
+        private const val RESULT_KEY_ARG = "result_key"
         private const val IMAGE_URI_ARG = "image_uri"
 
         @JvmStatic
-        fun newInstance(image: Uri) = EditImageFragment().apply {
-            arguments = bundleOf(IMAGE_URI_ARG to image)
+        fun newInstance(
+            resultKey: String,
+            image: Uri
+        ) = EditImageFragment().apply {
+            arguments = bundleOf(
+                RESULT_KEY_ARG to resultKey,
+                IMAGE_URI_ARG to image
+            )
         }
     }
 
@@ -54,7 +61,7 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
                 adapter = editorActionsAdapter
             }
             editorToolbarView.setOnDoneClickListener {
-                viewModel.finishEditing()
+                viewModel.finishEditing(getArgument(RESULT_KEY_ARG))
             }
             editorToolbarView.setOnCancelClickListener {
                 viewModel.cancelEditing()

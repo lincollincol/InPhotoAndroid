@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.R
-import com.linc.inphoto.data.repository.SettingsRepository
+import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.editimage.model.EditOperation
 import com.linc.inphoto.ui.navigation.Navigation
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EditImageViewModel @Inject constructor(
     router: Router,
-    private val settingsRepository: SettingsRepository
+    private val mediaRepository: MediaRepository
 ) : BaseViewModel<EditImageUiState>(router) {
 
     companion object {
@@ -45,12 +45,18 @@ class EditImageViewModel @Inject constructor(
         }
     }
 
-    fun finishEditing() {
-
+    fun finishEditing(resultKey: String?) {
+        router.exit()
+        if (resultKey != null) {
+            val imageUri = _uiState.value.imageUri ?: Uri.EMPTY
+            router.sendResult(resultKey, imageUri)
+        }
     }
 
     fun cancelEditing() {
-
+        val imageUri = _uiState.value.imageUri ?: Uri.EMPTY
+        mediaRepository.deleteLocalUri(imageUri)
+        router.exit()
     }
 
     private fun selectEditorOperation(operation: EditOperation) {

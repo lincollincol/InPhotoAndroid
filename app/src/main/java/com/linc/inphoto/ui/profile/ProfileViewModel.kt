@@ -10,7 +10,6 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.ui.profile.model.SourceType
 import com.linc.inphoto.utils.extensions.safeCast
-import com.linc.inphoto.utils.extensions.setResultListener
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,16 +77,26 @@ class ProfileViewModel @Inject constructor(
                 router.navigateTo(screen)
 
                 router.setResultListener(SELECT_IMAGE_RESULT) {
-//                    val selectedImage = mediaRepository.copyToTempUri(it as Uri)
-                    router.navigateTo(
-                        Navigation.ImageModule.EditImageScreen(EDIT_IMAGE_RESULT, it as Uri)
+                    val editorScreen = Navigation.ImageModule.EditImageScreen(
+                        EDIT_IMAGE_RESULT,
+                        it as Uri
                     )
+                    router.navigateTo(editorScreen)
                 }
 
-                router.setResultListener<Uri>(EDIT_IMAGE_RESULT) {
-                    userRepository.updateUserAvatar(it.getOrNull())
-
+                router.setResultListener(EDIT_IMAGE_RESULT) {
+                    handleSelectedAvatar(it as? Uri)
                 }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
+    }
+
+    private fun handleSelectedAvatar(imageUri: Uri?) {
+        viewModelScope.launch {
+            try {
+                userRepository.updateUserAvatar(imageUri)
             } catch (e: Exception) {
                 Timber.e(e)
             }

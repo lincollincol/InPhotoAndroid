@@ -53,7 +53,7 @@ object Navigation {
         }
 
         fun EditImageScreen(resultKey: String, image: Uri) = FragmentScreen {
-            EditImageFragment.newInstance(image)
+            EditImageFragment.newInstance(resultKey, image)
         }
 
         fun CropImageScreen(resultKey: String, image: Uri) = FragmentScreen {
