@@ -8,9 +8,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSignInBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.utils.extensions.enable
 import com.linc.inphoto.utils.extensions.hideKeyboard
-import com.linc.inphoto.utils.extensions.show
+import com.linc.inphoto.utils.extensions.view.enable
+import com.linc.inphoto.utils.extensions.view.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 

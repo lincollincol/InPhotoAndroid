@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.linc.inphoto.ui.view.EditorToolbarView
+        android:id="@+id/editorToolbarView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/padding_general"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_general"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textTitle="@string/crop_image_toolbar" />
+
+    <com.canhub.cropper.CropImageView
+        android:id="@+id/cropView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/padding_general"
+        app:cornerShape="rectangle"
+        app:cropAutoZoomEnabled="true"
+        app:cropGuidelines="on"
+        app:cropMultiTouchEnabled="true"
+        app:cropShape="rectangle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cropControllersLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editorToolbarView" />
+
+    <LinearLayout
+        android:id="@+id/cropControllersLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/elevation_general"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.linc.inphoto.ui.view.SettingsTextView
+            android:id="@+id/shapeSettingsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textSize="@dimen/font_small"
+            app:textTitle="@string/settings_crop_shape" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/fixedRatioSwitch"
+            style="@style/SwitchIos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/padding_general"
+            android:text="@string/crop_fixed_ratio"
+            app:textSize="@dimen/font_small"
+            app:textTitle="@string/settings_crop_shape" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ratioRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.linc.inphoto.ui.base.fragment
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
@@ -18,8 +19,8 @@ abstract class BaseFragment(
 
     protected abstract suspend fun observeUiState()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         safeStartedLaunch {
             observeUiState()
         }

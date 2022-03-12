@@ -1,8 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <attr name="textTitle" format="string" localization="suggested" />
+    <attr name="textColorTitle" format="color" />
+    <attr name="textTitleBold" format="boolean" />
+    <attr name="textSize" format="dimension" />
+
     <declare-styleable name="LoadingView">
         <attr name="blurRadius" format="float" />
         <attr name="blurOverlayColor" format="color" />
         <attr name="enable" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="SettingsTextView">
+        <attr name="rippleColor" format="color" />
+        <attr name="textTitle" />
+        <attr name="textValue" format="string" localization="suggested" />
+        <attr name="textColorTitle" />
+        <attr name="textColorValue" format="color" />
+        <attr name="textTitleBold" />
+        <attr name="textValueBold" format="boolean" />
+        <attr name="textSize" />
+        <attr name="textPaddingHorizontal" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="EditorToolbarView">
+        <attr name="textTitle" />
+        <attr name="textColorTitle" />
+        <attr name="textTitleBold" />
+        <attr name="textSize" />
+        <attr name="doneVisible" format="boolean" />
+        <attr name="cancelVisible" format="boolean" />
+    </declare-styleable>
+
 </resources>

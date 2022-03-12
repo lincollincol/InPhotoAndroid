@@ -15,7 +15,7 @@ class TokenInterceptor @Inject constructor(
             if (!authPreferences.accessToken.isNullOrEmpty()) {
                 addHeader(
                     HttpHelper.Header.AUTHORIZATION,
-                    HttpHelper.bearer(authPreferences.accessToken!!)
+                    HttpHelper.bearer(authPreferences.accessToken)
                 )
             }
         }.build()

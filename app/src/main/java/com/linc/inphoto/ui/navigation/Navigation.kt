@@ -1,30 +1,28 @@
 package com.linc.inphoto.ui.navigation
 
+import android.net.Uri
 import androidx.annotation.StringRes
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
-import com.linc.inphoto.ui.choosedialog.ChooseOptionFragment
-import com.linc.inphoto.ui.choosedialog.model.ChooseOptionModel
+import com.linc.inphoto.ui.camera.CameraFragment
+import com.linc.inphoto.ui.cropimage.CropImageFragment
+import com.linc.inphoto.ui.editimage.EditImageFragment
+import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageDialog
+import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
+import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.ui.profile.ProfileFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 
 object Navigation {
 
-    object NavResult {
-        const val CHOOSE_OPTION_RESULT = "choose_result"
-
-    }
-
     object Common {
         fun ChooseOptionScreen(
-            options: List<ChooseOptionModel>
-        ) = FragmentScreen(
-            key = NavResult.CHOOSE_OPTION_RESULT,
-            clearContainer = false
-        ) {
-            ChooseOptionFragment.newInstance(options)
+            resultKey: String,
+            options: List<OptionModel>
+        ) = FragmentScreen(clearContainer = false) {
+            OptionPickerFragment.newInstance(resultKey, options)
         }
 
         fun InfoMessageScreen(
@@ -43,6 +41,25 @@ object Navigation {
         fun SignUpScreen() = FragmentScreen {
             SignUpFragment.newInstance()
         }
+    }
+
+    object ImageModule {
+        fun CameraScreen(resultKey: String) = FragmentScreen {
+            CameraFragment.newInstance(resultKey)
+        }
+
+        fun GalleryScreen(resultKey: String) = FragmentScreen {
+            GalleryFragment.newInstance(resultKey)
+        }
+
+        fun EditImageScreen(resultKey: String, image: Uri) = FragmentScreen {
+            EditImageFragment.newInstance(resultKey, image)
+        }
+
+        fun CropImageScreen(resultKey: String, image: Uri) = FragmentScreen {
+            CropImageFragment.newInstance(resultKey, image)
+        }
+
     }
 
     fun SplashScreen() = FragmentScreen {

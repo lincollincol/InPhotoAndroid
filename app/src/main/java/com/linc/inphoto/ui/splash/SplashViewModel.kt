@@ -2,7 +2,7 @@ package com.linc.inphoto.ui.splash
 
 import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
-import com.linc.inphoto.data.repository.UsersRepository
+import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.ui.base.state.EmptyUiState
 import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val router: Router,
-    private val usersRepository: UsersRepository
+    router: Router,
+    private val userRepository: UserRepository
 ) : BaseViewModel<UiState>(router) {
 
     companion object {
@@ -27,7 +27,7 @@ class SplashViewModel @Inject constructor(
     fun checkLoggedIn() {
         viewModelScope.launch {
             try {
-                val isLoggedIn = usersRepository.getLoggedInUser() != null
+                val isLoggedIn = userRepository.getLoggedInUser() != null
 
                 delay(SPLASH_DELAY)
 

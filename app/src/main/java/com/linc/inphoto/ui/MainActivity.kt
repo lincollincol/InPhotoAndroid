@@ -2,6 +2,7 @@ package com.linc.inphoto.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Replace
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -23,9 +24,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             navigator.applyCommands(arrayOf(Replace(Navigation.SplashScreen())))
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Glide.get(this).clearMemory()
     }
 
     override fun onResumeFragments() {
@@ -46,12 +52,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-/**
- * TODO:
- * - auth
- * - profile
- * - base vm
- * - base widgets (shapes, ripples etc)
- *
- * */
