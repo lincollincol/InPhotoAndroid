@@ -57,7 +57,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
             signUpButton.setOnClickListener {
                 hideKeyboard()
-                viewModel.onSignUp()
+                viewModel.signUp()
             }
         }
     }

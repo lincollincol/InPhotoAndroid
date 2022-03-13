@@ -11,14 +11,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/start_line"
+        android:id="@+id/startLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/margin_small" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/end_line"
+        android:id="@+id/endLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -86,8 +86,8 @@
         android:layout_height="wrap_content"
         android:rotationX="-0"
         app:layout_constraintTop_toBottomOf="@id/header_image"
-        app:layout_constraintStart_toStartOf="@id/start_line"
-        app:layout_constraintEnd_toEndOf="@id/end_line">
+        app:layout_constraintEnd_toEndOf="@id/endLine"
+        app:layout_constraintStart_toStartOf="@id/startLine">
 
         <TextView
             android:id="@+id/followers_count_text_field"

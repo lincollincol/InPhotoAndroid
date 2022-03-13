@@ -24,6 +24,9 @@ class AuthRepository @Inject constructor(
         password: String
     ) = withContext(ioDispatcher) {
         val response = authApiService.signIn(SignInApiModel(email, password))
+        if (response.failed) {
+            throw Exception(response.status)
+        }
         saveUser(response.body!!)
     }
 

@@ -1,7 +1,6 @@
 package com.linc.inphoto.di.data.network
 
 import com.linc.inphoto.BuildConfig
-import com.linc.inphoto.data.network.utils.DebugLoggingInterceptor
 import com.linc.inphoto.data.network.utils.TokenAuthenticator
 import com.rhythmoya.data.network.helper.TokenInterceptor
 import dagger.Module
@@ -34,7 +33,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        loggingInterceptor: DebugLoggingInterceptor,
+//        loggingInterceptor: DebugLoggingInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor,
         tokenInterceptor: TokenInterceptor,
         tokenAuthenticator: TokenAuthenticator
     ): OkHttpClient = OkHttpClient.Builder()
@@ -47,11 +47,21 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLoggingInterceptor(): DebugLoggingInterceptor =
-        DebugLoggingInterceptor(
-            level = HttpLoggingInterceptor.Level.BODY,
-            skipMultipartBody = true
-        )
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().apply {
+            level = when {
+                BuildConfig.DEBUG -> HttpLoggingInterceptor.Level.BODY
+                else -> HttpLoggingInterceptor.Level.NONE
+            }
+        }
+
+//    @Provides
+//    @Singleton
+//    fun provideLoggingInterceptor(): DebugLoggingInterceptor =
+//        DebugLoggingInterceptor(
+//            level = HttpLoggingInterceptor.Level.BODY,
+//            skipMultipartBody = true
+//        )
 
     @Provides
     @Singleton

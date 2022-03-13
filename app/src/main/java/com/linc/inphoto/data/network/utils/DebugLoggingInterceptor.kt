@@ -13,6 +13,7 @@ import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
 
+// TODO: 13.03.22 refactor or delete
 class DebugLoggingInterceptor(
     private val level: HttpLoggingInterceptor.Level,
     private val logger: HttpLoggingInterceptor.Logger = HttpLoggingInterceptor.Logger.DEFAULT,

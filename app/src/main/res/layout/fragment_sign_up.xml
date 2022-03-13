@@ -11,21 +11,21 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/top_line"
+            android:id="@+id/topLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.2" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/start_line"
+            android:id="@+id/startLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/end_line"
+            android:id="@+id/endLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -35,13 +35,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:srcCompat="@drawable/polaroid_photos_image"
-            app:layout_constraintBottom_toBottomOf="@id/top_line"
+            app:layout_constraintBottom_toBottomOf="@id/topLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/welcome_label"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/welcomeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_serif_regular"
@@ -49,36 +49,36 @@
             android:textColor="@color/black"
             android:textSize="@dimen/font_large"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/end_line"
-            app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toTopOf="@id/top_line" />
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine"
+            app:layout_constraintTop_toTopOf="@id/topLine" />
 
-        <EditText
-            android:id="@+id/email_input_field"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/emailEditText"
             android:layout_width="0dp"
             style="@style/TextInputField"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_huge"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="@id/end_line"
-            app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/welcome_label" />
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine"
+            app:layout_constraintTop_toBottomOf="@id/welcomeTextView" />
 
-        <EditText
-            android:id="@+id/username_input_field"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/usernameEditText"
             android:layout_width="0dp"
             style="@style/TextInputField"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:hint="@string/username"
             android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="@id/end_line"
-            app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/email_input_field" />
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine"
+            app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
-        <EditText
-            android:id="@+id/password_input_field"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/passwordEditText"
             style="@style/TextInputField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -86,12 +86,12 @@
             android:imeOptions="actionNext"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="@id/end_line"
-            app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/username_input_field" />
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine"
+            app:layout_constraintTop_toBottomOf="@id/usernameEditText" />
 
-        <EditText
-            android:id="@+id/repeat_password_input_field"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/repeatPasswordEditText"
             style="@style/TextInputField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -99,20 +99,44 @@
             android:imeOptions="actionDone"
             android:hint="@string/repeat_password"
             android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="@id/end_line"
-            app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/password_input_field" />
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine"
+            app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
+
+        <TextView
+            android:id="@+id/authErrorTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_general"
+            android:fontFamily="@font/noto_serif_regular"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:textSize="@dimen/font_tiny"
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine"
+            app:layout_constraintTop_toBottomOf="@id/repeatPasswordEditText" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sign_up_button"
+            android:id="@+id/signUpButton"
             style="@style/MaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_huge"
             android:text="@string/sign_up"
-            app:layout_constraintEnd_toEndOf="@id/end_line"
-            app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintTop_toBottomOf="@id/repeat_password_input_field" />
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine"
+            app:layout_constraintTop_toBottomOf="@id/repeatPasswordEditText" />
+
+        <com.linc.inphoto.ui.view.LoadingView
+            android:id="@+id/loadingView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:translationZ="@dimen/translation_top"
+            app:blurOverlayColor="@color/black_25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
