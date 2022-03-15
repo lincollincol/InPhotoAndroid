@@ -32,7 +32,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     }
 
     override val viewModel: ProfileViewModel by viewModels()
-
     private val binding by viewBinding(FragmentProfileBinding::bind)
 
     private val photosAdapter: GroupieAdapter by lazy { GroupieAdapter() }
@@ -53,7 +52,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         safeResumedLaunch {
             viewModel.uiState.collect { state ->
                 profileNameTextField.text = state.user?.name
-                profileAvatarImage.loadImage(
+                avatarImageView.loadImage(
                     image = state.user?.avatarUrl,
                     size = THUMB_MEDIUM,
                     errorPlaceholder = R.drawable.avatar_thumb
@@ -68,12 +67,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         safeResumedLaunch {
             viewModel.loadProfileData()
         }
-        initUi()
-    }
-
-    private fun initUi() {
         with(binding) {
-            profilePhotosList.apply {
+            postsRecyclerView.apply {
                 layoutManager = verticalGridLayoutManager(ROW_IMAGES_COUNT)
                 adapter = photosAdapter
                 addItemDecoration(
@@ -85,12 +80,16 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 )
             }
 
+            photosAdapter.setOnItemClickListener { item, view ->
+                viewModel.createPost()
+            }
+
             moveUpButton.setOnClickListener {
-                binding.profilePhotosList.scrollToStart()
+                binding.postsRecyclerView.scrollToStart()
                 binding.profileMotionLayout.transitionToStart()
             }
 
-            profileAvatarImage.setOnClickListener {
+            avatarImageView.setOnClickListener {
                 imagePermissions.launch(
                     arrayOf(
                         Manifest.permission.CAMERA,

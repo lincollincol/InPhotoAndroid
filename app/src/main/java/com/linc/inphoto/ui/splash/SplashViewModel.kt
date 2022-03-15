@@ -33,7 +33,7 @@ class SplashViewModel @Inject constructor(
 
                 val screen = when {
                     isLoggedIn -> Navigation.ProfileScreen()
-                    else -> Navigation.Auth.SignInScreen()
+                    else -> Navigation.SignInScreen()
                 }
 
                 router.newRootScreen(screen)

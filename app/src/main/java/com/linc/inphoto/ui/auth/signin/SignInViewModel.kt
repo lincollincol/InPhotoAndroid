@@ -46,7 +46,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun signUp() {
-        router.navigateTo(Navigation.Auth.SignUpScreen())
+        router.navigateTo(Navigation.SignUpScreen())
     }
 
 }

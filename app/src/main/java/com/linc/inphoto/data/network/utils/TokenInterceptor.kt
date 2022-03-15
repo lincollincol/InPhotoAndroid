@@ -1,6 +1,7 @@
-package com.rhythmoya.data.network.helper
+package com.linc.inphoto.data.network.utils
 
 import com.linc.inphoto.data.preferences.AuthPreferences
+import com.rhythmoya.data.network.helper.HttpHelper
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

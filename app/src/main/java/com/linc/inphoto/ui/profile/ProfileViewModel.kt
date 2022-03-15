@@ -41,6 +41,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun createPost() {
+        router.navigateTo(Navigation.ManagePostScreen())
+    }
+
     fun selectImageSource(sources: List<SourceType>) {
         viewModelScope.launch {
             try {
@@ -53,7 +57,7 @@ class ProfileViewModel @Inject constructor(
                     handleSelectedSource(selectedSource)
                 }
                 router.navigateTo(
-                    Navigation.Common.ChooseOptionScreen(
+                    Navigation.ChooseOptionScreen(
                         SELECT_SOURCE_RESULT,
                         sources
                     )
@@ -69,15 +73,15 @@ class ProfileViewModel @Inject constructor(
             try {
                 // Navigate to source screen
                 val screen = when (source) {
-                    is SourceType.Gallery -> Navigation.ImageModule.GalleryScreen(
+                    is SourceType.Gallery -> Navigation.GalleryScreen(
                         SELECT_IMAGE_RESULT
                     )
-                    is SourceType.Camera -> Navigation.ImageModule.CameraScreen(SELECT_IMAGE_RESULT)
+                    is SourceType.Camera -> Navigation.CameraScreen(SELECT_IMAGE_RESULT)
                 }
                 router.navigateTo(screen)
 
                 router.setResultListener(SELECT_IMAGE_RESULT) {
-                    val editorScreen = Navigation.ImageModule.EditImageScreen(
+                    val editorScreen = Navigation.EditImageScreen(
                         EDIT_IMAGE_RESULT,
                         it as Uri
                     )

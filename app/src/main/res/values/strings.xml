@@ -36,5 +36,8 @@
     <string name="edit_image_toolbar">Edit Image</string>
     <string name="crop_image_toolbar">Crop Image</string>
     <string name="select_image_toolbar">Select Image</string>
+    <string name="manage_post_toolbar">Manage Post</string>
+    <string name="description">Description</string>
+    <string name="tags">Tags</string>
 
 </resources>

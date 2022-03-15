@@ -63,7 +63,7 @@ class EditImageViewModel @Inject constructor(
         val imageUri = _uiState.value.imageUri ?: Uri.EMPTY
         Timber.d(imageUri.toString())
         val operationScreen = when (operation) {
-            is EditOperation.Crop -> Navigation.ImageModule.CropImageScreen(
+            is EditOperation.Crop -> Navigation.CropImageScreen(
                 EDITOR_OPERATION_RESULT,
                 imageUri
             )

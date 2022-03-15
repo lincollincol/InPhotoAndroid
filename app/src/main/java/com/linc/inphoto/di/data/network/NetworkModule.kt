@@ -2,7 +2,7 @@ package com.linc.inphoto.di.data.network
 
 import com.linc.inphoto.BuildConfig
 import com.linc.inphoto.data.network.utils.TokenAuthenticator
-import com.rhythmoya.data.network.helper.TokenInterceptor
+import com.linc.inphoto.data.network.utils.TokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

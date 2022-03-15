@@ -48,7 +48,7 @@ class CropImageViewModel @Inject constructor(
             val selectedShape = result.safeCast<CropShape>() ?: return@setResultListener
             _uiState.update { copy(cropShape = selectedShape) }
         }
-        router.navigateTo(Navigation.Common.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
+        router.navigateTo(Navigation.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
     }
 
     fun changeRatioState(isFixed: Boolean) {

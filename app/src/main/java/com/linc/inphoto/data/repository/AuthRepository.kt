@@ -35,7 +35,11 @@ class AuthRepository @Inject constructor(
         username: String,
         password: String
     ) = withContext(ioDispatcher) {
+        // TODO: 13.03.22 check sign up response for access token
         val response = authApiService.signUp(SignUpApiModel(email, username, password))
+        if (response.failed) {
+            throw Exception(response.status)
+        }
         saveUser(response.body!!)
     }
 
