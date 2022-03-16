@@ -10,10 +10,10 @@ interface UserApiService {
 
     @Headers(MULTIPART_REQUEST)
     @Multipart
-    @POST("/users/update-avatar/{id}")
+    @POST("/users/{userId}/avatar")
     suspend fun updateUserAvatar(
         @Part image: MultipartBody.Part,
-        @Path("id") id: String
+        @Path("userId") id: String
     ): BaseResponse<UserApiModel>
 
 }

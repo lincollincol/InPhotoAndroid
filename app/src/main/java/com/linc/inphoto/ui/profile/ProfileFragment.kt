@@ -9,7 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.profile.item.ProfileImageItem
+import com.linc.inphoto.ui.profile.item.ProfilePostItem
 import com.linc.inphoto.ui.profile.model.SourceType
 import com.linc.inphoto.utils.GridSpaceItemDecoration
 import com.linc.inphoto.utils.extensions.getDimension
@@ -34,7 +34,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     override val viewModel: ProfileViewModel by viewModels()
     private val binding by viewBinding(FragmentProfileBinding::bind)
 
-    private val photosAdapter: GroupieAdapter by lazy { GroupieAdapter() }
+    private val userPostsAdapter: GroupieAdapter by lazy { GroupieAdapter() }
 
     private val imagePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -49,28 +49,29 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     }
 
     override suspend fun observeUiState() = with(binding) {
-        safeResumedLaunch {
-            viewModel.uiState.collect { state ->
-                profileNameTextField.text = state.user?.name
-                avatarImageView.loadImage(
-                    image = state.user?.avatarUrl,
-                    size = THUMB_MEDIUM,
-                    errorPlaceholder = R.drawable.avatar_thumb
-                )
-            }
+        viewModel.uiState.collect { state ->
+            profileNameTextField.text = state.user?.name
+            avatarImageView.loadImage(
+                image = state.user?.avatarUrl,
+                size = THUMB_MEDIUM,
+                errorPlaceholder = R.drawable.avatar_thumb
+            )
+            userPostsAdapter.update(state.posts.map(::ProfilePostItem))
         }
         return@with
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.loadProfileData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        safeResumedLaunch {
-            viewModel.loadProfileData()
-        }
         with(binding) {
             postsRecyclerView.apply {
                 layoutManager = verticalGridLayoutManager(ROW_IMAGES_COUNT)
-                adapter = photosAdapter
+                adapter = userPostsAdapter
                 addItemDecoration(
                     GridSpaceItemDecoration(
                         ROW_IMAGES_COUNT,
@@ -80,7 +81,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 )
             }
 
-            photosAdapter.setOnItemClickListener { item, view ->
+            userPostsAdapter.setOnItemClickListener { item, view ->
                 viewModel.createPost()
             }
 
@@ -98,16 +99,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 )
             }
         }
-        mockPhotos()
     }
 
-    private fun mockPhotos() {
-        val photos = mutableListOf<ProfileImageItem>().apply {
-            repeat(50) {
-                add(ProfileImageItem())
-            }
-        }
-        photosAdapter.addAll(photos)
-    }
 
 }

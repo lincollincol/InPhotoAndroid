@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.MediaRepository
+import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
+import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.ui.profile.model.SourceType
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     router: Router,
     private val userRepository: UserRepository,
+    private val postRepository: PostRepository,
     private val mediaRepository: MediaRepository
 ) : BaseViewModel<ProfileUiState>(router) {
 
@@ -35,9 +38,11 @@ class ProfileViewModel @Inject constructor(
     fun loadProfileData() = viewModelScope.launch {
         try {
             val user = userRepository.getLoggedInUser()
-            _uiState.update { copy(user = user) }
+            val userPosts = postRepository.getUserPosts()
+                .map { it.toUiState { selectPost(it) } }
+            _uiState.update { copy(user = user, posts = userPosts) }
         } catch (e: Exception) {
-
+            Timber.e(e)
         }
     }
 
@@ -106,6 +111,10 @@ class ProfileViewModel @Inject constructor(
                 Timber.e(e)
             }
         }
+    }
+
+    private fun selectPost(post: Post) {
+
     }
 
 }
