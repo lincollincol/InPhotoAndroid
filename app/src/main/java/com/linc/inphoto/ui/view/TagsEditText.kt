@@ -2,16 +2,14 @@ package com.linc.inphoto.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-import com.google.android.material.chip.Chip
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutTagsEditTextBinding
 import com.linc.inphoto.utils.extensions.inflater
+import com.linc.inphoto.utils.extensions.view.addChip
 
 
 class TagsEditText constructor(
@@ -77,6 +75,25 @@ class TagsEditText constructor(
             return false
         }
         TransitionManager.beginDelayedTransition(binding!!.root, AutoTransition())
+        binding?.tagsChipGroup?.addChip(
+            tag,
+            R.layout.item_editable_tag_chip,
+            onChipAdded = {
+                onTagAddedListener?.invoke(tag)
+                tags.add(tag)
+            },
+            onChipDeleted = {
+                onTagDeletedListener?.invoke(tag)
+                tags.remove(tag)
+            }
+        )
+        return true
+    }
+    /*private fun addChip(tag: String): Boolean {
+        if (binding?.root == null || tags.contains(tag)) {
+            return false
+        }
+        TransitionManager.beginDelayedTransition(binding!!.root, AutoTransition())
         val chip = LayoutInflater.from(context).inflate(
             R.layout.item_editable_tag_chip,
             binding?.tagsChipGroup,
@@ -95,6 +112,6 @@ class TagsEditText constructor(
         onTagAddedListener?.invoke(tag)
         tags.add(tag)
         return true
-    }
+    }*/
 
 }

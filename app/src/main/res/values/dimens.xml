@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="app_toolbar_height">56dp</dimen>
+    <dimen name="size_icon_small">24dp</dimen>
+    <dimen name="size_icon_medium">32dp</dimen>
+    <dimen name="size_icon_large">48dp</dimen>
 
     <!--Elevation-->
     <dimen name="elevation_extra_tiny">2dp</dimen>

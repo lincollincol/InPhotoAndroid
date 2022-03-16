@@ -13,6 +13,8 @@ import com.linc.inphoto.ui.infodialog.InfoMessageDialog
 import com.linc.inphoto.ui.managepost.ManagePostFragment
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
+import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
+import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.ProfileFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 
@@ -66,6 +68,10 @@ object Navigation {
 
     fun ProfileScreen() = FragmentScreen {
         ProfileFragment.newInstance()
+    }
+
+    fun PostOverviewScreen(overviewType: OverviewType) = FragmentScreen {
+        PostOverviewFragment.newInstance(overviewType)
     }
 
 }

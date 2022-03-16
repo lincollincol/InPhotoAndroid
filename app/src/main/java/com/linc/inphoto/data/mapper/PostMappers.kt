@@ -7,6 +7,7 @@ import com.linc.inphoto.entity.post.Post
 
 fun ExtendedPostApiModel.toExtendedPostModel() = ExtendedPost(
     id = id,
+    authorUserId = userId,
     createdTimestamp = createdTimestamp,
     description = description,
     contentUrl = contentUrl,
@@ -21,6 +22,7 @@ fun ExtendedPostApiModel.toExtendedPostModel() = ExtendedPost(
 
 fun PostApiModel.toPostModel() = Post(
     id = id,
+    authorUserId = userId,
     createdTimestamp = createdTimestamp,
     description = description,
     contentUrl = contentUrl

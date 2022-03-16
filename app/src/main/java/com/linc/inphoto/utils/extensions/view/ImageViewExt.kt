@@ -1,10 +1,12 @@
 package com.linc.inphoto.utils.extensions.view
 
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.util.Size
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import androidx.core.widget.ImageViewCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -122,4 +124,8 @@ fun ImageView.loadImage(
         .load(image)
         .apply(requestOptions)
         .into(this)
+}
+
+fun ImageView.setTint(@ColorInt color: Int) {
+    ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(color))
 }

@@ -10,6 +10,7 @@ import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.Navigation
+import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.model.SourceType
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.update
@@ -38,7 +39,7 @@ class ProfileViewModel @Inject constructor(
     fun loadProfileData() = viewModelScope.launch {
         try {
             val user = userRepository.getLoggedInUser()
-            val userPosts = postRepository.getUserPosts()
+            val userPosts = postRepository.getCurrentUserPosts()
                 .map { it.toUiState { selectPost(it) } }
             _uiState.update { copy(user = user, posts = userPosts) }
         } catch (e: Exception) {
@@ -114,7 +115,8 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun selectPost(post: Post) {
-
+        val overviewType = OverviewType.Profile(post.id, post.authorUserId)
+        router.navigateTo(Navigation.PostOverviewScreen(overviewType))
     }
 
 }

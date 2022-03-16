@@ -19,17 +19,24 @@ class PostRepository @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
-    suspend fun getUserPosts(): List<Post> = withContext(ioDispatcher) {
+    suspend fun getCurrentUserPosts(): List<Post> = withContext(ioDispatcher) {
         val response = postApiService.getUserPosts(authPreferences.userId)
         return@withContext response.body?.map(PostApiModel::toPostModel).orEmpty()
     }
 
-    suspend fun getExtendedUserPosts(): List<ExtendedPost> = withContext(ioDispatcher) {
+    suspend fun getCurrentUserExtendedPosts(): List<ExtendedPost> = withContext(ioDispatcher) {
         val response = postApiService.getExtendedUserPosts(authPreferences.userId)
         return@withContext response.body?.map(ExtendedPostApiModel::toExtendedPostModel).orEmpty()
     }
 
-    suspend fun getExtendedUserPost(
+    suspend fun getUserExtendedPosts(userId: String): List<ExtendedPost> =
+        withContext(ioDispatcher) {
+            val response = postApiService.getExtendedUserPosts(userId)
+            return@withContext response.body?.map(ExtendedPostApiModel::toExtendedPostModel)
+                .orEmpty()
+        }
+
+    suspend fun getCurrentUserExtendedPost(
         postId: String
     ): ExtendedPost? = withContext(ioDispatcher) {
         val response = postApiService.getExtendedPost(authPreferences.userId, postId)
