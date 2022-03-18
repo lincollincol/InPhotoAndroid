@@ -47,6 +47,7 @@
         <entry key="app/src/main/res/layout/item_editor_action.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_editor_filter.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_gallery_image.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/item_new_user_post.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_option.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_post_overview.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_profile_image.xml" value="0.32447916666666665" />

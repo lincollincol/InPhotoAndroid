@@ -9,15 +9,17 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
-import com.linc.inphoto.ui.profile.model.SourceType
+import com.linc.inphoto.ui.profile.model.ImageSource
 import com.linc.inphoto.utils.GridSpaceItemDecoration
+import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getDimension
 import com.linc.inphoto.utils.extensions.scrollToStart
 import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
 import com.linc.inphoto.utils.extensions.view.THUMB_MEDIUM
 import com.linc.inphoto.utils.extensions.view.loadImage
-import com.xwray.groupie.GroupieAdapter
+import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -34,18 +36,20 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     override val viewModel: ProfileViewModel by viewModels()
     private val binding by viewBinding(FragmentProfileBinding::bind)
 
-    private val userPostsAdapter: GroupieAdapter by lazy { GroupieAdapter() }
+    //    private val userPostsAdapter: GroupieAdapter by lazy { GroupieAdapter() }
+    private val userPostsSection: Section by lazy { Section() }
+    private val newPostSection: Section by lazy { Section() }
 
     private val imagePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         val source = permissions.map { permission ->
             when (permission.key) {
-                Manifest.permission.CAMERA -> SourceType.Camera(permission.value)
-                else -> SourceType.Gallery(permission.value)
+                Manifest.permission.CAMERA -> ImageSource.Camera(permission.value)
+                else -> ImageSource.Gallery(permission.value)
             }
         }
-        viewModel.selectImageSource(source)
+        viewModel.updateProfileAvatar()
     }
 
     override suspend fun observeUiState() = with(binding) {
@@ -56,7 +60,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 size = THUMB_MEDIUM,
                 errorPlaceholder = R.drawable.avatar_thumb
             )
-            userPostsAdapter.update(state.posts.map(::ProfilePostItem))
+            userPostsSection.update(state.posts.map(::ProfilePostItem))
+            state.newPostUiState?.let { newPostSection.update(listOf(NewPostItem(it))) }
         }
         return@with
     }
@@ -71,7 +76,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         with(binding) {
             postsRecyclerView.apply {
                 layoutManager = verticalGridLayoutManager(ROW_IMAGES_COUNT)
-                adapter = userPostsAdapter
+                adapter = createAdapter(newPostSection, userPostsSection)
                 addItemDecoration(
                     GridSpaceItemDecoration(
                         ROW_IMAGES_COUNT,
@@ -79,10 +84,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                         true
                     )
                 )
-            }
-
-            userPostsAdapter.setOnItemClickListener { item, view ->
-                viewModel.createPost()
             }
 
             moveUpButton.setOnClickListener {

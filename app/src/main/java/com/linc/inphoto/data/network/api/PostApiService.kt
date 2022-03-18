@@ -3,12 +3,22 @@ package com.linc.inphoto.data.network.api
 import com.linc.inphoto.data.network.model.BaseResponse
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import com.linc.inphoto.data.network.model.user.UserApiModel
+import com.rhythmoya.data.network.helper.HttpHelper
+import okhttp3.MultipartBody
+import retrofit2.http.*
 
 interface PostApiService {
+
+    @Headers(HttpHelper.Header.MULTIPART_REQUEST)
+    @Multipart
+    @POST("/posts/{userId}")
+    suspend fun savePost(
+        @Part image: MultipartBody.Part,
+        @Part description: MultipartBody.Part,
+        @Part tags: List<MultipartBody.Part>,
+        @Path("userId") id: String
+    ): BaseResponse<UserApiModel>
 
     @GET("/posts/users/{userId}")
     suspend fun getUserPosts(

@@ -42,4 +42,7 @@
     <string name="description">Description</string>
     <string name="tags">Tags</string>
 
+    <string name="not_found">Not Found!</string>
+    <string name="image_not_found">Image not found!</string>
+
 </resources>

@@ -89,29 +89,5 @@ class TagsEditText constructor(
         )
         return true
     }
-    /*private fun addChip(tag: String): Boolean {
-        if (binding?.root == null || tags.contains(tag)) {
-            return false
-        }
-        TransitionManager.beginDelayedTransition(binding!!.root, AutoTransition())
-        val chip = LayoutInflater.from(context).inflate(
-            R.layout.item_editable_tag_chip,
-            binding?.tagsChipGroup,
-            false
-        ) as? Chip
-        chip?.apply {
-            id = ViewCompat.generateViewId()
-            text = tag
-            setOnCloseIconClickListener {
-                binding?.tagsChipGroup?.removeView(this)
-                onTagDeletedListener?.invoke(tag)
-                tags.remove(tag)
-            }
-        }
-        binding?.tagsChipGroup?.addView(chip)
-        onTagAddedListener?.invoke(tag)
-        tags.add(tag)
-        return true
-    }*/
 
 }

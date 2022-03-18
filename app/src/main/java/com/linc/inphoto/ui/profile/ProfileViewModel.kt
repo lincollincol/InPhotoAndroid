@@ -3,15 +3,16 @@ package com.linc.inphoto.ui.profile
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
-import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.managepost.ManageablePost
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
-import com.linc.inphoto.ui.profile.model.SourceType
+import com.linc.inphoto.ui.profile.item.NewPostUiState
+import com.linc.inphoto.ui.profile.model.ImageSource
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,65 +42,55 @@ class ProfileViewModel @Inject constructor(
             val user = userRepository.getLoggedInUser()
             val userPosts = postRepository.getCurrentUserPosts()
                 .map { it.toUiState { selectPost(it) } }
-            _uiState.update { copy(user = user, posts = userPosts) }
+            _uiState.update {
+                copy(
+                    user = user,
+                    posts = userPosts,
+                    newPostUiState = NewPostUiState(::createPost)
+                )
+            }
         } catch (e: Exception) {
             Timber.e(e)
         }
     }
 
-    fun createPost() {
-        router.navigateTo(Navigation.ManagePostScreen())
-    }
+    fun updateProfileAvatar() {
+//        if (sources.all { !it.enabled }) {
+//            showInfo(R.string.permissions, R.string.profile_permissions_message)
+//            return
+//        }
 
-    fun selectImageSource(sources: List<SourceType>) {
-        viewModelScope.launch {
-            try {
-                if (sources.all { !it.enabled }) {
-                    showInfo(R.string.permissions, R.string.profile_permissions_message)
-                    return@launch
-                }
-                router.setResultListener(SELECT_SOURCE_RESULT) { result ->
-                    val selectedSource = result.safeCast<SourceType>() ?: return@setResultListener
-                    handleSelectedSource(selectedSource)
-                }
-                router.navigateTo(
-                    Navigation.ChooseOptionScreen(
-                        SELECT_SOURCE_RESULT,
-                        sources
-                    )
-                )
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
+        router.setResultListener(SELECT_SOURCE_RESULT) { result ->
+            val selectedSource = result.safeCast<ImageSource>() ?: return@setResultListener
+            selectImage(selectedSource, ::handleSelectedAvatar)
         }
+        val pickerScreen = Navigation.ChooseOptionScreen(
+            SELECT_SOURCE_RESULT, ImageSource.getAvailableSources()
+        )
+        router.navigateTo(pickerScreen)
     }
 
-    private fun handleSelectedSource(source: SourceType) {
-        viewModelScope.launch {
-            try {
-                // Navigate to source screen
-                val screen = when (source) {
-                    is SourceType.Gallery -> Navigation.GalleryScreen(
-                        SELECT_IMAGE_RESULT
-                    )
-                    is SourceType.Camera -> Navigation.CameraScreen(SELECT_IMAGE_RESULT)
-                }
-                router.navigateTo(screen)
+    private fun selectImage(
+        imageSource: ImageSource,
+        onSelected: (imageUri: Uri?) -> Unit
+    ) {
+        // Navigate to source screen
+        val screen = when (imageSource) {
+            is ImageSource.Gallery -> Navigation.GalleryScreen(SELECT_IMAGE_RESULT)
+            is ImageSource.Camera -> Navigation.CameraScreen(SELECT_IMAGE_RESULT)
+        }
+        router.navigateTo(screen)
 
-                router.setResultListener(SELECT_IMAGE_RESULT) {
-                    val editorScreen = Navigation.EditImageScreen(
-                        EDIT_IMAGE_RESULT,
-                        it as Uri
-                    )
-                    router.navigateTo(editorScreen)
-                }
+        router.setResultListener(SELECT_IMAGE_RESULT) {
+            val editorScreen = Navigation.EditImageScreen(
+                EDIT_IMAGE_RESULT,
+                it as Uri
+            )
+            router.navigateTo(editorScreen)
+        }
 
-                router.setResultListener(EDIT_IMAGE_RESULT) {
-                    handleSelectedAvatar(it as? Uri)
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
+        router.setResultListener(EDIT_IMAGE_RESULT) {
+            onSelected(it as? Uri)
         }
     }
 
@@ -117,6 +108,20 @@ class ProfileViewModel @Inject constructor(
     private fun selectPost(post: Post) {
         val overviewType = OverviewType.Profile(post.id, post.authorUserId)
         router.navigateTo(Navigation.PostOverviewScreen(overviewType))
+    }
+
+    private fun createPost() {
+        router.setResultListener(SELECT_SOURCE_RESULT) { result ->
+            val selectedSource = result.safeCast<ImageSource>() ?: return@setResultListener
+            selectImage(selectedSource) { imageUri ->
+                imageUri ?: return@selectImage
+                router.navigateTo(Navigation.ManagePostScreen(ManageablePost(imageUri)))
+            }
+        }
+        val pickerScreen = Navigation.ChooseOptionScreen(
+            SELECT_SOURCE_RESULT, ImageSource.getAvailableSources()
+        )
+        router.navigateTo(pickerScreen)
     }
 
 }

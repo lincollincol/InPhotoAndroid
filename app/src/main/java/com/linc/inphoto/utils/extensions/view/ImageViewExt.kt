@@ -92,8 +92,13 @@ fun ImageView.loadImage(
     @ColorInt placeholderTint: Int? = null,
     @ColorInt errorTint: Int? = null,
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
-    skipMemoryCache: Boolean = true
+    skipMemoryCache: Boolean = true,
+    reloadImage: Boolean = true
 ) {
+
+    if (!reloadImage && drawable != null) {
+        return
+    }
 
     val circularProgressDrawable = CircularProgressDrawable(context).apply {
         strokeWidth = 5f

@@ -2,12 +2,15 @@ package com.linc.inphoto.ui.managepost
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentManagePostBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.utils.extensions.getArgument
+import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.update
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -16,8 +19,12 @@ import kotlinx.coroutines.flow.collect
 class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
 
     companion object {
+        private const val POST_ARG = "post_uri"
+
         @JvmStatic
-        fun newInstance() = ManagePostFragment()
+        fun newInstance(post: ManageablePost) = ManagePostFragment().apply {
+            arguments = bundleOf(POST_ARG to post)
+        }
     }
 
     override val viewModel: ManagePostViewModel by viewModels()
@@ -25,9 +32,15 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            postImageView.loadImage(state.imageUri, reloadImage = false)
             tagsEditText.setTags(state.tags)
             descriptionEditText.update(state.description)
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getArgument<ManageablePost>(POST_ARG)?.let(viewModel::applyPost)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

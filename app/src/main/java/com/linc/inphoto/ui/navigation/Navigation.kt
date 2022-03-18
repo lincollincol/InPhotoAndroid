@@ -9,8 +9,9 @@ import com.linc.inphoto.ui.camera.CameraFragment
 import com.linc.inphoto.ui.cropimage.CropImageFragment
 import com.linc.inphoto.ui.editimage.EditImageFragment
 import com.linc.inphoto.ui.gallery.GalleryFragment
-import com.linc.inphoto.ui.infodialog.InfoMessageDialog
+import com.linc.inphoto.ui.infodialog.InfoMessageFragment
 import com.linc.inphoto.ui.managepost.ManagePostFragment
+import com.linc.inphoto.ui.managepost.ManageablePost
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
@@ -29,9 +30,10 @@ object Navigation {
 
     fun InfoMessageScreen(
         @StringRes title: Int,
-        @StringRes message: Int
+        @StringRes message: Int,
+        resultKey: String? = null
     ) = FragmentScreen(clearContainer = false) {
-        InfoMessageDialog.newInstance(title, message)
+        InfoMessageFragment.newInstance(title, message, resultKey)
     }
 
     fun SignInScreen() = FragmentScreen {
@@ -58,8 +60,8 @@ object Navigation {
         CropImageFragment.newInstance(resultKey, image)
     }
 
-    fun ManagePostScreen() = FragmentScreen {
-        ManagePostFragment.newInstance()
+    fun ManagePostScreen(post: ManageablePost) = FragmentScreen {
+        ManagePostFragment.newInstance(post)
     }
 
     fun SplashScreen() = FragmentScreen {
