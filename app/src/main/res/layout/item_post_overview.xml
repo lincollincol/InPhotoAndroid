@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
-        app:icon="@drawable/ic_like_outlined"
+        app:icon="@drawable/selector_like"
         app:iconSize="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/postImageView"

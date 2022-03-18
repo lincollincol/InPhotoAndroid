@@ -4,7 +4,18 @@ import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.ui.base.state.UiState
 
 data class PostUiState(
-    val post: ExtendedPost,
+    val postId: String,
+    val authorUserId: String,
+    val createdTimestamp: Long,
+    val description: String,
+    val contentUrl: String,
+    val username: String,
+    val userAvatarUrl: String?,
+    val isLiked: Boolean,
+    val isBookmarked: Boolean,
+    val likesCount: Int,
+    val commentsCount: Int,
+    val tags: List<String>,
     val onLike: () -> Unit,
     val onBookmark: () -> Unit,
     val onComment: () -> Unit
@@ -14,4 +25,20 @@ fun ExtendedPost.toUiState(
     onLike: () -> Unit,
     onBookmark: () -> Unit,
     onComment: () -> Unit
-) = PostUiState(this, onLike, onBookmark, onComment)
+) = PostUiState(
+    postId = id,
+    authorUserId = authorUserId,
+    createdTimestamp = createdTimestamp,
+    description = description,
+    contentUrl = contentUrl,
+    username = username,
+    userAvatarUrl = userAvatarUrl,
+    isLiked = isLiked,
+    isBookmarked = isBookmarked,
+    likesCount = likesCount,
+    commentsCount = commentsCount,
+    tags = tags,
+    onLike,
+    onBookmark,
+    onComment
+)

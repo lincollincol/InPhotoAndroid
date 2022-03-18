@@ -31,9 +31,9 @@ class PostOverviewViewModel @Inject constructor(
                 }
                 val postStates = posts.map { post ->
                     post.toUiState(
-                        onLike = { likePost(post) },
-                        onBookmark = { bookmarkPost(post) },
-                        onComment = { commentPost(post) },
+                        onLike = { likePost(post.id, post.isLiked) },
+                        onBookmark = { bookmarkPost(post.id) },
+                        onComment = { commentPost(post.id) },
                     )
                 }
                 val initialPost = posts.find { it.id == overviewType?.postId }
@@ -44,15 +44,35 @@ class PostOverviewViewModel @Inject constructor(
         }
     }
 
-    private fun likePost(post: ExtendedPost) {
-
+    private fun likePost(postId: String, isLiked: Boolean) {
+        viewModelScope.launch {
+            try {
+                val post = postRepository.likePost(postId, !isLiked) ?: return@launch
+                val posts = uiState.value.posts.map {
+                    if (it.postId == postId) {
+                        it.copy(isLiked = post.isLiked, likesCount = post.likesCount)
+                    } else {
+                        it
+                    }
+                }
+                _uiState.update { copy(posts = posts) }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 
-    private fun bookmarkPost(post: ExtendedPost) {
+    private fun bookmarkPost(postId: String) {
+        viewModelScope.launch {
+            try {
 
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 
-    private fun commentPost(post: ExtendedPost) {
+    private fun commentPost(postId: String) {
 
     }
 

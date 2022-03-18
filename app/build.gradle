@@ -24,7 +24,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            buildConfigField "String", "BASE_URL", "\"http://192.168.1.18:8885\""
-            buildConfigField "String", "BASE_URL", "\"https://cryptic-stream-96477.herokuapp.com\""
+            buildConfigField "String", "BASE_URL", "\"http://84b7-92-118-79-141.ngrok.io\""
+//            buildConfigField "String", "BASE_URL", "\"https://cryptic-stream-96477.herokuapp.com\""
         }
 
         release {

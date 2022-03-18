@@ -12,6 +12,7 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutImageTextViewBinding
 import com.linc.inphoto.utils.extensions.getColorInt
 import com.linc.inphoto.utils.extensions.inflater
+import com.linc.inphoto.utils.extensions.view.select
 import com.linc.inphoto.utils.extensions.view.setTint
 
 
@@ -67,16 +68,20 @@ class ImageTextView(
         binding?.run {
             textView.apply {
                 text = this@ImageTextView.text
+                select(this@ImageTextView.isSelected)
                 setTextColor(this@ImageTextView.textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, this@ImageTextView.textSize.toFloat())
             }
             imageView.apply {
                 setImageDrawable(icon)
                 setTint(iconTint)
+                select(this@ImageTextView.isSelected)
                 updateLayoutParams {
                     width = iconSize
                     height = iconSize
                 }
+                setOnClickListener { onIconClickListener?.invoke() }
+                refreshDrawableState()
             }
         }
     }
@@ -85,6 +90,13 @@ class ImageTextView(
         super.onDetachedFromWindow()
         binding = null
         onIconClickListener = null
+    }
+
+    override fun setSelected(selected: Boolean) {
+        super.setSelected(selected)
+        binding?.imageView?.select(selected)
+        binding?.textView?.select(selected)
+        binding?.imageView?.refreshDrawableState()
     }
 
     fun setOnIconClickListener(onIconClickListener: () -> Unit) {

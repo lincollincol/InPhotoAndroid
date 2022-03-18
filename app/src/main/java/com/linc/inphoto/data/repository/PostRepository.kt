@@ -36,11 +36,33 @@ class PostRepository @Inject constructor(
                 .orEmpty()
         }
 
-    suspend fun getCurrentUserExtendedPost(
+    suspend fun getExtendedPost(
         postId: String
     ): ExtendedPost? = withContext(ioDispatcher) {
-        val response = postApiService.getExtendedPost(authPreferences.userId, postId)
+        val response = postApiService.getExtendedPost(postId, authPreferences.userId)
         return@withContext response.body?.toExtendedPostModel()
+    }
+
+    suspend fun likePost(
+        postId: String,
+        isLiked: Boolean
+    ): ExtendedPost? = withContext(ioDispatcher) {
+        return@withContext postApiService.likePost(
+            postId,
+            authPreferences.userId,
+            isLiked
+        ).body?.toExtendedPostModel()
+    }
+
+    suspend fun bookmarkPost(
+        postId: String,
+        isBookmarked: Boolean
+    ): ExtendedPost? = withContext(ioDispatcher) {
+        return@withContext postApiService.bookmarkPost(
+            postId,
+            authPreferences.userId,
+            isBookmarked
+        ).body?.toExtendedPostModel()
     }
 
 }
