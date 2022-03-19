@@ -38,19 +38,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/margin_general" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tagsTextView"
-                style="@style/TextFieldBold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/tags"
-                android:textSize="@dimen/font_small" />
-
-            <com.linc.inphoto.ui.view.TagsEditText
-                android:id="@+id/tagsEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_general" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/descriptionTextView"
@@ -67,6 +54,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tagsTextView"
+                style="@style/TextFieldBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_general"
+                android:text="@string/tags"
+                android:textSize="@dimen/font_small" />
+
+            <com.linc.inphoto.ui.view.TagsEditText
+                android:id="@+id/tagsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_general" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

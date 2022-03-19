@@ -5,17 +5,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/tagsEditText"
+        style="@style/TextInputField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
+        android:inputType="textNoSuggestions" />
+
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/tagsChipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:chipSpacingVertical="@dimen/margin_small" />
-    <!--    android:animateLayoutChanges="true"-->
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/tagsEditText"
-        style="@style/TextInputField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>
