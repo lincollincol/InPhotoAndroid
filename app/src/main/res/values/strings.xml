@@ -45,4 +45,7 @@
     <string name="not_found">Not Found!</string>
     <string name="image_not_found">Image not found!</string>
 
+    <string name="empty_description_error">Please, describe content!</string>
+    <string name="empty_tags_list_error">Please, add at least one tag!</string>
+
 </resources>

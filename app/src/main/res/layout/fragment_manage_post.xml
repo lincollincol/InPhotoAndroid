@@ -58,6 +58,14 @@
                 android:inputType="textMultiLine" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/descriptionErrorTextView"
+                style="@style/TextError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/empty_description_error" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tagsTextView"
                 style="@style/TextFieldBold"
                 android:layout_width="match_parent"
@@ -69,10 +77,32 @@
             <com.linc.inphoto.ui.view.TagsEditText
                 android:id="@+id/tagsEditText"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tagsErrorTextView"
+                style="@style/TextError"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_general" />
+                android:text="@string/empty_tags_list_error" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_huge" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.linc.inphoto.ui.view.LoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:translationZ="@dimen/translation_top"
+        android:visibility="gone"
+        app:blurOverlayColor="@color/black_25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,8 +48,8 @@
     <dimen name="corner_huge">64dp</dimen>
 
     <!--Translation Z-->
-    <dimen name="translation_bottom">5dp</dimen>
-    <dimen name="translation_middle">10dp</dimen>
-    <dimen name="translation_top">15dp</dimen>
+    <dimen name="translation_bottom">8dp</dimen>
+    <dimen name="translation_middle">16dp</dimen>
+    <dimen name="translation_top">24dp</dimen>
 
 </resources>

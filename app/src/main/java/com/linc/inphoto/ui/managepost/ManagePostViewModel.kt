@@ -33,7 +33,6 @@ class ManagePostViewModel @Inject constructor(
         }
     }
 
-
     fun addTags(tag: String) {
         val tags = uiState.value.tags.toTypedArray()
         _uiState.update { copy(tags = listOf(*tags, tag)) }
@@ -52,14 +51,20 @@ class ManagePostViewModel @Inject constructor(
     fun savePost() {
         viewModelScope.launch {
             try {
+                _uiState.update { copy(isLoading = true) }
+                if (!uiState.value.isValidPostData) {
+                    _uiState.update { copy(isErrorsEnabled = true) }
+                    return@launch
+                }
                 postRepository.updateUserAvatar(
                     uiState.value.imageUri,
                     uiState.value.description,
                     uiState.value.tags,
                 )
-
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { copy(isLoading = false) }
             }
         }
     }
