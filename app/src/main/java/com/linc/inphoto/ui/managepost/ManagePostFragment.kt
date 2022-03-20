@@ -11,6 +11,7 @@ import com.linc.inphoto.databinding.FragmentManagePostBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.loadImage
+import com.linc.inphoto.utils.extensions.view.scrollToBottom
 import com.linc.inphoto.utils.extensions.view.update
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -34,7 +35,7 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
         viewModel.uiState.collect { state ->
             postImageView.loadImage(state.imageUri, reloadImage = false)
             tagsEditText.setTags(state.tags)
-            descriptionEditText.update(state.description)
+            descriptionEditText.text.update(state.description)
         }
     }
 
@@ -51,7 +52,10 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
                 setOnCancelClickListener(viewModel::cancelPost)
             }
             tagsEditText.apply {
-                setOnTagAddedListener(viewModel::addTags)
+                setOnTagAddedListener {
+                    viewModel.addTags(it)
+                    contentScrollView.scrollToBottom(contentLayout)
+                }
                 setOnTagDeletedListener(viewModel::removeTags)
             }
             descriptionEditText.doOnTextChanged { text, _, _, _ ->

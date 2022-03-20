@@ -17,6 +17,7 @@
         app:textTitle="@string/manage_post_toolbar" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -26,6 +27,7 @@
         app:layout_constraintTop_toBottomOf="@id/editorToolbarView">
 
         <LinearLayout
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/elevation_general"

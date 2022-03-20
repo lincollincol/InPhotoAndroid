@@ -12,7 +12,9 @@ import com.linc.inphoto.databinding.LayoutTagsEditTextBinding
 import com.linc.inphoto.utils.TextInputFilter
 import com.linc.inphoto.utils.extensions.EMPTY
 import com.linc.inphoto.utils.extensions.inflater
+import com.linc.inphoto.utils.extensions.isLongerThan
 import com.linc.inphoto.utils.extensions.view.addChip
+import com.linc.inphoto.utils.extensions.view.deleteLast
 import com.linc.inphoto.utils.extensions.view.textToString
 
 
@@ -35,46 +37,24 @@ class TagsEditText constructor(
         if (binding != null) {
             return
         }
-
         binding = LayoutTagsEditTextBinding.inflate(context.inflater, this, true)
         binding?.run {
             tagsEditText.apply {
-                inputType =
-                    InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or
+                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 doOnTextChanged { tag, _, _, _ ->
-                    if (tag.isNullOrEmpty() || tag.isBlank()) {
-                        tagsEditText.text?.clear()
-                        return@doOnTextChanged
-                    }
-
-                    if (tag.last().isWhitespace()) {
-                        val tagAdded = addChip(tag.toString())
-                        if (tagAdded) {
-                            tagsEditText.text?.clear()
-                        } else {
-                            tagsEditText.text?.delete(tag.length - 1, tag.length)
-                        }
+                    if (tag?.lastOrNull()?.isWhitespace() == true) {
+                        addChip(tag.trim().toString())
                     }
                 }
                 setOnFocusChangeListener { _, hasFocus ->
-                    if (hasFocus) {
+                    if (!hasFocus && !text.isNullOrEmpty()) {
+                        addChip(textToString().trim())
                         return@setOnFocusChangeListener
-                    }
-                    val tag = textToString()
-                    if (tag.isEmpty() || tag.isBlank()) {
-                        tagsEditText.text?.clear()
-                        return@setOnFocusChangeListener
-                    }
-
-                    val tagAdded = addChip(tag)
-                    if (tagAdded) {
-                        tagsEditText.text?.clear()
-                    } else {
-                        tagsEditText.text?.delete(tag.length - 1, tag.length)
                     }
                 }
                 filters = arrayOf(TextInputFilter { text, start, end, spanned, _, _ ->
-                    if (spanned?.length ?: 0 >= TAG_LENGTH - 1 && text?.isBlank() == false) {
+                    if (spanned.isLongerThan(TAG_LENGTH - 1) && text?.isBlank() == false) {
                         return@TextInputFilter String.EMPTY
                     }
                     return@TextInputFilter text?.subSequence(start, end)
@@ -106,24 +86,29 @@ class TagsEditText constructor(
         this.tags.addAll(tags)
     }
 
-    private fun addChip(tag: String): Boolean {
-        if (binding?.root == null || tags.contains(tag)) {
-            return false
+    private fun addChip(tag: String): Boolean = binding?.run {
+        if (tag.isEmpty() || tag.isBlank()) {
+            tagsEditText.text?.clear()
+            return@run false
+        } else if (tags.contains(tag)) {
+            tagsEditText.text.deleteLast()
+            return@run false
         }
-        TransitionManager.beginDelayedTransition(binding!!.root, AutoTransition())
-        binding?.tagsChipGroup?.addChip(
+        TransitionManager.beginDelayedTransition(root, AutoTransition())
+        tagsChipGroup.addChip(
             tag,
             R.layout.item_editable_tag_chip,
             onChipAdded = {
                 onTagAddedListener?.invoke(tag)
                 tags.add(tag)
+                tagsEditText.text?.clear()
             },
             onChipDeleted = {
                 onTagDeletedListener?.invoke(tag)
                 tags.remove(tag)
             }
         )
-        return true
-    }
+        return@run true
+    } ?: false
 
 }
