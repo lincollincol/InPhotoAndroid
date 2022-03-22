@@ -11,7 +11,7 @@ import com.linc.inphoto.databinding.FragmentEditImageBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.editimage.item.EditOperationItem
 import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.horizontalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.view.horizontalLinearLayoutManager
 import com.linc.inphoto.utils.extensions.view.loadUriImage
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint

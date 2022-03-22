@@ -24,7 +24,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            buildConfigField "String", "BASE_URL", "\"http://192.168.1.18:8885\""
-            buildConfigField "String", "BASE_URL", "\"http://8eca-92-118-79-141.ngrok.io\""
+            buildConfigField "String", "BASE_URL", "\"http://1347-92-118-79-141.ngrok.io\""
 //            buildConfigField "String", "BASE_URL", "\"https://cryptic-stream-96477.herokuapp.com\""
         }
 
@@ -103,6 +103,8 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
 //    implementation 'com.steelkiwi:cropiwa:1.0.3'
     implementation 'com.github.CanHub:Android-Image-Cropper:4.1.0'
+    // Shimmer
+//    implementation "com.ericktijerou.koleton:koleton:1.0.0-beta01"
 
     // RecyclerView/Groupie
     def groupie_version = "2.9.0"
@@ -110,9 +112,10 @@ dependencies {
     implementation "com.github.lisawray.groupie:groupie-viewbinding:$groupie_version"
     implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
 
-    // Bouncy (overscroll view)
+    // Animations, effects
     def bouncy_version = "1.8"
     implementation "com.github.valkriaine:bouncy:$bouncy_version"
+    implementation 'com.airbnb.android:lottie:5.0.3'
 
     // Hilt
     def hilt_version = "2.38.1"

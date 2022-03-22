@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.IntDef
 import androidx.core.view.isVisible
+import com.linc.inphoto.utils.DoubleClickListener
 import com.linc.inphoto.utils.extensions.safeCast
 
 @IntDef(ANIM_NONE, ANIM_FADE)
@@ -124,6 +125,11 @@ fun View.onThrottledClick(
         postDelayed({ isClickable = true }, throttleDelay)
     }
 }
+
+fun View.setOnDoubleClickListener(
+    interval: Long = 500L,
+    action: (view: View) -> Unit
+) = setOnClickListener(DoubleClickListener(interval, action))
 
 fun View.setBackgroundRipple(@ColorInt color: Int) {
     background = RippleDrawable(

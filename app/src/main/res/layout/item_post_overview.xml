@@ -11,8 +11,9 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_margin="@dimen/margin_general"
-        android:background="@color/white"
         android:elevation="@dimen/elevation_small"
+        android:background="@color/white"
+        android:scaleType="fitXY"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,9 +59,9 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
-        android:background="@color/white"
         android:elevation="@dimen/elevation_small"
-        android:scaleType="center"
+        android:scaleType="centerCrop"
+        android:background="@color/white"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.5"
@@ -69,30 +70,44 @@
         app:shapeAppearanceOverlay="@style/CircleImageShape25"
         app:srcCompat="@drawable/mango" />
 
-    <com.linc.inphoto.ui.view.ImageTextView
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/likeAnimationView"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:elevation="@dimen/elevation_small"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/postImageView"
+        app:layout_constraintEnd_toEndOf="@id/postImageView"
+        app:layout_constraintStart_toStartOf="@id/postImageView"
+        app:layout_constraintTop_toTopOf="@id/postImageView"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/anim_like"
+        app:lottie_repeatMode="restart"
+        app:lottie_speed="2" />
+
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/likeImageTextView"
         style="@style/TextFieldBold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
-        app:icon="@drawable/selector_like"
-        app:iconSize="32dp"
+        app:layout_constraintTop_toBottomOf="@id/postImageView"
+        app:srcCompat="@drawable/selector_like"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/postImageView"
-        app:textSize="@dimen/font_small" />
+        app:tint="@color/black" />
 
-    <com.linc.inphoto.ui.view.ImageTextView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/commentImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
-        app:icon="@drawable/ic_comment_outlined"
-        app:iconSize="32dp"
-        app:layout_constraintStart_toEndOf="@id/likeImageTextView"
         app:layout_constraintTop_toBottomOf="@id/postImageView"
-        app:textSize="@dimen/font_small" />
+        app:srcCompat="@drawable/ic_comment_outlined"
+        app:layout_constraintStart_toEndOf="@id/likeImageTextView"
+        app:tint="@color/black" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/bookmarkImageView"
@@ -102,7 +117,7 @@
         android:layout_marginTop="@dimen/margin_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/postImageView"
-        app:srcCompat="@drawable/ic_bookmark_outlined"
+        app:srcCompat="@drawable/selector_bookmark"
         app:tint="@color/black" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -130,15 +145,22 @@
         app:layout_constraintTop_toBottomOf="@id/controllersBarrier"
         tools:text="@string/example_lorem_ipsum" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/tagsChipGroup"
+    <HorizontalScrollView
+        android:id="@+id/tagsScrollView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
-        app:singleLine="true" />
+        app:layout_constraintTop_toBottomOf="@id/descriptionTextView">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/tagsChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="true" />
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,6 +61,7 @@ class ManagePostViewModel @Inject constructor(
                     uiState.value.description,
                     uiState.value.tags,
                 )
+                router.exit()
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {

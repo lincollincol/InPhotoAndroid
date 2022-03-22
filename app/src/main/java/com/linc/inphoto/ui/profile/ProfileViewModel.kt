@@ -55,11 +55,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun updateProfileAvatar() {
-//        if (sources.all { !it.enabled }) {
-//            showInfo(R.string.permissions, R.string.profile_permissions_message)
-//            return
-//        }
-
         router.setResultListener(SELECT_SOURCE_RESULT) { result ->
             val selectedSource = result.safeCast<ImageSource>() ?: return@setResultListener
             selectImage(selectedSource, ::handleSelectedAvatar)

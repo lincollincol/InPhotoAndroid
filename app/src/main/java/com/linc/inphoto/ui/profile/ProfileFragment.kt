@@ -11,14 +11,10 @@ import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
-import com.linc.inphoto.ui.profile.model.ImageSource
-import com.linc.inphoto.utils.GridSpaceItemDecoration
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getDimension
-import com.linc.inphoto.utils.extensions.scrollToStart
-import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
-import com.linc.inphoto.utils.extensions.view.THUMB_MEDIUM
-import com.linc.inphoto.utils.extensions.view.loadImage
+import com.linc.inphoto.utils.extensions.view.*
+import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -35,20 +31,12 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     override val viewModel: ProfileViewModel by viewModels()
     private val binding by viewBinding(FragmentProfileBinding::bind)
-
-    //    private val userPostsAdapter: GroupieAdapter by lazy { GroupieAdapter() }
     private val userPostsSection: Section by lazy { Section() }
     private val newPostSection: Section by lazy { Section() }
 
     private val imagePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val source = permissions.map { permission ->
-            when (permission.key) {
-                Manifest.permission.CAMERA -> ImageSource.Camera(permission.value)
-                else -> ImageSource.Gallery(permission.value)
-            }
-        }
+    ) {
         viewModel.updateProfileAvatar()
     }
 
@@ -66,17 +54,13 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         return@with
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.loadProfileData()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             postsRecyclerView.apply {
-                layoutManager = verticalGridLayoutManager(ROW_IMAGES_COUNT)
-                adapter = createAdapter(newPostSection, userPostsSection)
+                layoutManager = verticalSquareGridLayoutManager(ROW_IMAGES_COUNT)
+                adapter = createAdapter(hasStableIds = true, newPostSection, userPostsSection)
+                enableItemChangeAnimation(false)
                 addItemDecoration(
                     GridSpaceItemDecoration(
                         ROW_IMAGES_COUNT,
@@ -100,6 +84,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 )
             }
         }
+        viewModel.loadProfileData()
     }
 
 

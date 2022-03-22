@@ -11,7 +11,7 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.optionpicker.item.OptionItem
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.verticalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

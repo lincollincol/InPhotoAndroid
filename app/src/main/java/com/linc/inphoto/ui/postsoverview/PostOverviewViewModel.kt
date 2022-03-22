@@ -32,7 +32,7 @@ class PostOverviewViewModel @Inject constructor(
                 val postStates = posts.map { post ->
                     post.toUiState(
                         onLike = { likePost(post.id, post.isLiked) },
-                        onBookmark = { bookmarkPost(post.id) },
+                        onBookmark = { bookmarkPost(post.id, post.isBookmarked) },
                         onComment = { commentPost(post.id) },
                     )
                 }
@@ -50,7 +50,11 @@ class PostOverviewViewModel @Inject constructor(
                 val post = postRepository.likePost(postId, !isLiked) ?: return@launch
                 val posts = uiState.value.posts.map {
                     if (it.postId == postId) {
-                        it.copy(isLiked = post.isLiked, likesCount = post.likesCount)
+                        post.toUiState(
+                            onLike = { likePost(post.id, post.isLiked) },
+                            onBookmark = { bookmarkPost(post.id, post.isBookmarked) },
+                            onComment = { commentPost(post.id) },
+                        )
                     } else {
                         it
                     }
@@ -62,10 +66,22 @@ class PostOverviewViewModel @Inject constructor(
         }
     }
 
-    private fun bookmarkPost(postId: String) {
+    private fun bookmarkPost(postId: String, isBookmarked: Boolean) {
         viewModelScope.launch {
             try {
-
+                val post = postRepository.bookmarkPost(postId, !isBookmarked) ?: return@launch
+                val posts = uiState.value.posts.map {
+                    if (it.postId == postId) {
+                        post.toUiState(
+                            onLike = { likePost(post.id, post.isLiked) },
+                            onBookmark = { bookmarkPost(post.id, post.isBookmarked) },
+                            onComment = { commentPost(post.id) },
+                        )
+                    } else {
+                        it
+                    }
+                }
+                _uiState.update { copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)
             }

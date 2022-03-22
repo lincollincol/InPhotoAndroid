@@ -81,7 +81,7 @@ class ImageTextView(
                     height = iconSize
                 }
                 setOnClickListener { onIconClickListener?.invoke() }
-                refreshDrawableState()
+//                refreshDrawableState()
             }
         }
     }
@@ -96,7 +96,7 @@ class ImageTextView(
         super.setSelected(selected)
         binding?.imageView?.select(selected)
         binding?.textView?.select(selected)
-        binding?.imageView?.refreshDrawableState()
+//        binding?.imageView?.refreshDrawableState()
     }
 
     fun setOnIconClickListener(onIconClickListener: () -> Unit) {

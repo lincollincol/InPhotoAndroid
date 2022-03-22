@@ -9,10 +9,10 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentGalleryBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.gallery.item.GalleryImageItem
-import com.linc.inphoto.utils.GridSpaceItemDecoration
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.getDimension
-import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
+import com.linc.inphoto.utils.extensions.view.verticalSquareGridLayoutManager
+import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -49,7 +49,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             imagesRecyclerView.apply {
-                layoutManager = verticalGridLayoutManager(ROW_IMAGES_COUNT)
+                layoutManager = verticalSquareGridLayoutManager(ROW_IMAGES_COUNT)
                 adapter = imagesAdapter
                 addItemDecoration(
                     GridSpaceItemDecoration(

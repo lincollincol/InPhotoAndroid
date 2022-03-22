@@ -10,7 +10,7 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class ProfilePostItem(
     private val profilePostUiState: ProfilePostUiState
-) : BindableItem<ItemProfilePostBinding>() {
+) : BindableItem<ItemProfilePostBinding>(profilePostUiState.post.id.hashCode().toLong()) {
 
     override fun bind(viewBinding: ItemProfilePostBinding, position: Int) {
         with(viewBinding) {

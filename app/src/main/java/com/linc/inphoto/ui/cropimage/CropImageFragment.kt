@@ -12,11 +12,7 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.cropimage.item.CropRatioItem
 import com.linc.inphoto.utils.extensions.autoAnimateTargets
 import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.horizontalLinearLayoutManager
-import com.linc.inphoto.utils.extensions.view.applyShape
-import com.linc.inphoto.utils.extensions.view.setAspectRatio
-import com.linc.inphoto.utils.extensions.view.setCropShape
-import com.linc.inphoto.utils.extensions.view.show
+import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect

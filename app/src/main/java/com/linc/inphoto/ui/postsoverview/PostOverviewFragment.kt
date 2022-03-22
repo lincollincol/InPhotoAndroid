@@ -11,7 +11,8 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.postsoverview.item.PostOverviewItem
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.verticalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.view.enableItemChangeAnimation
+import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -51,6 +52,7 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
             postsRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = postsAdapter
+                enableItemChangeAnimation(false)
             }
         }
 

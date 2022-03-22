@@ -6,6 +6,17 @@ import androidx.core.view.ViewCompat
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
+fun ChipGroup.addChips(
+    tags: List<String>,
+    @LayoutRes layoutId: Int,
+    onChipClick: (() -> Unit)? = null,
+    onChipAdded: (() -> Unit)? = null,
+    onChipDeleted: (() -> Unit)? = null,
+) {
+    removeAllViews()
+    tags.forEach { addChip(it, layoutId, onChipClick, onChipAdded, onChipDeleted) }
+}
+
 fun ChipGroup.addChip(
     tag: String,
     @LayoutRes layoutId: Int,
