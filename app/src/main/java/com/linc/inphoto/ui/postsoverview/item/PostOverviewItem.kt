@@ -19,18 +19,25 @@ class PostOverviewItem(
                 loadImage(postUiState.contentUrl)
                 setOnDoubleClickListener {
                     autoAnimateTargets(root, likeAnimationView)
-                    likeAnimationView.playOneTime { postUiState.onLike() }
+                    likeImageTextView.select()
+                    likeAnimationView.playOneTime { postUiState.onDoubleTap() }
                 }
             }
             usernameTextView.text = postUiState.username
             descriptionTextView.text = postUiState.description
             bookmarkImageView.apply {
                 select(postUiState.isBookmarked)
-                setOnClickListener { postUiState.onBookmark() }
+                setOnClickListener {
+                    toggleSelect()
+                    postUiState.onBookmark()
+                }
             }
             likeImageTextView.apply {
                 select(postUiState.isLiked)
-                setOnClickListener { postUiState.onLike() }
+                setOnClickListener {
+                    toggleSelect()
+                    postUiState.onLike()
+                }
             }
             commentImageView.apply {
                 setOnClickListener { postUiState.onComment() }

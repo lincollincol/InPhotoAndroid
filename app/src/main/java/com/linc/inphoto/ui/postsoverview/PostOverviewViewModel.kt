@@ -31,6 +31,7 @@ class PostOverviewViewModel @Inject constructor(
                 }
                 val postStates = posts.map { post ->
                     post.toUiState(
+                        onDoubleTap = { if (!post.isLiked) likePost(post.id, post.isLiked) },
                         onLike = { likePost(post.id, post.isLiked) },
                         onBookmark = { bookmarkPost(post.id, post.isBookmarked) },
                         onComment = { commentPost(post.id) },
@@ -48,15 +49,15 @@ class PostOverviewViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val post = postRepository.likePost(postId, !isLiked) ?: return@launch
-                val posts = uiState.value.posts.map {
-                    if (it.postId == postId) {
-                        post.toUiState(
+                val posts = uiState.value.posts.map { postUiState ->
+                    when (postUiState.postId) {
+                        postId -> post.toUiState(
+                            onDoubleTap = { if (!post.isLiked) likePost(post.id, post.isLiked) },
                             onLike = { likePost(post.id, post.isLiked) },
                             onBookmark = { bookmarkPost(post.id, post.isBookmarked) },
                             onComment = { commentPost(post.id) },
                         )
-                    } else {
-                        it
+                        else -> postUiState
                     }
                 }
                 _uiState.update { copy(posts = posts) }
@@ -73,6 +74,7 @@ class PostOverviewViewModel @Inject constructor(
                 val posts = uiState.value.posts.map {
                     if (it.postId == postId) {
                         post.toUiState(
+                            onDoubleTap = { if (!post.isLiked) likePost(post.id, post.isLiked) },
                             onLike = { likePost(post.id, post.isLiked) },
                             onBookmark = { bookmarkPost(post.id, post.isBookmarked) },
                             onComment = { commentPost(post.id) },

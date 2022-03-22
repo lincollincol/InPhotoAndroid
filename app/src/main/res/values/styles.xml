@@ -105,6 +105,11 @@
         <item name="cornerFamily">rounded</item>
     </style>
 
+    <style name="CircleImageShape5" parent="">
+        <item name="cornerSize">5%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
     <style name="CircleImageButton">
         <item name="android:background">@drawable/background_circle_image_button</item>
         <item name="android:clickable">true</item>

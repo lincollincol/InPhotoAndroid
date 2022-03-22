@@ -13,7 +13,7 @@
         android:adjustViewBounds="true"
         android:outlineProvider="none"
         app:srcCompat="@drawable/mango"
-        app:shapeAppearanceOverlay="@style/CircleImageShape25"
+        app:shapeAppearanceOverlay="@style/CircleImageShape5"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -60,6 +60,10 @@ fun View.deselect() {
     isSelected = false
 }
 
+fun View.toggleSelect() {
+    isSelected = !isSelected
+}
+
 fun View.setMargin(
     startMargin: Int = 0,
     topMargin: Int = 0,
