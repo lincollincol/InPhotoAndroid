@@ -8,7 +8,7 @@ import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.managepost.ManageablePost
+import com.linc.inphoto.ui.managepost.model.ManageablePost
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.item.NewPostUiState
@@ -41,6 +41,7 @@ class ProfileViewModel @Inject constructor(
         try {
             val user = userRepository.getLoggedInUser()
             val userPosts = postRepository.getCurrentUserPosts()
+                .sortedBy { it.createdTimestamp }
                 .map { it.toUiState { selectPost(it) } }
 
             _uiState.update {

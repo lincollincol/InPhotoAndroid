@@ -1,7 +1,9 @@
 package com.linc.inphoto.ui.navigation
 
+import android.content.Intent
 import android.net.Uri
 import androidx.annotation.StringRes
+import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
@@ -11,7 +13,7 @@ import com.linc.inphoto.ui.editimage.EditImageFragment
 import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageFragment
 import com.linc.inphoto.ui.managepost.ManagePostFragment
-import com.linc.inphoto.ui.managepost.ManageablePost
+import com.linc.inphoto.ui.managepost.model.ManageablePost
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
@@ -76,4 +78,15 @@ object Navigation {
         PostOverviewFragment.newInstance(overviewType)
     }
 
+    /**
+     * External navigation
+     */
+    fun ShareContentScreen(content: String) = ActivityScreen {
+        val contentIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, content)
+            type = "text/plain"
+        }
+        Intent.createChooser(contentIntent, null)
+    }
 }

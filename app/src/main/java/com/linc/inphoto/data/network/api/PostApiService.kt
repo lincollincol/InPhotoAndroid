@@ -3,6 +3,7 @@ package com.linc.inphoto.data.network.api
 import com.linc.inphoto.data.network.model.BaseResponse
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
+import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
 import com.linc.inphoto.data.network.model.user.UserApiModel
 import com.rhythmoya.data.network.helper.HttpHelper
 import okhttp3.MultipartBody
@@ -19,6 +20,12 @@ interface PostApiService {
         @Part tags: List<MultipartBody.Part>,
         @Path("userId") id: String
     ): BaseResponse<UserApiModel>
+
+    @PUT("/posts/{postId}")
+    suspend fun updatePost(
+        @Path("postId") id: String,
+        @Body body: UpdatePostApiModel
+    ): BaseResponse<*>
 
     @GET("/posts/users/{userId}")
     suspend fun getUserPosts(
@@ -54,5 +61,8 @@ interface PostApiService {
         @Path("userId") userId: String,
         @Query("bookmarked") bookmarked: Boolean
     ): BaseResponse<ExtendedPostApiModel>
+
+    @DELETE("/posts/{postId}")
+    suspend fun deletePost(@Path("postId") postId: String): BaseResponse<*>
 
 }

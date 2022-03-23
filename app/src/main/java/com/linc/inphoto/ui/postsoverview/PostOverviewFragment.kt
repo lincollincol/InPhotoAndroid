@@ -20,14 +20,6 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
 
-    /**
-     *
-     * TODO:
-     * Update post (description, tags).
-     * Delete post
-     *
-     * */
-
     companion object {
         private const val OVERVIEW_TYPE_ARG = "overview_type"
 

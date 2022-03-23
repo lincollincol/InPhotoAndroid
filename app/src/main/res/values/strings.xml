@@ -34,6 +34,9 @@
 
     <string name="crop">Crop</string>
     <string name="filter">Filter</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
 
     <string name="publications_toolbar">Publications</string>
     <string name="edit_image_toolbar">Edit Image</string>
@@ -48,5 +51,15 @@
 
     <string name="empty_description_error">Please, describe content!</string>
     <string name="empty_tags_list_error">Please, add at least one tag!</string>
+
+
+    <!--Share content description te,plates-->
+    <string name="share_post_template">
+        Check out %1$s\'s post!\n\n
+        %2$s\n
+        %3$s\n\n
+        %4$s\n\n
+        Join InPhoto
+    </string>
 
 </resources>

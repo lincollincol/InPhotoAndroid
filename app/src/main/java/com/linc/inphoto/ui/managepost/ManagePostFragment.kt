@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentManagePostBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.managepost.model.ManageablePost
 import com.linc.inphoto.utils.extensions.autoAnimateTargets
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.hideKeyboard
@@ -38,7 +39,8 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
         viewModel.uiState.collect { state ->
             postImageView.loadImage(state.imageUri, reloadImage = false)
             tagsEditText.setTags(state.tags)
-            descriptionEditText.text.update(state.description)
+            descriptionEditText.update(state.description)
+//            descriptionEditText.setText(state.description)
             loadingView.show(state.isLoading)
             autoAnimateTargets(root, descriptionErrorTextView, tagsErrorTextView)
             descriptionErrorTextView.show(!state.isValidDescription && state.isErrorsEnabled)

@@ -7,6 +7,7 @@ import com.linc.inphoto.data.mapper.toPostModel
 import com.linc.inphoto.data.network.api.PostApiService
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
+import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.entity.post.Post
@@ -26,9 +27,9 @@ class PostRepository @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
-    suspend fun updateUserAvatar(
+    suspend fun saveUserPost(
         uri: Uri?,
-        description: String?,
+        description: String,
         tags: List<String>
     ) = withContext(ioDispatcher) {
         val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
@@ -44,6 +45,14 @@ class PostRepository @Inject constructor(
             authPreferences.userId
         )
         image.delete()
+    }
+
+    suspend fun updateUserPost(
+        postId: String,
+        description: String,
+        tags: List<String>
+    ) = withContext(ioDispatcher) {
+        postApiService.updatePost(postId, UpdatePostApiModel(description, tags))
     }
 
     suspend fun getCurrentUserPosts(): List<Post> = withContext(ioDispatcher) {
@@ -95,6 +104,10 @@ class PostRepository @Inject constructor(
             authPreferences.userId,
             isBookmarked
         ).body?.toExtendedPostModel()
+    }
+
+    suspend fun deletePost(postId: String) = withContext(ioDispatcher) {
+        postApiService.deletePost(postId)
     }
 
 }

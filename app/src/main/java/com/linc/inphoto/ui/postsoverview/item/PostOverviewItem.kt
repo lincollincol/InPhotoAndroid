@@ -43,6 +43,7 @@ class PostOverviewItem(
                 setOnClickListener { postUiState.onComment() }
             }
             tagsChipGroup.addChips(postUiState.tags, R.layout.item_tag_chip)
+            moreImageView.setOnClickListener { postUiState.onMore() }
         }
     }
 

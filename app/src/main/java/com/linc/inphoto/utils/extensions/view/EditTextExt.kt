@@ -6,11 +6,18 @@ import android.widget.EditText
 fun EditText.textToString() = text.toString()
 
 fun Editable?.update(data: CharSequence?) {
-    this ?: return
-    data?.let { replace(0, data.length, data) }
+    if (this == null || data == null) return
+    clear()
+    insert(0, data)
+}
+
+fun EditText.update(data: CharSequence?) {
+    if (data == null) return
+    setText(data)
+    setSelection(data.length)
 }
 
 fun Editable?.deleteLast() {
-    this ?: return
+    if (this == null || length == 0) return
     delete(length - 1, length)
 }

@@ -4,8 +4,9 @@ import android.net.Uri
 import com.linc.inphoto.ui.base.state.UiState
 
 data class ManagePostUiState(
+    val postId: String? = null,
     val imageUri: Uri? = null,
-    val tags: List<String> = listOf(),
+    val tags: Set<String> = setOf(),
     val description: String? = null,
     val isLoading: Boolean = false,
     val isErrorsEnabled: Boolean = false

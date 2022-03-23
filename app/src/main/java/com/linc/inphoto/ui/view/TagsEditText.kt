@@ -28,7 +28,7 @@ class TagsEditText constructor(
     }
 
     private var binding: LayoutTagsEditTextBinding? = null
-    private val tags = mutableListOf<String>()
+    private val tags = hashMapOf<String, Boolean>()
     private var onTagAddedListener: ((String) -> Unit)? = null
     private var onTagDeletedListener: ((String) -> Unit)? = null
 
@@ -61,6 +61,9 @@ class TagsEditText constructor(
                         ?.replace(Regex("([^A-Za-z0-9\\p{L}_ ])"), String.EMPTY)
                 })
             }
+            tagsChipGroup.apply {
+                tags.keys.forEach(::addChip)
+            }
         }
     }
 
@@ -78,19 +81,22 @@ class TagsEditText constructor(
         this.onTagDeletedListener = onTagDeletedListener
     }
 
+    fun setTags(tags: Set<String>) {
+        setTags(tags.toList())
+    }
+
     fun setTags(tags: List<String>) {
-        if (this.tags == tags) {
-            return
+        tags.forEach { tag ->
+            this.tags[tag] = this.tags.containsKey(tag)
+            addChip(tag)
         }
-        this.tags.clear()
-        this.tags.addAll(tags)
     }
 
     private fun addChip(tag: String): Boolean = binding?.run {
         if (tag.isEmpty() || tag.isBlank()) {
             tagsEditText.text?.clear()
             return@run false
-        } else if (tags.contains(tag)) {
+        } else if (tags[tag] == true) {
             tagsEditText.text.deleteLast()
             return@run false
         }
@@ -99,13 +105,13 @@ class TagsEditText constructor(
             tag,
             R.layout.item_editable_tag_chip,
             onChipAdded = {
-                onTagAddedListener?.invoke(tag)
-                tags.add(tag)
+                tags[tag] = true
                 tagsEditText.text?.clear()
+                onTagAddedListener?.invoke(tag)
             },
             onChipDeleted = {
-                onTagDeletedListener?.invoke(tag)
                 tags.remove(tag)
+                onTagDeletedListener?.invoke(tag)
             }
         )
         return@run true
