@@ -36,6 +36,8 @@
         <attr name="textSize" />
         <attr name="doneVisible" format="boolean" />
         <attr name="cancelVisible" format="boolean" />
+        <attr name="doneIcon" format="reference" />
+        <attr name="cancelIcon" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="ImageTextView">

@@ -36,6 +36,11 @@ interface PostApiService {
         @Path("userId") userId: String
     ): BaseResponse<ExtendedPostApiModel>
 
+    @GET("/posts-extended/{userId}")
+    suspend fun getExtendedPosts(
+        @Path("userId") userId: String
+    ): BaseResponse<List<ExtendedPostApiModel>>
+
     @POST("/posts/{postId}/like/{userId}")
     suspend fun likePost(
         @Path("postId") postId: String,

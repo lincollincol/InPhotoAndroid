@@ -11,10 +11,11 @@
         android:background="@color/white"
         android:elevation="@dimen/elevation_general"
         android:paddingHorizontal="@dimen/padding_general"
+        app:cancelIcon="@drawable/ic_arrow_back"
+        app:doneVisible="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:textTitle="@string/manage_post_toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postsRecyclerView"

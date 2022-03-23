@@ -63,11 +63,16 @@ class PostRepository @Inject constructor(
                 .orEmpty()
         }
 
-    suspend fun getExtendedPost(
-        postId: String
-    ): ExtendedPost? = withContext(ioDispatcher) {
+    suspend fun getExtendedPost(postId: String): ExtendedPost? = withContext(ioDispatcher) {
         val response = postApiService.getExtendedPost(postId, authPreferences.userId)
         return@withContext response.body?.toExtendedPostModel()
+    }
+
+    suspend fun getExtendedPosts(): List<ExtendedPost> = withContext(ioDispatcher) {
+        val response = postApiService.getExtendedPosts(authPreferences.userId)
+        return@withContext response.body
+            ?.map(ExtendedPostApiModel::toExtendedPostModel)
+            ?: emptyList()
     }
 
     suspend fun likePost(

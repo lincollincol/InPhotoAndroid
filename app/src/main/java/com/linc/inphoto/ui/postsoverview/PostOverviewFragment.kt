@@ -20,6 +20,14 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
 
+    /**
+     *
+     * TODO:
+     * Update post (description, tags).
+     * Delete post
+     *
+     * */
+
     companion object {
         private const val OVERVIEW_TYPE_ARG = "overview_type"
 
@@ -38,6 +46,7 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             postsAdapter.update(state.posts.map(::PostOverviewItem))
+            toolbarView.setToolbarTitle(state.postsSource)
         }
     }
 
@@ -53,6 +62,9 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = postsAdapter
                 enableItemChangeAnimation(false)
+            }
+            toolbarView.apply {
+                setOnCancelClickListener(viewModel::onBackPressed)
             }
         }
 

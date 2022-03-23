@@ -42,6 +42,7 @@ class ProfileViewModel @Inject constructor(
             val user = userRepository.getLoggedInUser()
             val userPosts = postRepository.getCurrentUserPosts()
                 .map { it.toUiState { selectPost(it) } }
+
             _uiState.update {
                 copy(
                     user = user,
@@ -101,7 +102,8 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun selectPost(post: Post) {
-        val overviewType = OverviewType.Profile(post.id, post.authorUserId)
+        val username = uiState.value.user?.name.orEmpty()
+        val overviewType = OverviewType.Profile(post.id, post.authorUserId, username)
         router.navigateTo(Navigation.PostOverviewScreen(overviewType))
     }
 
