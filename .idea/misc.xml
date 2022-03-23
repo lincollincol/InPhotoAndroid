@@ -9,8 +9,12 @@
         <entry key="app/src/main/res/drawable/background_filled_button.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/drawable/background_outlined_button.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/drawable/background_text_button.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/drawable/drawable_like.xml" value="0.3353846153846154" />
         <entry key="app/src/main/res/drawable/gradient_pink.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/drawable/ic_bookmark_outlined.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/drawable/ic_crop_circle.xml" value="0.21302083333333333" />
+        <entry key="app/src/main/res/drawable/selector_bookmark.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/drawable/selector_like.xml" value="0.14479166666666668" />
         <entry key="app/src/main/res/drawable/selector_switch_thumb.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/drawable/selector_switch_track.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/drawable/shape_bottom_round_25.xml" value="0.340625" />
@@ -31,26 +35,36 @@
         <entry key="app/src/main/res/layout/fragment_image_editor.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/layout/fragment_image_picker.xml" value="0.15260416666666668" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_manage_post.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_option_picker.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_post_overview.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.1765625" />
+        <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.18" />
         <entry key="app/src/main/res/layout/item_choose_option.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_crop_ratio.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_edit_operation.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/layout/item_editable_tag_chip.xml" value="0.2" />
         <entry key="app/src/main/res/layout/item_editor_action.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_editor_filter.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_gallery_image.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/item_new_user_post.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_option.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/layout/item_post_overview.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_profile_image.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_profile_photo.xml" value="0.1765625" />
+        <entry key="app/src/main/res/layout/item_profile_post.xml" value="0.14739583333333334" />
+        <entry key="app/src/main/res/layout/item_tag_chip.xml" value="0.31023550724637683" />
         <entry key="app/src/main/res/layout/layout_crop_image.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_editor_toolbar.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_image_text_view.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_preview_image.xml" value="0.14" />
         <entry key="app/src/main/res/layout/layout_settings_text_view.xml" value="0.2" />
         <entry key="app/src/main/res/layout/layout_settings_value_text_view.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/layout/layout_tags_edit_text.xml" value="0.16" />
         <entry key="app/src/main/res/layout/progress_overlay_layout.xml" value="0.1765625" />
+        <entry key="app/src/main/res/xml/item_editable_chip.xml" value="0.19791666666666666" />
       </map>
     </option>
   </component>

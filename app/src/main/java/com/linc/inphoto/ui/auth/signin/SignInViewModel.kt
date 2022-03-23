@@ -9,6 +9,7 @@ import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,33 +30,23 @@ class SignInViewModel @Inject constructor(
             )
             router.newRootScreen(Navigation.ProfileScreen())
         } catch (e: Exception) {
+            Timber.e(e)
             _uiState.update { copy(signInErrorMessage = e.message) }
-            e.printStackTrace()
         } finally {
             _uiState.update { copy(isLoading = false) }
         }
     }
 
     fun updateLogin(login: String) {
-        _uiState.update {
-            copy(
-                login = login,
-                signInErrorMessage = null
-            )
-        }
+        _uiState.update { copy(login = login, signInErrorMessage = null) }
     }
 
     fun updatePassword(password: String) {
-        _uiState.update {
-            copy(
-                password = password,
-                signInErrorMessage = null
-            )
-        }
+        _uiState.update { copy(password = password, signInErrorMessage = null) }
     }
 
-    fun onSignUp() {
-        router.navigateTo(Navigation.Auth.SignUpScreen())
+    fun signUp() {
+        router.navigateTo(Navigation.SignUpScreen())
     }
 
 }

@@ -16,7 +16,7 @@ abstract class BaseViewModel<StateEntity>(
     val uiState: StateFlow<StateEntity> get() = _uiState.asStateFlow()
 
     protected fun showInfo(@StringRes title: Int, @StringRes description: Int) {
-        router.navigateTo(Navigation.Common.InfoMessageScreen(title, description))
+        router.navigateTo(Navigation.InfoMessageScreen(title, description))
     }
 
     open fun onBackPressed() {

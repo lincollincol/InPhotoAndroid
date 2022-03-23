@@ -9,15 +9,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.profile.item.ProfileImageItem
-import com.linc.inphoto.ui.profile.model.SourceType
-import com.linc.inphoto.utils.GridSpaceItemDecoration
+import com.linc.inphoto.ui.profile.item.NewPostItem
+import com.linc.inphoto.ui.profile.item.ProfilePostItem
+import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getDimension
-import com.linc.inphoto.utils.extensions.scrollToStart
-import com.linc.inphoto.utils.extensions.verticalGridLayoutManager
-import com.linc.inphoto.utils.extensions.view.THUMB_MEDIUM
-import com.linc.inphoto.utils.extensions.view.loadImage
-import com.xwray.groupie.GroupieAdapter
+import com.linc.inphoto.utils.extensions.view.*
+import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
+import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -32,50 +30,37 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     }
 
     override val viewModel: ProfileViewModel by viewModels()
-
     private val binding by viewBinding(FragmentProfileBinding::bind)
-
-    private val photosAdapter: GroupieAdapter by lazy { GroupieAdapter() }
+    private val userPostsSection: Section by lazy { Section() }
+    private val newPostSection: Section by lazy { Section() }
 
     private val imagePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val source = permissions.map { permission ->
-            when (permission.key) {
-                Manifest.permission.CAMERA -> SourceType.Camera(permission.value)
-                else -> SourceType.Gallery(permission.value)
-            }
-        }
-        viewModel.selectImageSource(source)
+    ) {
+        viewModel.updateProfileAvatar()
     }
 
     override suspend fun observeUiState() = with(binding) {
-        safeResumedLaunch {
-            viewModel.uiState.collect { state ->
-                profileNameTextField.text = state.user?.name
-                profileAvatarImage.loadImage(
-                    image = state.user?.avatarUrl,
-                    size = THUMB_MEDIUM,
-                    errorPlaceholder = R.drawable.avatar_thumb
-                )
-            }
+        viewModel.uiState.collect { state ->
+            profileNameTextField.text = state.user?.name
+            avatarImageView.loadImage(
+                image = state.user?.avatarUrl,
+                size = THUMB_MEDIUM,
+                errorPlaceholder = R.drawable.avatar_thumb
+            )
+            userPostsSection.update(state.posts.map(::ProfilePostItem))
+            state.newPostUiState?.let { newPostSection.update(listOf(NewPostItem(it))) }
         }
         return@with
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        safeResumedLaunch {
-            viewModel.loadProfileData()
-        }
-        initUi()
-    }
-
-    private fun initUi() {
         with(binding) {
-            profilePhotosList.apply {
-                layoutManager = verticalGridLayoutManager(ROW_IMAGES_COUNT)
-                adapter = photosAdapter
+            postsRecyclerView.apply {
+                layoutManager = verticalSquareGridLayoutManager(ROW_IMAGES_COUNT)
+                adapter = createAdapter(hasStableIds = true, newPostSection, userPostsSection)
+                enableItemChangeAnimation(false)
                 addItemDecoration(
                     GridSpaceItemDecoration(
                         ROW_IMAGES_COUNT,
@@ -86,11 +71,11 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             }
 
             moveUpButton.setOnClickListener {
-                binding.profilePhotosList.scrollToStart()
+                binding.postsRecyclerView.scrollToStart()
                 binding.profileMotionLayout.transitionToStart()
             }
 
-            profileAvatarImage.setOnClickListener {
+            avatarImageView.setOnClickListener {
                 imagePermissions.launch(
                     arrayOf(
                         Manifest.permission.CAMERA,
@@ -99,16 +84,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 )
             }
         }
-        mockPhotos()
+        viewModel.loadProfileData()
     }
 
-    private fun mockPhotos() {
-        val photos = mutableListOf<ProfileImageItem>().apply {
-            repeat(50) {
-                add(ProfileImageItem())
-            }
-        }
-        photosAdapter.addAll(photos)
-    }
 
 }

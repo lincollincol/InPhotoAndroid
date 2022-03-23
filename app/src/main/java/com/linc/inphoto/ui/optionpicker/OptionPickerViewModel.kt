@@ -13,13 +13,13 @@ class OptionPickerViewModel @Inject constructor(
     router: Router
 ) : BaseViewModel<EmptyUiState>(router) {
 
+    override val _uiState = MutableStateFlow(EmptyUiState())
+
     fun selectOption(resultKey: String?, option: OptionModel?) {
         onBackPressed()
         if (resultKey != null && option != null) {
             router.sendResult(resultKey, option)
         }
     }
-
-    override val _uiState = MutableStateFlow(EmptyUiState())
 
 }

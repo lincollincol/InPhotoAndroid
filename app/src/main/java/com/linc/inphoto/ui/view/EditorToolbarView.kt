@@ -2,6 +2,7 @@ package com.linc.inphoto.ui.view
 
 import android.content.Context
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.FrameLayout
@@ -30,10 +31,14 @@ class EditorToolbarView(
     private var textSize: Int
     private var doneVisible: Boolean
     private var cancelVisible: Boolean
+    private var doneIcon: Drawable?
+    private var cancelIcon: Drawable?
 
     init {
         val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.EditorToolbarView)
         textTitle = attributes.getString(R.styleable.EditorToolbarView_textTitle)
+        doneIcon = attributes.getDrawable(R.styleable.EditorToolbarView_doneIcon)
+        cancelIcon = attributes.getDrawable(R.styleable.EditorToolbarView_cancelIcon)
         textColorTitle = attributes.getColor(
             R.styleable.EditorToolbarView_textColorTitle,
             context.getColorInt(R.color.black)
@@ -73,12 +78,14 @@ class EditorToolbarView(
             }
             doneImageView.apply {
                 show(doneVisible)
+                doneIcon?.let(::setImageDrawable)
                 setOnClickListener {
                     onDoneClickListener?.invoke()
                 }
             }
             cancelImageView.apply {
                 show(cancelVisible)
+                cancelIcon?.let(::setImageDrawable)
                 setOnClickListener {
                     onCancelClickListener?.invoke()
                 }
@@ -99,6 +106,11 @@ class EditorToolbarView(
 
     fun setOnDoneClickListener(onDoneClickListener: () -> Unit) {
         this.onDoneClickListener = onDoneClickListener
+    }
+
+    fun setToolbarTitle(title: String?) {
+        this.textTitle = title
+        binding?.titleTextView?.text = title
     }
 
 }

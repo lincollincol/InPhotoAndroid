@@ -36,7 +36,8 @@ class UserRepository @Inject constructor(
     suspend fun updateUserAvatar(uri: Uri?): User? = withContext(ioDispatcher) {
         val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
         val requestBody = image.asRequestBody(MULTIPART_FORM_DATA.toMediaType())
-        val body = MultipartBody.Part.createFormData("image", image.name, requestBody)
+//        val body = MultipartBody.Part.createFormData("image", image.name, requestBody)
+        val body = MultipartBody.Part.createFormData(image.name, image.name, requestBody)
         val response = userApiService.updateUserAvatar(body, authPreferences.userId)
         val user = response.body?.toUserEntity()
         if (user != null) {

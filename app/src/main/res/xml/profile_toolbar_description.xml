@@ -8,7 +8,7 @@
         app:constraintSetEnd="@id/toolbar_state">
 
         <OnSwipe
-            app:touchAnchorId="@+id/profile_photos_list"
+            app:touchAnchorId="@+id/postsRecyclerView"
             app:touchAnchorSide="top"
             app:dragDirection="dragUp"/>
 
@@ -17,18 +17,18 @@
             <KeyAttribute
                 android:alpha="0.2"
                 app:framePosition="20"
-                app:motionTarget="@id/profile_content_layout"/>
+                app:motionTarget="@id/profileDataLayout" />
 
             <KeyAttribute
                 android:rotationX="-20"
                 app:framePosition="90"
-                app:motionTarget="@id/profile_content_layout"/>
+                app:motionTarget="@id/profileDataLayout" />
 
             <KeyPosition
                 app:keyPositionType="parentRelative"
                 app:percentY="0.05"
                 app:framePosition="40"
-                app:motionTarget="@id/profile_avatar_image" />
+                app:motionTarget="@id/avatarImageView" />
 
         </KeyFrameSet>
 
@@ -38,21 +38,21 @@
         android:id="@+id/header_state">
 
         <Constraint
-            android:id="@id/start_line"
+            android:id="@id/startLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="@dimen/margin_small" />
 
         <Constraint
-            android:id="@id/end_line"
+            android:id="@id/endLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/margin_small" />
 
         <Constraint
-            android:id="@id/back_button"
+            android:id="@id/backButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="@dimen/margin_general"
@@ -62,7 +62,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Constraint
-            android:id="@id/header_image"
+            android:id="@id/headerImageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -73,16 +73,16 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <Constraint
-            android:id="@id/profile_avatar_image"
+            android:id="@id/avatarImageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:elevation="5dp"
             app:srcCompat="@drawable/avatar"
             app:shapeAppearanceOverlay="@style/CircleImageShape50"
-            app:layout_constraintTop_toBottomOf="@id/header_image"
-            app:layout_constraintBottom_toBottomOf="@id/header_image"
+            app:layout_constraintBottom_toBottomOf="@id/headerImageView"
+            app:layout_constraintTop_toBottomOf="@id/headerImageView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Constraint
             android:id="@id/profile_name_text_field"
@@ -91,31 +91,31 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_general"
             android:textSize="@dimen/font_normal"
-            app:layout_constraintTop_toBottomOf="@id/profile_avatar_image"
+            app:layout_constraintTop_toBottomOf="@id/avatarImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Constraint
-            android:id="@+id/profile_content_layout"
+            android:id="@+id/profileDataLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:alpha="1"
-            app:layout_constraintTop_toBottomOf="@id/header_image"
-            app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintEnd_toEndOf="@id/end_line"/>
+            app:layout_constraintTop_toBottomOf="@id/headerImageView"
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine" />
 
         <Constraint
-            android:id="@id/profile_photos_list"
+            android:id="@id/postsRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:overScrollMode="never"
-            app:layout_constraintTop_toBottomOf="@id/profile_content_layout"
+            app:layout_constraintTop_toBottomOf="@id/profileDataLayout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <Constraint
-            android:id="@id/move_up_button"
+            android:id="@id/moveUpButton"
             style="@style/CircleImageButton"
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -133,7 +133,7 @@
         app:deriveConstraintsFrom="@id/header_state">
 
         <Constraint
-            android:id="@id/header_image"
+            android:id="@id/headerImageView"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:scaleType="centerCrop"
@@ -143,7 +143,7 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <Constraint
-            android:id="@id/profile_avatar_image"
+            android:id="@id/avatarImageView"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:elevation="5dp"
@@ -151,10 +151,10 @@
             app:srcCompat="@drawable/avatar"
             app:shapeAppearanceOverlay="@style/CircleImageShape50"
             app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintTop_toTopOf="@id/header_image"
-            app:layout_constraintBottom_toBottomOf="@id/header_image"
+            app:layout_constraintBottom_toBottomOf="@id/headerImageView"
+            app:layout_constraintTop_toTopOf="@id/headerImageView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Constraint
             android:id="@id/profile_name_text_field"
@@ -162,22 +162,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_normal"
-            app:layout_constraintTop_toTopOf="@id/header_image"
-            app:layout_constraintBottom_toBottomOf="@id/header_image"
+            app:layout_constraintBottom_toBottomOf="@id/headerImageView"
+            app:layout_constraintTop_toTopOf="@id/headerImageView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Constraint
-            android:id="@+id/profile_content_layout"
+            android:id="@+id/profileDataLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:alpha="0"
-            app:layout_constraintBottom_toBottomOf="@id/header_image"
-            app:layout_constraintStart_toStartOf="@id/start_line"
-            app:layout_constraintEnd_toEndOf="@id/end_line"/>
+            app:layout_constraintBottom_toBottomOf="@id/headerImageView"
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine" />
 
         <Constraint
-            android:id="@id/move_up_button"
+            android:id="@id/moveUpButton"
             style="@style/CircleImageButton"
             android:layout_width="56dp"
             android:layout_height="56dp"

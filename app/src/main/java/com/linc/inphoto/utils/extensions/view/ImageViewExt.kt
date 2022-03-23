@@ -1,11 +1,12 @@
 package com.linc.inphoto.utils.extensions.view
 
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.util.Size
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -90,18 +91,15 @@ fun ImageView.loadImage(
     @ColorInt placeholderTint: Int? = null,
     @ColorInt errorTint: Int? = null,
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
-    skipMemoryCache: Boolean = true
+    skipMemoryCache: Boolean = false,
+    reloadImage: Boolean = true,
 ) {
 
-    val circularProgressDrawable = CircularProgressDrawable(context).apply {
-        strokeWidth = 5f
-        centerRadius = 30f
-        start()
+    if (!reloadImage && drawable != null) {
+        return
     }
 
     var requestOptions = RequestOptions()
-//        .placeholder(context.getDrawable(placeholder, placeholderTint))
-        .placeholder(circularProgressDrawable)
         .error(context.getDrawable(errorPlaceholder, errorTint))
         .diskCacheStrategy(diskCacheStrategy)
         .skipMemoryCache(skipMemoryCache)
@@ -117,9 +115,19 @@ fun ImageView.loadImage(
     if (size != null) {
         requestOptions = requestOptions.override(size.width, size.height)
     }
-
     Glide.with(this)
         .load(image)
+        .thumbnail(
+            Glide.with(this)
+                .load(image)
+                .apply(bitmapTransform(BlurTransformation(24)))
+                .override(48)
+        )
         .apply(requestOptions)
+
         .into(this)
+}
+
+fun ImageView.setTint(@ColorInt color: Int) {
+    ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(color))
 }

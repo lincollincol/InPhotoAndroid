@@ -17,8 +17,6 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
-    // {"email":"xlinc@linc.com","password":"12345678","username":"xlinc"}
-
     companion object {
         @JvmStatic
         fun newInstance() = SignInFragment()
@@ -57,7 +55,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
             signUpButton.setOnClickListener {
                 hideKeyboard()
-                viewModel.onSignUp()
+                viewModel.signUp()
             }
         }
     }

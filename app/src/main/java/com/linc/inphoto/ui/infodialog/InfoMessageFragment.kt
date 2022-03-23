@@ -7,33 +7,36 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
-import com.linc.inphoto.databinding.DialogInfoMessageBinding
+import com.linc.inphoto.databinding.FragmentInfoMessageBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.base.viewmodel.EmptyViewModel
+import com.linc.inphoto.utils.extensions.getArgument
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class InfoMessageDialog : BaseFragment(R.layout.dialog_info_message) {
+class InfoMessageFragment : BaseFragment(R.layout.fragment_info_message) {
 
-    override val viewModel: EmptyViewModel by viewModels()
+    override val viewModel: InfoMessageViewModel by viewModels()
 
     companion object {
+        private const val RESULT_KEY_ARG = "result_key"
         private const val TITLE_ARG = "title"
         private const val MESSAGE_ARG = "message"
 
         @JvmStatic
         fun newInstance(
             @StringRes title: Int,
-            @StringRes message: Int
-        ) = InfoMessageDialog().apply {
+            @StringRes message: Int,
+            resultKey: String?
+        ) = InfoMessageFragment().apply {
             arguments = bundleOf(
+                RESULT_KEY_ARG to resultKey,
                 TITLE_ARG to title,
                 MESSAGE_ARG to message,
             )
         }
     }
 
-    private val binding by viewBinding(DialogInfoMessageBinding::bind)
+    private val binding by viewBinding(FragmentInfoMessageBinding::bind)
 
     override suspend fun observeUiState() {
         // Empty UI State
@@ -41,14 +44,11 @@ class InfoMessageDialog : BaseFragment(R.layout.dialog_info_message) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val args = requireArguments()
-
         with(binding) {
-            titleTextView.setText(args.getInt(TITLE_ARG))
-            messageTextView.setText(args.getInt(MESSAGE_ARG))
+            titleTextView.setText(getArgument(TITLE_ARG) ?: 0)
+            messageTextView.setText(getArgument(MESSAGE_ARG) ?: 0)
             gotItButton.setOnClickListener {
-                viewModel.onBackPressed()
+                viewModel.finishInfo(getArgument(RESULT_KEY_ARG))
             }
         }
     }

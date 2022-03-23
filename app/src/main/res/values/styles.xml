@@ -81,6 +81,12 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="TextError" parent="TextField">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">@dimen/font_tiny</item>
+    </style>
+
     <style name="SwitchIos" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="android:textSize">@dimen/font_small</item>
         <item name="android:textStyle">bold</item>
@@ -96,6 +102,11 @@
 
     <style name="CircleImageShape25" parent="">
         <item name="cornerSize">10%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="CircleImageShape5" parent="">
+        <item name="cornerSize">5%</item>
         <item name="cornerFamily">rounded</item>
     </style>
 

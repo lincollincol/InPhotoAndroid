@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">InPhoto</string>
 
+    <string name="example_lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</string>
+
     <string name="option_avatar_gallery">Open from gallery</string>
     <string name="option_avatar_camera">Take a picture</string>
     <string name="got_it">Got It</string>
@@ -32,9 +34,32 @@
 
     <string name="crop">Crop</string>
     <string name="filter">Filter</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
 
+    <string name="publications_toolbar">Publications</string>
     <string name="edit_image_toolbar">Edit Image</string>
     <string name="crop_image_toolbar">Crop Image</string>
     <string name="select_image_toolbar">Select Image</string>
+    <string name="manage_post_toolbar">Manage Post</string>
+    <string name="description">Description</string>
+    <string name="tags">Tags</string>
+
+    <string name="not_found">Not Found!</string>
+    <string name="image_not_found">Image not found!</string>
+
+    <string name="empty_description_error">Please, describe content!</string>
+    <string name="empty_tags_list_error">Please, add at least one tag!</string>
+
+
+    <!--Share content description te,plates-->
+    <string name="share_post_template">
+        Check out %1$s\'s post!\n\n
+        %2$s\n
+        %3$s\n\n
+        %4$s\n\n
+        Join InPhoto
+    </string>
 
 </resources>
