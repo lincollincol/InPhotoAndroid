@@ -15,7 +15,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val navigator = AppNavigator(this, R.id.fragment_container)
+    private val navigator = AppNavigator(this, R.id.fragmentContainerLayout)
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerLayout)
         fragment?.let {
             (it as? FragmentBackPressedListener)?.onBackPressed()
         } ?: super.onBackPressed()
