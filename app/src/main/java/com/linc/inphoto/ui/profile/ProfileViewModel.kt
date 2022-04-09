@@ -10,7 +10,7 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.managepost.model.ManageablePost
 import com.linc.inphoto.ui.navigation.AppRouter
 import com.linc.inphoto.ui.navigation.NavContainerHolder
-import com.linc.inphoto.ui.navigation.Navigation
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.item.NewPostUiState
 import com.linc.inphoto.ui.profile.model.ImageSource
@@ -24,11 +24,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    routerHolder: NavContainerHolder,
+    navContainerHolder: NavContainerHolder,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val mediaRepository: MediaRepository
-) : BaseViewModel<ProfileUiState>(routerHolder) {
+) : BaseViewModel<ProfileUiState>(navContainerHolder) {
 
     companion object {
         private const val EDIT_IMAGE_RESULT = "edit_image"
@@ -62,7 +62,7 @@ class ProfileViewModel @Inject constructor(
             val selectedSource = result.safeCast<ImageSource>() ?: return@setResultListener
             selectImage(selectedSource, ::handleSelectedAvatar)
         }
-        val pickerScreen = Navigation.ChooseOptionScreen(
+        val pickerScreen = NavScreen.ChooseOptionScreen(
             SELECT_SOURCE_RESULT, ImageSource.getAvailableSources()
         )
 //        router.navigateTo(pickerScreen)
@@ -75,13 +75,13 @@ class ProfileViewModel @Inject constructor(
     ) {
         // Navigate to source screen
         val screen = when (imageSource) {
-            is ImageSource.Gallery -> Navigation.GalleryScreen(SELECT_IMAGE_RESULT)
-            is ImageSource.Camera -> Navigation.CameraScreen(SELECT_IMAGE_RESULT)
+            is ImageSource.Gallery -> NavScreen.GalleryScreen(SELECT_IMAGE_RESULT)
+            is ImageSource.Camera -> NavScreen.CameraScreen(SELECT_IMAGE_RESULT)
         }
         router.navigateTo(screen)
 
         router.setResultListener(SELECT_IMAGE_RESULT) {
-            val editorScreen = Navigation.EditImageScreen(
+            val editorScreen = NavScreen.EditImageScreen(
                 EDIT_IMAGE_RESULT,
                 it as Uri
             )
@@ -107,7 +107,7 @@ class ProfileViewModel @Inject constructor(
     private fun selectPost(post: Post) {
         val username = uiState.value.user?.name.orEmpty()
         val overviewType = OverviewType.Profile(post.id, post.authorUserId, username)
-        router.navigateTo(Navigation.PostOverviewScreen(overviewType))
+        router.navigateTo(NavScreen.PostOverviewScreen(overviewType))
     }
 
     private fun createPost() {
@@ -115,10 +115,10 @@ class ProfileViewModel @Inject constructor(
             val selectedSource = result.safeCast<ImageSource>() ?: return@setResultListener
             selectImage(selectedSource) { imageUri ->
                 imageUri ?: return@selectImage
-                router.navigateTo(Navigation.ManagePostScreen(ManageablePost(imageUri)))
+                router.navigateTo(NavScreen.ManagePostScreen(ManageablePost(imageUri)))
             }
         }
-        val pickerScreen = Navigation.ChooseOptionScreen(
+        val pickerScreen = NavScreen.ChooseOptionScreen(
             SELECT_SOURCE_RESULT, ImageSource.getAvailableSources()
         )
         router.navigateTo(pickerScreen)

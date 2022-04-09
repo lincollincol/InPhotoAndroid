@@ -1,6 +1,5 @@
 package com.linc.inphoto.ui.navigation
 
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.FragmentManager
@@ -8,7 +7,7 @@ import com.github.terrakok.cicerone.Command
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.linc.inphoto.ui.main.MenuTab
 
-class MultiTabNavigator(
+class MultiContainerNavigator(
     activity: FragmentActivity,
     containerId: Int,
     fragmentManager: FragmentManager = activity.supportFragmentManager,
@@ -21,7 +20,7 @@ class MultiTabNavigator(
         this.defaultHostTab = defaultHostTab
         MenuTab.values().forEach { tab ->
             val transaction = fragmentManager.beginTransaction()
-            val fragment = Navigation.TabScreen(tab)
+            val fragment = NavScreen.TabScreen(tab)
                 .createFragment(fragmentManager.fragmentFactory)
             transaction.add(containerId, fragment, tab.name)
             if (tab != defaultHostTab) {
@@ -40,7 +39,7 @@ class MultiTabNavigator(
         }
         val transaction = fragmentManager.beginTransaction()
         if (newFragment == null) {
-            val fragment = Navigation.TabScreen(tab)
+            val fragment = NavScreen.TabScreen(tab)
                 .createFragment(fragmentManager.fragmentFactory)
             transaction.add(containerId, fragment, tab.name)
         }
@@ -58,7 +57,7 @@ class MultiTabNavigator(
             .firstOrNull { it.isVisible }
             ?: return
         val backstackCount = currentFragment.childFragmentManager.backStackEntryCount
-        val currentTabId = (currentFragment as? NavTab)?.containerId
+        val currentTabId = (currentFragment as? NavContainer)?.containerId
         if (backstackCount > 0 || currentTabId == MenuTab.HOME.name) {
             (currentFragment as? FragmentBackPressedListener)?.onBackPressed()
             return
@@ -71,7 +70,6 @@ class MultiTabNavigator(
 
     override fun applyCommand(command: Command) {
         when (command) {
-            is CloseDialog -> closeDialog(command)
             is ShowDialog -> showDialog(command)
             else -> super.applyCommand(command)
         }
@@ -81,12 +79,5 @@ class MultiTabNavigator(
         val tag = command.screen.screenKey
         val dialog = command.screen.createDialog(fragmentFactory)
         dialog.show(fragmentManager, tag)
-    }
-
-    private fun closeDialog(command: CloseDialog) {
-        val tag = command.screen.screenKey
-        val dialog = fragmentManager.findFragmentByTag(tag)
-        if (dialog is DialogFragment)
-            dialog.dismiss()
     }
 }

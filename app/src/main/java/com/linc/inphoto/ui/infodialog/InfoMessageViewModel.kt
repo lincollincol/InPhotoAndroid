@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InfoMessageViewModel @Inject constructor(
-    routerHolder: NavContainerHolder
-) : BaseViewModel<EmptyUiState>(routerHolder) {
+    navContainerHolder: NavContainerHolder
+) : BaseViewModel<EmptyUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(EmptyUiState())
 

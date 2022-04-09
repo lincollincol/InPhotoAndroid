@@ -8,7 +8,7 @@ import com.linc.inphoto.entity.media.image.AspectRatio
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.cropimage.model.CropShape
 import com.linc.inphoto.ui.navigation.NavContainerHolder
-import com.linc.inphoto.ui.navigation.Navigation
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,10 +19,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CropImageViewModel @Inject constructor(
-    routerHolder: NavContainerHolder,
+    navContainerHolder: NavContainerHolder,
     private val settingsRepository: SettingsRepository,
     private val mediaRepository: MediaRepository
-) : BaseViewModel<CropImageUiState>(routerHolder) {
+) : BaseViewModel<CropImageUiState>(navContainerHolder) {
 
     companion object {
         private const val CHOOSE_SHAPE_RESULT = "shape_result"
@@ -48,7 +48,7 @@ class CropImageViewModel @Inject constructor(
             val selectedShape = result.safeCast<CropShape>() ?: return@setResultListener
             _uiState.update { copy(cropShape = selectedShape) }
         }
-        router.navigateTo(Navigation.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
+        router.navigateTo(NavScreen.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
     }
 
     fun changeRatioState(isFixed: Boolean) {

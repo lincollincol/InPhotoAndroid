@@ -14,9 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManagePostViewModel @Inject constructor(
-    routerHolder: NavContainerHolder,
+    navContainerHolder: NavContainerHolder,
     private val postRepository: PostRepository
-) : BaseViewModel<ManagePostUiState>(routerHolder) {
+) : BaseViewModel<ManagePostUiState>(navContainerHolder) {
 
     companion object {
         private const val INFO_RESULT = "info_result"

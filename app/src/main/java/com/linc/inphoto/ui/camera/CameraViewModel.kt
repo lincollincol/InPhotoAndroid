@@ -10,9 +10,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CameraViewModel @Inject constructor(
-    routerHolder: NavContainerHolder,
+    navContainerHolder: NavContainerHolder,
     private val mediaRepository: MediaRepository
-) : BaseViewModel<CameraUiState>(routerHolder) {
+) : BaseViewModel<CameraUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(CameraUiState())
 

@@ -7,7 +7,7 @@ import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.editimage.model.EditOperation
 import com.linc.inphoto.ui.navigation.NavContainerHolder
-import com.linc.inphoto.ui.navigation.Navigation
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,9 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditImageViewModel @Inject constructor(
-    routerHolder: NavContainerHolder,
+    navContainerHolder: NavContainerHolder,
     private val mediaRepository: MediaRepository
-) : BaseViewModel<EditImageUiState>(routerHolder) {
+) : BaseViewModel<EditImageUiState>(navContainerHolder) {
 
     companion object {
         private const val EDITOR_OPERATION_RESULT = "editor_result"
@@ -63,7 +63,7 @@ class EditImageViewModel @Inject constructor(
         val imageUri = _uiState.value.imageUri ?: Uri.EMPTY
         Timber.d(imageUri.toString())
         val operationScreen = when (operation) {
-            is EditOperation.Crop -> Navigation.CropImageScreen(
+            is EditOperation.Crop -> NavScreen.CropImageScreen(
                 EDITOR_OPERATION_RESULT,
                 imageUri
             )

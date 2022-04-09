@@ -1,5 +1,5 @@
 package com.linc.inphoto.ui.navigation
 
-interface NavTab {
+interface NavContainer {
     val containerId: String
 }

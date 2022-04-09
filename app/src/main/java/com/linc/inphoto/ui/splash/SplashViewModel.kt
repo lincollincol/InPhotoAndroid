@@ -6,7 +6,7 @@ import com.linc.inphoto.ui.base.state.EmptyUiState
 import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
-import com.linc.inphoto.ui.navigation.Navigation
+import com.linc.inphoto.ui.navigation.NavScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,9 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    routerHolder: NavContainerHolder,
+    navContainerHolder: NavContainerHolder,
     private val userRepository: UserRepository
-) : BaseViewModel<UiState>(routerHolder) {
+) : BaseViewModel<UiState>(navContainerHolder) {
 
     companion object {
         private const val SPLASH_DELAY = 1000L
@@ -32,8 +32,8 @@ class SplashViewModel @Inject constructor(
                 delay(SPLASH_DELAY)
 
                 val screen = when {
-                    isLoggedIn -> Navigation.ProfileScreen()
-                    else -> Navigation.SignInScreen()
+                    isLoggedIn -> NavScreen.ProfileScreen()
+                    else -> NavScreen.SignInScreen()
                 }
 
                 router.newRootScreen(screen)

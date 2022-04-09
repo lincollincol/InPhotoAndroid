@@ -14,9 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GalleryViewModel @Inject constructor(
-    routerHolder: NavContainerHolder,
+    navContainerHolder: NavContainerHolder,
     private val mediaRepository: MediaRepository
-) : BaseViewModel<GalleryUiState>(routerHolder) {
+) : BaseViewModel<GalleryUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(GalleryUiState())
 

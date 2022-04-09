@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class EmptyViewModel @Inject constructor(routerHolder: NavContainerHolder) :
-    BaseViewModel<EmptyUiState>(routerHolder) {
+class EmptyViewModel @Inject constructor(navContainerHolder: NavContainerHolder) :
+    BaseViewModel<EmptyUiState>(navContainerHolder) {
     override val _uiState = MutableStateFlow(EmptyUiState())
 }

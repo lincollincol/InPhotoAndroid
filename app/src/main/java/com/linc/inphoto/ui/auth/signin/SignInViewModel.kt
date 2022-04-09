@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.AuthRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
-import com.linc.inphoto.ui.navigation.Navigation
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,9 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    routerHolder: NavContainerHolder,
+    navContainerHolder: NavContainerHolder,
     private val authRepository: AuthRepository
-) : BaseViewModel<SignInUiState>(routerHolder) {
+) : BaseViewModel<SignInUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(SignInUiState())
 
@@ -28,7 +28,7 @@ class SignInViewModel @Inject constructor(
                 state.login.orEmpty(),
                 state.password.orEmpty()
             )
-            router.newRootScreen(Navigation.ProfileScreen())
+            router.newRootScreen(NavScreen.ProfileScreen())
         } catch (e: Exception) {
             Timber.e(e)
             _uiState.update { copy(signInErrorMessage = e.message) }
@@ -46,7 +46,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun signUp() {
-        router.navigateTo(Navigation.SignUpScreen())
+        router.navigateTo(NavScreen.SignUpScreen())
     }
 
 }

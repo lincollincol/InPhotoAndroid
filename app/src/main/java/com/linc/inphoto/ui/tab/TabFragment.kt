@@ -10,15 +10,15 @@ import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.linc.inphoto.R
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
+import com.linc.inphoto.ui.navigation.NavContainer
 import com.linc.inphoto.ui.navigation.NavContainerHolder
-import com.linc.inphoto.ui.navigation.NavTab
-import com.linc.inphoto.ui.navigation.Navigation
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.getArgument
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener, NavTab {
+class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener, NavContainer {
 
     companion object {
         private const val TAB_ARG = "container_id"
@@ -53,7 +53,7 @@ class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener
 //        viewModel.setupNavContainer(requireArguments().getString(CONTAINER_ID_ARG))
         navContainerHolder.initContainer(containerId)
         if (childFragmentManager.findFragmentById(R.id.tabContainerLayout) == null) {
-            navigator.applyCommands(arrayOf(Replace(Navigation.getTabHostScreen(getArgument(TAB_ARG)))))
+            navigator.applyCommands(arrayOf(Replace(NavScreen.getTabHostScreen(getArgument(TAB_ARG)))))
         }
     }
 
