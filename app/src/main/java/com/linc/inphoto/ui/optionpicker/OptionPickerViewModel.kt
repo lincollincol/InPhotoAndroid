@@ -16,7 +16,7 @@ class OptionPickerViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(EmptyUiState())
 
     fun selectOption(resultKey: String?, option: OptionModel?) {
-        onBackPressed()
+        router.closeDialog()
         if (resultKey != null && option != null) {
             router.sendResult(resultKey, option)
         }

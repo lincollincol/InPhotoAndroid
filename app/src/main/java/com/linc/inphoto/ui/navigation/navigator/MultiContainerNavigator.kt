@@ -1,11 +1,13 @@
-package com.linc.inphoto.ui.navigation
+package com.linc.inphoto.ui.navigation.navigator
 
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.FragmentManager
-import com.github.terrakok.cicerone.Command
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.linc.inphoto.ui.main.MenuTab
+import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
+import com.linc.inphoto.ui.navigation.NavContainer
+import com.linc.inphoto.ui.navigation.NavScreen
 
 class MultiContainerNavigator(
     activity: FragmentActivity,
@@ -68,16 +70,4 @@ class MultiContainerNavigator(
         }
     }
 
-    override fun applyCommand(command: Command) {
-        when (command) {
-            is ShowDialog -> showDialog(command)
-            else -> super.applyCommand(command)
-        }
-    }
-
-    private fun showDialog(command: ShowDialog) {
-        val tag = command.screen.screenKey
-        val dialog = command.screen.createDialog(fragmentFactory)
-        dialog.show(fragmentManager, tag)
-    }
 }

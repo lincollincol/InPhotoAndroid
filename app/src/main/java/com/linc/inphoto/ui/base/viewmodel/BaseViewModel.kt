@@ -13,8 +13,8 @@ abstract class BaseViewModel<StateEntity>(
     private val navContainerHolder: NavContainerHolder
 ) : ViewModel() {
 
-    private var tabId: String? = null
-    protected val router: AppRouter get() = navContainerHolder.getRouter(tabId.orEmpty())
+    private var containerId: String? = null
+    protected val router: AppRouter get() = navContainerHolder.getRouter(containerId.orEmpty())
 
     protected abstract val _uiState: MutableStateFlow<StateEntity>
     val uiState: StateFlow<StateEntity> get() = _uiState.asStateFlow()
@@ -23,8 +23,8 @@ abstract class BaseViewModel<StateEntity>(
         router.navigateTo(NavScreen.InfoMessageScreen(title, description))
     }
 
-    fun setupTabId(tabId: String?) {
-        this.tabId = tabId
+    fun setupContainerId(containerId: String?) {
+        this.containerId = containerId
     }
 
     open fun onBackPressed() {

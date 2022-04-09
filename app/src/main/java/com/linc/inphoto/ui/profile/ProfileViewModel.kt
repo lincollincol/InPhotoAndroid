@@ -121,7 +121,7 @@ class ProfileViewModel @Inject constructor(
         val pickerScreen = NavScreen.ChooseOptionScreen(
             SELECT_SOURCE_RESULT, ImageSource.getAvailableSources()
         )
-        router.navigateTo(pickerScreen)
+        router.showDialog(pickerScreen)
     }
 
 }

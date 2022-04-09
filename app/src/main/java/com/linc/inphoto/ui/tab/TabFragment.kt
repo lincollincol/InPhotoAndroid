@@ -6,13 +6,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.Replace
-import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.linc.inphoto.R
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.NavContainer
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.ui.navigation.navigator.SingleContainerNavigator
 import com.linc.inphoto.utils.extensions.getArgument
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,7 +30,7 @@ class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener
     }
 
     private val navigator: Navigator by lazy {
-        AppNavigator(requireActivity(), R.id.tabContainerLayout, childFragmentManager)
+        SingleContainerNavigator(requireActivity(), R.id.tabContainerLayout, childFragmentManager)
     }
 
     @Inject

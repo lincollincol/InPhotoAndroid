@@ -7,15 +7,15 @@ import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ActivityMainBinding
-import com.linc.inphoto.ui.navigation.MultiContainerNavigator
+import com.linc.inphoto.ui.navigation.navigator.MultiContainerNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private val navigator = MultiContainerNavigator(this, R.id.fragmentContainerLayout)
     private val binding by viewBinding(ActivityMainBinding::bind)
+    private val navigator = MultiContainerNavigator(this, R.id.globalContainerLayout)
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder

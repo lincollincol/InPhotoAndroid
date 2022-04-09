@@ -34,7 +34,7 @@ class OptionPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_opt
         }
     }
 
-    val viewModel: OptionPickerViewModel by viewModels()
+    override val viewModel: OptionPickerViewModel by viewModels()
     private val binding by viewBinding(FragmentOptionPickerBinding::bind)
 
     private val optionsAdapter: GroupieAdapter by lazy { GroupieAdapter() }

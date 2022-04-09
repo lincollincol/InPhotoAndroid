@@ -11,7 +11,6 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.NavContainer
 import kotlinx.coroutines.CancellationException
-import timber.log.Timber
 
 abstract class BaseFragment(
     @LayoutRes layoutId: Int
@@ -26,8 +25,7 @@ abstract class BaseFragment(
         safeStartedLaunch {
             observeUiState()
         }
-        viewModel.setupTabId((parentFragment as? NavContainer)?.containerId)
-        Timber.d((parentFragment as? NavContainer)?.containerId)
+        viewModel.setupContainerId((parentFragment as? NavContainer)?.containerId)
     }
 
     override fun onBackPressed() {
