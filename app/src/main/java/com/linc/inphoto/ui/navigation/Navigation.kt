@@ -23,10 +23,17 @@ import com.linc.inphoto.ui.splash.SplashFragment
 
 object Navigation {
 
-    fun ChooseOptionScreen(
+    /*fun ChooseOptionScreen(
         resultKey: String,
         options: List<OptionModel>
     ) = FragmentScreen(clearContainer = false) {
+        OptionPickerFragment.newInstance(resultKey, options)
+    }*/
+
+    fun ChooseOptionScreen(
+        resultKey: String,
+        options: List<OptionModel>
+    ) = DialogScreen {
         OptionPickerFragment.newInstance(resultKey, options)
     }
 

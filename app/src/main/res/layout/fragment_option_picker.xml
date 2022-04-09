@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/black_25"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -33,6 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_large"
             android:elevation="@dimen/elevation_small"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
             tools:itemCount="4"
             tools:listitem="@layout/item_option" />
 

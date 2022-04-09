@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Replace
-import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.linc.inphoto.R
+import com.linc.inphoto.ui.navigation.ExtendedNavigator
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val navigator = AppNavigator(this, R.id.fragmentContainerLayout)
+    private val navigator = ExtendedNavigator(this, R.id.fragmentContainerLayout)
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder

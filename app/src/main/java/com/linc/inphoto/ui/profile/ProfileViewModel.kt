@@ -2,13 +2,13 @@ package com.linc.inphoto.ui.profile
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.managepost.model.ManageablePost
+import com.linc.inphoto.ui.navigation.AppRouter
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.item.NewPostUiState
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    router: Router,
+    router: AppRouter,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val mediaRepository: MediaRepository
@@ -64,7 +64,8 @@ class ProfileViewModel @Inject constructor(
         val pickerScreen = Navigation.ChooseOptionScreen(
             SELECT_SOURCE_RESULT, ImageSource.getAvailableSources()
         )
-        router.navigateTo(pickerScreen)
+//        router.navigateTo(pickerScreen)
+        (router as AppRouter).showDialog(pickerScreen)
     }
 
     private fun selectImage(

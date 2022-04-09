@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentOptionPickerBinding
-import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.base.fragment.BaseBottomSheetDialogFragment
 import com.linc.inphoto.ui.optionpicker.item.OptionItem
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.utils.extensions.getArgument
@@ -16,7 +16,7 @@ import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OptionPickerFragment : BaseFragment(R.layout.fragment_option_picker) {
+class OptionPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_option_picker) {
 
     companion object {
         private const val RESULT_KEY_ARG = "result_key"
@@ -34,7 +34,7 @@ class OptionPickerFragment : BaseFragment(R.layout.fragment_option_picker) {
         }
     }
 
-    override val viewModel: OptionPickerViewModel by viewModels()
+    val viewModel: OptionPickerViewModel by viewModels()
     private val binding by viewBinding(FragmentOptionPickerBinding::bind)
 
     private val optionsAdapter: GroupieAdapter by lazy { GroupieAdapter() }

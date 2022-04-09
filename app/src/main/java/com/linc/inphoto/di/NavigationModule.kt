@@ -3,10 +3,12 @@ package com.linc.inphoto.di
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
+import com.linc.inphoto.ui.navigation.AppRouter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -21,10 +23,30 @@ object NavigationModule {
 
     @Provides
     @Singleton
+    fun provideAppCicerone(): Cicerone<AppRouter> {
+        return Cicerone.create(AppRouter())
+    }
+
+    @Provides
+    @Singleton
     fun provideRouter(cicerone: Cicerone<Router>): Router {
         return cicerone.router
     }
 
+    @Provides
+    @Singleton
+    fun provideDialogRouter(cicerone: Cicerone<AppRouter>): AppRouter {
+        return cicerone.router
+    }
+
+    @Named("AppRouter")
+    @Provides
+    @Singleton
+    fun provideAppNavigatorHolder(cicerone: Cicerone<AppRouter>): NavigatorHolder {
+        return cicerone.getNavigatorHolder()
+    }
+
+    @Named("Router")
     @Provides
     @Singleton
     fun provideNavigatorHolder(cicerone: Cicerone<Router>): NavigatorHolder {
