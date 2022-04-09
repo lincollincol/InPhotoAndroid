@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.transition.AutoTransition
 import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
@@ -19,6 +20,25 @@ abstract class BaseFragment(
     protected abstract val viewModel: BaseViewModel<out UiState>
 
     protected abstract suspend fun observeUiState()
+
+    protected open fun onEnterAnimation() {
+        enterTransition = AutoTransition()
+    }
+
+    protected open fun onReenterAnimation() {
+        reenterTransition = AutoTransition()
+    }
+
+    protected open fun onExitAnimation() {
+        exitTransition = AutoTransition()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        onEnterAnimation()
+        onReenterAnimation()
+        onExitAnimation()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
