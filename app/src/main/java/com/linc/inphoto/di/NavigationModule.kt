@@ -8,7 +8,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -39,17 +38,10 @@ object NavigationModule {
         return cicerone.router
     }
 
-    @Named("AppRouter")
     @Provides
     @Singleton
     fun provideAppNavigatorHolder(cicerone: Cicerone<AppRouter>): NavigatorHolder {
         return cicerone.getNavigatorHolder()
     }
 
-    @Named("Router")
-    @Provides
-    @Singleton
-    fun provideNavigatorHolder(cicerone: Cicerone<Router>): NavigatorHolder {
-        return cicerone.getNavigatorHolder()
-    }
 }

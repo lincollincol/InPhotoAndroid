@@ -1,10 +1,10 @@
 package com.linc.inphoto.ui.managepost
 
 import androidx.lifecycle.viewModelScope
-import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.managepost.model.ManageablePost
+import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,9 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManagePostViewModel @Inject constructor(
-    router: Router,
+    routerHolder: NavContainerHolder,
     private val postRepository: PostRepository
-) : BaseViewModel<ManagePostUiState>(router) {
+) : BaseViewModel<ManagePostUiState>(routerHolder) {
 
     companion object {
         private const val INFO_RESULT = "info_result"

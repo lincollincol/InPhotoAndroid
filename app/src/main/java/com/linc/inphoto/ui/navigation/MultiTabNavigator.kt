@@ -7,12 +7,37 @@ import androidx.fragment.app.FragmentManager
 import com.github.terrakok.cicerone.Command
 import com.github.terrakok.cicerone.androidx.AppNavigator
 
-class ExtendedNavigator(
+class MultiTabNavigator(
     activity: FragmentActivity,
     containerId: Int,
     fragmentManager: FragmentManager = activity.supportFragmentManager,
     fragmentFactory: FragmentFactory = fragmentManager.fragmentFactory
 ) : AppNavigator(activity, containerId, fragmentManager, fragmentFactory) {
+
+    fun selectTab(tab: String) {
+        val fragments = fragmentManager.fragments
+        val currentFragment = fragments.firstOrNull { it.isVisible }
+        val newFragment = fragmentManager.findFragmentByTag(tab)
+        if (currentFragment != null && newFragment != null && currentFragment === newFragment) {
+            return
+        }
+        val transaction = fragmentManager.beginTransaction()
+        if (newFragment == null) {
+            transaction.add(
+                containerId,
+                Navigation.TabSceen(tab).createFragment(fragmentManager.fragmentFactory),
+                tab
+            )
+        }
+        if (currentFragment != null) {
+            transaction.hide(currentFragment)
+        }
+        if (newFragment != null) {
+            transaction.show(newFragment)
+        }
+        transaction.commitNow()
+    }
+
     override fun applyCommand(command: Command) {
         when (command) {
             is CloseDialog -> closeDialog(command)

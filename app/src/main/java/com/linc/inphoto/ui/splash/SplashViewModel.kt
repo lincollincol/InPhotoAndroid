@@ -1,11 +1,11 @@
 package com.linc.inphoto.ui.splash
 
 import androidx.lifecycle.viewModelScope
-import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.ui.base.state.EmptyUiState
 import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.Navigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -16,9 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    router: Router,
+    routerHolder: NavContainerHolder,
     private val userRepository: UserRepository
-) : BaseViewModel<UiState>(router) {
+) : BaseViewModel<UiState>(routerHolder) {
 
     companion object {
         private const val SPLASH_DELAY = 1000L

@@ -42,6 +42,7 @@
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_tab.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_choose_option.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_crop_ratio.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_edit_operation.xml" value="0.32447916666666665" />

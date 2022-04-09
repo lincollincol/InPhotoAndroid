@@ -9,6 +9,7 @@ import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.managepost.model.ManageablePost
 import com.linc.inphoto.ui.navigation.AppRouter
+import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.item.NewPostUiState
@@ -23,11 +24,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    router: AppRouter,
+    routerHolder: NavContainerHolder,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val mediaRepository: MediaRepository
-) : BaseViewModel<ProfileUiState>(router) {
+) : BaseViewModel<ProfileUiState>(routerHolder) {
 
     companion object {
         private const val EDIT_IMAGE_RESULT = "edit_image"

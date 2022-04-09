@@ -2,11 +2,11 @@ package com.linc.inphoto.ui.editimage
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.editimage.model.EditOperation
+import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,9 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditImageViewModel @Inject constructor(
-    router: Router,
+    routerHolder: NavContainerHolder,
     private val mediaRepository: MediaRepository
-) : BaseViewModel<EditImageUiState>(router) {
+) : BaseViewModel<EditImageUiState>(routerHolder) {
 
     companion object {
         private const val EDITOR_OPERATION_RESULT = "editor_result"

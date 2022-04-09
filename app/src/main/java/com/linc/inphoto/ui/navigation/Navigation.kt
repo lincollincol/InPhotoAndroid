@@ -20,6 +20,7 @@ import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.ProfileFragment
 import com.linc.inphoto.ui.splash.SplashFragment
+import com.linc.inphoto.ui.tab.TabFragment
 
 object Navigation {
 
@@ -29,6 +30,18 @@ object Navigation {
     ) = FragmentScreen(clearContainer = false) {
         OptionPickerFragment.newInstance(resultKey, options)
     }*/
+
+    fun getTabHostScreen(tabId: String) = when (tabId) {
+        "Profile" -> ProfileScreen()
+        "Home" -> SignUpScreen()
+        "Chats" -> SignInScreen()
+        "Feed" -> SplashScreen()
+        else -> ProfileScreen()
+    }
+
+    fun TabSceen(tabId: String) = FragmentScreen {
+        TabFragment.newInstance(tabId)
+    }
 
     fun ChooseOptionScreen(
         resultKey: String,

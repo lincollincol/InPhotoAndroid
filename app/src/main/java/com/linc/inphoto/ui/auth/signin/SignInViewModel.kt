@@ -1,9 +1,9 @@
 package com.linc.inphoto.ui.auth.signin
 
 import androidx.lifecycle.viewModelScope
-import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.AuthRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,9 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    router: Router,
+    routerHolder: NavContainerHolder,
     private val authRepository: AuthRepository
-) : BaseViewModel<SignInUiState>(router) {
+) : BaseViewModel<SignInUiState>(routerHolder) {
 
     override val _uiState = MutableStateFlow(SignInUiState())
 

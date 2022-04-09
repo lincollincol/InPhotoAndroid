@@ -2,12 +2,12 @@ package com.linc.inphoto.ui.cropimage
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.SettingsRepository
 import com.linc.inphoto.entity.media.image.AspectRatio
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.cropimage.model.CropShape
+import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.Navigation
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.update
@@ -19,10 +19,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CropImageViewModel @Inject constructor(
-    router: Router,
+    routerHolder: NavContainerHolder,
     private val settingsRepository: SettingsRepository,
     private val mediaRepository: MediaRepository
-) : BaseViewModel<CropImageUiState>(router) {
+) : BaseViewModel<CropImageUiState>(routerHolder) {
 
     companion object {
         private const val CHOOSE_SHAPE_RESULT = "shape_result"
