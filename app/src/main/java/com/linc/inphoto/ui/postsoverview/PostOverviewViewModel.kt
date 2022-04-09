@@ -1,14 +1,14 @@
 package com.linc.inphoto.ui.postsoverview
 
 import androidx.lifecycle.viewModelScope
-import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.managepost.model.ManageablePost
-import com.linc.inphoto.ui.navigation.Navigation
+import com.linc.inphoto.ui.navigation.NavContainerHolder
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.postsoverview.model.PostOperation
 import com.linc.inphoto.utils.ResourceProvider
@@ -23,11 +23,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostOverviewViewModel @Inject constructor(
-    router: Router,
+    navContainerHolder: NavContainerHolder,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val resourceProvider: ResourceProvider
-) : BaseViewModel<PostOverviewUiState>(router) {
+) : BaseViewModel<PostOverviewUiState>(navContainerHolder) {
 
     companion object {
         private const val POST_ACTION_RESULT = "post_action_result"
@@ -147,14 +147,14 @@ class PostOverviewViewModel @Inject constructor(
                 PostOperation.Share -> sharePost(selectedPost)
             }
         }
-        val pickerScreen = Navigation.ChooseOptionScreen(
+        val pickerScreen = NavScreen.ChooseOptionScreen(
             POST_ACTION_RESULT, PostOperation.getPostOperations()
         )
         router.navigateTo(pickerScreen)
     }
 
     private fun editPost(selectedPost: ExtendedPost) {
-        router.navigateTo(Navigation.ManagePostScreen(ManageablePost(selectedPost)))
+        router.navigateTo(NavScreen.ManagePostScreen(ManageablePost(selectedPost)))
     }
 
     private fun deletePost(selectedPost: ExtendedPost) {
@@ -182,7 +182,7 @@ class PostOverviewViewModel @Inject constructor(
             selectedPost.tags.toString(),
             selectedPost.contentUrl
         )
-        router.navigateTo(Navigation.ShareContentScreen(content))
+        router.navigateTo(NavScreen.ShareContentScreen(content))
     }
 
 }

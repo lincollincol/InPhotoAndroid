@@ -1,11 +1,11 @@
 package com.linc.inphoto.ui.auth.signup
 
 import androidx.lifecycle.viewModelScope
-import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.data.repository.AuthRepository
 import com.linc.inphoto.ui.auth.model.Credentials
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.navigation.Navigation
+import com.linc.inphoto.ui.navigation.NavContainerHolder
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,9 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    router: Router,
+    navContainerHolder: NavContainerHolder,
     private val authRepository: AuthRepository
-) : BaseViewModel<SignUpUiState>(router) {
+) : BaseViewModel<SignUpUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(SignUpUiState())
 
@@ -29,7 +29,7 @@ class SignUpViewModel @Inject constructor(
                 credentials.username,
                 credentials.password
             )
-            router.newRootScreen(Navigation.ProfileScreen())
+            router.newRootScreen(NavScreen.ProfileScreen())
         } catch (e: Exception) {
             Timber.e(e)
             _uiState.update { copy(signUpErrorMessage = e.message) }

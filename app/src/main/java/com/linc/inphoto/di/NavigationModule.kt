@@ -27,7 +27,8 @@ object NavigationModule {
 
     @Provides
     @Singleton
-    fun provideNavigatorHolder(cicerone: Cicerone<Router>): NavigatorHolder {
+    fun provideAppNavigatorHolder(cicerone: Cicerone<Router>): NavigatorHolder {
         return cicerone.getNavigatorHolder()
     }
+
 }

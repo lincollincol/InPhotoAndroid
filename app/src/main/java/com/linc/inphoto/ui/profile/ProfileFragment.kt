@@ -87,5 +87,4 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         viewModel.loadProfileData()
     }
 
-
 }
