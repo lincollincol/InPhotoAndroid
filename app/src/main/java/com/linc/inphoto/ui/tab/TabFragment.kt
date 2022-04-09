@@ -8,6 +8,7 @@ import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.Replace
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.linc.inphoto.R
+import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavTab
@@ -20,11 +21,11 @@ import javax.inject.Inject
 class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener, NavTab {
 
     companion object {
-        private const val CONTAINER_ID_ARG = "container_id"
+        private const val TAB_ARG = "container_id"
 
         @JvmStatic
-        fun newInstance(id: String) = TabFragment().apply {
-            arguments = bundleOf(CONTAINER_ID_ARG to id)
+        fun newInstance(tab: MenuTab) = TabFragment().apply {
+            arguments = bundleOf(TAB_ARG to tab)
         }
     }
 
@@ -35,7 +36,7 @@ class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener
     @Inject
     lateinit var navContainerHolder: NavContainerHolder
 
-    override val containerId: String get() = getArgument<String>(CONTAINER_ID_ARG).orEmpty()
+    override val containerId: String get() = getArgument<MenuTab>(TAB_ARG)?.name.orEmpty()
 
     override fun onResume() {
         super.onResume()
@@ -52,7 +53,7 @@ class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener
 //        viewModel.setupNavContainer(requireArguments().getString(CONTAINER_ID_ARG))
         navContainerHolder.initContainer(containerId)
         if (childFragmentManager.findFragmentById(R.id.tabContainerLayout) == null) {
-            navigator.applyCommands(arrayOf(Replace(Navigation.getTabHostScreen(containerId))))
+            navigator.applyCommands(arrayOf(Replace(Navigation.getTabHostScreen(getArgument(TAB_ARG)))))
         }
     }
 

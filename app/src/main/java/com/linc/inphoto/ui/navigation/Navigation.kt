@@ -12,6 +12,7 @@ import com.linc.inphoto.ui.cropimage.CropImageFragment
 import com.linc.inphoto.ui.editimage.EditImageFragment
 import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageFragment
+import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.managepost.ManagePostFragment
 import com.linc.inphoto.ui.managepost.model.ManageablePost
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
@@ -24,23 +25,15 @@ import com.linc.inphoto.ui.tab.TabFragment
 
 object Navigation {
 
-    /*fun ChooseOptionScreen(
-        resultKey: String,
-        options: List<OptionModel>
-    ) = FragmentScreen(clearContainer = false) {
-        OptionPickerFragment.newInstance(resultKey, options)
-    }*/
-
-    fun getTabHostScreen(tabId: String) = when (tabId) {
-        "Profile" -> ProfileScreen()
-        "Home" -> SignUpScreen()
-        "Chats" -> SignInScreen()
-        "Feed" -> SplashScreen()
+    fun getTabHostScreen(tab: MenuTab?) = when (tab) {
+        MenuTab.HOME -> SignUpScreen()
+        MenuTab.FEED -> GalleryScreen("aas")
+        MenuTab.CHATS -> SignInScreen()
         else -> ProfileScreen()
     }
 
-    fun TabSceen(tabId: String) = FragmentScreen {
-        TabFragment.newInstance(tabId)
+    fun TabScreen(tab: MenuTab) = FragmentScreen {
+        TabFragment.newInstance(tab)
     }
 
     fun ChooseOptionScreen(
