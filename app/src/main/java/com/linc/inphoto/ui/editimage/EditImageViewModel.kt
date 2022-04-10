@@ -4,8 +4,12 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.MediaRepository
+import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.ui.editimage.model.EditOperation
+import com.linc.inphoto.ui.editimage.model.EditorIntent
+import com.linc.inphoto.ui.managepost.model.ManageablePost
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.update
@@ -18,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EditImageViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
-    private val mediaRepository: MediaRepository
+    private val mediaRepository: MediaRepository,
+    private val userRepository: UserRepository,
 ) : BaseViewModel<EditImageUiState>(navContainerHolder) {
 
     companion object {
@@ -26,8 +31,10 @@ class EditImageViewModel @Inject constructor(
     }
 
     override val _uiState = MutableStateFlow(EditImageUiState())
+    private var intent: EditorIntent? = null
 
-    fun applyImage(imageUri: Uri?) {
+    fun applyImage(intent: EditorIntent?, imageUri: Uri?) {
+        this.intent = intent
         viewModelScope.launch {
             try {
                 val editorOperations = EditOperation.getEditorOperations()
@@ -45,11 +52,22 @@ class EditImageViewModel @Inject constructor(
         }
     }
 
-    fun finishEditing(resultKey: String?) {
-        router.exit()
-        if (resultKey != null) {
-            val imageUri = _uiState.value.imageUri ?: Uri.EMPTY
-            router.sendResult(resultKey, imageUri)
+    fun finishEditing() {
+        viewModelScope.launch {
+            try {
+                val imageUri = uiState.value.imageUri ?: return@launch
+                when (intent) {
+                    EditorIntent.NewAvatar -> {
+                        userRepository.updateUserAvatar(imageUri)
+                        router.backTo(NavScreen.ProfileScreen())
+                    }
+                    EditorIntent.NewPost -> {
+                        router.navigateTo(NavScreen.ManagePostScreen(ManageablePost(imageUri)))
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
         }
     }
 
@@ -64,7 +82,7 @@ class EditImageViewModel @Inject constructor(
         Timber.d(imageUri.toString())
         val operationScreen = when (operation) {
             is EditOperation.Crop -> NavScreen.CropImageScreen(
-                EDITOR_OPERATION_RESULT,
+                CropIntent.Result(EDITOR_OPERATION_RESULT),
                 imageUri
             )
             else -> {

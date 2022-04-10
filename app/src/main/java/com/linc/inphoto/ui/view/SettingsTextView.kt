@@ -13,7 +13,6 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutSettingsTextViewBinding
 import com.linc.inphoto.utils.extensions.getColorInt
 import com.linc.inphoto.utils.extensions.inflater
-import com.linc.inphoto.utils.extensions.view.setBackgroundRipple
 
 
 class SettingsTextView(
@@ -84,7 +83,7 @@ class SettingsTextView(
             applyTextViewAttrs(titleTextView, textTitle, textSize, textColorTitle, textTitleBold)
             applyTextViewAttrs(valueTextView, textValue, textSize, textColorValue, textValueBold)
             settingsTextLayout.apply {
-                setBackgroundRipple(rippleColor)
+//                setBackgroundRipple(rippleColor)
                 updatePadding(left = textHorizontalPadding, right = textHorizontalPadding)
             }
         }

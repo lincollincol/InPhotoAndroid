@@ -10,6 +10,7 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentEditImageBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.editimage.item.EditOperationItem
+import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.horizontalLinearLayoutManager
 import com.linc.inphoto.utils.extensions.view.loadUriImage
@@ -22,16 +23,16 @@ import kotlinx.coroutines.flow.collect
 class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
 
     companion object {
-        private const val RESULT_KEY_ARG = "result_key"
+        private const val INTENT_ARG = "intent_key"
         private const val IMAGE_URI_ARG = "image_uri"
 
         @JvmStatic
         fun newInstance(
-            resultKey: String,
+            intent: EditorIntent,
             image: Uri
         ) = EditImageFragment().apply {
             arguments = bundleOf(
-                RESULT_KEY_ARG to resultKey,
+                INTENT_ARG to intent,
                 IMAGE_URI_ARG to image
             )
         }
@@ -50,7 +51,10 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.applyImage(getArgument(IMAGE_URI_ARG))
+        viewModel.applyImage(
+            getArgument(INTENT_ARG),
+            getArgument(IMAGE_URI_ARG)
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,7 +65,7 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
                 adapter = editorActionsAdapter
             }
             editorToolbarView.setOnDoneClickListener {
-                viewModel.finishEditing(getArgument(RESULT_KEY_ARG))
+                viewModel.finishEditing()
             }
             editorToolbarView.setOnCancelClickListener {
                 viewModel.cancelEditing()

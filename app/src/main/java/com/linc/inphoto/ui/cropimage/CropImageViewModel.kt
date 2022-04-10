@@ -6,6 +6,7 @@ import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.SettingsRepository
 import com.linc.inphoto.entity.media.image.AspectRatio
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.ui.cropimage.model.CropShape
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -29,6 +30,11 @@ class CropImageViewModel @Inject constructor(
     }
 
     override val _uiState = MutableStateFlow(CropImageUiState())
+    private var intent: CropIntent? = null
+
+    fun specifyIntent(intent: CropIntent?) {
+        this.intent = intent
+    }
 
     fun prepareCrop() {
         viewModelScope.launch {
@@ -48,7 +54,7 @@ class CropImageViewModel @Inject constructor(
             val selectedShape = result.safeCast<CropShape>() ?: return@setResultListener
             _uiState.update { copy(cropShape = selectedShape) }
         }
-        router.navigateTo(NavScreen.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
+        router.showDialog(NavScreen.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
     }
 
     fun changeRatioState(isFixed: Boolean) {
@@ -58,10 +64,13 @@ class CropImageViewModel @Inject constructor(
         }
     }
 
-    fun saveCroppedImage(resultKey: String?, imageUri: Uri?) {
-        router.exit()
-        if (resultKey != null && imageUri != null) {
-            router.sendResult(resultKey, mediaRepository.convertToTempUri(imageUri))
+    fun saveCroppedImage(imageUri: Uri?) {
+        if (imageUri != null && intent is CropIntent.Result) {
+            router.exit()
+            router.sendResult(
+                (intent as CropIntent.Result).resultKey,
+                mediaRepository.convertToTempUri(imageUri)
+            )
         }
     }
 

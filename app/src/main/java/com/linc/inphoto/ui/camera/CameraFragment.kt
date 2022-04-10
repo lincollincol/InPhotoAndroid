@@ -14,6 +14,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentCameraBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.utils.extensions.aspectRatio
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.getFirstAvailableCameraLens
@@ -28,11 +29,11 @@ import java.util.concurrent.Executors
 class CameraFragment : BaseFragment(R.layout.fragment_camera) {
 
     companion object {
-        private const val RESULT_KEY_ARG = "result_key"
+        private const val INTENT_ARG = "intent_key"
 
         @JvmStatic
-        fun newInstance(resultKey: String) = CameraFragment().apply {
-            arguments = bundleOf(RESULT_KEY_ARG to resultKey)
+        fun newInstance(intent: CameraIntent) = CameraFragment().apply {
+            arguments = bundleOf(INTENT_ARG to intent)
         }
     }
 
@@ -72,10 +73,7 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
                     cameraExecutor!!,
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            viewModel.handleCapturedImage(
-                                getArgument(RESULT_KEY_ARG),
-                                outputFileResults.savedUri
-                            )
+                            viewModel.handleCapturedImage(outputFileResults.savedUri)
                         }
 
                         override fun onError(error: ImageCaptureException) {
@@ -84,8 +82,8 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
                     })
             }
         }
-
         setupCamera()
+        viewModel.specifyIntent(getArgument(INTENT_ARG))
     }
 
     private fun setupCamera() {
@@ -125,6 +123,7 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
         preview?.setSurfaceProvider(binding.cameraPreviewView.surfaceProvider)
     }
 
+    // TODO: 10.04.22 uiState
     private fun flipCameraLens() {
         lensFacing = when (lensFacing) {
             CameraSelector.LENS_FACING_BACK -> CameraSelector.LENS_FACING_FRONT

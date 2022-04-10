@@ -6,20 +6,11 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/blurredImageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:outlineProvider="none"
-        android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/CircleImageShape25"
-        tools:srcCompat="@drawable/mango" />
-
-    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/galleryImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:outlineProvider="none"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/CircleImageShape25"
         tools:srcCompat="@drawable/mango" />
 

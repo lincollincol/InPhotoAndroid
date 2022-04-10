@@ -9,6 +9,7 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentGalleryBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.gallery.item.GalleryImageItem
+import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.getDimension
 import com.linc.inphoto.utils.extensions.view.verticalSquareGridLayoutManager
@@ -22,11 +23,11 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
 
     companion object {
         private const val ROW_IMAGES_COUNT = 3
-        private const val RESULT_KEY_ARG = "result_key"
+        private const val INTENT_ARG = "intent_key"
 
         @JvmStatic
-        fun newInstance(resultKey: String) = GalleryFragment().apply {
-            arguments = bundleOf(RESULT_KEY_ARG to resultKey)
+        fun newInstance(intent: GalleryIntent) = GalleryFragment().apply {
+            arguments = bundleOf(INTENT_ARG to intent)
         }
     }
 
@@ -42,7 +43,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.loadImages(getArgument(RESULT_KEY_ARG))
+        viewModel.loadImages(getArgument(INTENT_ARG))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,3 +66,4 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
         }
     }
 }
+
