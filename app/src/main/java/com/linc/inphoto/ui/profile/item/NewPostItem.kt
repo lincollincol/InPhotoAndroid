@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.profile.item
 import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemNewUserPostBinding
+import com.linc.inphoto.ui.profile.model.NewPostUiState
 import com.xwray.groupie.viewbinding.BindableItem
 
 class NewPostItem(

@@ -61,9 +61,8 @@ class EditImageViewModel @Inject constructor(
                         userRepository.updateUserAvatar(imageUri)
                         router.backTo(NavScreen.ProfileScreen())
                     }
-                    EditorIntent.NewPost -> {
+                    EditorIntent.NewPost ->
                         router.navigateTo(NavScreen.ManagePostScreen(ManageablePost(imageUri)))
-                    }
                 }
             } catch (e: Exception) {
                 Timber.e(e)

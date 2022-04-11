@@ -55,7 +55,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
                 addItemDecoration(
                     GridSpaceItemDecoration(
                         ROW_IMAGES_COUNT,
-                        getDimension(R.dimen.margin_small),
+                        getDimension(R.dimen.margin_tiny),
                         true
                     )
                 )

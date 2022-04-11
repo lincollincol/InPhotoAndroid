@@ -1,6 +1,5 @@
 package com.linc.inphoto.ui.profile
 
-import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.PostRepository
@@ -12,8 +11,8 @@ import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
-import com.linc.inphoto.ui.profile.item.NewPostUiState
 import com.linc.inphoto.ui.profile.model.ImageSource
+import com.linc.inphoto.ui.profile.model.NewPostUiState
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,9 +30,7 @@ class ProfileViewModel @Inject constructor(
 ) : BaseViewModel<ProfileUiState>(navContainerHolder) {
 
     companion object {
-        private const val EDIT_IMAGE_RESULT = "edit_image"
-        private const val SELECT_IMAGE_RESULT = "select_image"
-        private const val SELECT_SOURCE_RESULT = "select_source"
+        private const val IMAGE_SOURCE_RESULT = "image_source"
     }
 
     override val _uiState = MutableStateFlow(ProfileUiState())
@@ -57,67 +54,36 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun updateProfileAvatar() {
-        router.setResultListener(SELECT_SOURCE_RESULT) { result ->
-            val selectedSource = result.safeCast<ImageSource>() ?: return@setResultListener
-            selectImage(selectedSource, ::handleSelectedAvatar)
+    fun updateAvatar() {
+        selectImageSource { imageSource ->
+            val screen = when (imageSource) {
+                is ImageSource.Gallery -> NavScreen.GalleryScreen(GalleryIntent.NewAvatar)
+                is ImageSource.Camera -> NavScreen.CameraScreen(CameraIntent.NewAvatar)
+            }
+            router.navigateTo(screen)
         }
-        val pickerScreen = NavScreen.ChooseOptionScreen(
-            SELECT_SOURCE_RESULT, ImageSource.getAvailableSources()
-        )
-        router.showDialog(pickerScreen)
+    }
+
+    private fun createPost() {
+        selectImageSource { imageSource ->
+            val screen = when (imageSource) {
+                is ImageSource.Gallery -> NavScreen.GalleryScreen(GalleryIntent.NewPost)
+                is ImageSource.Camera -> NavScreen.CameraScreen(CameraIntent.NewPost)
+            }
+            router.navigateTo(screen)
+        }
     }
 
     private fun selectImageSource(onSelected: (ImageSource) -> Unit) {
-        router.setResultListener(SELECT_SOURCE_RESULT) { result ->
+        router.setResultListener(IMAGE_SOURCE_RESULT) { result ->
             val selectedSource = result.safeCast<ImageSource>() ?: return@setResultListener
             onSelected(selectedSource)
-//            selectImage(selectedSource) { imageUri ->
-//                imageUri ?: return@selectImage
-//                router.navigateTo(NavScreen.ManagePostScreen(ManageablePost(imageUri)))
-//            }
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
-            SELECT_SOURCE_RESULT,
+            IMAGE_SOURCE_RESULT,
             ImageSource.getAvailableSources()
         )
         router.showDialog(pickerScreen)
-    }
-
-    private fun selectImage(
-        imageSource: ImageSource,
-        onSelected: (imageUri: Uri?) -> Unit
-    ) {
-        // Navigate to source screen
-        val screen = when (imageSource) {
-//            is ImageSource.Gallery -> NavScreen.GalleryScreen(SELECT_IMAGE_RESULT)
-            is ImageSource.Gallery -> NavScreen.GalleryScreen(GalleryIntent.NewAvatar)
-            is ImageSource.Camera -> NavScreen.CameraScreen(CameraIntent.NewAvatar)
-        }
-        router.navigateTo(screen)
-
-//        router.setResultListener(SELECT_IMAGE_RESULT) {
-//            val editorScreen = NavScreen.EditImageScreen(
-//                EDIT_IMAGE_RESULT,
-//                it as Uri
-//            )
-//            router.navigateTo(editorScreen)
-//        }
-//
-//        router.setResultListener(EDIT_IMAGE_RESULT) {
-//            onSelected(it as? Uri)
-//        }
-    }
-
-    private fun handleSelectedAvatar(imageUri: Uri?) {
-        viewModelScope.launch {
-            try {
-                val user = userRepository.updateUserAvatar(imageUri)
-                _uiState.update { copy(user = user) }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
     }
 
     private fun selectPost(post: Post) {
@@ -125,28 +91,4 @@ class ProfileViewModel @Inject constructor(
         val overviewType = OverviewType.Profile(post.id, post.authorUserId, username)
         router.navigateTo(NavScreen.PostOverviewScreen(overviewType))
     }
-
-    private fun createPost() {
-//        selectImageSource { imageSource ->
-//            val screen = when (imageSource) {
-//                is ImageSource.Gallery -> NavScreen.NewAvatarGalleryScreen()
-//                is ImageSource.Camera -> NavScreen.CameraScreen(SELECT_IMAGE_RESULT)
-//            }
-//            router.navigateTo(screen)
-//        }
-
-
-//        router.setResultListener(SELECT_SOURCE_RESULT) { result ->
-//            val selectedSource = result.safeCast<ImageSource>() ?: return@setResultListener
-//            selectImage(selectedSource) { imageUri ->
-//                imageUri ?: return@selectImage
-//                router.navigateTo(NavScreen.ManagePostScreen(ManageablePost(imageUri)))
-//            }
-//        }
-//        val pickerScreen = NavScreen.ChooseOptionScreen(
-//            SELECT_SOURCE_RESULT, ImageSource.getAvailableSources()
-//        )
-//        router.showDialog(pickerScreen)
-    }
-
 }

@@ -5,6 +5,7 @@ import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.managepost.model.ManageablePost
 import com.linc.inphoto.ui.navigation.NavContainerHolder
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -74,7 +75,7 @@ class ManagePostViewModel @Inject constructor(
                     )
                 }
 
-                router.exit()
+                router.backTo(NavScreen.ProfileScreen())
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {

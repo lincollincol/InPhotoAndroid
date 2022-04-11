@@ -8,10 +8,11 @@ class SquareGridLayoutManager(
     context: Context,
     spanCount: Int,
     orientation: Int,
-    reverseLayout: Boolean
+    reverseLayout: Boolean,
 ) : GridLayoutManager(context, spanCount, orientation, reverseLayout) {
     override fun checkLayoutParams(lp: RecyclerView.LayoutParams?): Boolean {
         lp?.height = width / spanCount
+
         return true
     }
 }
