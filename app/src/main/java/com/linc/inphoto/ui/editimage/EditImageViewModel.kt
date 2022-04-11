@@ -9,7 +9,7 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.ui.editimage.model.EditOperation
 import com.linc.inphoto.ui.editimage.model.EditorIntent
-import com.linc.inphoto.ui.managepost.model.ManageablePost
+import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.update
@@ -61,8 +61,9 @@ class EditImageViewModel @Inject constructor(
                         userRepository.updateUserAvatar(imageUri)
                         router.backTo(NavScreen.ProfileScreen())
                     }
-                    EditorIntent.NewPost ->
-                        router.navigateTo(NavScreen.ManagePostScreen(ManageablePost(imageUri)))
+                    EditorIntent.NewPost -> router.navigateTo(
+                        NavScreen.ManagePostScreen(ManagePostIntent.NewPost(imageUri))
+                    )
                 }
             } catch (e: Exception) {
                 Timber.e(e)

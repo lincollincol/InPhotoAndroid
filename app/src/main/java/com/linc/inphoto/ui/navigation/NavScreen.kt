@@ -21,7 +21,7 @@ import com.linc.inphoto.ui.home.HomeFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageFragment
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.managepost.ManagePostFragment
-import com.linc.inphoto.ui.managepost.model.ManageablePost
+import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
@@ -82,8 +82,8 @@ object NavScreen {
         CropImageFragment.newInstance(intent, image)
     }
 
-    fun ManagePostScreen(post: ManageablePost) = FragmentScreen {
-        ManagePostFragment.newInstance(post)
+    fun ManagePostScreen(intent: ManagePostIntent) = FragmentScreen {
+        ManagePostFragment.newInstance(intent)
     }
 
     fun SplashScreen() = FragmentScreen {

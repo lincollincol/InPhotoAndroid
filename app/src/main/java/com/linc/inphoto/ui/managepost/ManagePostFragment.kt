@@ -9,7 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentManagePostBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.managepost.model.ManageablePost
+import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.utils.extensions.autoAnimateTargets
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.hideKeyboard
@@ -24,11 +24,11 @@ import kotlinx.coroutines.flow.collect
 class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
 
     companion object {
-        private const val POST_ARG = "post_uri"
+        private const val INTENT_ARG = "intent_uri"
 
         @JvmStatic
-        fun newInstance(post: ManageablePost) = ManagePostFragment().apply {
-            arguments = bundleOf(POST_ARG to post)
+        fun newInstance(intent: ManagePostIntent) = ManagePostFragment().apply {
+            arguments = bundleOf(INTENT_ARG to intent)
         }
     }
 
@@ -50,7 +50,7 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getArgument<ManageablePost>(POST_ARG)?.let(viewModel::applyPost)
+        getArgument<ManagePostIntent>(INTENT_ARG)?.let(viewModel::applyPost)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
