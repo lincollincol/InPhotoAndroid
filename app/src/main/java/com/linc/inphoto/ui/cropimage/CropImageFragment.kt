@@ -10,6 +10,7 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentCropImageBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.cropimage.item.CropRatioItem
+import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.utils.extensions.autoAnimateTargets
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.*
@@ -22,16 +23,16 @@ import kotlinx.coroutines.flow.collect
 class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
 
     companion object {
-        private const val RESULT_KEY_ARG = "result_key"
+        private const val INTENT_ARG = "intent_key"
         private const val IMAGE_URI_ARG = "image_uri"
 
         @JvmStatic
         fun newInstance(
-            resultKey: String,
+            intent: CropIntent,
             image: Uri
         ) = CropImageFragment().apply {
             arguments = bundleOf(
-                RESULT_KEY_ARG to resultKey,
+                INTENT_ARG to intent,
                 IMAGE_URI_ARG to image
             )
         }
@@ -73,7 +74,7 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
                 setImageUriAsync(getArgument(IMAGE_URI_ARG))
                 setOnCropImageCompleteListener { view, result ->
                     result.applyShape(view)
-                    viewModel.saveCroppedImage(getArgument(RESULT_KEY_ARG), result.uriContent)
+                    viewModel.saveCroppedImage(result.uriContent)
                 }
             }
             editorToolbarView.setOnDoneClickListener {
@@ -89,6 +90,9 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
                 viewModel.changeRatioState(checked)
             }
         }
-        viewModel.prepareCrop()
+        viewModel.apply {
+            specifyIntent(getArgument(INTENT_ARG))
+            prepareCrop()
+        }
     }
 }

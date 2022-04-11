@@ -42,11 +42,6 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.loadPosts(getArgument(OVERVIEW_TYPE_ARG))
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
@@ -59,7 +54,7 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
                 setOnCancelClickListener(viewModel::onBackPressed)
             }
         }
-
+        viewModel.loadPosts(getArgument(OVERVIEW_TYPE_ARG))
     }
 
 

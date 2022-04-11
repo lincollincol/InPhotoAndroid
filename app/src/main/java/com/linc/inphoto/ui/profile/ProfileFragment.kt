@@ -37,7 +37,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private val imagePermissions = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) {
-        viewModel.updateProfileAvatar()
+        viewModel.updateAvatar()
     }
 
     override suspend fun observeUiState() = with(binding) {
@@ -64,7 +64,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 addItemDecoration(
                     GridSpaceItemDecoration(
                         ROW_IMAGES_COUNT,
-                        getDimension(R.dimen.margin_small),
+                        getDimension(R.dimen.margin_tiny),
                         true
                     )
                 )

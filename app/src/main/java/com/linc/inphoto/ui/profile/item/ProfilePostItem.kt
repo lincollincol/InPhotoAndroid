@@ -1,6 +1,5 @@
 package com.linc.inphoto.ui.profile.item
 
-import android.util.Size
 import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemProfilePostBinding
@@ -15,8 +14,8 @@ class ProfilePostItem(
     override fun bind(viewBinding: ItemProfilePostBinding, position: Int) {
         with(viewBinding) {
             postImageView.loadImage(
-                image = profilePostUiState.post.contentUrl,
-                size = Size(256, 256)
+                image = profilePostUiState.post.contentUrl/*,
+                size = Size(256, 256)*/
             )
             root.setOnClickListener {
                 profilePostUiState.onClick()

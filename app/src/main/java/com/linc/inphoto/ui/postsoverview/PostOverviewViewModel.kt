@@ -6,7 +6,7 @@ import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.managepost.model.ManageablePost
+import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
@@ -150,11 +150,17 @@ class PostOverviewViewModel @Inject constructor(
         val pickerScreen = NavScreen.ChooseOptionScreen(
             POST_ACTION_RESULT, PostOperation.getPostOperations()
         )
-        router.navigateTo(pickerScreen)
+        router.showDialog(pickerScreen)
     }
 
     private fun editPost(selectedPost: ExtendedPost) {
-        router.navigateTo(NavScreen.ManagePostScreen(ManageablePost(selectedPost)))
+        val intent = ManagePostIntent.EditPost(
+            selectedPost.id,
+            selectedPost.contentUrl,
+            selectedPost.description,
+            selectedPost.tags
+        )
+        router.navigateTo(NavScreen.ManagePostScreen(intent))
     }
 
     private fun deletePost(selectedPost: ExtendedPost) {

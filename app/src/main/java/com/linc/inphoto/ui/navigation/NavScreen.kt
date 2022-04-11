@@ -8,16 +8,20 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
+import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.chats.ChatsFragment
 import com.linc.inphoto.ui.cropimage.CropImageFragment
+import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.ui.editimage.EditImageFragment
+import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.feed.FeedFragment
 import com.linc.inphoto.ui.gallery.GalleryFragment
+import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.home.HomeFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageFragment
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.managepost.ManagePostFragment
-import com.linc.inphoto.ui.managepost.model.ManageablePost
+import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
@@ -62,24 +66,24 @@ object NavScreen {
         SignUpFragment.newInstance()
     }
 
-    fun CameraScreen(resultKey: String) = FragmentScreen {
-        CameraFragment.newInstance(resultKey)
+    fun CameraScreen(intent: CameraIntent) = FragmentScreen {
+        CameraFragment.newInstance(intent)
     }
 
-    fun GalleryScreen(resultKey: String) = FragmentScreen {
-        GalleryFragment.newInstance(resultKey)
+    fun GalleryScreen(intent: GalleryIntent) = FragmentScreen {
+        GalleryFragment.newInstance(intent)
     }
 
-    fun EditImageScreen(resultKey: String, image: Uri) = FragmentScreen {
-        EditImageFragment.newInstance(resultKey, image)
+    fun EditImageScreen(intent: EditorIntent, image: Uri) = FragmentScreen {
+        EditImageFragment.newInstance(intent, image)
     }
 
-    fun CropImageScreen(resultKey: String, image: Uri) = FragmentScreen {
-        CropImageFragment.newInstance(resultKey, image)
+    fun CropImageScreen(intent: CropIntent, image: Uri) = FragmentScreen {
+        CropImageFragment.newInstance(intent, image)
     }
 
-    fun ManagePostScreen(post: ManageablePost) = FragmentScreen {
-        ManagePostFragment.newInstance(post)
+    fun ManagePostScreen(intent: ManagePostIntent) = FragmentScreen {
+        ManagePostFragment.newInstance(intent)
     }
 
     fun SplashScreen() = FragmentScreen {

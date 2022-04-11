@@ -35,10 +35,8 @@ fun RecyclerView.verticalGridLayoutManager(
 fun RecyclerView.horizontalSquareGridLayoutManager(spanCount: Int) =
     squareGridLayoutManager(spanCount, GridLayoutManager.HORIZONTAL)
 
-fun RecyclerView.verticalSquareGridLayoutManager(
-    spanCount: Int
-) = squareGridLayoutManager(spanCount, GridLayoutManager.VERTICAL)
-
+fun RecyclerView.verticalSquareGridLayoutManager(spanCount: Int) =
+    squareGridLayoutManager(spanCount, GridLayoutManager.VERTICAL)
 
 private fun RecyclerView.linearLayoutManager(
     orientation: Int
@@ -56,6 +54,4 @@ private fun RecyclerView.gridLayoutManager(
 private fun RecyclerView.squareGridLayoutManager(
     spanCount: Int,
     orientation: Int
-) = SquareGridLayoutManager(
-    context, spanCount, orientation, false
-)
+) = SquareGridLayoutManager(context, spanCount, orientation, false)

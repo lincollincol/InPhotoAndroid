@@ -4,7 +4,10 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.editimage.model.EditorIntent
+import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,12 +22,14 @@ class GalleryViewModel @Inject constructor(
 ) : BaseViewModel<GalleryUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(GalleryUiState())
+    private var intent: GalleryIntent? = null
 
-    fun loadImages(resultKey: String?) {
+    fun loadImages(intent: GalleryIntent?) {
+        this.intent = intent
         viewModelScope.launch {
             try {
                 val images = mediaRepository.loadGalleryImages()
-                    .map { it.toUiState(onClick = { selectImage(resultKey, it.uri) }) }
+                    .map { it.toUiState(onClick = { selectImage(it.uri) }) }
                 _uiState.update { copy(images = images) }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -36,11 +41,13 @@ class GalleryViewModel @Inject constructor(
         router.exit()
     }
 
-    private fun selectImage(resultKey: String?, imageUri: Uri?) {
-        router.exit()
-        if (resultKey != null && imageUri != null) {
-            router.sendResult(resultKey, mediaRepository.createTempUri(imageUri))
+    private fun selectImage(imageUri: Uri) {
+        val intent = when (intent) {
+            GalleryIntent.NewAvatar -> EditorIntent.NewAvatar
+            GalleryIntent.NewPost -> EditorIntent.NewPost
+            else -> return
         }
+        router.navigateTo(NavScreen.EditImageScreen(intent, imageUri))
     }
 
 }

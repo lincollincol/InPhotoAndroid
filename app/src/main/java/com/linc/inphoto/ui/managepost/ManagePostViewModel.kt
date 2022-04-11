@@ -1,10 +1,12 @@
 package com.linc.inphoto.ui.managepost
 
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.managepost.model.ManageablePost
+import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,15 +25,20 @@ class ManagePostViewModel @Inject constructor(
     }
 
     override val _uiState = MutableStateFlow(ManagePostUiState())
+    private var intent: ManagePostIntent? = null
 
-    fun applyPost(post: ManageablePost) {
+    fun applyPost(intent: ManagePostIntent) {
+        this.intent = intent
         _uiState.update {
-            copy(
-                postId = post.id,
-                imageUri = post.imageUri,
-                description = post.description,
-                tags = post.tags.toSet()
-            )
+            when (intent) {
+                is ManagePostIntent.NewPost -> copy(imageUri = intent.imageUri)
+                is ManagePostIntent.EditPost -> copy(
+                    postId = intent.postId,
+                    imageUri = intent.contentUrl.toUri(),
+                    description = intent.description,
+                    tags = intent.tags.toSet()
+                )
+            }
         }
     }
 
@@ -60,27 +67,38 @@ class ManagePostViewModel @Inject constructor(
                     return@launch
                 }
 
-                if (state.postId.isNullOrEmpty()) {
-                    postRepository.saveUserPost(
-                        state.imageUri,
-                        state.description.orEmpty(),
-                        state.tags.toList(),
-                    )
+                if (intent is ManagePostIntent.NewPost) {
+                    createPost()
+                    router.backTo(NavScreen.ProfileScreen())
                 } else {
-                    postRepository.updateUserPost(
-                        state.postId,
-                        state.description.orEmpty(),
-                        state.tags.toList()
-                    )
+                    updatePost()
+                    router.exit()
                 }
 
-                router.exit()
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {
 //                _uiState.update { copy(isLoading = false) }
             }
         }
+    }
+
+    suspend fun createPost() {
+        val state = uiState.value
+        postRepository.saveUserPost(
+            state.imageUri,
+            state.description.orEmpty(),
+            state.tags.toList(),
+        )
+    }
+
+    suspend fun updatePost() {
+        val state = uiState.value
+        postRepository.updateUserPost(
+            state.postId.orEmpty(),
+            state.description.orEmpty(),
+            state.tags.toList()
+        )
     }
 
     fun cancelPost() {
