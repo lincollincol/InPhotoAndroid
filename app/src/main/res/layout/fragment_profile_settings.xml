@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.linc.inphoto.ui.view.EditorToolbarView
+        android:id="@+id/settingsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_general"
+        android:paddingHorizontal="@dimen/padding_general"
+        app:cancelIcon="@drawable/ic_arrow_back"
+        app:doneIcon="@drawable/ic_check"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textTitle="@string/settings_profile"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/avatarImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_general"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_tiny"
+        app:shapeAppearanceOverlay="@style/CircleImageShape50"
+        tools:srcCompat="@drawable/avatar" />
+
+    <com.linc.inphoto.ui.view.TitledEditText
+        android:id="@+id/usernameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        app:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatarImageView"
+        app:title="@string/title_username"/>
+
+    <com.linc.inphoto.ui.view.TitledEditText
+        android:id="@+id/statusEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        app:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatarImageView"
+        app:title="@string/title_status"/>
+
+</LinearLayout>

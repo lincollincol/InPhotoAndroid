@@ -27,6 +27,10 @@ class ManagePostViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(ManagePostUiState())
     private var intent: ManagePostIntent? = null
 
+    fun cancelPost() {
+        router.exit()
+    }
+
     fun applyPost(intent: ManagePostIntent) {
         this.intent = intent
         _uiState.update {
@@ -35,7 +39,7 @@ class ManagePostViewModel @Inject constructor(
                 is ManagePostIntent.EditPost -> copy(
                     postId = intent.postId,
                     imageUri = intent.contentUrl.toUri(),
-                    description = intent.description,
+                    description = StringBuilder(intent.description),
                     tags = intent.tags.toSet()
                 )
             }
@@ -54,7 +58,7 @@ class ManagePostViewModel @Inject constructor(
     }
 
     fun updateDescription(description: String) {
-        _uiState.update { copy(description = description) }
+        uiState.value.description?.update(description)
     }
 
     fun savePost() {
@@ -83,26 +87,22 @@ class ManagePostViewModel @Inject constructor(
         }
     }
 
-    suspend fun createPost() {
+    private suspend fun createPost() {
         val state = uiState.value
         postRepository.saveUserPost(
             state.imageUri,
-            state.description.orEmpty(),
+            state.description.toString(),
             state.tags.toList(),
         )
     }
 
-    suspend fun updatePost() {
+    private suspend fun updatePost() {
         val state = uiState.value
         postRepository.updateUserPost(
             state.postId.orEmpty(),
-            state.description.orEmpty(),
+            state.description.toString(),
             state.tags.toList()
         )
-    }
-
-    fun cancelPost() {
-        router.exit()
     }
 
 }

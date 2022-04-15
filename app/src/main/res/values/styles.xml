@@ -17,10 +17,9 @@
 
     <style name="TopRoundedBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/TopRoundedBottomSheet</item>
-        <item name="android:backgroundTint">@android:color/transparent</item>
     </style>
 
-    <style name="TopRoundedBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+    <style name="TopRoundedBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="shapeAppearanceOverlay">@style/TopRoundedShapeAppearanceBottomSheetDialog</item>
     </style>
 
@@ -64,6 +63,19 @@
         <item name="elevation">@dimen/elevation_general</item>
         <item name="android:paddingTop">@dimen/padding_general</item>
         <item name="android:paddingBottom">@dimen/padding_general</item>
+    </style>
+
+    <style name="SmallOutlinedMaterialButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerRadius">@dimen/corner_large</item>
+        <!--        <item name="cornerRadius">@dimen/corner_small</item>-->
+
+        <item name="textAllCaps">false</item>
+        <item name="strokeColor">@color/black</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.MediumComponent
+        </item>
+        <item name="elevation">@dimen/elevation_small</item>
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
     </style>
 
     <style name="TextMaterialButton" parent="Widget.MaterialComponents.Button.TextButton">
@@ -132,6 +144,19 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:elevation">5dp</item>
+    </style>
+
+    <style name="TextLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="hintTextAppearance">@style/TextLayoutHintAppearance</item>
+        <item name="hintTextColor">@color/black</item>
+
+    </style>
+
+    <style name="TextLayoutHintAppearance">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/font_tiny</item>
+        <item name="android:fontFamily">@font/noto_serif_regular</item>
     </style>
 
 </resources>

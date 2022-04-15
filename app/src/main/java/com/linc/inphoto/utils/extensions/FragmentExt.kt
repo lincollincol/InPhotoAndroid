@@ -18,6 +18,8 @@ fun Fragment.hideKeyboard() =
 
 fun <T> Fragment.getArgument(key: String): T? = requireArguments().get(key) as? T
 
+fun <T> Fragment.getArgument(key: String, default: T): T = requireArguments().get(key) as? T ?: default
+
 fun Fragment.autoAnimateTargets(scene: ViewGroup, vararg targets: View) {
     TransitionManager.beginDelayedTransition(
         scene,

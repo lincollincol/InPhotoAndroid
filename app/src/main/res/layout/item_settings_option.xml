@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/optionImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_general"
+        app:tint="@color/black"
+        tools:srcCompat="@drawable/ic_camera"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/optionTextView"
+        style="@style/TextFieldBold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_general"
+        android:paddingVertical="@dimen/margin_general"
+        android:textAlignment="viewStart"
+        android:textSize="@dimen/font_small"
+        tools:text="Option" />
+
+</LinearLayout>

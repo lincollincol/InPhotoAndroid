@@ -55,13 +55,14 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun updateAvatar() {
-        selectImageSource { imageSource ->
+        /*selectImageSource { imageSource ->
             val screen = when (imageSource) {
                 is ImageSource.Gallery -> NavScreen.GalleryScreen(GalleryIntent.NewAvatar)
                 is ImageSource.Camera -> NavScreen.CameraScreen(CameraIntent.NewAvatar)
             }
             router.navigateTo(screen)
-        }
+        }*/
+        router.navigateTo(NavScreen.SettingsScreen())
     }
 
     private fun createPost() {
