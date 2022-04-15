@@ -2,11 +2,15 @@ package com.linc.inphoto.ui.navigation
 
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Navigator
+import com.github.terrakok.cicerone.Router
+import com.linc.inphoto.di.navigation.GlobalNavigatorHolder
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NavContainerHolder @Inject constructor() {
+class NavContainerHolder @Inject constructor(
+    @GlobalNavigatorHolder val globalContainer: Cicerone<Router>
+) {
 
     private val containers: MutableMap<String, Cicerone<AppRouter>> = hashMapOf()
 
@@ -32,4 +36,6 @@ class NavContainerHolder @Inject constructor() {
     fun removeNavigator(id: String) {
         containers[id]?.getNavigatorHolder()?.removeNavigator()
     }
+
+    fun getGlobalRouter() = globalContainer.router
 }

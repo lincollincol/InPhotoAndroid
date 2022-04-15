@@ -40,6 +40,7 @@
         <entry key="app/src/main/res/layout/fragment_image_picker.xml" value="0.15260416666666668" />
         <entry key="app/src/main/res/layout/fragment_info_message.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.16197916666666667" />
         <entry key="app/src/main/res/layout/fragment_manage_post.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_option_picker.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_post_overview.xml" value="0.17708333333333334" />

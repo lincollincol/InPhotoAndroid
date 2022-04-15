@@ -28,7 +28,7 @@ class SignInViewModel @Inject constructor(
                 state.login.orEmpty(),
                 state.password.orEmpty()
             )
-            router.newRootScreen(NavScreen.ProfileScreen())
+            globalRouter.newRootScreen(NavScreen.MainScreen())
         } catch (e: Exception) {
             Timber.e(e)
             _uiState.update { copy(signInErrorMessage = e.message) }
@@ -46,7 +46,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun signUp() {
-        router.navigateTo(NavScreen.SignUpScreen())
+        globalRouter.navigateTo(NavScreen.SignUpScreen())
     }
 
 }

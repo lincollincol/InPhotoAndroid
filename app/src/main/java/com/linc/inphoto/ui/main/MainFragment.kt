@@ -1,22 +1,32 @@
 package com.linc.inphoto.ui.main
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.linc.inphoto.R
-import com.linc.inphoto.databinding.ActivityMainBinding
+import com.linc.inphoto.databinding.FragmentMainBinding
+import com.linc.inphoto.di.navigation.LocalNavigatorHolder
+import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.navigator.MultiContainerNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainFragment : Fragment(R.layout.fragment_main), FragmentBackPressedListener {
 
-    private val binding by viewBinding(ActivityMainBinding::bind)
-    private val navigator = MultiContainerNavigator(this, R.id.globalContainerLayout)
+    companion object {
+        @JvmStatic
+        fun newInstance() = MainFragment()
+    }
 
+    private val binding by viewBinding(FragmentMainBinding::bind)
+    private val navigator by lazy {
+        MultiContainerNavigator(requireActivity(), R.id.mainContainerLayout, childFragmentManager)
+    }
+
+    @LocalNavigatorHolder
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
 
@@ -25,18 +35,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (savedInstanceState == null) {
             navigator.initNavigator(MenuTab.HOME)
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.bottomNavigationView.onTabSelected = { tab ->
             MenuTab.fromId(tab.id)?.let(navigator::selectTab)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Glide.get(this).clearMemory()
-    }
-
-    override fun onResumeFragments() {
-        super.onResumeFragments()
+    override fun onResume() {
+        super.onResume()
         navigatorHolder.setNavigator(navigator)
     }
 
@@ -50,5 +59,4 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             binding.bottomNavigationView.selectTabById(tab.id)
         }
     }
-
 }

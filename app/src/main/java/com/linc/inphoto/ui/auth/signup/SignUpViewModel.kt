@@ -29,7 +29,7 @@ class SignUpViewModel @Inject constructor(
                 credentials.username,
                 credentials.password
             )
-            router.newRootScreen(NavScreen.ProfileScreen())
+            globalRouter.newRootScreen(NavScreen.MainScreen())
         } catch (e: Exception) {
             Timber.e(e)
             _uiState.update { copy(signUpErrorMessage = e.message) }

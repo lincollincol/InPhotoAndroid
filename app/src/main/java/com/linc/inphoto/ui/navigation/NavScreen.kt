@@ -20,6 +20,7 @@ import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.home.HomeFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageFragment
+import com.linc.inphoto.ui.main.MainFragment
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.managepost.ManagePostFragment
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
@@ -99,6 +100,10 @@ object NavScreen {
 
     fun SplashScreen() = FragmentScreen {
         SplashFragment.newInstance()
+    }
+
+    fun MainScreen() = FragmentScreen {
+        MainFragment.newInstance()
     }
 
     fun ProfileScreen() = FragmentScreen {

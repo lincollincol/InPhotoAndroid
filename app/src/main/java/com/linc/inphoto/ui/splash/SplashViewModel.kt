@@ -32,11 +32,11 @@ class SplashViewModel @Inject constructor(
                 delay(SPLASH_DELAY)
 
                 val screen = when {
-                    isLoggedIn -> NavScreen.ProfileScreen()
+                    isLoggedIn -> NavScreen.MainScreen()
                     else -> NavScreen.SignInScreen()
                 }
 
-                router.newRootScreen(screen)
+                globalRouter.newRootScreen(screen)
             } catch (e: Exception) {
                 Timber.e(e)
             }
