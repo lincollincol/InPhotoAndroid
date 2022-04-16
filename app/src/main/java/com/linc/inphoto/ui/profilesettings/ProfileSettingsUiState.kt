@@ -5,7 +5,8 @@ import com.linc.inphoto.ui.base.state.UiState
 
 data class ProfileSettingsUiState(
     val imageUri: Uri? = null,
-    val username: StringBuilder? = null,
-    val status: StringBuilder? = null
+    val username: String? = null,
+    val status: String? = null
+) : UiState
 
-    ) : UiState
+val ProfileSettingsUiState.isUsernameValid get() = !username.isNullOrEmpty()

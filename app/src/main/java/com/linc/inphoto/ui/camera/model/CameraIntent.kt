@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 sealed class CameraIntent : Parcelable {
     @Parcelize
-    object NewAvatar : CameraIntent()
+    data class NewAvatar(val resultKey: String) : CameraIntent()
     @Parcelize
     object NewPost : CameraIntent()
 }

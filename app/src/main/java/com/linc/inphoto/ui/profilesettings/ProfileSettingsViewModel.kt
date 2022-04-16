@@ -6,8 +6,12 @@ import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.User
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.camera.model.CameraIntent
+import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.ui.profile.model.ImageSource
+import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +27,8 @@ class ProfileSettingsViewModel @Inject constructor(
 
     companion object {
         private const val CANCEL_CHANGES_RESULT = "cancel_changes_result"
+        private const val IMAGE_SOURCE_RESULT = "image_source_result"
+        private const val PROFILE_AVATAR_RESULT = "profile_avatar_result"
     }
 
     override val _uiState = MutableStateFlow(ProfileSettingsUiState())
@@ -35,8 +41,8 @@ class ProfileSettingsViewModel @Inject constructor(
                 _uiState.update {
                     copy(
                         imageUri = user?.avatarUrl?.toUri(),
-                        username = StringBuilder(user?.name.orEmpty()),
-                        status = StringBuilder(user?.status.orEmpty())
+                        username = user?.name,
+                        status = user?.status
                     )
                 }
             } catch (e: Exception) {
@@ -48,14 +54,20 @@ class ProfileSettingsViewModel @Inject constructor(
     fun saveProfileData() {
         viewModelScope.launch {
             try {
-                val state = uiState.value
-                if(state.imageUri != user?.avatarUrl?.toUri()) {
+                val state = _uiState.value
+
+//                if(!state.isProfileDataValid) {
+//
+//                    return@launch
+//                }
+
+                if (state.imageUri != user?.avatarUrl?.toUri()) {
                     userRepository.updateUserAvatar(state.imageUri)
                 }
-                if(state.username.toString() != user?.name) {
+                if (state.username.toString() != user?.name) {
                     userRepository.updateUserName(state.username.toString())
                 }
-                if(state.status.toString() != user?.status) {
+                if (state.status.toString() != user?.status) {
                     userRepository.updateUserStatus(state.status.toString())
                 }
                 router.exit()
@@ -80,7 +92,7 @@ class ProfileSettingsViewModel @Inject constructor(
                         )
                     )
                     setResultListener(CANCEL_CHANGES_RESULT) { result ->
-                        if(result as Boolean) router.exit()
+                        if (result as Boolean) router.exit()
                     }
                 }
             }
@@ -88,16 +100,38 @@ class ProfileSettingsViewModel @Inject constructor(
         }
     }
 
+    fun updateAvatar() {
+        router.setResultListener(IMAGE_SOURCE_RESULT) { result ->
+            val imageSource = result.safeCast<ImageSource>() ?: return@setResultListener
+            val screen = when (imageSource) {
+                is ImageSource.Gallery ->
+                    NavScreen.GalleryScreen(GalleryIntent.NewAvatar(PROFILE_AVATAR_RESULT))
+                is ImageSource.Camera ->
+                    NavScreen.CameraScreen(CameraIntent.NewAvatar(PROFILE_AVATAR_RESULT))
+            }
+            router.navigateTo(screen)
+        }
+        router.setResultListener(PROFILE_AVATAR_RESULT) { result ->
+            _uiState.update { copy(imageUri = result.safeCast()) }
+        }
+        val pickerScreen = NavScreen.ChooseOptionScreen(
+            IMAGE_SOURCE_RESULT,
+            ImageSource.getAvailableSources()
+        )
+        router.showDialog(pickerScreen)
+    }
+
     fun updateUsername(name: String?) {
-        _uiState.value.username?.update(name.orEmpty())
+//        _uiState.value.username?.update(name.orEmpty())
+        _uiState.update { copy(username = name) }
     }
 
     fun updateStatus(status: String?) {
-        _uiState.value.status?.update(status.orEmpty())
+//        _uiState.value.status?.update(status.orEmpty())
+        _uiState.update { copy(status = status) }
     }
 
     override fun onBackPressed() {
-//        super.onBackPressed()
         cancelProfileUpdate()
     }
 

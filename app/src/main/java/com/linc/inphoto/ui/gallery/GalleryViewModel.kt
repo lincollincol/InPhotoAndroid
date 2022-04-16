@@ -29,7 +29,7 @@ class GalleryViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val images = mediaRepository.loadGalleryImages()
-                    .map { it.toUiState(onClick = { selectImage(it.uri) }) }
+                    .map { it.toUiState(onClick = { selectImage(intent, it.uri) }) }
                 _uiState.update { copy(images = images) }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -41,13 +41,13 @@ class GalleryViewModel @Inject constructor(
         router.exit()
     }
 
-    private fun selectImage(imageUri: Uri) {
-        val intent = when (intent) {
-            GalleryIntent.NewAvatar -> EditorIntent.NewAvatar
-            GalleryIntent.NewPost -> EditorIntent.NewPost
+    private fun selectImage(intent: GalleryIntent?, imageUri: Uri) {
+        val editorIntent = when (intent) {
+            is GalleryIntent.NewPost -> EditorIntent.NewPost
+            is GalleryIntent.NewAvatar -> EditorIntent.NewAvatar(intent.resultKey)
             else -> return
         }
-        router.navigateTo(NavScreen.EditImageScreen(intent, imageUri))
+        router.navigateTo(NavScreen.EditImageScreen(editorIntent, imageUri))
     }
 
 }

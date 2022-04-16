@@ -32,28 +32,58 @@
         app:shapeAppearanceOverlay="@style/CircleImageShape50"
         tools:srcCompat="@drawable/avatar" />
 
-    <com.linc.inphoto.ui.view.TitledEditText
-        android:id="@+id/usernameEditText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/usernameTextLayout"
+        style="@style/TextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
-        app:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/avatarImageView"
-        app:title="@string/title_username"/>
+        android:hint="@string/title_username">
 
-    <com.linc.inphoto.ui.view.TitledEditText
-        android:id="@+id/statusEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameEditText"
+            style="@style/TextInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/statusTextLayout"
+        style="@style/TextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
-        app:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/avatarImageView"
-        app:title="@string/title_status"/>
+        android:hint="@string/title_status">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/statusEditText"
+            style="@style/TextInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--
+        <com.linc.inphoto.ui.view.TitledEditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_general"
+            android:layout_marginTop="@dimen/margin_small"
+            app:inputType="text"
+            app:title="@string/title_username"/>
+
+        <com.linc.inphoto.ui.view.TitledEditText
+            android:id="@+id/statusEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_general"
+            android:layout_marginTop="@dimen/margin_small"
+            app:inputType="textMultiLine"
+            app:title="@string/title_status"/>
+    -->
 
 </LinearLayout>

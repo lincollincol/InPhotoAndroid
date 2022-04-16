@@ -73,7 +73,10 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
                     cameraExecutor!!,
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            viewModel.handleCapturedImage(outputFileResults.savedUri)
+                            viewModel.handleCapturedImage(
+                                getArgument(INTENT_ARG),
+                                outputFileResults.savedUri
+                            )
                         }
 
                         override fun onError(error: ImageCaptureException) {
@@ -83,7 +86,6 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
             }
         }
         setupCamera()
-        viewModel.specifyIntent(getArgument(INTENT_ARG))
     }
 
     private fun setupCamera() {

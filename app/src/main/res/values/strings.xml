@@ -74,6 +74,7 @@
 
     <string name="settings_cancel_changes_title">Discard changes?</string>
     <string name="settings_cancel_changes_description">You have updated some of your profile information. Are you sure you want to undo the changes?</string>
+    <string name="settings_invalid_username_error">Invalid username!</string>
 
 
 </resources>

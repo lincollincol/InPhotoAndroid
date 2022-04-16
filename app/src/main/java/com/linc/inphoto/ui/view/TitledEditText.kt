@@ -3,23 +3,23 @@ package com.linc.inphoto.ui.view
 import android.content.Context
 import android.text.InputType
 import android.util.AttributeSet
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.FrameLayout
 import androidx.core.widget.doOnTextChanged
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutTitledEditTextBinding
 import com.linc.inphoto.utils.extensions.inflater
 
-
+@Deprecated("Use TextInputLayout instead")
 class TitledEditText constructor(
     context: Context,
     attrs: AttributeSet
-) : ConstraintLayout(context, attrs) {
+) : FrameLayout(context, attrs) {
 
     private var binding: LayoutTitledEditTextBinding? = null
     private val title: String?
     private var text: String?
     private val inputType: Int
-    private var onTagDeletedListener: ((String) -> Unit)? = null
+    private var onTextChangedListener: ((String) -> Unit)? = null
 
     init {
         val attributes = context.obtainStyledAttributes(attrs, R.styleable.TitledEditText)
@@ -37,8 +37,13 @@ class TitledEditText constructor(
         binding = LayoutTitledEditTextBinding.inflate(context.inflater, this, true)
         binding?.run {
             titleTextView.setText(title)
-            inputEditText.setText(text)
-            inputEditText.inputType = inputType
+            inputEditText.apply {
+//                text = text
+                inputType = this@TitledEditText.inputType
+                doOnTextChanged { text, _, _, _ ->
+                    onTextChangedListener?.invoke(text.toString())
+                }
+            }
         }
     }
 
@@ -47,14 +52,9 @@ class TitledEditText constructor(
         binding = null
     }
 
-    fun doOnTextChanged(
-        action: (
-            text: CharSequence?,
-            start: Int,
-            before: Int,
-            count: Int
-        ) -> Unit
-    ) = binding?.inputEditText?.doOnTextChanged(action)
+    fun setOnTextChangedListener(onTextChangedListener: (String) -> Unit) {
+        this.onTextChangedListener = onTextChangedListener
+    }
 
     fun setText(text: CharSequence?) {
         this.text = text.toString()

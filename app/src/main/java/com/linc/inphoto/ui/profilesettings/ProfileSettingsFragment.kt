@@ -2,6 +2,7 @@ package com.linc.inphoto.ui.profilesettings
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
@@ -9,6 +10,8 @@ import com.linc.inphoto.databinding.FragmentProfileSettingsBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.utils.extensions.hideKeyboard
 import com.linc.inphoto.utils.extensions.view.loadImage
+import com.linc.inphoto.utils.extensions.view.setError
+import com.linc.inphoto.utils.extensions.view.update
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -26,8 +29,12 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             avatarImageView.loadImage(state.imageUri)
-            usernameEditText.setText(state.username)
-            statusEditText.setText(state.status)
+            usernameEditText.update(state.username)
+            statusEditText.update(state.status)
+            usernameTextLayout.setError(
+                !state.isUsernameValid,
+                R.string.settings_invalid_username_error
+            )
         }
     }
 
@@ -46,6 +53,10 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
             settingsToolbar.setOnCancelClickListener {
                 hideKeyboard()
                 viewModel.cancelProfileUpdate()
+            }
+            avatarImageView.setOnClickListener {
+                viewModel.updateAvatar()
+                view.clearFocus()
             }
             usernameEditText.doOnTextChanged { text, _, _, _ ->
                 viewModel.updateUsername(text.toString())

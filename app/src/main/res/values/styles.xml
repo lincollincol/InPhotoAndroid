@@ -88,7 +88,10 @@
     </style>
 
     <style name="TextInputField">
-        <item name="android:padding">@dimen/padding_general</item>
+        <item name="android:paddingTop">@dimen/padding_general</item>
+        <item name="android:paddingBottom">@dimen/padding_general</item>
+        <item name="android:paddingStart">@dimen/padding_small</item>
+        <item name="android:paddingEnd">@dimen/padding_small</item>
         <item name="android:fontFamily">@font/noto_serif_regular</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/black_50</item>
@@ -146,16 +149,13 @@
         <item name="android:elevation">5dp</item>
     </style>
 
-    <style name="TextLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="hintTextAppearance">@style/TextLayoutHintAppearance</item>
-        <item name="hintTextColor">@color/black</item>
-
+    <style name="TextLayout" parent="Widget.Design.TextInputLayout">
+        <item name="android:fontFamily">@font/noto_serif_regular</item>
+        <item name="errorTextColor">@color/red</item>
+        <item name="errorTextAppearance">@style/TextLayoutErrorText</item>
     </style>
 
-    <style name="TextLayoutHintAppearance">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/font_tiny</item>
+    <style name="TextLayoutErrorText">
         <item name="android:fontFamily">@font/noto_serif_regular</item>
     </style>
 

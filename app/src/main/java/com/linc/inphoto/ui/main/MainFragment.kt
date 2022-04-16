@@ -33,7 +33,7 @@ class MainFragment : Fragment(R.layout.fragment_main), FragmentBackPressedListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            navigator.initNavigator(MenuTab.HOME)
+            navigator.initNavigator(MenuTab.PROFILE)
         }
     }
 

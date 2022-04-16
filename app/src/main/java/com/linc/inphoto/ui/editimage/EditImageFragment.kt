@@ -51,10 +51,7 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.applyImage(
-            getArgument(INTENT_ARG),
-            getArgument(IMAGE_URI_ARG)
-        )
+        viewModel.applyImage(getArgument(IMAGE_URI_ARG))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +62,7 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
                 adapter = editorActionsAdapter
             }
             editorToolbarView.setOnDoneClickListener {
-                viewModel.finishEditing()
+                viewModel.finishEditing(getArgument(INTENT_ARG))
             }
             editorToolbarView.setOnCancelClickListener {
                 viewModel.cancelEditing()
