@@ -24,13 +24,17 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun selectSettingsEntry(entry: SettingsEntry) {
-        when(entry) {
+        when (entry) {
             SettingsEntry.Profile -> router.navigateTo(NavScreen.ProfileSettingsScreen())
             SettingsEntry.Privacy -> NavScreen.ProfileScreen()
             SettingsEntry.Language -> NavScreen.ProfileScreen()
             SettingsEntry.Help -> NavScreen.ProfileScreen()
             SettingsEntry.SignOut -> NavScreen.ProfileScreen()
         }
+    }
+
+    fun closeSettings() {
+        router.exit()
     }
 
 }

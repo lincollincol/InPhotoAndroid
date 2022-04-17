@@ -8,14 +8,12 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentInfoMessageBinding
-import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.base.fragment.BaseBottomSheetDialogFragment
 import com.linc.inphoto.utils.extensions.getArgument
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class InfoMessageFragment : BaseFragment(R.layout.fragment_info_message) {
-
-    override val viewModel: InfoMessageViewModel by viewModels()
+class InfoMessageFragment : BaseBottomSheetDialogFragment(R.layout.fragment_info_message) {
 
     companion object {
         private const val RESULT_KEY_ARG = "result_key"
@@ -36,6 +34,7 @@ class InfoMessageFragment : BaseFragment(R.layout.fragment_info_message) {
         }
     }
 
+    override val viewModel: InfoMessageViewModel by viewModels()
     private val binding by viewBinding(FragmentInfoMessageBinding::bind)
 
     override suspend fun observeUiState() {

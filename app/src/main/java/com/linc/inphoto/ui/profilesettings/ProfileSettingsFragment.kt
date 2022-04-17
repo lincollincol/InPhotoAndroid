@@ -35,7 +35,7 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
             usernameEditText.update(state.username)
             statusEditText.update(state.status)
             usernameTextLayout.setError(
-                !state.isUsernameValid,
+                !state.isValidUsername,
                 R.string.settings_invalid_username_error
             )
         }

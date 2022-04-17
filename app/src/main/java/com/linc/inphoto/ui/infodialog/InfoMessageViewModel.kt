@@ -15,7 +15,7 @@ class InfoMessageViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(EmptyUiState())
 
     fun finishInfo(resultKey: String?) {
-        router.exit()
+        router.closeDialog()
         resultKey?.let { router.sendResult(resultKey, Unit) }
     }
 

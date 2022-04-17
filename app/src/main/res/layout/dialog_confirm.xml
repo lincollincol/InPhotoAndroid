@@ -9,7 +9,6 @@
         android:id="@+id/confirmLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_round_25"
         android:backgroundTint="@color/white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_general"
                 android:layout_marginEnd="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_general"
                 android:layout_weight="50"
                 android:text="@string/cancel" />
 

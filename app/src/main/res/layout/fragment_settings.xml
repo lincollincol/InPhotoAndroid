@@ -4,15 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
+    <com.linc.inphoto.ui.view.EditorToolbarView
         android:id="@+id/settingsToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_general"
+        android:paddingHorizontal="@dimen/padding_general"
+        app:cancelIcon="@drawable/ic_arrow_back"
+        app:doneIcon="@drawable/ic_check"
+        app:doneVisible="false"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="@string/settings_crop_shape"/>
+        app:textTitle="@string/settings_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/optionsRecyclerView"

@@ -1,10 +1,8 @@
 package com.linc.inphoto.ui.profile
 
-import android.Manifest
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -39,15 +37,18 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private val userPostsSection: Section by lazy { Section() }
     private val newPostSection: Section by lazy { Section() }
 
-    private val imagePermissions = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) {
-        viewModel.updateAvatar()
-    }
+//    private val imagePermissions = registerForActivityResult(
+//        ActivityResultContracts.RequestMultiplePermissions()
+//    ) {
+//    }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             profileNameTextField.text = state.user?.name
+            statusTectView.apply {
+                text = state.user?.status
+                show(state.isValidStatus)
+            }
             avatarImageView.loadImage(
                 image = state.user?.avatarUrl,
                 size = THUMB_MEDIUM,
@@ -55,6 +56,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             )
             userPostsSection.update(state.posts.map(::ProfilePostItem))
             state.newPostUiState?.let { newPostSection.update(listOf(NewPostItem(it))) }
+            followButton.show(false)
+            messageButton.show(false)
         }
         return@with
     }
@@ -86,13 +89,16 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 binding.profileMotionLayout.transitionToStart()
             }
 
-            avatarImageView.setOnClickListener {
-                imagePermissions.launch(
-                    arrayOf(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    )
-                )
+//            avatarImageView.setOnClickListener {
+//                imagePermissions.launch(
+//                    arrayOf(
+//                        Manifest.permission.CAMERA,
+//                        Manifest.permission.READ_EXTERNAL_STORAGE
+//                    )
+//                )
+//            }
+            settingsButton.setOnClickListener {
+                viewModel.openSettings()
             }
         }
         bottomBarViewModel.showBottomBar()

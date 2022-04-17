@@ -9,4 +9,4 @@ data class ProfileSettingsUiState(
     val status: String? = null
 ) : UiState
 
-val ProfileSettingsUiState.isUsernameValid get() = !username.isNullOrEmpty()
+val ProfileSettingsUiState.isValidUsername get() = !username.isNullOrEmpty()

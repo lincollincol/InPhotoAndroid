@@ -34,6 +34,10 @@ class ProfileSettingsViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(ProfileSettingsUiState())
     private var user: User? = null
 
+    override fun onBackPressed() {
+        cancelProfileUpdate()
+    }
+
     fun loadProfileData() {
         viewModelScope.launch {
             try {
@@ -56,11 +60,8 @@ class ProfileSettingsViewModel @Inject constructor(
             try {
                 val state = _uiState.value
 
-                // TODO: 16.04.22 check username
-//                if(!state.isProfileDataValid) {
-//
-//                    return@launch
-//                }
+                if (!state.isValidUsername)
+                    return@launch showDataRequired()
 
                 if (state.imageUri != user?.avatarUrl?.toUri()) {
                     userRepository.updateUserAvatar(state.imageUri)
@@ -123,17 +124,20 @@ class ProfileSettingsViewModel @Inject constructor(
     }
 
     fun updateUsername(name: String?) {
-//        _uiState.value.username?.update(name.orEmpty())
         _uiState.update { copy(username = name) }
     }
 
     fun updateStatus(status: String?) {
-//        _uiState.value.status?.update(status.orEmpty())
         _uiState.update { copy(status = status) }
     }
 
-    override fun onBackPressed() {
-        cancelProfileUpdate()
+    private fun showDataRequired() {
+        router.showDialog(
+            NavScreen.InfoMessageScreen(
+                R.string.settings_invalid_data,
+                R.string.settings_invalid_data_description,
+            )
+        )
     }
 
 }

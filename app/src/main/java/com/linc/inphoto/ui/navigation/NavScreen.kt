@@ -58,7 +58,7 @@ object NavScreen {
         @StringRes title: Int,
         @StringRes message: Int,
         resultKey: String? = null
-    ) = FragmentScreen(clearContainer = false) {
+    ) = DialogScreen {
         InfoMessageFragment.newInstance(title, message, resultKey)
     }
 

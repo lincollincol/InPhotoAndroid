@@ -3,17 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black_25">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintWidth_percent="0.9"
         android:orientation="vertical"
-        android:background="@drawable/shape_round_25"
         android:backgroundTint="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -25,8 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_general"
             android:layout_marginTop="@dimen/margin_large"
-            android:gravity="center"
-            android:textSize="@dimen/font_title"
+            android:gravity="start"
+            android:textSize="@dimen/font_normal"
             tools:text="Title" />
 
         <TextView
@@ -35,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_general"
-            android:gravity="center"
+            android:gravity="start"
             android:textSize="@dimen/font_small"
             tools:text="Message"/>
 
@@ -44,9 +40,8 @@
             style="@style/SmallMaterialButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_huge"
-            android:layout_marginTop="@dimen/margin_general"
-            android:layout_marginBottom="@dimen/margin_large"
+            android:layout_marginHorizontal="@dimen/margin_general"
+            android:layout_marginBottom="@dimen/margin_general"
             android:text="@string/got_it" />
 
     </LinearLayout>

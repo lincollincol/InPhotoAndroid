@@ -46,6 +46,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = optionsAdapter
             }
+            settingsToolbar.setOnCancelClickListener {
+                viewModel.closeSettings()
+            }
         }
         bottomBarViewModel.showBottomBar()
     }
