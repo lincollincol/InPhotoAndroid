@@ -56,6 +56,7 @@ class ProfileSettingsViewModel @Inject constructor(
             try {
                 val state = _uiState.value
 
+                // TODO: 16.04.22 check username
 //                if(!state.isProfileDataValid) {
 //
 //                    return@launch

@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.IntDef
 import androidx.core.view.isVisible
+import androidx.transition.AutoTransition
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.linc.inphoto.utils.DoubleClickListener
 import com.linc.inphoto.utils.extensions.safeCast
 
@@ -142,3 +145,15 @@ fun View.setBackgroundRipple(@ColorInt color: Int) {
         null
     )
 }
+
+fun ViewGroup.animateTargets(transition: Transition, vararg targets: View) {
+    TransitionManager.beginDelayedTransition(
+        this,
+        transition.apply {
+            targets.forEach(::addTarget)
+        }
+    )
+}
+
+fun ViewGroup.autoAnimateTargets(vararg targets: View) =
+    animateTargets(AutoTransition(), *targets)

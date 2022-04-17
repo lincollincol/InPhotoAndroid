@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.33" />
+        <entry key="app/src/main/res/drawable/background_bottom_bar.xml" value="0.340625" />
         <entry key="app/src/main/res/drawable/background_circle_image_button.xml" value="0.34010416666666665" />
         <entry key="app/src/main/res/drawable/background_fade_black_.xml" value="0.21927083333333333" />
         <entry key="app/src/main/res/drawable/background_filled_button.xml" value="0.19270833333333334" />
@@ -40,7 +41,7 @@
         <entry key="app/src/main/res/layout/fragment_image_picker.xml" value="0.15260416666666668" />
         <entry key="app/src/main/res/layout/fragment_info_message.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.16197916666666667" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_manage_post.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_option_picker.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_post_overview.xml" value="0.17708333333333334" />
