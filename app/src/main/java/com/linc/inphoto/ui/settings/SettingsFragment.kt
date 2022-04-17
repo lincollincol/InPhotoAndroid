@@ -2,11 +2,13 @@ package com.linc.inphoto.ui.settings
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSettingsBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.ui.settings.item.SettingsOptionItem
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
@@ -22,8 +24,8 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     override val viewModel: SettingsViewModel by viewModels()
+    private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentSettingsBinding::bind)
-
     private val optionsAdapter: GroupieAdapter by lazy { GroupieAdapter() }
 
     override suspend fun observeUiState() {
@@ -45,5 +47,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
                 adapter = optionsAdapter
             }
         }
+        bottomBarViewModel.showBottomBar()
     }
 }

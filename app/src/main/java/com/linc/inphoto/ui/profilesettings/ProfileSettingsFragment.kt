@@ -3,11 +3,13 @@ package com.linc.inphoto.ui.profilesettings
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileSettingsBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.hideKeyboard
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setError
@@ -24,6 +26,7 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
     }
 
     override val viewModel: ProfileSettingsViewModel by viewModels()
+    private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentProfileSettingsBinding::bind)
 
     override suspend fun observeUiState() = with(binding) {
@@ -65,6 +68,6 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
                 viewModel.updateStatus(text.toString())
             }
         }
-
+        bottomBarViewModel.showBottomBar()
     }
 }

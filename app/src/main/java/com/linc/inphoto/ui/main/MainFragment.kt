@@ -53,7 +53,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), FragmentBackPressedLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            navigator.initNavigator(MenuTab.PROFILE)
+            navigator.initNavigator(MenuTab.HOME)
         }
     }
 

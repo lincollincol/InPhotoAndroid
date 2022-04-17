@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.gallery
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
@@ -10,6 +11,7 @@ import com.linc.inphoto.databinding.FragmentGalleryBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.gallery.item.GalleryImageItem
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
+import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.getDimension
 import com.linc.inphoto.utils.extensions.view.verticalSquareGridLayoutManager
@@ -32,6 +34,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
     }
 
     override val viewModel: GalleryViewModel by viewModels()
+    private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentGalleryBinding::bind)
     private val imagesAdapter by lazy { GroupieAdapter() }
 
@@ -64,6 +67,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
                 viewModel.cancelImageSelecting()
             }
         }
+        bottomBarViewModel.hideBottomBar()
     }
 }
 
