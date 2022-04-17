@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
+import androidx.transition.Transition
+import com.linc.inphoto.utils.extensions.view.animateTargets
+import com.linc.inphoto.utils.extensions.view.autoAnimateTargets
 
 fun Fragment.showKeyboard(view: EditText) {
     view.requestFocus()
@@ -18,11 +19,14 @@ fun Fragment.hideKeyboard() =
 
 fun <T> Fragment.getArgument(key: String): T? = requireArguments().get(key) as? T
 
-fun Fragment.autoAnimateTargets(scene: ViewGroup, vararg targets: View) {
-    TransitionManager.beginDelayedTransition(
-        scene,
-        AutoTransition().apply {
-            targets.forEach(::addTarget)
-        }
-    )
-}
+fun <T> Fragment.getArgument(key: String, default: T): T =
+    requireArguments().get(key) as? T ?: default
+
+fun Fragment.animateTargets(
+    transition: Transition,
+    scene: ViewGroup,
+    vararg targets: View
+) = scene.animateTargets(transition, *targets)
+
+fun Fragment.autoAnimateTargets(scene: ViewGroup, vararg targets: View) =
+    scene.autoAnimateTargets(*targets)

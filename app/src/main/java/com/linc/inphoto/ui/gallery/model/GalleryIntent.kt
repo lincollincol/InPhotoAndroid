@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 sealed class GalleryIntent : Parcelable {
     @Parcelize
-    object NewAvatar : GalleryIntent()
+    data class NewAvatar(val resultKey: String) : GalleryIntent()
 
     @Parcelize
     object NewPost : GalleryIntent()

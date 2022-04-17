@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
@@ -11,6 +12,7 @@ import com.linc.inphoto.databinding.FragmentCropImageBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.cropimage.item.CropRatioItem
 import com.linc.inphoto.ui.cropimage.model.CropIntent
+import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.autoAnimateTargets
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.*
@@ -39,6 +41,7 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
     }
 
     override val viewModel: CropImageViewModel by viewModels()
+    private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentCropImageBinding::bind)
     private val ratioAdapter by lazy { GroupieAdapter() }
 
@@ -90,7 +93,8 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
                 viewModel.changeRatioState(checked)
             }
         }
-        viewModel.apply {
+        bottomBarViewModel.hideBottomBar()
+        viewModel.run {
             specifyIntent(getArgument(INTENT_ARG))
             prepareCrop()
         }

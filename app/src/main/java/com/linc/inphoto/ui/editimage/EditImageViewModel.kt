@@ -31,10 +31,9 @@ class EditImageViewModel @Inject constructor(
     }
 
     override val _uiState = MutableStateFlow(EditImageUiState())
-    private var intent: EditorIntent? = null
+//    private var intent: EditorIntent? = null
 
-    fun applyImage(intent: EditorIntent?, imageUri: Uri?) {
-        this.intent = intent
+    fun applyImage(imageUri: Uri?) {
         viewModelScope.launch {
             try {
                 val editorOperations = EditOperation.getEditorOperations()
@@ -52,16 +51,16 @@ class EditImageViewModel @Inject constructor(
         }
     }
 
-    fun finishEditing() {
+    fun finishEditing(intent: EditorIntent?) {
         viewModelScope.launch {
             try {
                 val imageUri = uiState.value.imageUri ?: return@launch
                 when (intent) {
-                    EditorIntent.NewAvatar -> {
-                        userRepository.updateUserAvatar(imageUri)
-                        router.backTo(NavScreen.ProfileScreen())
+                    is EditorIntent.NewAvatar -> {
+                        router.sendResult(intent.resultKey, imageUri)
+                        router.backTo(NavScreen.ProfileSettingsScreen())
                     }
-                    EditorIntent.NewPost -> router.navigateTo(
+                    is EditorIntent.NewPost -> router.navigateTo(
                         NavScreen.ManagePostScreen(ManagePostIntent.NewPost(imageUri))
                     )
                 }

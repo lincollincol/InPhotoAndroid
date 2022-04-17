@@ -1,11 +1,14 @@
 package com.linc.inphoto.ui.base.fragment
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.linc.inphoto.R
 import com.linc.inphoto.ui.base.state.UiState
@@ -31,6 +34,13 @@ abstract class BaseBottomSheetDialogFragment(
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(layoutId, container, false)
+    }
+
+    @SuppressLint("RestrictedApi", "VisibleForTests")
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        dialog.behavior.disableShapeAnimations()
+        return dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

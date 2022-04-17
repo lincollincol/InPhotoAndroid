@@ -7,7 +7,7 @@ data class ManagePostUiState(
     val postId: String? = null,
     val imageUri: Uri? = null,
     val tags: Set<String> = setOf(),
-    val description: String? = null,
+    val description: StringBuilder? = null,
     val isLoading: Boolean = false,
     val isErrorsEnabled: Boolean = false
 ) : UiState

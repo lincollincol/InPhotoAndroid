@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 sealed class EditorIntent : Parcelable {
     @Parcelize
-    object NewAvatar : EditorIntent()
+    data class NewAvatar(val resultKey: String) : EditorIntent()
     @Parcelize
     object NewPost : EditorIntent()
 }

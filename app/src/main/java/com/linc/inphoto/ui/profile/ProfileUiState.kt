@@ -9,3 +9,5 @@ data class ProfileUiState(
     val newPostUiState: NewPostUiState? = null,
     val posts: List<ProfilePostUiState> = listOf()
 ) : UiState
+
+val ProfileUiState.isValidStatus get() = !user?.status.isNullOrEmpty()

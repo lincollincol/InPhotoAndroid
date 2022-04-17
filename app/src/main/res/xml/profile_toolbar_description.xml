@@ -30,6 +30,13 @@
                 app:framePosition="40"
                 app:motionTarget="@id/avatarImageView" />
 
+            <KeyPosition
+                app:framePosition="50"
+                app:keyPositionType="parentRelative"
+                app:motionTarget="@id/profile_name_text_field"
+                app:percentX="0.5"
+                app:percentY="0.1" />
+
         </KeyFrameSet>
 
     </Transition>
@@ -57,20 +64,28 @@
             android:layout_height="24dp"
             android:layout_marginStart="@dimen/margin_general"
             android:layout_marginTop="@dimen/margin_general"
-            android:src="@drawable/ic_arrow_back"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@id/settingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_general"
+            android:layout_marginEnd="@dimen/margin_general"
+            android:elevation="@dimen/elevation_general"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Constraint
             android:id="@id/headerImageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/header"
             app:layout_constraintDimensionRatio="H,2:1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Constraint
             android:id="@id/avatarImageView"
@@ -137,7 +152,6 @@
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/header"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -147,13 +161,13 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:elevation="5dp"
-            android:layout_marginEnd="@dimen/margin_general"
+            android:layout_marginStart="@dimen/margin_small"
             app:srcCompat="@drawable/avatar"
             app:shapeAppearanceOverlay="@style/CircleImageShape50"
-            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintBottom_toBottomOf="@id/headerImageView"
             app:layout_constraintTop_toTopOf="@id/headerImageView"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/backButton"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Constraint
@@ -161,11 +175,11 @@
             style="@style/TextFieldBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
             android:textSize="@dimen/font_normal"
             app:layout_constraintBottom_toBottomOf="@id/headerImageView"
             app:layout_constraintTop_toTopOf="@id/headerImageView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/avatarImageView" />
 
         <Constraint
             android:id="@+id/profileDataLayout"

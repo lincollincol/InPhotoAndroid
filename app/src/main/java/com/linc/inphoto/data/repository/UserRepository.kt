@@ -36,7 +36,6 @@ class UserRepository @Inject constructor(
     suspend fun updateUserAvatar(uri: Uri?): User? = withContext(ioDispatcher) {
         val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
         val requestBody = image.asRequestBody(MULTIPART_FORM_DATA.toMediaType())
-//        val body = MultipartBody.Part.createFormData("image", image.name, requestBody)
         val body = MultipartBody.Part.createFormData(image.name, image.name, requestBody)
         val response = userApiService.updateUserAvatar(body, authPreferences.userId)
         val user = response.body?.toUserEntity()
@@ -45,6 +44,22 @@ class UserRepository @Inject constructor(
         }
         image.delete()
         return@withContext user?.toUserModel()
+    }
+
+    suspend fun updateUserName(name: String?) = withContext(ioDispatcher) {
+        name ?: return@withContext
+        userApiService.updateUserName(authPreferences.userId, name)
+        userDao.getUserById(authPreferences.userId)?.let { user ->
+            userDao.updateUser(user.copy(name = name))
+        }
+    }
+
+    suspend fun updateUserStatus(status: String?) = withContext(ioDispatcher) {
+        status ?: return@withContext
+        userApiService.updateUserStatus(authPreferences.userId, status)
+        userDao.getUserById(authPreferences.userId)?.let { user ->
+            userDao.updateUser(user.copy(status = status))
+        }
     }
 
 }

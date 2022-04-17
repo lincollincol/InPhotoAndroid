@@ -18,20 +18,15 @@ class CameraViewModel @Inject constructor(
 ) : BaseViewModel<CameraUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(CameraUiState())
-    private var intent: CameraIntent? = null
 
-    fun specifyIntent(intent: CameraIntent?) {
-        this.intent = intent
-    }
-
-    fun handleCapturedImage(uri: Uri?) {
+    fun handleCapturedImage(intent: CameraIntent?, uri: Uri?) {
         val imageUri = uri?.let(mediaRepository::convertToTempUri) ?: return
-        val intent = when (intent) {
-            CameraIntent.NewAvatar -> EditorIntent.NewAvatar
-            CameraIntent.NewPost -> EditorIntent.NewPost
+        val editorIntent = when (intent) {
+            is CameraIntent.NewAvatar -> EditorIntent.NewAvatar(intent.resultKey)
+            is CameraIntent.NewPost -> EditorIntent.NewPost
             else -> return
         }
-        router.navigateTo(NavScreen.EditImageScreen(intent, imageUri))
+        router.navigateTo(NavScreen.EditImageScreen(editorIntent, imageUri))
     }
 
 }

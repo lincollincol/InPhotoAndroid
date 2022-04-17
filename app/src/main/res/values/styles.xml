@@ -17,10 +17,9 @@
 
     <style name="TopRoundedBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/TopRoundedBottomSheet</item>
-        <item name="android:backgroundTint">@android:color/transparent</item>
     </style>
 
-    <style name="TopRoundedBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+    <style name="TopRoundedBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="shapeAppearanceOverlay">@style/TopRoundedShapeAppearanceBottomSheetDialog</item>
     </style>
 
@@ -66,6 +65,19 @@
         <item name="android:paddingBottom">@dimen/padding_general</item>
     </style>
 
+    <style name="SmallOutlinedMaterialButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerRadius">@dimen/corner_large</item>
+        <!--        <item name="cornerRadius">@dimen/corner_small</item>-->
+
+        <item name="textAllCaps">false</item>
+        <item name="strokeColor">@color/black</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.MediumComponent
+        </item>
+        <item name="elevation">@dimen/elevation_small</item>
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
+    </style>
+
     <style name="TextMaterialButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="cornerRadius">@dimen/corner_large</item>
         <item name="textAllCaps">false</item>
@@ -76,7 +88,10 @@
     </style>
 
     <style name="TextInputField">
-        <item name="android:padding">@dimen/padding_general</item>
+        <item name="android:paddingTop">@dimen/padding_general</item>
+        <item name="android:paddingBottom">@dimen/padding_general</item>
+        <item name="android:paddingStart">@dimen/padding_small</item>
+        <item name="android:paddingEnd">@dimen/padding_small</item>
         <item name="android:fontFamily">@font/noto_serif_regular</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/black_50</item>
@@ -132,6 +147,16 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:elevation">5dp</item>
+    </style>
+
+    <style name="TextLayout" parent="Widget.Design.TextInputLayout">
+        <item name="android:fontFamily">@font/noto_serif_regular</item>
+        <item name="errorTextColor">@color/red</item>
+        <item name="errorTextAppearance">@style/TextLayoutErrorText</item>
+    </style>
+
+    <style name="TextLayoutErrorText">
+        <item name="android:fontFamily">@font/noto_serif_regular</item>
     </style>
 
 </resources>

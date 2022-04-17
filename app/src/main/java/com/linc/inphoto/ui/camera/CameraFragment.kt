@@ -9,12 +9,14 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentCameraBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.camera.model.CameraIntent
+import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.aspectRatio
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.getFirstAvailableCameraLens
@@ -38,8 +40,8 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
     }
 
     override val viewModel: CameraViewModel by viewModels()
+    private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentCameraBinding::bind)
-
     private var cameraExecutor: ExecutorService? = null
     private var lensFacing: Int? = null
     private var preview: Preview? = null
@@ -73,7 +75,10 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
                     cameraExecutor!!,
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            viewModel.handleCapturedImage(outputFileResults.savedUri)
+                            viewModel.handleCapturedImage(
+                                getArgument(INTENT_ARG),
+                                outputFileResults.savedUri
+                            )
                         }
 
                         override fun onError(error: ImageCaptureException) {
@@ -82,8 +87,9 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
                     })
             }
         }
+        // TODO: 17.04.22 move ui state logic to view model
         setupCamera()
-        viewModel.specifyIntent(getArgument(INTENT_ARG))
+        bottomBarViewModel.hideBottomBar()
     }
 
     private fun setupCamera() {

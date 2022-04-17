@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
@@ -11,6 +12,7 @@ import com.linc.inphoto.databinding.FragmentEditImageBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.editimage.item.EditOperationItem
 import com.linc.inphoto.ui.editimage.model.EditorIntent
+import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.horizontalLinearLayoutManager
 import com.linc.inphoto.utils.extensions.view.loadUriImage
@@ -39,6 +41,7 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
     }
 
     override val viewModel: EditImageViewModel by viewModels()
+    private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentEditImageBinding::bind)
     private val editorActionsAdapter by lazy { GroupieAdapter() }
 
@@ -51,10 +54,7 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.applyImage(
-            getArgument(INTENT_ARG),
-            getArgument(IMAGE_URI_ARG)
-        )
+        viewModel.applyImage(getArgument(IMAGE_URI_ARG))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,12 +65,13 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
                 adapter = editorActionsAdapter
             }
             editorToolbarView.setOnDoneClickListener {
-                viewModel.finishEditing()
+                viewModel.finishEditing(getArgument(INTENT_ARG))
             }
             editorToolbarView.setOnCancelClickListener {
                 viewModel.cancelEditing()
             }
         }
+        bottomBarViewModel.hideBottomBar()
     }
 
 

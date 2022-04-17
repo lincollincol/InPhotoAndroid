@@ -1,13 +1,17 @@
-package com.linc.inphoto.ui.main
+package com.linc.inphoto.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Replace
+import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ActivityMainBinding
-import com.linc.inphoto.ui.navigation.navigator.MultiContainerNavigator
+import com.linc.inphoto.di.navigation.GlobalNavigatorHolder
+import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
+import com.linc.inphoto.ui.navigation.NavScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -15,18 +19,16 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val binding by viewBinding(ActivityMainBinding::bind)
-    private val navigator = MultiContainerNavigator(this, R.id.globalContainerLayout)
+    private val navigator = AppNavigator(this, R.id.globalContainerLayout)
 
+    @GlobalNavigatorHolder
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            navigator.initNavigator(MenuTab.HOME)
-        }
-        binding.bottomNavigationView.onTabSelected = { tab ->
-            MenuTab.fromId(tab.id)?.let(navigator::selectTab)
+            navigator.applyCommands(arrayOf(Replace(NavScreen.SplashScreen())))
         }
     }
 
@@ -46,9 +48,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onBackPressed() {
-        navigator.handleBackPressed { tab ->
-            binding.bottomNavigationView.selectTabById(tab.id)
-        }
+        (supportFragmentManager.fragments.firstOrNull() as? FragmentBackPressedListener)
+            ?.onBackPressed()
     }
 
 }

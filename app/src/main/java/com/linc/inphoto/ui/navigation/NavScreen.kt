@@ -10,6 +10,7 @@ import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.chats.ChatsFragment
+import com.linc.inphoto.ui.confirmdialog.ConfirmDialog
 import com.linc.inphoto.ui.cropimage.CropImageFragment
 import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.ui.editimage.EditImageFragment
@@ -19,6 +20,7 @@ import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.home.HomeFragment
 import com.linc.inphoto.ui.infodialog.InfoMessageFragment
+import com.linc.inphoto.ui.main.MainFragment
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.managepost.ManagePostFragment
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
@@ -27,6 +29,8 @@ import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.ProfileFragment
+import com.linc.inphoto.ui.profilesettings.ProfileSettingsFragment
+import com.linc.inphoto.ui.settings.SettingsFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 import com.linc.inphoto.ui.tab.TabFragment
 
@@ -54,8 +58,16 @@ object NavScreen {
         @StringRes title: Int,
         @StringRes message: Int,
         resultKey: String? = null
-    ) = FragmentScreen(clearContainer = false) {
+    ) = DialogScreen {
         InfoMessageFragment.newInstance(title, message, resultKey)
+    }
+
+    fun ConfirmDialogScreen(
+        resultKey: String,
+        @StringRes title: Int,
+        @StringRes message: Int
+    ) = DialogScreen {
+        ConfirmDialog.newInstance(resultKey, title, message)
     }
 
     fun SignInScreen() = FragmentScreen {
@@ -90,6 +102,10 @@ object NavScreen {
         SplashFragment.newInstance()
     }
 
+    fun MainScreen() = FragmentScreen {
+        MainFragment.newInstance()
+    }
+
     fun ProfileScreen() = FragmentScreen {
         ProfileFragment.newInstance()
     }
@@ -109,6 +125,15 @@ object NavScreen {
     fun ChatsScreen() = FragmentScreen {
         ChatsFragment.newInstance()
     }
+
+    fun SettingsScreen() = FragmentScreen {
+        SettingsFragment.newInstance()
+    }
+
+    fun ProfileSettingsScreen() = FragmentScreen {
+        ProfileSettingsFragment.newInstance()
+    }
+
 
     /**
      * External navigation
