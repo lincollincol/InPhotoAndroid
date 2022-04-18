@@ -37,11 +37,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private val userPostsSection: Section by lazy { Section() }
     private val newPostSection: Section by lazy { Section() }
 
-//    private val imagePermissions = registerForActivityResult(
-//        ActivityResultContracts.RequestMultiplePermissions()
-//    ) {
-//    }
-
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             profileNameTextField.text = state.user?.name
@@ -89,14 +84,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 binding.profileMotionLayout.transitionToStart()
             }
 
-//            avatarImageView.setOnClickListener {
-//                imagePermissions.launch(
-//                    arrayOf(
-//                        Manifest.permission.CAMERA,
-//                        Manifest.permission.READ_EXTERNAL_STORAGE
-//                    )
-//                )
-//            }
             settingsButton.setOnClickListener {
                 viewModel.openSettings()
             }

@@ -71,6 +71,7 @@
         <entry key="app/src/main/res/layout/layout_editor_toolbar.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_image_text_view.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_preview_image.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/layout_request_permissions.xml" value="0.18" />
         <entry key="app/src/main/res/layout/layout_settings_text_view.xml" value="0.2" />
         <entry key="app/src/main/res/layout/layout_settings_value_text_view.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/layout_tags_edit_text.xml" value="0.16" />

@@ -1,7 +1,9 @@
 package com.linc.inphoto.ui.gallery
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -14,6 +16,8 @@ import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.getDimension
+import com.linc.inphoto.utils.extensions.permissionDisabled
+import com.linc.inphoto.utils.extensions.view.show
 import com.linc.inphoto.utils.extensions.view.verticalSquareGridLayoutManager
 import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
 import com.xwray.groupie.GroupieAdapter
@@ -38,15 +42,26 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
     private val binding by viewBinding(FragmentGalleryBinding::bind)
     private val imagesAdapter by lazy { GroupieAdapter() }
 
-    override suspend fun observeUiState() {
-        viewModel.uiState.collect { state ->
-            imagesAdapter.replaceAll(state.images.map(::GalleryImageItem))
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { allowed ->
+        when {
+            allowed -> viewModel.loadImages(getArgument(INTENT_ARG))
+            else -> viewModel.permissionDenied()
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.loadImages(getArgument(INTENT_ARG))
+    override suspend fun observeUiState() = with(binding) {
+        viewModel.uiState.collect { state ->
+            imagesAdapter.replaceAll(state.images.map(::GalleryImageItem))
+            imagesRecyclerView.show(state.galleryPermissionsGranted)
+            permissionsLayout.root.show(!state.galleryPermissionsGranted)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,6 +80,17 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
             }
             galleryToolbar.setOnCancelClickListener {
                 viewModel.cancelImageSelecting()
+            }
+            permissionsLayout.apply {
+                permissionTextView.setText(R.string.permission_gallery_description)
+                allowButton.setOnClickListener {
+                    val permission = Manifest.permission.READ_EXTERNAL_STORAGE
+                    if (permissionDisabled(permission)) {
+                        viewModel.openSettings()
+                        return@setOnClickListener
+                    }
+                    requestPermissionLauncher.launch(permission)
+                }
             }
         }
         bottomBarViewModel.hideBottomBar()
