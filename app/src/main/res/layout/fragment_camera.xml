@@ -13,35 +13,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/takePictureButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_general"
+        android:src="@drawable/ic_camera_circle"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/black" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/flipCameraButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_general"
+        android:src="@drawable/ic_flip_camera"
+        app:backgroundTint="@color/white"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/takePictureButton"
+        app:tint="@color/black" />
+
+    <View
+        android:id="@+id/shadowView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_fade_black_50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/takePictureButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="@dimen/margin_general"
-            android:src="@drawable/ic_camera_circle"
-            app:backgroundTint="@color/white"
-            app:tint="@color/black" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/cameraControllersGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="
+        cameraPreviewView,
+        shadowView,
+        takePictureButton,
+        flipCameraButton" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/flipCameraButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_general"
-            android:layout_toEndOf="@id/takePictureButton"
-            android:src="@drawable/ic_flip_camera"
-            app:backgroundTint="@color/white"
-            app:fabSize="mini"
-            app:tint="@color/black" />
-    </RelativeLayout>
+    <include
+        android:id="@+id/permissionsLayout"
+        layout="@layout/layout_request_permissions"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,7 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
+    <string name="allow">Allow</string>
     <string name="username">username</string>
     <string name="repeat_password">repeat password</string>
     <string name="create_account">Create Account</string>
@@ -80,6 +81,6 @@
     <string name="settings_invalid_data_description">Some fields contain invalid data. Please make sure you have entered the correct data</string>
 
     <string name="permission_gallery_description">To access the gallery, you should allow permission to read the storage on this device</string>
-    <string name="allow">Allow</string>
+    <string name="permission_camera_description">To access the camera, you should allow camera permission on this device</string>
 
 </resources>

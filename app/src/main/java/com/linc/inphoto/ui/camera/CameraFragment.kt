@@ -1,7 +1,9 @@
 package com.linc.inphoto.ui.camera
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -17,10 +19,8 @@ import com.linc.inphoto.databinding.FragmentCameraBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.main.BottomBarViewModel
-import com.linc.inphoto.utils.extensions.aspectRatio
-import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.getFirstAvailableCameraLens
-import com.linc.inphoto.utils.extensions.getOutputFileOptions
+import com.linc.inphoto.utils.extensions.*
+import com.linc.inphoto.utils.extensions.view.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -47,16 +47,22 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
     private var cameraProvider: ProcessCameraProvider? = null
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { allowed ->
+        viewModel.updateCameraPermissions(allowed)
+    }
 
-    override suspend fun observeUiState() {
+    override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            cameraControllersGroup.show(state.cameraPermissionsGranted)
+            permissionsLayout.root.show(!state.cameraPermissionsGranted)
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        cameraExecutor?.shutdown()
-        cameraProvider?.unbindAll()
+    override fun onStart() {
+        super.onStart()
+        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,6 +71,17 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         with(binding) {
+            permissionsLayout.apply {
+                permissionTextView.setText(R.string.permission_camera_description)
+                allowButton.setOnClickListener {
+                    val permission = Manifest.permission.CAMERA
+                    if (permissionDisabled(permission)) {
+                        viewModel.openSettings()
+                        return@setOnClickListener
+                    }
+                    requestPermissionLauncher.launch(permission)
+                }
+            }
             flipCameraButton.setOnClickListener {
                 flipCameraLens()
             }
@@ -90,6 +107,12 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
         // TODO: 17.04.22 move ui state logic to view model
         setupCamera()
         bottomBarViewModel.hideBottomBar()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cameraExecutor?.shutdown()
+        cameraProvider?.unbindAll()
     }
 
     private fun setupCamera() {
