@@ -1,9 +1,11 @@
 package com.linc.inphoto.utils.extensions
 
+import android.content.pm.PackageManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.transition.Transition
 import com.linc.inphoto.utils.extensions.view.animateTargets
@@ -30,3 +32,11 @@ fun Fragment.animateTargets(
 
 fun Fragment.autoAnimateTargets(scene: ViewGroup, vararg targets: View) =
     scene.autoAnimateTargets(*targets)
+
+fun Fragment.permissionGranted(permission: String) =
+    ContextCompat.checkSelfPermission(
+        requireContext(), permission
+    ) == PackageManager.PERMISSION_GRANTED
+
+fun Fragment.permissionDisabled(permission: String) =
+    !permissionGranted(permission) && !shouldShowRequestPermissionRationale(permission)

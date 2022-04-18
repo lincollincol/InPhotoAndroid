@@ -2,9 +2,11 @@ package com.linc.inphoto.ui.navigation
 
 import android.content.Intent
 import android.net.Uri
+import android.provider.Settings
 import androidx.annotation.StringRes
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import com.linc.inphoto.BuildConfig
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
@@ -33,6 +35,7 @@ import com.linc.inphoto.ui.profilesettings.ProfileSettingsFragment
 import com.linc.inphoto.ui.settings.SettingsFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 import com.linc.inphoto.ui.tab.TabFragment
+
 
 object NavScreen {
 
@@ -145,5 +148,12 @@ object NavScreen {
             type = "text/plain"
         }
         Intent.createChooser(contentIntent, null)
+    }
+
+    fun AppSettingsScreen() = ActivityScreen {
+        Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+        )
     }
 }

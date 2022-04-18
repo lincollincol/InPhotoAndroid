@@ -28,6 +28,10 @@ class GalleryViewModel @Inject constructor(
         this.intent = intent
         viewModelScope.launch {
             try {
+                _uiState.update { copy(galleryPermissionsGranted = true) }
+                if (_uiState.value.images.isNotEmpty()) {
+                    return@launch
+                }
                 val images = mediaRepository.loadGalleryImages()
                     .map { it.toUiState(onClick = { selectImage(intent, it.uri) }) }
                 _uiState.update { copy(images = images) }
@@ -35,6 +39,14 @@ class GalleryViewModel @Inject constructor(
                 Timber.e(e)
             }
         }
+    }
+
+    fun permissionDenied() {
+        _uiState.update { copy(galleryPermissionsGranted = false) }
+    }
+
+    fun openSettings() {
+        router.navigateTo(NavScreen.AppSettingsScreen())
     }
 
     fun cancelImageSelecting() {

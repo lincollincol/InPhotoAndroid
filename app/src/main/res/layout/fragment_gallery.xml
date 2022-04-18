@@ -26,4 +26,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/galleryToolbar" />
 
+    <include
+        layout="@layout/layout_request_permissions"
+        android:id="@+id/permissionsLayout"
+        android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
