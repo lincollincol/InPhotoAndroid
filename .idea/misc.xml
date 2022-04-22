@@ -49,7 +49,7 @@
         <entry key="app/src/main/res/layout/fragment_option_picker.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_post_overview.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_profile_settings.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_profile_settings.xml" value="0.12" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.1" />

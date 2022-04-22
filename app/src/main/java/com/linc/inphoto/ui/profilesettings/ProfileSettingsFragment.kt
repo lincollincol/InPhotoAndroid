@@ -14,11 +14,13 @@ import com.linc.inphoto.utils.extensions.hideKeyboard
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setError
 import com.linc.inphoto.utils.extensions.view.update
+import com.linc.inphoto.utils.keyboard.KeyboardStateListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings) {
+class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings),
+    KeyboardStateListener {
 
     companion object {
         @JvmStatic
@@ -31,7 +33,8 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            avatarImageView.loadImage(state.imageUri)
+            avatarImageView.loadImage(state.avatarUri)
+            headerImageView.loadImage(state.headerUri)
             usernameEditText.update(state.username)
             statusEditText.update(state.status)
             usernameTextLayout.setError(
@@ -69,5 +72,9 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
             }
         }
         bottomBarViewModel.showBottomBar()
+    }
+
+    override fun onKeyboardStateChanged(visible: Boolean) {
+        bottomBarViewModel.showBottomBar(!visible)
     }
 }

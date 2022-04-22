@@ -16,13 +16,17 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.navigator.MultiContainerNavigator
 import com.linc.inphoto.utils.extensions.animateTargets
+import com.linc.inphoto.utils.extensions.findVisibleFragment
+import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.view.show
+import com.linc.inphoto.utils.keyboard.KeyboardStateListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainFragment : BaseFragment(R.layout.fragment_main), FragmentBackPressedListener {
+class MainFragment : BaseFragment(R.layout.fragment_main), FragmentBackPressedListener,
+    KeyboardStateListener {
 
     companion object {
         @JvmStatic
@@ -78,5 +82,11 @@ class MainFragment : BaseFragment(R.layout.fragment_main), FragmentBackPressedLi
         navigator.handleBackPressed { tab ->
             binding.bottomNavigationView.selectTabById(tab.id)
         }
+    }
+
+    override fun onKeyboardStateChanged(visible: Boolean) {
+        childFragmentManager.findVisibleFragment()
+            ?.safeCast<KeyboardStateListener>()
+            ?.onKeyboardStateChanged(visible)
     }
 }

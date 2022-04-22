@@ -15,8 +15,8 @@ class BottomBarViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(BottomBarUiState())
 
-    fun showBottomBar() {
-        _uiState.update { copy(visible = true) }
+    fun showBottomBar(visible: Boolean = true) {
+        _uiState.update { copy(visible = visible) }
     }
 
     fun hideBottomBar() {

@@ -38,7 +38,11 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun signOut() {
+    fun closeSettings() {
+        router.exit()
+    }
+
+    private fun signOut() {
         viewModelScope.launch {
             try {
                 authRepository.signOut()
@@ -49,8 +53,5 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun closeSettings() {
-        router.exit()
-    }
 
 }

@@ -44,7 +44,9 @@ class ProfileSettingsViewModel @Inject constructor(
                 user = userRepository.getLoggedInUser()
                 _uiState.update {
                     copy(
-                        imageUri = user?.avatarUrl?.toUri(),
+                        avatarUri = user?.avatarUrl?.toUri(),
+                        headerUri = user?.headerUrl?.toUri(),
+                        gender = user?.gender,
                         username = user?.name,
                         status = user?.status
                     )
@@ -63,8 +65,8 @@ class ProfileSettingsViewModel @Inject constructor(
                 if (!state.isValidUsername)
                     return@launch showDataRequired()
 
-                if (state.imageUri != user?.avatarUrl?.toUri()) {
-                    userRepository.updateUserAvatar(state.imageUri)
+                if (state.avatarUri != user?.avatarUrl?.toUri()) {
+                    userRepository.updateUserAvatar(state.avatarUri)
                 }
                 if (state.username.toString() != user?.name) {
                     userRepository.updateUserName(state.username.toString())
@@ -82,8 +84,8 @@ class ProfileSettingsViewModel @Inject constructor(
     fun cancelProfileUpdate() {
         val state = uiState.value
         when {
-            state.imageUri != user?.avatarUrl?.toUri() ||
-            state.username.toString() != user?.name ||
+            state.avatarUri != user?.avatarUrl?.toUri() ||
+                    state.username.toString() != user?.name ||
             state.status.toString() != user?.status -> {
                 with(router) {
                     showDialog(
@@ -114,7 +116,7 @@ class ProfileSettingsViewModel @Inject constructor(
             router.navigateTo(screen)
         }
         router.setResultListener(PROFILE_AVATAR_RESULT) { result ->
-            _uiState.update { copy(imageUri = result.safeCast()) }
+            _uiState.update { copy(avatarUri = result.safeCast()) }
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             IMAGE_SOURCE_RESULT,
