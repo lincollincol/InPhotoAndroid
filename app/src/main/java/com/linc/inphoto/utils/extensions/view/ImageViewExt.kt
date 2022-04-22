@@ -17,6 +17,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 
 private const val THUMB_MIN_SIZE = 56
 
+const val IMAGE_BLUR_TINY = 5
 const val IMAGE_BLUR_SMALL = 10
 const val IMAGE_BLUR_MEDIUM = 15
 const val IMAGE_BLUR_LARGE = 20

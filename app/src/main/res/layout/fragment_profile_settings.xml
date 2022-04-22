@@ -29,7 +29,7 @@
         android:layout_marginTop="@dimen/margin_general"
         android:background="@color/white"
         android:elevation="@dimen/elevation_tiny"
-        app:shapeAppearanceOverlay="@style/CircleImageShape50"
+        app:shapeAppearanceOverlay="@style/CircleImageShape"
         tools:srcCompat="@drawable/avatar" />
 
     <com.google.android.material.textfield.TextInputLayout

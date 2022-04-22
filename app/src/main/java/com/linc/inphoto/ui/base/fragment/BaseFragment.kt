@@ -33,15 +33,11 @@ abstract class BaseFragment(
         exitTransition = AutoTransition()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        onEnterAnimation()
-        onReenterAnimation()
-        onExitAnimation()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        onEnterAnimation()
+//        onReenterAnimation()
+//        onExitAnimation()
         safeStartedLaunch {
             observeUiState()
         }

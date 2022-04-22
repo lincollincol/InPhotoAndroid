@@ -4,7 +4,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.UserRepository
-import com.linc.inphoto.entity.User
+import com.linc.inphoto.entity.user.User
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.gallery.model.GalleryIntent

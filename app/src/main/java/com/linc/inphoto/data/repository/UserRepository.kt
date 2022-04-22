@@ -7,7 +7,7 @@ import com.linc.inphoto.data.mapper.toUserEntity
 import com.linc.inphoto.data.mapper.toUserModel
 import com.linc.inphoto.data.network.api.UserApiService
 import com.linc.inphoto.data.preferences.AuthPreferences
-import com.linc.inphoto.entity.User
+import com.linc.inphoto.entity.user.User
 import com.rhythmoya.data.network.helper.HttpHelper.MediaType.MULTIPART_FORM_DATA
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

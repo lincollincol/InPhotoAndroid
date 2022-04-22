@@ -7,6 +7,7 @@ import com.linc.inphoto.data.network.model.auth.SignInApiModel
 import com.linc.inphoto.data.network.model.auth.SignUpApiModel
 import com.linc.inphoto.data.network.model.user.UserApiModel
 import com.linc.inphoto.data.preferences.AuthPreferences
+import com.linc.inphoto.entity.user.Gender
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,10 +34,11 @@ class AuthRepository @Inject constructor(
     suspend fun signUp(
         email: String,
         username: String,
-        password: String
+        password: String,
+        gender: Gender,
     ) = withContext(ioDispatcher) {
         // TODO: 13.03.22 check sign up response for access token
-        val response = authApiService.signUp(SignUpApiModel(email, username, password))
+        val response = authApiService.signUp(SignUpApiModel(email, username, password, gender))
         if (response.failed) {
             throw Exception(response.status)
         }

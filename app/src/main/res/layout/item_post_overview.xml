@@ -17,7 +17,7 @@
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/CircleImageShape50"
+        app:shapeAppearanceOverlay="@style/CircleImageShape"
         app:srcCompat="@drawable/mango" />
 
     <androidx.appcompat.widget.AppCompatTextView

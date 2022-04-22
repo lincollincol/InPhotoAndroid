@@ -2,7 +2,7 @@ package com.linc.inphoto.ui.auth.signup
 
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.AuthRepository
-import com.linc.inphoto.ui.auth.model.Credentials
+import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -21,13 +21,15 @@ class SignUpViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(SignUpUiState())
 
-    fun signUp(credentials: Credentials.SignUp) = viewModelScope.launch {
+    fun signUp() = viewModelScope.launch {
         try {
+            val state = _uiState.value
             _uiState.update { copy(isLoading = true) }
             authRepository.signUp(
-                credentials.email,
-                credentials.username,
-                credentials.password
+                state.email.orEmpty(),
+                state.username.orEmpty(),
+                state.password.orEmpty(),
+                state.gender,
             )
             globalRouter.newRootScreen(NavScreen.MainScreen())
         } catch (e: Exception) {
@@ -52,6 +54,10 @@ class SignUpViewModel @Inject constructor(
 
     fun updateRepeatPassword(password: String) {
         _uiState.update { copy(repeatPassword = password, signUpErrorMessage = null) }
+    }
+
+    fun updateGender(gender: Gender) {
+        _uiState.update { copy(gender = gender) }
     }
 
 }

@@ -2,7 +2,6 @@ package com.linc.inphoto.ui.base.viewmodel
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
-import com.github.terrakok.cicerone.Router
 import com.linc.inphoto.ui.navigation.AppRouter
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -15,7 +14,7 @@ abstract class BaseViewModel<StateEntity>(
 ) : ViewModel() {
 
     private var containerId: String? = null
-    protected val globalRouter: Router get() = navContainerHolder.getGlobalRouter()
+    protected val globalRouter: AppRouter get() = navContainerHolder.getGlobalRouter()
     protected val router: AppRouter get() = navContainerHolder.getRouter(containerId.orEmpty())
 
     protected abstract val _uiState: MutableStateFlow<StateEntity>

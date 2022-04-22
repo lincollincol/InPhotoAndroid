@@ -2,12 +2,13 @@ package com.linc.inphoto.data.mapper
 
 import com.linc.inphoto.data.database.entity.UserEntity
 import com.linc.inphoto.data.network.model.user.UserApiModel
-import com.linc.inphoto.entity.User
+import com.linc.inphoto.entity.user.Gender
+import com.linc.inphoto.entity.user.User
 
 fun UserApiModel.toUserEntity() = UserEntity(
-    id, name, email, status, publicProfile, avatarUrl
+    id, name, email, status, gender.name, publicProfile, avatarUrl, headerUrl
 )
 
 fun UserEntity.toUserModel() = User(
-    id, name, email, status, publicProfile, avatarId
+    id, name, email, status, Gender.fromString(gender), publicProfile, avatarUrl, headerUrl
 )
