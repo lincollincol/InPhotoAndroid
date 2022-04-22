@@ -24,37 +24,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/margin_small" />
 
-    <!--<androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/elevation_general"
-        android:scaleType="center"
-        android:outlineProvider="none"
-        android:background="@color/white_95"
-        app:roundPercent="1"
-        app:tint="@color/black"
-        app:srcCompat="@drawable/ic_ios_arrow_end"
-        app:shapeAppearanceOverlay="@style/CircleImageShape"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/headerImageView"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/settingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/elevation_general"
-        android:scaleType="center"
-        android:outlineProvider="none"
-        android:stateListAnimator="@null"
-        android:background="@color/white_95"
-        app:tint="@color/black"
-        app:srcCompat="@drawable/ic_settings"
-        app:shapeAppearanceOverlay="@style/CircleImageShape"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/moveUpButton"
         style="@style/CircleImageButton"

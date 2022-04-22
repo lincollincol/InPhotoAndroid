@@ -15,32 +15,38 @@
         <KeyFrameSet>
 
             <KeyAttribute
-                android:alpha="0.2"
                 app:framePosition="20"
+                android:alpha="0.2"
                 app:motionTarget="@id/profileDataLayout" />
 
             <KeyAttribute
-                android:rotationX="-20"
                 app:framePosition="90"
+                android:rotationX="-20"
                 app:motionTarget="@id/profileDataLayout" />
 
             <KeyAttribute
-                android:alpha="0.7"
                 app:framePosition="30"
+                android:alpha="0.7"
                 app:motionTarget="@id/headerBackgroundView" />
 
             <KeyPosition
+                app:motionTarget="@id/avatarImageView"
                 app:framePosition="30"
                 app:keyPositionType="parentRelative"
-                app:motionTarget="@id/avatarImageView"
                 app:percentY="0.05"
                 app:percentX="0.5" />
 
             <KeyPosition
-                app:framePosition="80"
-                app:keyPositionType="parentRelative"
                 app:motionTarget="@id/profile_name_text_field"
+                app:framePosition="75"
+                app:keyPositionType="parentRelative"
+                app:percentY="0.05"
                 app:percentX="0.5" />
+
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="90"
+                app:motionTarget="@id/profile_name_text_field" />
 
         </KeyFrameSet>
 
@@ -72,7 +78,7 @@
             app:layout_constraintBottom_toBottomOf="@id/headerImageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0"></Constraint>
+            app:layout_constraintVertical_bias="0" />
 
         <Constraint
             android:id="@id/settingsButton"
@@ -176,20 +182,22 @@
             android:layout_width="@dimen/icon_medium"
             android:layout_height="@dimen/icon_medium"
             android:layout_marginStart="@dimen/margin_general"
+            android:rotation="-360"
             app:layout_constraintBottom_toBottomOf="@id/headerImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"></Constraint>
+            app:layout_constraintVertical_bias="0.5" />
 
         <Constraint
             android:id="@id/settingsButton"
             android:layout_width="@dimen/icon_medium"
             android:layout_height="@dimen/icon_medium"
             android:layout_marginEnd="@dimen/margin_general"
+            android:rotation="180"
             app:layout_constraintBottom_toBottomOf="@id/headerImageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"></Constraint>
+            app:layout_constraintVertical_bias="0.5" />
 
         <Constraint
             android:id="@id/headerImageView"

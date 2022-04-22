@@ -45,6 +45,11 @@ class AuthRepository @Inject constructor(
         saveUser(response.body!!)
     }
 
+    suspend fun signOut() = withContext(ioDispatcher) {
+        authPreferences.clear()
+        userDao.deleteUsers()
+    }
+
     private suspend fun saveUser(user: UserApiModel) = withContext(ioDispatcher) {
         // Save base access user data
         with(authPreferences) {
