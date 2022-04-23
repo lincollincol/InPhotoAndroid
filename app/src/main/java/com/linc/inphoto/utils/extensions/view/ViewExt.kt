@@ -122,7 +122,7 @@ fun View.marginBottom() =
         ?.bottomMargin
         ?: 0
 
-fun View.onThrottledClick(
+fun View.setOnThrottledClickListener(
     throttleDelay: Long = 500L,
     onClick: (View) -> Unit
 ) {

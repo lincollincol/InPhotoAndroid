@@ -1,6 +1,7 @@
 package com.linc.inphoto.di.data.network
 
 import com.linc.inphoto.data.network.api.AuthApiService
+import com.linc.inphoto.data.network.api.ContentApiService
 import com.linc.inphoto.data.network.api.PostApiService
 import com.linc.inphoto.data.network.api.UserApiService
 import dagger.Module
@@ -28,5 +29,10 @@ object ApiServiceModule {
     @Singleton
     fun providePostApiService(retrofit: Retrofit): PostApiService =
         retrofit.create(PostApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideContentApiService(retrofit: Retrofit): ContentApiService =
+        retrofit.create(ContentApiService::class.java)
 
 }

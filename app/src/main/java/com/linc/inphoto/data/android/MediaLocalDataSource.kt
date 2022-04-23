@@ -80,11 +80,11 @@ class MediaLocalDataSource @Inject constructor(
 
     fun copyToTempUri(src: Uri): Uri {
         val result = createTempUri()
-        context.copyUri(src, result)
+        context.copyFileUri(src, result)
         return result
     }
 
-    fun deleteUri(uri: Uri?) = context.deleteUri(uri)
+    fun deleteUri(uri: Uri?) = context.deleteFileUri(uri)
 
     fun checkRight(uri: Uri?): Boolean {
         if (uri == null) return false

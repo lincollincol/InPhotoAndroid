@@ -21,6 +21,7 @@
         android:layout_marginBottom="@dimen/margin_small"
         android:background="@drawable/background_bottom_bar"
         android:elevation="@dimen/elevation_general"
+        app:abb_textAppearance="@style/TextField"
         app:abb_indicatorHeight="4dp"
         app:abb_indicatorAppearance="round"
         app:abb_indicatorLocation="bottom"

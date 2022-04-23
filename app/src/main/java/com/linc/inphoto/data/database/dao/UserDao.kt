@@ -15,6 +15,15 @@ interface UserDao {
     @Delete
     suspend fun deleteUser(user: UserEntity)
 
+    @Query("UPDATE users SET name = :name WHERE id = :id")
+    fun updateUserName(id: String, name: String)
+
+    @Query("UPDATE users SET status = :status WHERE id = :id")
+    fun updateUserStatus(id: String, status: String)
+
+    @Query("UPDATE users SET gender = :gender WHERE id = :id")
+    fun updateUserGender(id: String, gender: String)
+
     @Update
     suspend fun updateUser(user: UserEntity)
 

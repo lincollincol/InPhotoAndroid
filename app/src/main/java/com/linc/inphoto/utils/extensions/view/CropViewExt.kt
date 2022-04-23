@@ -4,7 +4,7 @@ import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageView
 import com.linc.inphoto.entity.media.image.AspectRatio
 import com.linc.inphoto.ui.cropimage.model.CropShape
-import com.linc.inphoto.utils.extensions.copyUri
+import com.linc.inphoto.utils.extensions.copyFileUri
 import com.linc.inphoto.utils.extensions.createTempUri
 
 fun CropImageView.setAspectRatio(
@@ -33,6 +33,6 @@ fun CropImageView.CropResult.applyShape(view: CropImageView) {
     }
     with(view.context) {
         val shapeUri = createTempUri(shapeBitmap)
-        copyUri(shapeUri, uriContent!!)
+        copyFileUri(shapeUri, uriContent!!)
     }
 }

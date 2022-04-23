@@ -144,6 +144,7 @@
             android:id="@id/separatorView"
             android:layout_width="0dp"
             android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_general"
             android:alpha="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
