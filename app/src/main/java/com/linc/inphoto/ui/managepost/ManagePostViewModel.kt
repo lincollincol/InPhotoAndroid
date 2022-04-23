@@ -39,7 +39,7 @@ class ManagePostViewModel @Inject constructor(
                 is ManagePostIntent.EditPost -> copy(
                     postId = intent.postId,
                     imageUri = intent.contentUrl.toUri(),
-                    description = StringBuilder(intent.description),
+                    description = intent.description,
                     tags = intent.tags.toSet()
                 )
             }
@@ -58,15 +58,15 @@ class ManagePostViewModel @Inject constructor(
     }
 
     fun updateDescription(description: String) {
-        uiState.value.description?.update(description)
+        _uiState.update { copy(description = description) }
     }
 
     fun savePost() {
         viewModelScope.launch {
             try {
-//                _uiState.update { copy(isLoading = true) }
+                _uiState.update { copy(isLoading = true) }
                 val state = uiState.value
-                if (!state.isValidPostData) {
+                if (!state.isPostDataValid) {
                     _uiState.update { copy(isErrorsEnabled = true) }
                     return@launch
                 }
@@ -82,7 +82,7 @@ class ManagePostViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {
-//                _uiState.update { copy(isLoading = false) }
+                _uiState.update { copy(isLoading = false) }
             }
         }
     }

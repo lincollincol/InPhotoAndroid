@@ -8,16 +8,14 @@ import com.linc.inphoto.data.network.api.PostApiService
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
 import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
-import com.linc.inphoto.data.network.utils.HttpHelper
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.entity.post.Post
+import com.linc.inphoto.utils.extensions.toMultipartBody
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
@@ -33,13 +31,9 @@ class PostRepository @Inject constructor(
         tags: List<String>
     ) = withContext(ioDispatcher) {
         val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
-        val requestBody =
-            image.asRequestBody(HttpHelper.MediaType.MULTIPART_FORM_DATA.toMediaType())
-        val body = MultipartBody.Part.createFormData(image.name, image.name, requestBody)
-        val descriptionPart =
-            MultipartBody.Part.createFormData("description", description.orEmpty())
-        val response = postApiService.savePost(
-            body,
+        val descriptionPart = MultipartBody.Part.createFormData("description", description)
+        postApiService.savePost(
+            image.toMultipartBody(),
             descriptionPart,
             tags.map { MultipartBody.Part.createFormData("tag", it) },
             authPreferences.userId
