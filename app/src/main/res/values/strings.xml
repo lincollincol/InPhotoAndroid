@@ -18,6 +18,8 @@
     <string name="sign_in">Sign In</string>
     <string name="allow">Allow</string>
     <string name="username">username</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
     <string name="repeat_password">repeat password</string>
     <string name="create_account">Create Account</string>
 

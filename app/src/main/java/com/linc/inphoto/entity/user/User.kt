@@ -1,8 +1,6 @@
-package com.linc.inphoto.data.network.model.user
+package com.linc.inphoto.entity.user
 
-import com.linc.inphoto.entity.user.Gender
-
-data class UserApiModel(
+data class User(
     val id: String,
     val name: String,
     val email: String,
@@ -10,6 +8,5 @@ data class UserApiModel(
     val gender: Gender,
     val publicProfile: Boolean,
     val avatarUrl: String,
-    val headerUrl: String,
-    val accessToken: String
+    val headerUrl: String
 )

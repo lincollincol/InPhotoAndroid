@@ -8,17 +8,21 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileSettingsBinding
+import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.hideKeyboard
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setError
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.update
+import com.linc.inphoto.utils.keyboard.KeyboardStateListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings) {
+class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings),
+    KeyboardStateListener {
 
     companion object {
         @JvmStatic
@@ -31,12 +35,19 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            avatarImageView.loadImage(state.imageUri)
+            avatarImageView.loadImage(state.avatarUri)
+            headerImageView.loadImage(state.headerUri)
             usernameEditText.update(state.username)
             statusEditText.update(state.status)
             usernameTextLayout.setError(
                 !state.isValidUsername,
                 R.string.settings_invalid_username_error
+            )
+            genderRadioGroup.check(
+                when (state.gender) {
+                    Gender.MALE -> maleRadioButton.id
+                    else -> femaleRadioButton.id
+                }
             )
         }
     }
@@ -57,8 +68,20 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
                 hideKeyboard()
                 viewModel.cancelProfileUpdate()
             }
-            avatarImageView.setOnClickListener {
+            uploadAvatarButton.setOnThrottledClickListener {
                 viewModel.updateAvatar()
+                view.clearFocus()
+            }
+            uploadHeaderButton.setOnThrottledClickListener {
+                viewModel.updateHeader()
+                view.clearFocus()
+            }
+            randomAvatarButton.setOnThrottledClickListener {
+                viewModel.randomAvatar()
+                view.clearFocus()
+            }
+            randomHeaderButton.setOnThrottledClickListener {
+                viewModel.randomHeader()
                 view.clearFocus()
             }
             usernameEditText.doOnTextChanged { text, _, _, _ ->
@@ -67,7 +90,19 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
             statusEditText.doOnTextChanged { text, _, _, _ ->
                 viewModel.updateStatus(text.toString())
             }
+            genderRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+                val gender = when (checkedId) {
+                    maleRadioButton.id -> Gender.MALE
+                    femaleRadioButton.id -> Gender.FEMALE
+                    else -> Gender.UNKNOWN
+                }
+                viewModel.updateGender(gender)
+            }
         }
         bottomBarViewModel.showBottomBar()
+    }
+
+    override fun onKeyboardStateChanged(visible: Boolean) {
+        bottomBarViewModel.showBottomBar(!visible)
     }
 }

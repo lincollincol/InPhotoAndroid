@@ -25,25 +25,6 @@
         app:layout_constraintGuide_end="@dimen/margin_small" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/backButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:elevation="@dimen/elevation_general"
-        app:srcCompat="@drawable/ic_arrow_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/settingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/actionBarItemBackground"
-        android:elevation="@dimen/elevation_general"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_settings" />
-
-    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/moveUpButton"
         style="@style/CircleImageButton"
         android:layout_width="56dp"
@@ -59,20 +40,62 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/header"
+        android:elevation="@dimen/elevation_none"
+        tools:src="@drawable/header"
         app:layout_constraintDimensionRatio="H,2:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <View
+        android:id="@+id/headerBackgroundView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_general"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@id/headerImageView"
+        app:layout_constraintEnd_toEndOf="@id/headerImageView"
+        app:layout_constraintStart_toStartOf="@id/headerImageView"
+        app:layout_constraintTop_toTopOf="@id/headerImageView" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/elevation_general"
+        android:background="@color/white_95"
+        android:foreground="?actionBarItemBackground"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/headerImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundPercent="1"
+        app:srcCompat="@drawable/ic_arrow_back"
+        app:tint="@color/black" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/elevation_general"
+        android:background="@color/white_95"
+        android:foreground="?actionBarItemBackground"
+        android:scaleType="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundPercent="1"
+        app:srcCompat="@drawable/ic_settings"
+        app:tint="@color/black" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/avatarImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:elevation="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/elevation_general"
         android:background="@color/white"
         tools:srcCompat="@drawable/avatar"
-        app:shapeAppearanceOverlay="@style/CircleImageShape50"
+        app:roundPercent="1"
         app:layout_constraintBottom_toBottomOf="@id/headerImageView"
         app:layout_constraintTop_toBottomOf="@id/headerImageView"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_general"
+        android:elevation="@dimen/elevation_general"
         android:textSize="@dimen/font_normal"
         tools:text="Linc"
         app:layout_constraintTop_toBottomOf="@id/avatarImageView"
@@ -138,7 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:textSize="@dimen/font_normal"
-            android:text="115"
+            android:text="115k"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/audienceSpace" />
@@ -180,7 +204,7 @@
             android:gravity="center"
             android:maxLines="3"
             android:ellipsize="end"
-            android:text="@string/mock_status"
+            tools:text="@string/mock_status"
             app:layout_constraintTop_toBottomOf="@id/usernameSpace"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -216,6 +240,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:id="@+id/separatorView"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_general"
+        android:background="@color/black_15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileDataLayout" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postsRecyclerView"
         android:layout_width="0dp"
@@ -224,6 +258,6 @@
         app:layout_constraintTop_toBottomOf="@id/profileDataLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

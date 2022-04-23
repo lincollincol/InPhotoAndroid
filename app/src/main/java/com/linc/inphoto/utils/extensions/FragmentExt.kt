@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.transition.Transition
 import com.linc.inphoto.utils.extensions.view.animateTargets
 import com.linc.inphoto.utils.extensions.view.autoAnimateTargets
@@ -40,3 +41,5 @@ fun Fragment.permissionGranted(permission: String) =
 
 fun Fragment.permissionDisabled(permission: String) =
     !permissionGranted(permission) && !shouldShowRequestPermissionRationale(permission)
+
+fun FragmentManager.findVisibleFragment() = fragments.firstOrNull { it.isVisible }

@@ -7,7 +7,8 @@ import com.linc.inphoto.data.mapper.toUserEntity
 import com.linc.inphoto.data.mapper.toUserModel
 import com.linc.inphoto.data.network.api.UserApiService
 import com.linc.inphoto.data.preferences.AuthPreferences
-import com.linc.inphoto.entity.User
+import com.linc.inphoto.entity.user.Gender
+import com.linc.inphoto.entity.user.User
 import com.rhythmoya.data.network.helper.HttpHelper.MediaType.MULTIPART_FORM_DATA
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -33,11 +34,25 @@ class UserRepository @Inject constructor(
         return@withContext userDao.getUserById(userId.orEmpty())?.toUserModel()
     }
 
-    suspend fun updateUserAvatar(uri: Uri?): User? = withContext(ioDispatcher) {
+    // TODO: 22.04.22 refactor functions
+    suspend fun updateUserAvatar(uri: Uri?) = withContext(ioDispatcher) {
         val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
         val requestBody = image.asRequestBody(MULTIPART_FORM_DATA.toMediaType())
         val body = MultipartBody.Part.createFormData(image.name, image.name, requestBody)
         val response = userApiService.updateUserAvatar(body, authPreferences.userId)
+        val user = response.body?.toUserEntity()
+        if (user != null) {
+            userDao.updateUser(user)
+        }
+        image.delete()
+        return@withContext user?.toUserModel()
+    }
+
+    suspend fun updateUserHeader(uri: Uri?) = withContext(ioDispatcher) {
+        val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
+        val requestBody = image.asRequestBody(MULTIPART_FORM_DATA.toMediaType())
+        val body = MultipartBody.Part.createFormData(image.name, image.name, requestBody)
+        val response = userApiService.updateUserHeader(body, authPreferences.userId)
         val user = response.body?.toUserEntity()
         if (user != null) {
             userDao.updateUser(user)
@@ -60,6 +75,15 @@ class UserRepository @Inject constructor(
         userDao.getUserById(authPreferences.userId)?.let { user ->
             userDao.updateUser(user.copy(status = status))
         }
+    }
+
+    suspend fun updateUserGender(gender: Gender?) = withContext(ioDispatcher) {
+        gender ?: return@withContext
+        userApiService.updateUserGender(authPreferences.userId, gender.name)
+        userDao.updateUserGender(authPreferences.userId, gender.name)
+//        userDao.getUserById(authPreferences.userId)?.let { user ->
+//            userDao.updateUserGender(user.copy(gender = gender))
+//        }
     }
 
 }

@@ -14,6 +14,13 @@ interface UserApiService {
         @Path("userId") id: String
     ): BaseResponse<UserApiModel>
 
+    @Multipart
+    @POST("/users/{userId}/header")
+    suspend fun updateUserHeader(
+        @Part image: MultipartBody.Part,
+        @Path("userId") id: String
+    ): BaseResponse<UserApiModel>
+
     @POST("/users/{userId}/username")
     suspend fun updateUserName(
         @Path("userId") id: String,
@@ -24,6 +31,12 @@ interface UserApiService {
     suspend fun updateUserStatus(
         @Path("userId") id: String,
         @Body status: String
+    ): BaseResponse<*>
+
+    @POST("/users/{userId}/gender")
+    suspend fun updateUserGender(
+        @Path("userId") id: String,
+        @Body gender: String
     ): BaseResponse<*>
 
 }

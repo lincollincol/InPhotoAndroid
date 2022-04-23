@@ -15,7 +15,6 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.WindowMetrics
 import android.view.inputmethod.InputMethodManager
-import android.webkit.MimeTypeMap
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -126,9 +125,17 @@ fun Context.createTempFile(extension: String? = null): File {
 }
 
 fun Context.createTempFile(uri: Uri): File? {
-    val data = readUriBytes(uri) ?: return null
-    val extension = getUriExtension(uri)
-    return createTempFile(extension).also { audio -> audio.writeBytes(data) }
+    val data: ByteArray?
+    val extension: String?
+    if (uri.isUrl()) {
+        data = uri.getUrlBytes()
+        extension = uri.getUrlExtension()
+    } else {
+        data = uri.getFileBytes(this)
+        extension = uri.getFileExtension(this)
+    }
+    data ?: return null
+    return createTempFile(extension).also { file -> file.writeBytes(data) }
 }
 
 fun Context.createTempFile(bitmap: Bitmap): File {
@@ -139,7 +146,7 @@ fun Context.createTempFile(bitmap: Bitmap): File {
     return file
 }
 
-fun Context.deleteUri(uri: Uri?) = uri?.let {
+fun Context.deleteFileUri(uri: Uri?) = uri?.let {
     try {
         contentResolver.delete(it, null, null)
     } catch (iae: IllegalArgumentException) {
@@ -147,7 +154,7 @@ fun Context.deleteUri(uri: Uri?) = uri?.let {
     }
 }
 
-fun Context.copyUri(src: Uri, dst: Uri) {
+fun Context.copyFileUri(src: Uri, dst: Uri) {
     val inputStream = contentResolver.openInputStream(src)
     val outputStream = contentResolver.openOutputStream(dst)
     val b = ByteArray(4096)
@@ -159,11 +166,3 @@ fun Context.copyUri(src: Uri, dst: Uri) {
     outputStream?.close()
     inputStream.close()
 }
-
-fun Context.readUriBytes(uri: Uri): ByteArray? =
-    contentResolver.openInputStream(uri)
-        ?.buffered()
-        ?.use { it.readBytes() }
-
-fun Context.getUriExtension(uri: Uri): String? =
-    MimeTypeMap.getSingleton().getMimeTypeFromExtension(contentResolver.getType(uri))

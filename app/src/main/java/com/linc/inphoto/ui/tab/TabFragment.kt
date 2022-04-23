@@ -13,12 +13,16 @@ import com.linc.inphoto.ui.navigation.NavContainer
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.navigation.navigator.SingleContainerNavigator
+import com.linc.inphoto.utils.extensions.findVisibleFragment
 import com.linc.inphoto.utils.extensions.getArgument
+import com.linc.inphoto.utils.extensions.safeCast
+import com.linc.inphoto.utils.keyboard.KeyboardStateListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener, NavContainer {
+class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener,
+    KeyboardStateListener, NavContainer {
 
     companion object {
         private const val TAB_ARG = "container_id"
@@ -50,7 +54,6 @@ class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel.setupNavContainer(requireArguments().getString(CONTAINER_ID_ARG))
         navContainerHolder.initContainer(containerId)
         if (childFragmentManager.findFragmentById(R.id.tabContainerLayout) == null) {
             navigator.applyCommands(arrayOf(Replace(NavScreen.getTabHostScreen(getArgument(TAB_ARG)))))
@@ -58,8 +61,13 @@ class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener
     }
 
     override fun onBackPressed() {
-        childFragmentManager.findFragmentById(R.id.tabContainerLayout)?.let {
-            (it as? FragmentBackPressedListener)?.onBackPressed()
-        } /*?: super.onBackPressed()*/
+        val fragment = childFragmentManager.findFragmentById(R.id.tabContainerLayout)
+        fragment?.safeCast<FragmentBackPressedListener>()?.onBackPressed()
+    }
+
+    override fun onKeyboardStateChanged(visible: Boolean) {
+        childFragmentManager.findVisibleFragment()
+            ?.safeCast<KeyboardStateListener>()
+            ?.onKeyboardStateChanged(visible)
     }
 }

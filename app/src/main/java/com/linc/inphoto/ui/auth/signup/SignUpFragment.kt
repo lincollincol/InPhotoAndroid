@@ -7,11 +7,10 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSignUpBinding
-import com.linc.inphoto.ui.auth.model.Credentials
+import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.utils.extensions.view.enable
 import com.linc.inphoto.utils.extensions.view.show
-import com.linc.inphoto.utils.extensions.view.textToString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -34,6 +33,12 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
                 text = state.signUpErrorMessage.orEmpty()
                 show(!state.signUpErrorMessage.isNullOrEmpty())
             }
+            genderRadioGroup.check(
+                when (state.gender) {
+                    Gender.MALE -> maleRadioButton.id
+                    else -> femaleRadioButton.id
+                }
+            )
         }
     }
 
@@ -53,14 +58,15 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
                 viewModel.updateRepeatPassword(text.toString())
             }
             signUpButton.setOnClickListener {
-                viewModel.signUp(
-                    Credentials.SignUp(
-                        emailEditText.textToString(),
-                        usernameEditText.textToString(),
-                        passwordEditText.textToString(),
-                        repeatPasswordEditText.textToString()
-                    )
-                )
+                viewModel.signUp()
+            }
+            genderRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+                val gender = when (checkedId) {
+                    maleRadioButton.id -> Gender.MALE
+                    femaleRadioButton.id -> Gender.FEMALE
+                    else -> Gender.UNKNOWN
+                }
+                viewModel.updateGender(gender)
             }
         }
     }

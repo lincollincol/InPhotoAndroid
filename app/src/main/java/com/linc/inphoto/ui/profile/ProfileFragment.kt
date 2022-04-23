@@ -44,11 +44,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 text = state.user?.status
                 show(state.isValidStatus)
             }
-            avatarImageView.loadImage(
-                image = state.user?.avatarUrl,
-                size = THUMB_MEDIUM,
-                errorPlaceholder = R.drawable.avatar_thumb
-            )
+            avatarImageView.loadImage(image = state.user?.avatarUrl)
+            headerImageView.loadImage(image = state.user?.headerUrl)
             userPostsSection.update(state.posts.map(::ProfilePostItem))
             state.newPostUiState?.let { newPostSection.update(listOf(NewPostItem(it))) }
             followButton.show(false)

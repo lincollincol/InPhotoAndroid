@@ -8,6 +8,8 @@ import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.NavContainer
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.utils.extensions.findVisibleFragment
+import com.linc.inphoto.utils.extensions.safeCast
 
 class MultiContainerNavigator(
     activity: FragmentActivity,
@@ -55,13 +57,11 @@ class MultiContainerNavigator(
     }
 
     fun handleBackPressed(tabSelected: ((MenuTab) -> Unit)? = null) {
-        val currentFragment = fragmentManager.fragments
-            .firstOrNull { it.isVisible }
-            ?: return
+        val currentFragment = fragmentManager.findVisibleFragment() ?: return
         val backstackCount = currentFragment.childFragmentManager.backStackEntryCount
         val currentTabId = (currentFragment as? NavContainer)?.containerId
         if (backstackCount > 0 || currentTabId == MenuTab.HOME.name) {
-            (currentFragment as? FragmentBackPressedListener)?.onBackPressed()
+            currentFragment.safeCast<FragmentBackPressedListener>()?.onBackPressed()
             return
         }
         if (currentTabId != MenuTab.HOME.name) {

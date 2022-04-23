@@ -116,16 +116,53 @@
             app:layout_constraintStart_toStartOf="@id/startLine"
             app:layout_constraintTop_toBottomOf="@id/repeatPasswordEditText" />
 
+        <RadioGroup
+            android:id="@+id/genderRadioGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_general"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine"
+            app:layout_constraintTop_toBottomOf="@id/authErrorTextView">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/maleRadioButton"
+                style="@style/TextField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:text="@string/male"
+                android:textSize="@dimen/font_small" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/femaleRadioButton"
+                style="@style/TextField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:text="@string/female"
+                android:textSize="@dimen/font_small" />
+        </RadioGroup>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signUpButton"
             style="@style/MaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_huge"
+            android:layout_marginTop="@dimen/margin_general"
             android:text="@string/sign_up"
             app:layout_constraintEnd_toEndOf="@id/endLine"
             app:layout_constraintStart_toStartOf="@id/startLine"
-            app:layout_constraintTop_toBottomOf="@id/repeatPasswordEditText" />
+            app:layout_constraintTop_toBottomOf="@id/genderRadioGroup" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_huge"
+            app:layout_constraintEnd_toEndOf="@id/endLine"
+            app:layout_constraintStart_toStartOf="@id/startLine"
+            app:layout_constraintTop_toBottomOf="@id/signUpButton" />
 
         <com.linc.inphoto.ui.view.LoadingView
             android:id="@+id/loadingView"

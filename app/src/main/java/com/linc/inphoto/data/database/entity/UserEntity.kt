@@ -11,8 +11,11 @@ data class UserEntity(
     val name: String,
     val email: String,
     val status: String?,
+    val gender: String,
     @ColumnInfo(name = "is_public")
     val publicProfile: Boolean,
     @ColumnInfo(name = "avatar_url")
-    val avatarId: String?
+    val avatarUrl: String,
+    @ColumnInfo(name = "header_url")
+    val headerUrl: String
 )

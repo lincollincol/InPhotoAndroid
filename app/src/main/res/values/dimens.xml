@@ -7,6 +7,7 @@
     <dimen name="size_icon_large">48dp</dimen>
 
     <!--Elevation-->
+    <dimen name="elevation_none">0dp</dimen>
     <dimen name="elevation_extra_tiny">2dp</dimen>
     <dimen name="elevation_tiny">4dp</dimen>
     <dimen name="elevation_small">8dp</dimen>
@@ -51,5 +52,11 @@
     <dimen name="translation_bottom">8dp</dimen>
     <dimen name="translation_middle">16dp</dimen>
     <dimen name="translation_top">24dp</dimen>
+
+    <!--Translation Z-->
+    <dimen name="icon_general">24dp</dimen>
+    <dimen name="icon_medium">36dp</dimen>
+    <dimen name="icon_large">48dp</dimen>
+    <dimen name="icon_huge">96dp</dimen>
 
 </resources>
