@@ -5,7 +5,7 @@ import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
 import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
 import com.linc.inphoto.data.network.model.user.UserApiModel
-import com.rhythmoya.data.network.helper.HttpHelper
+import com.linc.inphoto.data.network.utils.HttpHelper
 import okhttp3.MultipartBody
 import retrofit2.http.*
 

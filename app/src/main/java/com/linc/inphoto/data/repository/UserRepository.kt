@@ -3,19 +3,18 @@ package com.linc.inphoto.data.repository
 import android.net.Uri
 import com.linc.inphoto.data.android.MediaLocalDataSource
 import com.linc.inphoto.data.database.dao.UserDao
+import com.linc.inphoto.data.database.entity.UserEntity
 import com.linc.inphoto.data.mapper.toUserEntity
 import com.linc.inphoto.data.mapper.toUserModel
 import com.linc.inphoto.data.network.api.UserApiService
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.entity.user.User
-import com.rhythmoya.data.network.helper.HttpHelper.MediaType.MULTIPART_FORM_DATA
+import com.linc.inphoto.utils.extensions.isUrl
+import com.linc.inphoto.utils.extensions.toMultipartBody
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -34,30 +33,45 @@ class UserRepository @Inject constructor(
         return@withContext userDao.getUserById(userId.orEmpty())?.toUserModel()
     }
 
-    // TODO: 22.04.22 refactor functions
-    suspend fun updateUserAvatar(uri: Uri?) = withContext(ioDispatcher) {
-        val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
-        val requestBody = image.asRequestBody(MULTIPART_FORM_DATA.toMediaType())
-        val body = MultipartBody.Part.createFormData(image.name, image.name, requestBody)
-        val response = userApiService.updateUserAvatar(body, authPreferences.userId)
-        val user = response.body?.toUserEntity()
+    suspend fun updateUserAvatar(uri: Uri) = withContext(ioDispatcher) {
+        val user: UserEntity?
+        if (uri.isUrl()) {
+            user = userApiService.updateUserAvatarUrl(
+                authPreferences.userId,
+                uri.toString()
+            ).body?.toUserEntity()
+        } else {
+            val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
+            user = userApiService.updateUserAvatar(
+                authPreferences.userId,
+                image.toMultipartBody()
+            ).body?.toUserEntity()
+            image.delete()
+        }
         if (user != null) {
             userDao.updateUser(user)
         }
-        image.delete()
         return@withContext user?.toUserModel()
     }
 
-    suspend fun updateUserHeader(uri: Uri?) = withContext(ioDispatcher) {
-        val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
-        val requestBody = image.asRequestBody(MULTIPART_FORM_DATA.toMediaType())
-        val body = MultipartBody.Part.createFormData(image.name, image.name, requestBody)
-        val response = userApiService.updateUserHeader(body, authPreferences.userId)
-        val user = response.body?.toUserEntity()
+    suspend fun updateUserHeader(uri: Uri) = withContext(ioDispatcher) {
+        val user: UserEntity?
+        if (uri.isUrl()) {
+            user = userApiService.updateUserHeaderUrl(
+                authPreferences.userId,
+                uri.toString()
+            ).body?.toUserEntity()
+        } else {
+            val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
+            user = userApiService.updateUserHeader(
+                authPreferences.userId,
+                image.toMultipartBody()
+            ).body?.toUserEntity()
+            image.delete()
+        }
         if (user != null) {
             userDao.updateUser(user)
         }
-        image.delete()
         return@withContext user?.toUserModel()
     }
 

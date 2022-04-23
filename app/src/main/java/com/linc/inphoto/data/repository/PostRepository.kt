@@ -8,10 +8,10 @@ import com.linc.inphoto.data.network.api.PostApiService
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
 import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
+import com.linc.inphoto.data.network.utils.HttpHelper
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.entity.post.Post
-import com.rhythmoya.data.network.helper.HttpHelper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
