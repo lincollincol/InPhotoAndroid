@@ -6,19 +6,19 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/margin_general">
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/userAvatarImageView"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="@dimen/icon_large"
+        android:layout_height="@dimen/icon_large"
         android:layout_margin="@dimen/margin_general"
         android:elevation="@dimen/elevation_small"
         android:background="@color/white"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundPercent="1"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/CircleImageShape"
-        app:srcCompat="@drawable/mango" />
+        tools:srcCompat="@drawable/mango" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/usernameTextView"
@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:textSize="@dimen/font_small"
+        tools:text="Username"
         app:layout_constraintBottom_toBottomOf="@id/userAvatarImageView"
         app:layout_constraintEnd_toStartOf="@id/moreImageView"
         app:layout_constraintStart_toEndOf="@id/userAvatarImageView"
@@ -37,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_general"
+        android:background="?actionBarItemBackground"
         app:layout_constraintBottom_toBottomOf="@id/userAvatarImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/userAvatarImageView"
@@ -53,7 +55,7 @@
         usernameTextView,
         moreImageView" />
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/postImageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -62,13 +64,13 @@
         android:elevation="@dimen/elevation_small"
         android:scaleType="centerCrop"
         android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+        app:roundPercent="0.1"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerBarrier"
-        app:shapeAppearanceOverlay="@style/CircleImageShape5"
-        app:srcCompat="@drawable/mango" />
+        tools:srcCompat="@drawable/mango" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/likeAnimationView"

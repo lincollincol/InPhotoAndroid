@@ -8,7 +8,6 @@ import com.linc.inphoto.utils.recyclerview.manager.SquareGridLayoutManager
 
 fun RecyclerView.enableItemChangeAnimation(enable: Boolean) {
     (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = enable
-
 }
 
 fun RecyclerView.scrollToStart() {

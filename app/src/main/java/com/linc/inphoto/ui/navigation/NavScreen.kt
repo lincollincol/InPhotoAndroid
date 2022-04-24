@@ -28,6 +28,7 @@ import com.linc.inphoto.ui.managepost.ManagePostFragment
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
+import com.linc.inphoto.ui.postcomments.PostCommentsFragment
 import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.ProfileFragment
@@ -137,6 +138,9 @@ object NavScreen {
         ProfileSettingsFragment.newInstance()
     }
 
+    fun PostCommentsScreen() = FragmentScreen {
+        PostCommentsFragment.newInstance()
+    }
 
     /**
      * External navigation

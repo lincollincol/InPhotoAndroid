@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/userAvatarImageView"
+        android:layout_width="@dimen/icon_large"
+        android:layout_height="@dimen/icon_large"
+        android:layout_margin="@dimen/margin_general"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_tiny"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundPercent="1"
+        tools:srcCompat="@drawable/mango" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/usernameTextView"
+        style="@style/TextFieldBold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:textSize="@dimen/font_small"
+        app:layout_constraintBottom_toBottomOf="@id/userAvatarImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userAvatarImageView"
+        app:layout_constraintTop_toTopOf="@id/userAvatarImageView"
+        tools:text="Username" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/userInfoBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="usernameTextView, userAvatarImageView" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/descriptionTextView"
+        style="@style/TextField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="@dimen/font_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userInfoBarrier"
+        tools:text="@string/example_lorem_ipsum" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/tagsChipGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
+
+    <View
+        android:id="@+id/separatorView"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_general"
+        android:background="@color/black_15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tagsChipGroup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

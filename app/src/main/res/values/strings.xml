@@ -84,5 +84,16 @@
 
     <string name="permission_gallery_description">To access the gallery, you should allow permission to read the storage on this device</string>
     <string name="permission_camera_description">To access the camera, you should allow camera permission on this device</string>
+    <string name="comments">Comments</string>
+
+    <plurals name="date_period_short_week">
+        <item quantity="one">%1$d week</item>
+        <item quantity="other">%1$d weeks</item>
+    </plurals>
+    <!--    <string name="date_period_short_week">%1$d week</string>-->
+    <string name="date_period_short_day">%1$d d.</string>
+    <string name="date_period_short_hour">%1$d hr.</string>
+    <string name="date_period_short_minute">%1$d min.</string>
+    <string name="date_period_short_second">%1$d sec.</string>
 
 </resources>

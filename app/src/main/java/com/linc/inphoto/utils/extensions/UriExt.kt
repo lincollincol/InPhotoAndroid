@@ -3,10 +3,10 @@ package com.linc.inphoto.utils.extensions
 import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
-import android.webkit.URLUtil
+import com.linc.inphoto.utils.extensions.pattern.URL_REGEX
 import java.net.URL
 
-fun Uri.isUrl() = URLUtil.isValidUrl(toString())
+fun Uri.isUrl() = Regex(URL_REGEX).matches(toString())
 
 fun Uri.getUrlBytes() = URL(toString()).openStream()
     ?.buffered()
