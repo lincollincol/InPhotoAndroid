@@ -2,13 +2,16 @@ package com.linc.inphoto.data.repository
 
 import android.net.Uri
 import com.linc.inphoto.data.android.MediaLocalDataSource
+import com.linc.inphoto.data.mapper.toCommentModel
 import com.linc.inphoto.data.mapper.toExtendedPostModel
 import com.linc.inphoto.data.mapper.toPostModel
 import com.linc.inphoto.data.network.api.PostApiService
+import com.linc.inphoto.data.network.model.post.CommentApiModel
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
 import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
 import com.linc.inphoto.data.preferences.AuthPreferences
+import com.linc.inphoto.entity.post.Comment
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.utils.extensions.toMultipartBody
@@ -62,7 +65,8 @@ class PostRepository @Inject constructor(
     suspend fun getUserExtendedPosts(userId: String): List<ExtendedPost> =
         withContext(ioDispatcher) {
             val response = postApiService.getExtendedUserPosts(userId)
-            return@withContext response.body?.map(ExtendedPostApiModel::toExtendedPostModel)
+            return@withContext response.body
+                ?.map(ExtendedPostApiModel::toExtendedPostModel)
                 .orEmpty()
         }
 
@@ -75,7 +79,7 @@ class PostRepository @Inject constructor(
         val response = postApiService.getExtendedPosts(authPreferences.userId)
         return@withContext response.body
             ?.map(ExtendedPostApiModel::toExtendedPostModel)
-            ?: emptyList()
+            .orEmpty()
     }
 
     suspend fun likePost(
@@ -102,6 +106,20 @@ class PostRepository @Inject constructor(
 
     suspend fun deletePost(postId: String) = withContext(ioDispatcher) {
         postApiService.deletePost(postId)
+    }
+
+    suspend fun commentPost(postId: String) = withContext(ioDispatcher) {
+        postApiService.commentPost(postId, authPreferences.userId)
+    }
+
+    suspend fun deletePostComment(commentId: String) = withContext(ioDispatcher) {
+        postApiService.deletePostComment(commentId)
+    }
+
+    suspend fun getPostComments(postId: String): List<Comment> = withContext(ioDispatcher) {
+        return@withContext postApiService.getPostComments(postId).body
+            ?.map(CommentApiModel::toCommentModel)
+            .orEmpty()
     }
 
 }

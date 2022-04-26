@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.transition.Transition
 import com.linc.inphoto.utils.extensions.view.animateTargets
 import com.linc.inphoto.utils.extensions.view.autoAnimateTargets
+import com.linc.inphoto.utils.keyboard.FragmentKeyboardProperty
 
 fun Fragment.showKeyboard(view: EditText) {
     view.requestFocus()
@@ -43,3 +44,5 @@ fun Fragment.permissionDisabled(permission: String) =
     !permissionGranted(permission) && !shouldShowRequestPermissionRationale(permission)
 
 fun FragmentManager.findVisibleFragment() = fragments.firstOrNull { it.isVisible }
+
+fun Fragment.systemKeyboard() = FragmentKeyboardProperty()

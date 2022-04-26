@@ -13,16 +13,13 @@ import com.linc.inphoto.ui.navigation.NavContainer
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.navigation.navigator.SingleContainerNavigator
-import com.linc.inphoto.utils.extensions.findVisibleFragment
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.safeCast
-import com.linc.inphoto.utils.keyboard.KeyboardStateListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener,
-    KeyboardStateListener, NavContainer {
+class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener, NavContainer {
 
     companion object {
         private const val TAB_ARG = "container_id"
@@ -65,9 +62,4 @@ class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener
         fragment?.safeCast<FragmentBackPressedListener>()?.onBackPressed()
     }
 
-    override fun onKeyboardStateChanged(visible: Boolean) {
-        childFragmentManager.findVisibleFragment()
-            ?.safeCast<KeyboardStateListener>()
-            ?.onKeyboardStateChanged(visible)
-    }
 }

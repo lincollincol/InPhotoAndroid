@@ -1,7 +1,9 @@
 package com.linc.inphoto.data.mapper
 
+import com.linc.inphoto.data.network.model.post.CommentApiModel
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
+import com.linc.inphoto.entity.post.Comment
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.entity.post.Post
 
@@ -26,4 +28,13 @@ fun PostApiModel.toPostModel() = Post(
     createdTimestamp = createdTimestamp,
     description = description,
     contentUrl = contentUrl
+)
+
+fun CommentApiModel.toCommentModel() = Comment(
+    id = id,
+    comment = comment,
+    createdTimestamp = createdTimestamp,
+    userId = userId,
+    username = username,
+    userAvatarUrl = userAvatarUrl
 )

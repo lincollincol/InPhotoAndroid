@@ -110,8 +110,8 @@ object NavScreen {
         MainFragment.newInstance()
     }
 
-    fun ProfileScreen() = FragmentScreen {
-        ProfileFragment.newInstance()
+    fun ProfileScreen(userId: String? = null) = FragmentScreen {
+        ProfileFragment.newInstance(userId)
     }
 
     fun PostOverviewScreen(overviewType: OverviewType) = FragmentScreen {
@@ -138,8 +138,8 @@ object NavScreen {
         ProfileSettingsFragment.newInstance()
     }
 
-    fun PostCommentsScreen() = FragmentScreen {
-        PostCommentsFragment.newInstance()
+    fun PostCommentsScreen(postId: String) = FragmentScreen {
+        PostCommentsFragment.newInstance(postId)
     }
 
     /**

@@ -15,6 +15,7 @@ class CommentsPostInfoItem(
     override fun bind(viewBinding: ItemCommentsPostInfoBinding, position: Int) {
         with(viewBinding) {
             userAvatarImageView.loadImage(postInfoUiState.userAvatarUrl)
+            usernameTextView.text = postInfoUiState.username
             descriptionTextView.text = postInfoUiState.description
             tagsChipGroup.addChips(postInfoUiState.tags, R.layout.item_tag_chip)
         }

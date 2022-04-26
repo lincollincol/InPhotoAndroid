@@ -1,6 +1,7 @@
 package com.linc.inphoto.data.network.api
 
 import com.linc.inphoto.data.network.model.BaseResponse
+import com.linc.inphoto.data.network.model.post.CommentApiModel
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
 import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
@@ -64,5 +65,21 @@ interface PostApiService {
 
     @DELETE("/posts/{postId}")
     suspend fun deletePost(@Path("postId") postId: String): BaseResponse<*>
+
+    @GET("/posts/{postId}/comments")
+    suspend fun getPostComments(
+        @Path("postId") postId: String
+    ): BaseResponse<List<CommentApiModel>>
+
+    @POST("/posts/{postId}/comments/{userId}")
+    suspend fun commentPost(
+        @Path("postId") postId: String,
+        @Path("userId") userId: String
+    ): BaseResponse<*>
+
+    @DELETE("/posts/comments/{commentId}")
+    suspend fun deletePostComment(
+        @Path("commentId") commentId: String,
+    ): BaseResponse<*>
 
 }

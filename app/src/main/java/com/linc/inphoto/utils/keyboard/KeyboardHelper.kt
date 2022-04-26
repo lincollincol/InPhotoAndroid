@@ -9,7 +9,7 @@ class KeyboardHelper(
     val withStatusBar: Boolean = false,
     var onKeyboardOpen: ((Boolean) -> Unit)? = null,
     var onHeightChanged: ((Int) -> Unit)? = null
-) : ViewTreeObserver.OnGlobalLayoutListener {
+) : ViewTreeObserver.OnGlobalLayoutListener, KeyboardState {
 
     var isKeyboardOpen = false
         private set(value) {
@@ -49,12 +49,8 @@ class KeyboardHelper(
         }
     }
 
-    fun attach(
-        rootView: View?,
-        keyboardVisibilityListener: ((Boolean) -> Unit)? = null
-    ) {
+    fun attach(rootView: View?) {
         this.rootView = rootView
-        this.keyboardVisibilityListener = keyboardVisibilityListener
         rootView?.viewTreeObserver?.addOnGlobalLayoutListener(this)
         screenHeight = rootView.screenVisibleHeight()
     }
@@ -65,6 +61,14 @@ class KeyboardHelper(
         this.keyboardVisibilityListener = null
     }
 
+    override fun observeState(listener: (Boolean) -> Unit) {
+        this.keyboardVisibilityListener = listener
+    }
+
+//    fun observeState(keyboardVisibilityListener: (Boolean) -> Unit) {
+//        this.keyboardVisibilityListener = keyboardVisibilityListener
+//    }
+
     private fun isKeyboardOpen(height: Int) = screenHeight > height
 
     private fun View?.screenVisibleHeight(): Int {
@@ -72,4 +76,5 @@ class KeyboardHelper(
         this?.getWindowVisibleDisplayFrame(rect)
         return rect.bottom - (rect.top.takeIf { withStatusBar } ?: 0)
     }
+
 }
