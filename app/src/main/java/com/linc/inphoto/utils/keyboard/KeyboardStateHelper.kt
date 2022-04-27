@@ -5,22 +5,22 @@ import android.view.View
 import android.view.ViewTreeObserver
 import kotlin.math.abs
 
-class KeyboardHelper(
+class KeyboardStateHelper(
     val withStatusBar: Boolean = false,
     var onKeyboardOpen: ((Boolean) -> Unit)? = null,
     var onHeightChanged: ((Int) -> Unit)? = null
 ) : ViewTreeObserver.OnGlobalLayoutListener, KeyboardState {
 
-    var isKeyboardOpen = false
+    override var isKeyboardOpen = false
         private set(value) {
             field = value
             keyboardVisibilityListener?.invoke(value)
         }
 
-    var keyBoardHeight = 0
+    override var keyBoardHeight = 0
         private set
 
-    var screenHeight = 0
+    override var screenHeight = 0
         private set
 
     private var rootView: View? = null
@@ -64,10 +64,6 @@ class KeyboardHelper(
     override fun observeState(listener: (Boolean) -> Unit) {
         this.keyboardVisibilityListener = listener
     }
-
-//    fun observeState(keyboardVisibilityListener: (Boolean) -> Unit) {
-//        this.keyboardVisibilityListener = keyboardVisibilityListener
-//    }
 
     private fun isKeyboardOpen(height: Int) = screenHeight > height
 

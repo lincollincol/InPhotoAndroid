@@ -2,12 +2,16 @@ package com.linc.inphoto.utils
 
 import android.content.Context
 import com.linc.inphoto.R
-import com.linc.inphoto.utils.extensions.EMPTY
+import com.linc.inphoto.utils.extensions.pattern.DATE_PATTERN_DMY_DOT
+import com.linc.inphoto.utils.extensions.pattern.DATE_PATTERN_DM_DOT
+import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
 import com.linc.inphoto.utils.extensions.weeks
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.periodUntil
+import java.text.SimpleDateFormat
+import java.util.*
 
 object DateFormatter {
 
@@ -31,8 +35,25 @@ object DateFormatter {
                 R.string.date_period_short_second,
                 period.seconds
             )
-            else -> String.EMPTY
+            else -> context.getString(R.string.date_period_short_now)
         }
+    }
+
+    fun getRelativeTimeSpanString2(
+        context: Context,
+        millis: Long,
+        locale: Locale
+    ): String {
+        val period = Instant.fromEpochMilliseconds(millis)
+            .periodUntil(Clock.System.now(), TimeZone.currentSystemDefault())
+
+        val pattern = when {
+            period.years > 0 -> DATE_PATTERN_DMY_DOT
+            period.months > 0 -> DATE_PATTERN_DM_DOT
+            else -> TIME_PATTERN_SEMICOLON
+        }
+
+        return SimpleDateFormat(pattern, locale).format(millis)
     }
 
 }

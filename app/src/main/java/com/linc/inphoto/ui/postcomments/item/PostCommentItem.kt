@@ -38,10 +38,18 @@ class PostCommentItem(
                     spannable.bold().clickable(action = commentUiState.onUserClicked)
                 }
             }
-            dateTextView.text = DateFormatter.getRelativeTimeSpanString(
+            dateTextView.text = DateFormatter.getRelativeTimeSpanString2(
                 root.context,
-                commentUiState.createdTimestamp
+                commentUiState.createdTimestamp,
+                Locale.US
             )
+            root.run {
+                setOnThrottledClickListener { commentUiState.onCommentClicked() }
+                setOnLongClickListener {
+                    commentUiState.onCommentClicked()
+                    return@setOnLongClickListener true
+                }
+            }
         }
     }
 

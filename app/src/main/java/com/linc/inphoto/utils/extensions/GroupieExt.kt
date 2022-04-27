@@ -18,3 +18,14 @@ fun createAdapter(
 fun <T : BindableItem<out ViewBinding>> Section.updateSingle(item: T) {
     update(listOf(item))
 }
+
+fun <T : BindableItem<out ViewBinding>> Section.update(
+    items: List<T>,
+    onNewItemAdded: () -> Unit
+) {
+    val oldSize = groups.count()
+    update(items)
+    if (items.count() > oldSize) {
+        onNewItemAdded()
+    }
+}

@@ -68,10 +68,11 @@
         android:id="@+id/separatorView"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/margin_general"
+        android:layout_marginVertical="@dimen/margin_general"
         android:background="@color/black_15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tagsChipGroup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

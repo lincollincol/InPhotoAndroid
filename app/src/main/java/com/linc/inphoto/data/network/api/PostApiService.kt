@@ -74,7 +74,14 @@ interface PostApiService {
     @POST("/posts/{postId}/comments/{userId}")
     suspend fun commentPost(
         @Path("postId") postId: String,
-        @Path("userId") userId: String
+        @Path("userId") userId: String,
+        @Body comment: String
+    ): BaseResponse<CommentApiModel>
+
+    @PUT("/posts/comments/{commentId}")
+    suspend fun updatePostComment(
+        @Path("commentId") commentId: String,
+        @Body comment: String
     ): BaseResponse<*>
 
     @DELETE("/posts/comments/{commentId}")

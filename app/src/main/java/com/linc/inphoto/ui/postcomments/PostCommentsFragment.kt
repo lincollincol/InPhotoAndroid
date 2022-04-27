@@ -3,9 +3,11 @@ package com.linc.inphoto.ui.postcomments
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.snackbar.Snackbar
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentPostCommentsBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
@@ -14,14 +16,12 @@ import com.linc.inphoto.ui.postcomments.item.CommentsPostInfoItem
 import com.linc.inphoto.ui.postcomments.item.PostCommentItem
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.systemKeyboard
+import com.linc.inphoto.utils.extensions.keyboard
 import com.linc.inphoto.utils.extensions.updateSingle
-import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
-import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -39,16 +39,26 @@ class PostCommentsFragment : BaseFragment(R.layout.fragment_post_comments) {
     override val viewModel: PostCommentsViewModel by viewModels()
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentPostCommentsBinding::bind)
-    private val keyboardState by systemKeyboard()
+    private val keyboardState by keyboard()
     private val postInfoSection by lazy { Section() }
     private val commentsSection by lazy { Section() }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            inputLayout.apply {
+                // TODO: 27.04.22 check cancel message state
+                inputEditText.update(state.commentMessage)
+                sendButton.enable(state.isCommentValid)
+                doneButton.enable(state.isCommentValid)
+                sendButton.show(!state.isEditorState)
+                doneButton.show(state.isEditorState)
+                attachmentsButton.show(!state.isEditorState)
+                cancelButton.show(state.isEditorState)
+            }
             state.postInfoUiState
                 ?.let(::CommentsPostInfoItem)
                 ?.let(postInfoSection::updateSingle)
-            commentsSection.update(state.comments.map(::PostCommentItem))
+            commentsSection.update(state.comments.reversed().map(::PostCommentItem))
         }
     }
 
@@ -63,19 +73,29 @@ class PostCommentsFragment : BaseFragment(R.layout.fragment_post_comments) {
             commentsRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = createAdapter(hasStableIds = true, postInfoSection, commentsSection)
-
+                enableItemChangeAnimation(false)
             }
             toolbarView.setOnCancelClickListener {
                 viewModel.onBackPressed()
             }
-
-            inputLayout.sendButton.setOnClickListener {
-            }
-            inputLayout.attachmentsButton.setOnThrottledClickListener {
-                Timber.d("Click")
-            }
-            keyboardState.observeState {
-                Timber.d("KEYBOARD $it")
+            inputLayout.apply {
+                sendButton.setOnThrottledClickListener {
+                    viewModel.saveComment()
+                    commentsRecyclerView.smoothScrollToEnd()
+                }
+                doneButton.setOnThrottledClickListener {
+                    viewModel.updateComment()
+                    commentsRecyclerView.smoothScrollToEnd()
+                }
+                inputEditText.doOnTextChanged { text, _, _, _ ->
+                    viewModel.updateCommentMessage(text.toString())
+                }
+                cancelButton.setOnThrottledClickListener {
+                    viewModel.cancelCommentEditor()
+                }
+                attachmentsButton.setOnThrottledClickListener {
+                    Snackbar.make(requireContext(), view, "Soon", Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
         bottomBarViewModel.hideBottomBar()

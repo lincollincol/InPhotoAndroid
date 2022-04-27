@@ -9,15 +9,14 @@ import kotlin.reflect.KProperty
 
 class FragmentKeyboardProperty : ReadOnlyProperty<Fragment, KeyboardState> {
 
-    internal var keyboardHelper: KeyboardHelper? = null
+    private var keyboardHelper: KeyboardStateHelper? = null
     private val lifecycleObserver = BindingLifecycleObserver()
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): KeyboardState {
         keyboardHelper?.let { return it }
-        val view = thisRef.requireView()
         thisRef.viewLifecycleOwner.lifecycle.addObserver(lifecycleObserver)
-        return KeyboardHelper().also {
-            it.attach(view)
+        return KeyboardStateHelper().also {
+            it.attach(thisRef.requireView())
             keyboardHelper = it
         }
     }

@@ -9,14 +9,19 @@ data class CommentUiState(
     val comment: String,
     val username: String,
     val userAvatarUrl: String?,
-    val onUserClicked: () -> Unit
+    val onUserClicked: () -> Unit,
+    val onCommentClicked: () -> Unit,
 ) : UiState
 
-fun Comment.toUiState(onUserClicked: () -> Unit) = CommentUiState(
+fun Comment.toUiState(
+    onUserClicked: () -> Unit,
+    onCommentClicked: () -> Unit
+) = CommentUiState(
     commentId = id,
     createdTimestamp = createdTimestamp,
     comment = comment,
     username = username,
     userAvatarUrl = userAvatarUrl,
-    onUserClicked = onUserClicked
+    onUserClicked = onUserClicked,
+    onCommentClicked = onCommentClicked
 )

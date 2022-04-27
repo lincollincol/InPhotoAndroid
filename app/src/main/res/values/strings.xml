@@ -95,6 +95,8 @@
     <string name="date_period_short_hour">%1$d hr.</string>
     <string name="date_period_short_minute">%1$d min.</string>
     <string name="date_period_short_second">%1$d sec.</string>
+    <string name="date_period_short_now">just now</string>
+
     <string name="message">Message</string>
 
 </resources>

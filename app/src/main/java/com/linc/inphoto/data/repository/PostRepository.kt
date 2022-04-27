@@ -108,8 +108,22 @@ class PostRepository @Inject constructor(
         postApiService.deletePost(postId)
     }
 
-    suspend fun commentPost(postId: String) = withContext(ioDispatcher) {
-        postApiService.commentPost(postId, authPreferences.userId)
+    suspend fun commentPost(
+        postId: String,
+        comment: String
+    ): Comment? = withContext(ioDispatcher) {
+        return@withContext postApiService.commentPost(
+            postId,
+            authPreferences.userId,
+            comment
+        ).body?.toCommentModel()
+    }
+
+    suspend fun updatePostComment(
+        commentId: String,
+        commentMessage: String
+    ) = withContext(ioDispatcher) {
+        postApiService.updatePostComment(commentId, commentMessage)
     }
 
     suspend fun deletePostComment(commentId: String) = withContext(ioDispatcher) {

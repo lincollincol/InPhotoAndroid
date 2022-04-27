@@ -45,4 +45,4 @@ fun Fragment.permissionDisabled(permission: String) =
 
 fun FragmentManager.findVisibleFragment() = fragments.firstOrNull { it.isVisible }
 
-fun Fragment.systemKeyboard() = FragmentKeyboardProperty()
+fun Fragment.keyboard() = FragmentKeyboardProperty()
