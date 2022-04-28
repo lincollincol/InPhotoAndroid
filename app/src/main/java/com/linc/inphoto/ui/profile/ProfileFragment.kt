@@ -6,6 +6,8 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
@@ -79,14 +81,16 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                     }
                 })
             }
-
             moveUpButton.setOnClickListener {
                 binding.postsRecyclerView.scrollToStart()
                 binding.profileMotionLayout.transitionToStart()
             }
-
             settingsButton.setOnClickListener {
                 viewModel.openSettings()
+            }
+            reenterTransition = TransitionSet().apply {
+                addTransition(Slide(Gravity.TOP).addTarget(backButton))
+                addTransition(Slide(Gravity.TOP).addTarget(settingsButton))
             }
         }
         bottomBarViewModel.showBottomBar()

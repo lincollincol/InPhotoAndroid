@@ -10,9 +10,9 @@ import com.linc.inphoto.ui.postcomments.model.toUiState
 import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.toImmutableDeque
-import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
@@ -32,11 +32,11 @@ class PostCommentsViewModel @Inject constructor(
     private var postId: String? = null
 
     fun updateCommentMessage(message: String?) {
-        _uiState.update { copy(commentMessage = message) }
+        _uiState.update { it.copy(commentMessage = message) }
     }
 
     fun cancelCommentEditor() {
-        _uiState.update { copy(editableCommentId = null, commentMessage = null) }
+        _uiState.update { it.copy(editableCommentId = null, commentMessage = null) }
     }
 
     fun loadPostComments(postId: String?) {
@@ -53,7 +53,7 @@ class PostCommentsViewModel @Inject constructor(
                         )
                     }
                 _uiState.update {
-                    copy(
+                    it.copy(
                         postInfoUiState = post?.toUiState(),
                         comments = comments.toImmutableDeque()
                     )
@@ -78,7 +78,7 @@ class PostCommentsViewModel @Inject constructor(
                     onCommentClicked = { handleCommentMenu(comment.id) }
                 ))
                 _uiState.update {
-                    copy(comments = comments.toImmutableDeque(), commentMessage = null)
+                    it.copy(comments = comments.toImmutableDeque(), commentMessage = null)
                 }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -99,7 +99,7 @@ class PostCommentsViewModel @Inject constructor(
                         commentUiState.copy(comment = state.commentMessage.orEmpty())
                     }
                 _uiState.update {
-                    copy(
+                    it.copy(
                         comments = comments.toImmutableDeque(),
                         editableCommentId = null,
                         commentMessage = null
@@ -130,7 +130,7 @@ class PostCommentsViewModel @Inject constructor(
                 postRepository.deletePostComment(commentId)
                 val comments = _uiState.value.comments.toMutableDeque()
                 comments.removeAll { it.commentId == commentId }
-                _uiState.update { copy(comments = comments.toImmutableDeque()) }
+                _uiState.update { it.copy(comments = comments.toImmutableDeque()) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -140,10 +140,7 @@ class PostCommentsViewModel @Inject constructor(
     private fun editComment(commentId: String) {
         val comment = _uiState.value.comments.find { it.commentId == commentId }
         _uiState.update {
-            copy(
-                editableCommentId = commentId,
-                commentMessage = comment?.comment
-            )
+            it.copy(editableCommentId = commentId, commentMessage = comment?.comment)
         }
     }
 
