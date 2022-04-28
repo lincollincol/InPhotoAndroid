@@ -19,6 +19,7 @@
         <entry key="app/src/main/res/drawable/ic_crop_circle.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/drawable/layout_comment_input.xml" value="0.340625" />
         <entry key="app/src/main/res/drawable/selector_bookmark.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/drawable/selector_icon_enable_color.xml" value="0.340625" />
         <entry key="app/src/main/res/drawable/selector_like.xml" value="0.14479166666666668" />
         <entry key="app/src/main/res/drawable/selector_switch_thumb.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/drawable/selector_switch_track.xml" value="0.10989583333333333" />

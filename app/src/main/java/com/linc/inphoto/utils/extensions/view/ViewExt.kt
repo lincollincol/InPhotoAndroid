@@ -4,14 +4,16 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.RippleDrawable
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.IntDef
 import androidx.core.view.isVisible
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
-import com.linc.inphoto.utils.DoubleClickListener
 import com.linc.inphoto.utils.extensions.safeCast
+import com.linc.inphoto.utils.view.DoubleClickListener
+import com.linc.inphoto.utils.view.StringTargetsTouchListener
 
 @IntDef(ANIM_NONE, ANIM_FADE)
 annotation class ViewAnimation
@@ -65,6 +67,11 @@ fun View.deselect() {
 
 fun View.toggleSelect() {
     isSelected = !isSelected
+}
+
+fun View.performPressed() {
+    isPressed = true
+    isPressed = false
 }
 
 fun View.setMargin(
@@ -145,6 +152,13 @@ fun View.setBackgroundRipple(@ColorInt color: Int) {
         null
     )
 }
+
+fun TextView.setStringTargetsClickListener(
+    targets: List<CharSequence>,
+    onTargetClicked: (CharSequence) -> Unit,
+    onTextClicked: () -> Unit
+) = setOnTouchListener(StringTargetsTouchListener(text, targets, onTargetClicked, onTextClicked))
+
 
 fun ViewGroup.animateTargets(transition: Transition, vararg targets: View) {
     TransitionManager.beginDelayedTransition(

@@ -1,4 +1,4 @@
-package com.linc.inphoto.utils
+package com.linc.inphoto.utils.view
 
 import android.view.View
 import java.lang.ref.WeakReference
