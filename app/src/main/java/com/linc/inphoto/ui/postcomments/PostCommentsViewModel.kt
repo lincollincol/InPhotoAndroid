@@ -45,6 +45,7 @@ class PostCommentsViewModel @Inject constructor(
                 this@PostCommentsViewModel.postId = postId ?: return@launch
                 val post = postRepository.getExtendedPost(postId)
                 val comments = postRepository.getPostComments(postId)
+                    .sortedByDescending { it.createdTimestamp }
                     .map { comment ->
                         comment.toUiState(
                             onUserClicked = { openProfile(comment.userId) },
@@ -98,7 +99,11 @@ class PostCommentsViewModel @Inject constructor(
                         commentUiState.copy(comment = state.commentMessage.orEmpty())
                     }
                 _uiState.update {
-                    copy(comments = comments.toImmutableDeque(), commentMessage = null)
+                    copy(
+                        comments = comments.toImmutableDeque(),
+                        editableCommentId = null,
+                        commentMessage = null
+                    )
                 }
             } catch (e: Exception) {
                 Timber.e(e)

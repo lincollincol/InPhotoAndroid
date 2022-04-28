@@ -10,7 +10,7 @@ import com.linc.inphoto.utils.extensions.pattern.FORMAT_USER_COMMENT
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.performPressed
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
-import com.linc.inphoto.utils.extensions.view.setStringTargetsClickListener
+import com.linc.inphoto.utils.extensions.view.setWordsClickListener
 import com.xwray.groupie.viewbinding.BindableItem
 import java.util.*
 
@@ -33,8 +33,8 @@ class PostCommentItem(
                     commentUiState.username,
                     commentUiState.comment
                 ).addBoldSpan(commentUiState.username)
-                setStringTargetsClickListener(
-                    targets = listOf(commentUiState.username),
+                setWordsClickListener(
+                    words = listOf(commentUiState.username),
                     onTargetClicked = {
                         commentUiState.onUserClicked()
                     },
@@ -44,18 +44,12 @@ class PostCommentItem(
                     }
                 )
             }
+            root.setOnThrottledClickListener { commentUiState.onCommentClicked() }
             dateTextView.text = DateFormatter.getRelativeTimeSpanString2(
                 root.context,
                 commentUiState.createdTimestamp,
                 Locale.US
             )
-            root.apply {
-                setOnThrottledClickListener { commentUiState.onCommentClicked() }
-                setOnLongClickListener {
-                    commentUiState.onCommentClicked()
-                    return@setOnLongClickListener false
-                }
-            }
         }
     }
 

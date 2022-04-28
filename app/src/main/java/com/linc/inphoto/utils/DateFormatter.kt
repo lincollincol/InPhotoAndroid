@@ -3,7 +3,8 @@ package com.linc.inphoto.utils
 import android.content.Context
 import com.linc.inphoto.R
 import com.linc.inphoto.utils.extensions.pattern.DATE_PATTERN_DMY_DOT
-import com.linc.inphoto.utils.extensions.pattern.DATE_PATTERN_DM_DOT
+import com.linc.inphoto.utils.extensions.pattern.DATE_PATTERN_SHORT_MD
+import com.linc.inphoto.utils.extensions.pattern.DATE_TIME_PATTERN_SEMICOLON
 import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
 import com.linc.inphoto.utils.extensions.weeks
 import kotlinx.datetime.Clock
@@ -49,7 +50,8 @@ object DateFormatter {
 
         val pattern = when {
             period.years > 0 -> DATE_PATTERN_DMY_DOT
-            period.months > 0 -> DATE_PATTERN_DM_DOT
+            period.weeks > 0 -> DATE_PATTERN_SHORT_MD
+            period.days > 0 -> DATE_TIME_PATTERN_SEMICOLON
             else -> TIME_PATTERN_SEMICOLON
         }
 

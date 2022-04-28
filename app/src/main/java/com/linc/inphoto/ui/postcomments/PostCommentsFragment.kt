@@ -6,6 +6,7 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.linc.inphoto.R
@@ -14,9 +15,9 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.ui.postcomments.item.CommentsPostInfoItem
 import com.linc.inphoto.ui.postcomments.item.PostCommentItem
+import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.keyboard
 import com.linc.inphoto.utils.extensions.updateSingle
 import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.Section
@@ -39,15 +40,22 @@ class PostCommentsFragment : BaseFragment(R.layout.fragment_post_comments) {
     override val viewModel: PostCommentsViewModel by viewModels()
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentPostCommentsBinding::bind)
-    private val keyboardState by keyboard()
     private val postInfoSection by lazy { Section() }
     private val commentsSection by lazy { Section() }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             inputLayout.apply {
-                // TODO: 27.04.22 check cancel message state
                 inputEditText.update(state.commentMessage)
+                animateTargets(
+                    Fade(),
+                    inputLayout.root,
+                    sendButton,
+                    doneButton,
+                    attachmentsButton,
+                    cancelButton,
+                    inputEditText
+                )
                 sendButton.enable(state.isCommentValid)
                 doneButton.enable(state.isCommentValid)
                 sendButton.show(!state.isEditorState)

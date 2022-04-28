@@ -13,7 +13,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.view.DoubleClickListener
-import com.linc.inphoto.utils.view.StringTargetsTouchListener
+import com.linc.inphoto.utils.view.WordsTouchListener
 
 @IntDef(ANIM_NONE, ANIM_FADE)
 annotation class ViewAnimation
@@ -153,12 +153,11 @@ fun View.setBackgroundRipple(@ColorInt color: Int) {
     )
 }
 
-fun TextView.setStringTargetsClickListener(
-    targets: List<CharSequence>,
+fun TextView.setWordsClickListener(
+    words: List<CharSequence>,
     onTargetClicked: (CharSequence) -> Unit,
     onTextClicked: () -> Unit
-) = setOnTouchListener(StringTargetsTouchListener(text, targets, onTargetClicked, onTextClicked))
-
+) = setOnTouchListener(WordsTouchListener(text, words, onTargetClicked, onTextClicked))
 
 fun ViewGroup.animateTargets(transition: Transition, vararg targets: View) {
     TransitionManager.beginDelayedTransition(

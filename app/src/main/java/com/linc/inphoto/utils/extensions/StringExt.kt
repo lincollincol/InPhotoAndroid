@@ -16,7 +16,7 @@ fun CharSequence.isOneOf(vararg targets: CharSequence) = targets.any { this == i
 
 fun CharSequence.containsOneOf(vararg targets: CharSequence) = targets.any { contains(it) }
 
-fun Char.isOneOf(vararg symbols: Char) = symbols.any { this == it }
+fun Char?.isOneOf(vararg symbols: Char) = symbols.any { this == it }
 
 fun StringBuilder.update(text: String) = replace(0, length, text)
 
@@ -53,4 +53,12 @@ fun CharSequence.addModifiedSpan(
 fun CharSequence.toSpannable() = when (this) {
     is Spannable -> this
     else -> SpannableString(this)
+}
+
+fun CharSequence.extractWord(index: Int, vararg delimiters: Char): String {
+    var startIndex = index
+    var endIndex = index
+    while (!getOrNull(startIndex).isOneOf(*delimiters) && startIndex > 0) startIndex--
+    while (!getOrNull(endIndex).isOneOf(*delimiters) && endIndex < length) endIndex++
+    return substring(startIndex, endIndex).trim()
 }
