@@ -54,7 +54,7 @@ class PostCommentsViewModel @Inject constructor(
                     }
                 _uiState.update {
                     it.copy(
-                        postInfoUiState = post?.toUiState(),
+                        postInfoUiState = post?.toUiState { openProfile(post.authorUserId) },
                         comments = comments.toImmutableDeque()
                     )
                 }

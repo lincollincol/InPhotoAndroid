@@ -8,13 +8,15 @@ data class PostInfoUiState(
     val description: String,
     val username: String,
     val userAvatarUrl: String?,
-    val tags: List<String>
+    val tags: List<String>,
+    val onUserClicked: () -> Unit
 ) : UiState
 
-fun ExtendedPost.toUiState() = PostInfoUiState(
+fun ExtendedPost.toUiState(onUserClicked: () -> Unit) = PostInfoUiState(
     createdTimestamp = createdTimestamp,
     description = description,
     username = username,
     userAvatarUrl = userAvatarUrl,
-    tags = tags
+    tags = tags,
+    onUserClicked = onUserClicked
 )

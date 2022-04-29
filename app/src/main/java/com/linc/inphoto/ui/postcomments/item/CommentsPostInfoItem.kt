@@ -6,6 +6,7 @@ import com.linc.inphoto.databinding.ItemCommentsPostInfoBinding
 import com.linc.inphoto.ui.postcomments.model.PostInfoUiState
 import com.linc.inphoto.utils.extensions.view.addChips
 import com.linc.inphoto.utils.extensions.view.loadImage
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.xwray.groupie.viewbinding.BindableItem
 
 class CommentsPostInfoItem(
@@ -14,8 +15,14 @@ class CommentsPostInfoItem(
 
     override fun bind(viewBinding: ItemCommentsPostInfoBinding, position: Int) {
         with(viewBinding) {
-            userAvatarImageView.loadImage(postInfoUiState.userAvatarUrl)
-            usernameTextView.text = postInfoUiState.username
+            userAvatarImageView.apply {
+                loadImage(postInfoUiState.userAvatarUrl)
+                setOnThrottledClickListener { postInfoUiState.onUserClicked() }
+            }
+            usernameTextView.apply {
+                text = postInfoUiState.username
+                setOnThrottledClickListener { postInfoUiState.onUserClicked() }
+            }
             descriptionTextView.text = postInfoUiState.description
             tagsChipGroup.addChips(postInfoUiState.tags, R.layout.item_tag_chip)
         }

@@ -154,10 +154,19 @@ fun View.setBackgroundRipple(@ColorInt color: Int) {
 }
 
 fun TextView.setWordsClickListener(
+    throttleDelay: Long = 500L,
     words: List<CharSequence>,
     onTargetClicked: (CharSequence) -> Unit,
     onTextClicked: () -> Unit
-) = setOnTouchListener(WordsTouchListener(text, words, onTargetClicked, onTextClicked))
+) = setOnTouchListener(
+    WordsTouchListener(
+        throttleDelay,
+        text,
+        words,
+        onTargetClicked,
+        onTextClicked
+    )
+)
 
 fun ViewGroup.animateTargets(transition: Transition, vararg targets: View) {
     TransitionManager.beginDelayedTransition(
