@@ -15,14 +15,11 @@ fun Editable?.update(data: CharSequence?) {
 }
 
 fun EditText.update(data: CharSequence?) {
-    if (data.isNullOrEmpty()) return editableText.clear()
-    when {
-        editableText.isNullOrEmpty() -> {
-            setText(data)
-            cursorToEnd()
-        }
-        else -> editableText.replace(0, editableText.length, data)
-    }
+//    text.span
+//    if(data == null && text.isNullOrEmpty()) return
+    if (text.contentEquals(data)) return
+    setText(data)
+    cursorToEnd()
 }
 
 fun EditText.cursorToEnd() = setSelection(length())

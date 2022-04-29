@@ -20,10 +20,6 @@ abstract class BaseViewModel<StateEntity>(
     protected abstract val _uiState: MutableStateFlow<StateEntity>
     val uiState: StateFlow<StateEntity> get() = _uiState.asStateFlow()
 
-//    protected fun updateUiState(state: StateEntity) {
-//
-//    }
-
     protected fun showInfo(@StringRes title: Int, @StringRes description: Int) {
         router.navigateTo(NavScreen.InfoMessageScreen(title, description))
     }

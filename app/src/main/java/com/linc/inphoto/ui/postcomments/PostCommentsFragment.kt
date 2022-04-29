@@ -46,7 +46,6 @@ class PostCommentsFragment : BaseFragment(R.layout.fragment_post_comments) {
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             inputLayout.apply {
-                inputEditText.update(state.commentMessage)
                 animateTargets(
                     Fade(),
                     inputLayout.root,
@@ -62,6 +61,7 @@ class PostCommentsFragment : BaseFragment(R.layout.fragment_post_comments) {
                 doneButton.show(state.isEditorState)
                 attachmentsButton.show(!state.isEditorState)
                 cancelButton.show(state.isEditorState)
+                inputEditText.update(state.commentMessage)
             }
             state.postInfoUiState
                 ?.let(::CommentsPostInfoItem)
@@ -93,7 +93,6 @@ class PostCommentsFragment : BaseFragment(R.layout.fragment_post_comments) {
                 }
                 doneButton.setOnThrottledClickListener {
                     viewModel.updateComment()
-                    commentsRecyclerView.smoothScrollToEnd()
                 }
                 inputEditText.doOnTextChanged { text, _, _, _ ->
                     viewModel.updateCommentMessage(text.toString())

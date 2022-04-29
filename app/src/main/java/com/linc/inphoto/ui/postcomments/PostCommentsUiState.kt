@@ -9,7 +9,7 @@ data class PostCommentsUiState(
     val postInfoUiState: PostInfoUiState? = null,
     val comments: ImmutableDeque<CommentUiState> = ImmutableDeque(ArrayDeque()),
     val commentMessage: String? = null,
-    val editableCommentId: String? = null
+    val editableCommentId: String? = null,
 ) : UiState
 
 val PostCommentsUiState.isCommentValid get() = !commentMessage.isNullOrEmpty()

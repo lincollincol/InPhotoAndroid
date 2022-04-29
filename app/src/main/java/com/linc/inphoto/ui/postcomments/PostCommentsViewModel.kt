@@ -70,7 +70,7 @@ class PostCommentsViewModel @Inject constructor(
                 val state = _uiState.value
                 val comment = postRepository.commentPost(
                     postId.toString(),
-                    state.commentMessage.orEmpty()
+                    state.commentMessage.toString()
                 ) ?: return@launch
                 val comments = _uiState.value.comments.toMutableDeque()
                 comments.addFirst(comment.toUiState(
@@ -78,7 +78,10 @@ class PostCommentsViewModel @Inject constructor(
                     onCommentClicked = { handleCommentMenu(comment.id) }
                 ))
                 _uiState.update {
-                    it.copy(comments = comments.toImmutableDeque(), commentMessage = null)
+                    it.copy(
+                        comments = comments.toImmutableDeque(),
+                        commentMessage = null
+                    )
                 }
             } catch (e: Exception) {
                 Timber.e(e)
