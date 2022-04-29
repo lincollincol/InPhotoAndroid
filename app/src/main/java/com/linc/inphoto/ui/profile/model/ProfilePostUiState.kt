@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.profile
+package com.linc.inphoto.ui.profile.model
 
 import com.linc.inphoto.entity.post.Post
 

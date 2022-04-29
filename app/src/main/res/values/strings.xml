@@ -98,5 +98,6 @@
     <string name="date_period_short_now">just now</string>
 
     <string name="message">Message</string>
+    <string name="search">Search</string>
 
 </resources>

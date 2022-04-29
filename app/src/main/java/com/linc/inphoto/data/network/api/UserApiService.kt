@@ -51,4 +51,10 @@ interface UserApiService {
         @Body gender: String
     ): BaseResponse<*>
 
+    @GET("/users")
+    suspend fun getUsers(): BaseResponse<List<UserApiModel>>
+
+    @GET("/users/{userId}")
+    suspend fun getUserById(@Path("userId") id: String): BaseResponse<UserApiModel>
+
 }

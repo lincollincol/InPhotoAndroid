@@ -7,6 +7,7 @@ import com.linc.inphoto.data.database.entity.UserEntity
 import com.linc.inphoto.data.mapper.toUserEntity
 import com.linc.inphoto.data.mapper.toUserModel
 import com.linc.inphoto.data.network.api.UserApiService
+import com.linc.inphoto.data.network.model.user.UserApiModel
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.entity.user.User
@@ -26,11 +27,23 @@ class UserRepository @Inject constructor(
 ) {
 
     suspend fun getLoggedInUser(): User? = withContext(ioDispatcher) {
-        return@withContext getUserById(authPreferences.userId)
+        return@withContext userDao.getUserById(authPreferences.userId)?.toUserModel()
     }
 
     suspend fun getUserById(userId: String?): User? = withContext(ioDispatcher) {
-        return@withContext userDao.getUserById(userId.orEmpty())?.toUserModel()
+        userId ?: return@withContext null
+        return@withContext userApiService.getUserById(userId)
+            .body
+            ?.toUserEntity()
+            ?.toUserModel()
+    }
+
+    suspend fun loadAllUsers(): List<User> = withContext(ioDispatcher) {
+        return@withContext userApiService.getUsers()
+            .body
+            ?.map(UserApiModel::toUserEntity)
+            ?.map(UserEntity::toUserModel)
+            .orEmpty()
     }
 
     suspend fun updateUserAvatar(uri: Uri) = withContext(ioDispatcher) {

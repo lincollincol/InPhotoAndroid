@@ -16,6 +16,7 @@ import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
 import com.linc.inphoto.utils.extensions.createAdapter
+import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.getDimension
 import com.linc.inphoto.utils.extensions.view.*
 import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
@@ -94,7 +95,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             }
         }
         bottomBarViewModel.showBottomBar()
-        viewModel.loadProfileData()
+        viewModel.loadProfileData(getArgument(USER_ID_ARG))
     }
 
 }

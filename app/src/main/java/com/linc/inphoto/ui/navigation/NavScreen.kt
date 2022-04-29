@@ -33,6 +33,7 @@ import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.ProfileFragment
 import com.linc.inphoto.ui.profilesettings.ProfileSettingsFragment
+import com.linc.inphoto.ui.search.SearchFragment
 import com.linc.inphoto.ui.settings.SettingsFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 import com.linc.inphoto.ui.tab.TabFragment
@@ -140,6 +141,10 @@ object NavScreen {
 
     fun PostCommentsScreen(postId: String) = FragmentScreen {
         PostCommentsFragment.newInstance(postId)
+    }
+
+    fun SearchScreen() = FragmentScreen {
+        SearchFragment.newInstance()
     }
 
     /**
