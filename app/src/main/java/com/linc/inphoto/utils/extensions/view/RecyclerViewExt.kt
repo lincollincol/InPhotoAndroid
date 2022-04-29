@@ -8,50 +8,55 @@ import com.linc.inphoto.utils.recyclerview.manager.SquareGridLayoutManager
 
 fun RecyclerView.enableItemChangeAnimation(enable: Boolean) {
     (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = enable
-
 }
 
-fun RecyclerView.scrollToStart() {
-    scrollToPosition(0)
-}
+fun RecyclerView.scrollToStart() = scrollToPosition(0)
 
-fun RecyclerView.smoothScrollToStart() {
-    smoothScrollToPosition(0)
-}
+fun RecyclerView.scrollToEnd() = scrollToPosition(adapter?.itemCount ?: 0)
 
-fun RecyclerView.horizontalLinearLayoutManager() =
-    linearLayoutManager(LinearLayoutManager.HORIZONTAL)
+fun RecyclerView.smoothScrollToEnd() = smoothScrollToPosition((adapter?.itemCount ?: 0) - 1)
 
-fun RecyclerView.verticalLinearLayoutManager() =
-    linearLayoutManager(LinearLayoutManager.VERTICAL)
+fun RecyclerView.smoothScrollToStart() = smoothScrollToPosition(0)
 
-fun RecyclerView.horizontalGridLayoutManager(spanCount: Int) =
-    gridLayoutManager(spanCount, GridLayoutManager.HORIZONTAL)
+fun RecyclerView.horizontalLinearLayoutManager(reverseLayout: Boolean = false) =
+    linearLayoutManager(LinearLayoutManager.HORIZONTAL, reverseLayout)
+
+fun RecyclerView.verticalLinearLayoutManager(reverseLayout: Boolean = false) =
+    linearLayoutManager(LinearLayoutManager.VERTICAL, reverseLayout)
+
+fun RecyclerView.horizontalGridLayoutManager(
+    spanCount: Int,
+    reverseLayout: Boolean = false
+) = gridLayoutManager(spanCount, GridLayoutManager.HORIZONTAL, reverseLayout)
 
 fun RecyclerView.verticalGridLayoutManager(
-    spanCount: Int
-) = gridLayoutManager(spanCount, GridLayoutManager.VERTICAL)
+    spanCount: Int,
+    reverseLayout: Boolean = false
+) = gridLayoutManager(spanCount, GridLayoutManager.VERTICAL, reverseLayout)
 
-fun RecyclerView.horizontalSquareGridLayoutManager(spanCount: Int) =
-    squareGridLayoutManager(spanCount, GridLayoutManager.HORIZONTAL)
+fun RecyclerView.horizontalSquareGridLayoutManager(
+    spanCount: Int,
+    reverseLayout: Boolean = false
+) = squareGridLayoutManager(spanCount, GridLayoutManager.HORIZONTAL, reverseLayout)
 
-fun RecyclerView.verticalSquareGridLayoutManager(spanCount: Int) =
-    squareGridLayoutManager(spanCount, GridLayoutManager.VERTICAL)
+fun RecyclerView.verticalSquareGridLayoutManager(
+    spanCount: Int,
+    reverseLayout: Boolean = false
+) = squareGridLayoutManager(spanCount, GridLayoutManager.VERTICAL, reverseLayout)
 
 private fun RecyclerView.linearLayoutManager(
-    orientation: Int
-) = LinearLayoutManager(
-    context, orientation, false
-)
+    orientation: Int,
+    reverseLayout: Boolean
+) = LinearLayoutManager(context, orientation, reverseLayout)
 
 private fun RecyclerView.gridLayoutManager(
     spanCount: Int,
-    orientation: Int
-) = GridLayoutManager(
-    context, spanCount, orientation, false
-)
+    orientation: Int,
+    reverseLayout: Boolean
+) = GridLayoutManager(context, spanCount, orientation, reverseLayout)
 
 private fun RecyclerView.squareGridLayoutManager(
     spanCount: Int,
-    orientation: Int
-) = SquareGridLayoutManager(context, spanCount, orientation, false)
+    orientation: Int,
+    reverseLayout: Boolean
+) = SquareGridLayoutManager(context, spanCount, orientation, reverseLayout)

@@ -1,4 +1,4 @@
-package com.rhythmoya.data.network.helper
+package com.linc.inphoto.data.network.utils
 
 object HttpHelper {
 

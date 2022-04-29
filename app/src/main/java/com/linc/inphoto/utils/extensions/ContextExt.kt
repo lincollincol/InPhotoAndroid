@@ -125,16 +125,8 @@ fun Context.createTempFile(extension: String? = null): File {
 }
 
 fun Context.createTempFile(uri: Uri): File? {
-    val data: ByteArray?
-    val extension: String?
-    if (uri.isUrl()) {
-        data = uri.getUrlBytes()
-        extension = uri.getUrlExtension()
-    } else {
-        data = uri.getFileBytes(this)
-        extension = uri.getFileExtension(this)
-    }
-    data ?: return null
+    val data = uri.getFileBytes(this) ?: return null
+    val extension = uri.getFileExtension(this)
     return createTempFile(extension).also { file -> file.writeBytes(data) }
 }
 

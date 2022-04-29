@@ -1,11 +1,12 @@
 package com.linc.inphoto.data.network.api
 
 import com.linc.inphoto.data.network.model.BaseResponse
+import com.linc.inphoto.data.network.model.post.CommentApiModel
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
 import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
 import com.linc.inphoto.data.network.model.user.UserApiModel
-import com.rhythmoya.data.network.helper.HttpHelper
+import com.linc.inphoto.data.network.utils.HttpHelper
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
@@ -64,5 +65,28 @@ interface PostApiService {
 
     @DELETE("/posts/{postId}")
     suspend fun deletePost(@Path("postId") postId: String): BaseResponse<*>
+
+    @GET("/posts/{postId}/comments")
+    suspend fun getPostComments(
+        @Path("postId") postId: String
+    ): BaseResponse<List<CommentApiModel>>
+
+    @POST("/posts/{postId}/comments/{userId}")
+    suspend fun commentPost(
+        @Path("postId") postId: String,
+        @Path("userId") userId: String,
+        @Body comment: String
+    ): BaseResponse<CommentApiModel>
+
+    @PUT("/posts/comments/{commentId}")
+    suspend fun updatePostComment(
+        @Path("commentId") commentId: String,
+        @Body comment: String
+    ): BaseResponse<*>
+
+    @DELETE("/posts/comments/{commentId}")
+    suspend fun deletePostComment(
+        @Path("commentId") commentId: String,
+    ): BaseResponse<*>
 
 }

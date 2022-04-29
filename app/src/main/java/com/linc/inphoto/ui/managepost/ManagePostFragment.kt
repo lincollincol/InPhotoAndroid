@@ -16,6 +16,7 @@ import com.linc.inphoto.utils.extensions.hideKeyboard
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.scrollToBottom
 import com.linc.inphoto.utils.extensions.view.show
+import com.linc.inphoto.utils.extensions.view.update
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -38,11 +39,11 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
         viewModel.uiState.collect { state ->
             postImageView.loadImage(state.imageUri, reloadImage = false)
             tagsEditText.setTags(state.tags)
-            descriptionEditText.setText(state.description)
+            descriptionEditText.update(state.description)
             loadingView.show(state.isLoading)
             autoAnimateTargets(root, descriptionErrorTextView, tagsErrorTextView)
-            descriptionErrorTextView.show(!state.isValidDescription && state.isErrorsEnabled)
-            tagsErrorTextView.show(!state.isValidTags && state.isErrorsEnabled)
+            descriptionErrorTextView.show(!state.isDescriptionValid && state.isErrorsEnabled)
+            tagsErrorTextView.show(!state.isTagsValid && state.isErrorsEnabled)
         }
     }
 

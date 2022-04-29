@@ -2,22 +2,23 @@ package com.linc.inphoto.data.repository
 
 import android.net.Uri
 import com.linc.inphoto.data.android.MediaLocalDataSource
+import com.linc.inphoto.data.mapper.toCommentModel
 import com.linc.inphoto.data.mapper.toExtendedPostModel
 import com.linc.inphoto.data.mapper.toPostModel
 import com.linc.inphoto.data.network.api.PostApiService
+import com.linc.inphoto.data.network.model.post.CommentApiModel
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
 import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
 import com.linc.inphoto.data.preferences.AuthPreferences
+import com.linc.inphoto.entity.post.Comment
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.entity.post.Post
-import com.rhythmoya.data.network.helper.HttpHelper
+import com.linc.inphoto.utils.extensions.toMultipartBody
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
@@ -33,13 +34,9 @@ class PostRepository @Inject constructor(
         tags: List<String>
     ) = withContext(ioDispatcher) {
         val image = mediaLocalDataSource.createTempFile(uri) ?: return@withContext null
-        val requestBody =
-            image.asRequestBody(HttpHelper.MediaType.MULTIPART_FORM_DATA.toMediaType())
-        val body = MultipartBody.Part.createFormData(image.name, image.name, requestBody)
-        val descriptionPart =
-            MultipartBody.Part.createFormData("description", description.orEmpty())
-        val response = postApiService.savePost(
-            body,
+        val descriptionPart = MultipartBody.Part.createFormData("description", description)
+        postApiService.savePost(
+            image.toMultipartBody(),
             descriptionPart,
             tags.map { MultipartBody.Part.createFormData("tag", it) },
             authPreferences.userId
@@ -68,7 +65,8 @@ class PostRepository @Inject constructor(
     suspend fun getUserExtendedPosts(userId: String): List<ExtendedPost> =
         withContext(ioDispatcher) {
             val response = postApiService.getExtendedUserPosts(userId)
-            return@withContext response.body?.map(ExtendedPostApiModel::toExtendedPostModel)
+            return@withContext response.body
+                ?.map(ExtendedPostApiModel::toExtendedPostModel)
                 .orEmpty()
         }
 
@@ -81,7 +79,7 @@ class PostRepository @Inject constructor(
         val response = postApiService.getExtendedPosts(authPreferences.userId)
         return@withContext response.body
             ?.map(ExtendedPostApiModel::toExtendedPostModel)
-            ?: emptyList()
+            .orEmpty()
     }
 
     suspend fun likePost(
@@ -108,6 +106,35 @@ class PostRepository @Inject constructor(
 
     suspend fun deletePost(postId: String) = withContext(ioDispatcher) {
         postApiService.deletePost(postId)
+    }
+
+    suspend fun commentPost(
+        postId: String,
+        comment: String
+    ): Comment? = withContext(ioDispatcher) {
+        return@withContext postApiService.commentPost(
+            postId,
+            authPreferences.userId,
+            comment
+        ).body?.toCommentModel()
+    }
+
+
+    suspend fun updatePostComment(
+        commentId: String,
+        commentMessage: String
+    ) = withContext(ioDispatcher) {
+        postApiService.updatePostComment(commentId, commentMessage)
+    }
+
+    suspend fun deletePostComment(commentId: String) = withContext(ioDispatcher) {
+        postApiService.deletePostComment(commentId)
+    }
+
+    suspend fun getPostComments(postId: String): List<Comment> = withContext(ioDispatcher) {
+        return@withContext postApiService.getPostComments(postId).body
+            ?.map(CommentApiModel::toCommentModel)
+            .orEmpty()
     }
 
 }

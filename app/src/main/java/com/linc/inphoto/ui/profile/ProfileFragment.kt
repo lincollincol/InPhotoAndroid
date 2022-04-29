@@ -3,8 +3,11 @@ package com.linc.inphoto.ui.profile
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
@@ -26,9 +29,12 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     companion object {
         private const val ROW_IMAGES_COUNT = 3
+        private const val USER_ID_ARG = "user_id"
 
         @JvmStatic
-        fun newInstance() = ProfileFragment()
+        fun newInstance(userId: String?) = ProfileFragment().apply {
+            arguments = bundleOf(USER_ID_ARG to userId)
+        }
     }
 
     override val viewModel: ProfileViewModel by viewModels()
@@ -75,14 +81,16 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                     }
                 })
             }
-
             moveUpButton.setOnClickListener {
                 binding.postsRecyclerView.scrollToStart()
                 binding.profileMotionLayout.transitionToStart()
             }
-
             settingsButton.setOnClickListener {
                 viewModel.openSettings()
+            }
+            reenterTransition = TransitionSet().apply {
+                addTransition(Slide(Gravity.TOP).addTarget(backButton))
+                addTransition(Slide(Gravity.TOP).addTarget(settingsButton))
             }
         }
         bottomBarViewModel.showBottomBar()

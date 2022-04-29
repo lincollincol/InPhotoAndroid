@@ -3,7 +3,6 @@ package com.linc.inphoto.data.network.utils
 import com.linc.inphoto.data.network.api.AuthApiService
 import com.linc.inphoto.data.network.model.auth.RefreshApiModel
 import com.linc.inphoto.data.preferences.AuthPreferences
-import com.rhythmoya.data.network.helper.HttpHelper
 import dagger.Lazy
 import okhttp3.Authenticator
 import okhttp3.Request

@@ -134,7 +134,7 @@ class PostOverviewViewModel @Inject constructor(
     }
 
     private fun commentPost(selectedPost: ExtendedPost) {
-
+        router.navigateTo(NavScreen.PostCommentsScreen(selectedPost.id))
     }
 
     private fun handlePostMenu(selectedPost: ExtendedPost) {

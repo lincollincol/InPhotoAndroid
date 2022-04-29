@@ -12,17 +12,16 @@ import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.hideKeyboard
+import com.linc.inphoto.utils.extensions.keyboard
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setError
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.update
-import com.linc.inphoto.utils.keyboard.KeyboardStateListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings),
-    KeyboardStateListener {
+class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings) {
 
     companion object {
         @JvmStatic
@@ -32,6 +31,7 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
     override val viewModel: ProfileSettingsViewModel by viewModels()
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentProfileSettingsBinding::bind)
+    private val keyboardState by keyboard()
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
@@ -98,11 +98,10 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
                 }
                 viewModel.updateGender(gender)
             }
+            keyboardState.observeState {
+                bottomBarViewModel.showBottomBar(!it)
+            }
         }
         bottomBarViewModel.showBottomBar()
-    }
-
-    override fun onKeyboardStateChanged(visible: Boolean) {
-        bottomBarViewModel.showBottomBar(!visible)
     }
 }

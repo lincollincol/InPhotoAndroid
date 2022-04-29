@@ -71,10 +71,10 @@ class ProfileSettingsViewModel @Inject constructor(
                     return@launch showDataRequired()
 
                 if (state.avatarUri != user?.avatarUrl?.toUri()) {
-                    userRepository.updateUserAvatar(state.avatarUri)
+                    state.avatarUri?.let { userRepository.updateUserAvatar(it) }
                 }
                 if (state.headerUri != user?.headerUrl?.toUri()) {
-                    userRepository.updateUserHeader(state.headerUri)
+                    state.headerUri?.let { userRepository.updateUserHeader(it) }
                 }
                 if (state.username.toString() != user?.name) {
                     userRepository.updateUserName(state.username.toString())
