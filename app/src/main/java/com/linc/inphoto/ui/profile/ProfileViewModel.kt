@@ -9,6 +9,7 @@ import com.linc.inphoto.entity.user.User
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
+import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
@@ -44,6 +45,9 @@ class ProfileViewModel @Inject constructor(
                 userId.isNullOrEmpty() -> loadCurrentProfile()
                 else -> loadUserProfile(userId)
             }
+            _uiState.update {
+                it.copy(isProfileTab = containerId.equals(MenuTab.PROFILE.name, true))
+            }
         } catch (e: Exception) {
             Timber.e(e)
         }
@@ -76,7 +80,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun selectPost(post: Post) {
-        val username = uiState.value.user?.name.orEmpty()
+        val username = uiState.value.username.orEmpty()
         val overviewType = OverviewType.Profile(post.id, post.authorUserId, username)
         router.navigateTo(NavScreen.PostOverviewScreen(overviewType))
     }
@@ -86,7 +90,7 @@ class ProfileViewModel @Inject constructor(
         val userPosts = postRepository.getCurrentUserPosts()
             .sortedBy { it.createdTimestamp }
             .map { it.toUiState { selectPost(it) } }
-        setupUserData(user, userPosts)
+        updateUserState(user, userPosts)
     }
 
     private suspend fun loadUserProfile(userId: String) {
@@ -94,12 +98,25 @@ class ProfileViewModel @Inject constructor(
         val userPosts = postRepository.getUserPosts(userId)
             .sortedBy { it.createdTimestamp }
             .map { it.toUiState { selectPost(it) } }
-        setupUserData(user, userPosts)
+        updateUserState(user, userPosts)
     }
 
-    private fun setupUserData(user: User?, posts: List<ProfilePostUiState>) {
+    private fun updateUserState(user: User?, posts: List<ProfilePostUiState>) {
         _uiState.update {
-            it.copy(user = user, posts = posts, newPostUiState = NewPostUiState(::createPost))
+            it.copy(
+                username = user?.name,
+                status = user?.status,
+                avatarUrl = user?.avatarUrl,
+                headerUrl = user?.headerUrl,
+                followersCount = 0,
+                followingCount = 0,
+                isLoggedInUser = user?.isLoggedInUser ?: false,
+                posts = posts,
+                newPostUiState = when (user?.isLoggedInUser) {
+                    true -> NewPostUiState(::createPost)
+                    else -> null
+                }
+            )
         }
     }
 }

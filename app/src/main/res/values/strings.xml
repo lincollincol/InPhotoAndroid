@@ -25,6 +25,8 @@
 
     <string name="permissions">Permissions</string>
 
+    <string name="profile_followers_count">%1$d followers</string>
+    <string name="profile_following_count">%1$d following</string>
     <string name="profile_permissions_message">You must allow at least one permission to update profile avatar</string>
 
     <string name="mock_status">Turkish actor. Was born on April 10, 1988, in Bursa, Turkey. Studied International Relations at Koc University, Istanbul. Had a great interest in acting</string>
@@ -90,7 +92,6 @@
         <item quantity="one">%1$d week</item>
         <item quantity="other">%1$d weeks</item>
     </plurals>
-    <!--    <string name="date_period_short_week">%1$d week</string>-->
     <string name="date_period_short_day">%1$d d.</string>
     <string name="date_period_short_hour">%1$d hr.</string>
     <string name="date_period_short_minute">%1$d min.</string>

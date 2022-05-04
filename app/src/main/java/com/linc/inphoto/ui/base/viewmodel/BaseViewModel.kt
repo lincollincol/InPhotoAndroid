@@ -13,7 +13,7 @@ abstract class BaseViewModel<StateEntity>(
     private val navContainerHolder: NavContainerHolder
 ) : ViewModel() {
 
-    private var containerId: String? = null
+    protected var containerId: String? = null
     protected val globalRouter: AppRouter get() = navContainerHolder.getGlobalRouter()
     protected val router: AppRouter get() = navContainerHolder.getRouter(containerId.orEmpty())
 

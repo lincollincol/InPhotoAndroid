@@ -27,7 +27,8 @@ class UserRepository @Inject constructor(
 ) {
 
     suspend fun getLoggedInUser(): User? = withContext(ioDispatcher) {
-        return@withContext userDao.getUserById(authPreferences.userId)?.toUserModel()
+        return@withContext userDao.getUserById(authPreferences.userId)
+            ?.toUserModel(isLoggedInUser = true)
     }
 
     suspend fun getUserById(userId: String?): User? = withContext(ioDispatcher) {
@@ -35,14 +36,14 @@ class UserRepository @Inject constructor(
         return@withContext userApiService.getUserById(userId)
             .body
             ?.toUserEntity()
-            ?.toUserModel()
+            ?.toUserModel(authPreferences.userId == userId)
     }
 
     suspend fun loadAllUsers(): List<User> = withContext(ioDispatcher) {
         return@withContext userApiService.getUsers()
             .body
             ?.map(UserApiModel::toUserEntity)
-            ?.map(UserEntity::toUserModel)
+            ?.map { it.toUserModel(authPreferences.userId == it.id) }
             .orEmpty()
     }
 
@@ -64,7 +65,7 @@ class UserRepository @Inject constructor(
         if (user != null) {
             userDao.updateUser(user)
         }
-        return@withContext user?.toUserModel()
+        return@withContext user?.toUserModel(isLoggedInUser = true)
     }
 
     suspend fun updateUserHeader(uri: Uri) = withContext(ioDispatcher) {
@@ -85,7 +86,7 @@ class UserRepository @Inject constructor(
         if (user != null) {
             userDao.updateUser(user)
         }
-        return@withContext user?.toUserModel()
+        return@withContext user?.toUserModel(isLoggedInUser = true)
     }
 
     suspend fun updateUserName(name: String?) = withContext(ioDispatcher) {

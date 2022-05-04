@@ -8,5 +8,6 @@ data class User(
     val gender: Gender,
     val publicProfile: Boolean,
     val avatarUrl: String,
-    val headerUrl: String
+    val headerUrl: String,
+    val isLoggedInUser: Boolean
 )

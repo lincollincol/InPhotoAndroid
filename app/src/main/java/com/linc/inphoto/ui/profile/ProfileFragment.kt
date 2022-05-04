@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -15,9 +16,7 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
-import com.linc.inphoto.utils.extensions.createAdapter
-import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.getDimension
+import com.linc.inphoto.utils.extensions.*
 import com.linc.inphoto.utils.extensions.view.*
 import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
 import com.linc.inphoto.utils.recyclerview.listener.VerticalScrollListener
@@ -46,19 +45,28 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            profileNameTextField.text = state.user?.name
+            profileNameTextField.text = state.username
             statusTectView.apply {
-                text = state.user?.status
+                text = state.status
                 show(state.isValidStatus)
             }
-            avatarImageView.loadImage(image = state.user?.avatarUrl)
-            headerImageView.loadImage(image = state.user?.headerUrl)
+            avatarImageView.loadImage(image = state.avatarUrl)
+            headerImageView.loadImage(image = state.headerUrl)
             userPostsSection.update(state.posts.map(::ProfilePostItem))
-            state.newPostUiState?.let { newPostSection.update(listOf(NewPostItem(it))) }
-            followButton.show(false)
-            messageButton.show(false)
+            state.newPostUiState?.let { newPostSection.updateSingle(NewPostItem(it)) }
+            animateTargets(
+                Fade(),
+                profileMotionLayout,
+                followButton,
+                messageButton,
+                backButton,
+            )
+            followButton.show(!state.isLoggedInUser)
+            messageButton.show(!state.isLoggedInUser)
+            backButton.show(!state.isProfileTab)
+            followersCountTextView.text = state.followersCount.toString()
+            followingCountTextView.text = state.followingCount.toString()
         }
-        return@with
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,12 +90,15 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                     }
                 })
             }
-            moveUpButton.setOnClickListener {
+            moveUpButton.setOnThrottledClickListener {
                 binding.postsRecyclerView.scrollToStart()
                 binding.profileMotionLayout.transitionToStart()
             }
-            settingsButton.setOnClickListener {
+            settingsButton.setOnThrottledClickListener {
                 viewModel.openSettings()
+            }
+            backButton.setOnThrottledClickListener {
+                viewModel.onBackPressed()
             }
             reenterTransition = TransitionSet().apply {
                 addTransition(Slide(Gravity.TOP).addTarget(backButton))

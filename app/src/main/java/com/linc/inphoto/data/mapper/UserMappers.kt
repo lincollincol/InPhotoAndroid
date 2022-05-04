@@ -9,6 +9,14 @@ fun UserApiModel.toUserEntity() = UserEntity(
     id, name, email, status, gender.name, publicProfile, avatarUrl, headerUrl
 )
 
-fun UserEntity.toUserModel() = User(
-    id, name, email, status, Gender.fromString(gender), publicProfile, avatarUrl, headerUrl
+fun UserEntity.toUserModel(isLoggedInUser: Boolean) = User(
+    id,
+    name,
+    email,
+    status,
+    Gender.fromString(gender),
+    publicProfile,
+    avatarUrl,
+    headerUrl,
+    isLoggedInUser
 )
