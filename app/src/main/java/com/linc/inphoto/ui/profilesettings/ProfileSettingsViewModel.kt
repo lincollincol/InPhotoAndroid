@@ -15,9 +15,9 @@ import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.profile.model.ImageSource
 import com.linc.inphoto.utils.extensions.safeCast
-import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -48,7 +48,7 @@ class ProfileSettingsViewModel @Inject constructor(
             try {
                 user = userRepository.getLoggedInUser()
                 _uiState.update {
-                    copy(
+                    it.copy(
                         avatarUri = user?.avatarUrl?.toUri(),
                         headerUri = user?.headerUrl?.toUri(),
                         gender = user?.gender,
@@ -65,25 +65,24 @@ class ProfileSettingsViewModel @Inject constructor(
     fun saveProfileData() {
         viewModelScope.launch {
             try {
-                val state = _uiState.value
 
-                if (!state.isValidUsername)
+                if (!currentState.isValidUsername)
                     return@launch showDataRequired()
 
-                if (state.avatarUri != user?.avatarUrl?.toUri()) {
-                    state.avatarUri?.let { userRepository.updateUserAvatar(it) }
+                if (currentState.avatarUri != user?.avatarUrl?.toUri()) {
+                    currentState.avatarUri?.let { userRepository.updateUserAvatar(it) }
                 }
-                if (state.headerUri != user?.headerUrl?.toUri()) {
-                    state.headerUri?.let { userRepository.updateUserHeader(it) }
+                if (currentState.headerUri != user?.headerUrl?.toUri()) {
+                    currentState.headerUri?.let { userRepository.updateUserHeader(it) }
                 }
-                if (state.username.toString() != user?.name) {
-                    userRepository.updateUserName(state.username.toString())
+                if (currentState.username.toString() != user?.name) {
+                    userRepository.updateUserName(currentState.username.toString())
                 }
-                if (state.status.toString() != user?.status) {
-                    userRepository.updateUserStatus(state.status.toString())
+                if (currentState.status.toString() != user?.status) {
+                    userRepository.updateUserStatus(currentState.status.toString())
                 }
-                if (state.gender != user?.gender) {
-                    userRepository.updateUserGender(state.gender)
+                if (currentState.gender != user?.gender) {
+                    userRepository.updateUserGender(currentState.gender)
                 }
                 router.exit()
             } catch (e: Exception) {
@@ -93,13 +92,12 @@ class ProfileSettingsViewModel @Inject constructor(
     }
 
     fun cancelProfileUpdate() {
-        val state = uiState.value
         val updateStatuses = listOf(
-            state.avatarUri != user?.avatarUrl?.toUri(),
-            state.headerUri != user?.headerUrl?.toUri(),
-            state.username.toString() != user?.name,
-            state.status.toString() != user?.status,
-            state.gender != user?.gender
+            currentState.avatarUri != user?.avatarUrl?.toUri(),
+            currentState.headerUri != user?.headerUrl?.toUri(),
+            currentState.username.toString() != user?.name,
+            currentState.status.toString() != user?.status,
+            currentState.gender != user?.gender
         )
         when {
             updateStatuses.any { updated -> updated } -> {
@@ -122,21 +120,21 @@ class ProfileSettingsViewModel @Inject constructor(
 
     fun updateAvatar() {
         selectImageSource(PROFILE_AVATAR_RESULT) { avatarUri ->
-            _uiState.update { copy(avatarUri = avatarUri) }
+            _uiState.update { it.copy(avatarUri = avatarUri) }
         }
     }
 
     fun updateHeader() {
         selectImageSource(PROFILE_HEADER_RESULT) { headerUri ->
-            _uiState.update { copy(headerUri = headerUri) }
+            _uiState.update { it.copy(headerUri = headerUri) }
         }
     }
 
     fun randomAvatar() {
         viewModelScope.launch {
             try {
-                val avatarUri = mediaRepository.loadRandomUserAvatar(_uiState.value.gender)?.toUri()
-                _uiState.update { copy(avatarUri = avatarUri) }
+                val avatarUri = mediaRepository.loadRandomUserAvatar(currentState.gender)?.toUri()
+                _uiState.update { it.copy(avatarUri = avatarUri) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -147,7 +145,7 @@ class ProfileSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val headerUri = mediaRepository.loadRandomUserHeader()?.toUri()
-                _uiState.update { copy(headerUri = headerUri) }
+                _uiState.update { it.copy(headerUri = headerUri) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -155,15 +153,15 @@ class ProfileSettingsViewModel @Inject constructor(
     }
 
     fun updateUsername(name: String?) {
-        _uiState.update { copy(username = name) }
+        _uiState.update { it.copy(username = name) }
     }
 
     fun updateStatus(status: String?) {
-        _uiState.update { copy(status = status) }
+        _uiState.update { it.copy(status = status) }
     }
 
     fun updateGender(gender: Gender) {
-        _uiState.update { copy(gender = gender) }
+        _uiState.update { it.copy(gender = gender) }
     }
 
     private fun selectImageSource(resultKey: String, action: (Uri?) -> Unit) {

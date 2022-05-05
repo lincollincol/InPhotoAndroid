@@ -11,5 +11,7 @@ data class UserApiModel(
     val publicProfile: Boolean,
     val avatarUrl: String,
     val headerUrl: String,
-    val accessToken: String
+    val accessToken: String,
+    val followersCount: Int,
+    val followingCount: Int
 )

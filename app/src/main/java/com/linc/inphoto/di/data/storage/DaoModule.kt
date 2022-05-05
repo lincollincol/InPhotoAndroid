@@ -17,4 +17,10 @@ object DaoModule {
         localDatabase: LocalDatabase
     ) = localDatabase.userDao
 
+    @Provides
+    @Singleton
+    fun provideFollowersDao(
+        localDatabase: LocalDatabase
+    ) = localDatabase.followersDao
+
 }

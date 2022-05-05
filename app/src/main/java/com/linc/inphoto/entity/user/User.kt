@@ -5,9 +5,12 @@ data class User(
     val name: String,
     val email: String,
     val status: String?,
-    val gender: Gender,
-    val publicProfile: Boolean,
     val avatarUrl: String,
     val headerUrl: String,
-    val isLoggedInUser: Boolean
+    val gender: Gender,
+    val publicProfile: Boolean,
+    val followersCount: Int,
+    val followingCount: Int,
+    val isFollowingUser: Boolean,
+    val isLoggedInUser: Boolean,
 )

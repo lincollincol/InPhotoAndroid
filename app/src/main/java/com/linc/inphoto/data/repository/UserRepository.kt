@@ -2,12 +2,13 @@ package com.linc.inphoto.data.repository
 
 import android.net.Uri
 import com.linc.inphoto.data.android.MediaLocalDataSource
+import com.linc.inphoto.data.database.dao.FollowerDao
 import com.linc.inphoto.data.database.dao.UserDao
+import com.linc.inphoto.data.database.entity.FollowerEntity
 import com.linc.inphoto.data.database.entity.UserEntity
 import com.linc.inphoto.data.mapper.toUserEntity
 import com.linc.inphoto.data.mapper.toUserModel
 import com.linc.inphoto.data.network.api.UserApiService
-import com.linc.inphoto.data.network.model.user.UserApiModel
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.entity.user.User
@@ -16,10 +17,12 @@ import com.linc.inphoto.utils.extensions.toMultipartBody
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
     private val userDao: UserDao,
+    private val followerDao: FollowerDao,
     private val userApiService: UserApiService,
     private val authPreferences: AuthPreferences,
     private val mediaLocalDataSource: MediaLocalDataSource,
@@ -28,22 +31,17 @@ class UserRepository @Inject constructor(
 
     suspend fun getLoggedInUser(): User? = withContext(ioDispatcher) {
         return@withContext userDao.getUserById(authPreferences.userId)
-            ?.toUserModel(isLoggedInUser = true)
+            ?.toUserModel(isLoggedInUser = true, isFollowingUser = false)
     }
 
     suspend fun getUserById(userId: String?): User? = withContext(ioDispatcher) {
-        userId ?: return@withContext null
-        return@withContext userApiService.getUserById(userId)
-            .body
-            ?.toUserEntity()
-            ?.toUserModel(authPreferences.userId == userId)
+        return@withContext userApiService.getUserById(userId.toString()).body
+            ?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
     }
 
     suspend fun loadAllUsers(): List<User> = withContext(ioDispatcher) {
-        return@withContext userApiService.getUsers()
-            .body
-            ?.map(UserApiModel::toUserEntity)
-            ?.map { it.toUserModel(authPreferences.userId == it.id) }
+        return@withContext userApiService.getUsers().body
+            ?.map { it.toUserModel(isFollowingUser(it.id), isLoggedInUser(it.id)) }
             .orEmpty()
     }
 
@@ -65,7 +63,7 @@ class UserRepository @Inject constructor(
         if (user != null) {
             userDao.updateUser(user)
         }
-        return@withContext user?.toUserModel(isLoggedInUser = true)
+        return@withContext user?.toUserModel(isLoggedInUser = true, isFollowingUser = false)
     }
 
     suspend fun updateUserHeader(uri: Uri) = withContext(ioDispatcher) {
@@ -86,7 +84,7 @@ class UserRepository @Inject constructor(
         if (user != null) {
             userDao.updateUser(user)
         }
-        return@withContext user?.toUserModel(isLoggedInUser = true)
+        return@withContext user?.toUserModel(isLoggedInUser = true, isFollowingUser = false)
     }
 
     suspend fun updateUserName(name: String?) = withContext(ioDispatcher) {
@@ -109,9 +107,45 @@ class UserRepository @Inject constructor(
         gender ?: return@withContext
         userApiService.updateUserGender(authPreferences.userId, gender.name)
         userDao.updateUserGender(authPreferences.userId, gender.name)
-//        userDao.getUserById(authPreferences.userId)?.let { user ->
-//            userDao.updateUserGender(user.copy(gender = gender))
-//        }
     }
 
+    suspend fun followUser(userId: String?): User? = withContext(ioDispatcher) {
+        val user = userApiService.followUser(
+            userId.toString(),
+            authPreferences.userId
+        ).body?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
+        val followerEntity = FollowerEntity(
+            UUID.randomUUID().toString(),
+            userId.toString(),
+            authPreferences.userId
+        )
+        followerDao.insertFollower(followerEntity)
+        return@withContext user
+    }
+
+    suspend fun unfollowUser(userId: String?): User? = withContext(ioDispatcher) {
+        val user = userApiService.unfollowUser(
+            userId.toString(),
+            authPreferences.userId
+        ).body?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
+        followerDao.deleteFollower(userId.toString(), authPreferences.userId)
+        return@withContext user
+    }
+
+    suspend fun isFollowingUser(userId: String?): Boolean = withContext(ioDispatcher) {
+        try {
+            val follower = followerDao.loadFollower(
+                userId.toString(),
+                authPreferences.userId
+            )
+            return@withContext follower != null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return@withContext false
+        }
+    }
+
+    suspend fun isLoggedInUser(userId: String?): Boolean = withContext(ioDispatcher) {
+        return@withContext authPreferences.userId == userId
+    }
 }

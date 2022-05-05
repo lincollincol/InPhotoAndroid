@@ -22,7 +22,6 @@ import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
 import com.linc.inphoto.utils.recyclerview.listener.VerticalScrollListener
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
@@ -45,10 +44,44 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            animateTargets(
+                Fade(),
+                profileMotionLayout,
+                followButton,
+                messageButton,
+                backButton,
+            )
+            backButton.show(!state.isProfileTab)
+            statusTectView.show(state.isStatusValid)
+            userPostsSection.update(state.posts.map(::ProfilePostItem))
+            state.newPostUiState?.let { newPostSection.updateSingle(NewPostItem(it)) }
+            state.user?.let { user ->
+                profileNameTextField.text = user.name
+                statusTectView.text = user.status
+                avatarImageView.loadImage(image = user.avatarUrl)
+                headerImageView.loadImage(image = user.headerUrl)
+                followButton.apply {
+                    show(!user.isLoggedInUser)
+                    setText(
+                        when (user.isFollowingUser) {
+                            true -> R.string.unfollow
+                            else -> R.string.follow
+                        }
+                    )
+                }
+                messageButton.show(!user.isLoggedInUser)
+                followersCountTextView.text = user.followersCount.toString()
+                followingCountTextView.text = user.followingCount.toString()
+            }
+        }
+    }
+    /*
+    override suspend fun observeUiState() = with(binding) {
+        viewModel.uiState.collect { state ->
             profileNameTextField.text = state.username
             statusTectView.apply {
                 text = state.status
-                show(state.isValidStatus)
+                show(state.isStatusValid)
             }
             avatarImageView.loadImage(image = state.avatarUrl)
             headerImageView.loadImage(image = state.headerUrl)
@@ -61,13 +94,17 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 messageButton,
                 backButton,
             )
-            followButton.show(!state.isLoggedInUser)
+            followButton.apply {
+                show(!state.isLoggedInUser)
+                setText(if(state.isFollowingUser) R.string.unfollow else R.string.follow)
+            }
             messageButton.show(!state.isLoggedInUser)
             backButton.show(!state.isProfileTab)
             followersCountTextView.text = state.followersCount.toString()
             followingCountTextView.text = state.followingCount.toString()
         }
     }
+     */
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,13 +137,27 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             backButton.setOnThrottledClickListener {
                 viewModel.onBackPressed()
             }
-            reenterTransition = TransitionSet().apply {
-                addTransition(Slide(Gravity.TOP).addTarget(backButton))
-                addTransition(Slide(Gravity.TOP).addTarget(settingsButton))
+            followButton.setOnThrottledClickListener {
+                viewModel.followUser()
             }
+            reenterTransition = TransitionSet().apply {
+                addTransition(
+                    Fade(Fade.IN).addTarget(profileDataLayout)
+//                        .addTarget(messageButton)
+//                        .addTarget(followButton)
+//                        .addTarget(postsRecyclerView)
+//                        .addTarget(avatarImageView)
+//                        .addTarget(headerImageView)
+                )
+                addTransition(Slide(Gravity.TOP).addTarget(backButton).addTarget(settingsButton))
+            }
+            enterTransition = reenterTransition
         }
         bottomBarViewModel.showBottomBar()
-        viewModel.loadProfileData(getArgument(USER_ID_ARG))
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.loadProfileData(getArgument(USER_ID_ARG))
+    }
 }

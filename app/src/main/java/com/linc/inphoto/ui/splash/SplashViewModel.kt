@@ -3,7 +3,6 @@ package com.linc.inphoto.ui.splash
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.ui.base.state.EmptyUiState
-import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -18,11 +17,13 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val userRepository: UserRepository
-) : BaseViewModel<UiState>(navContainerHolder) {
+) : BaseViewModel<EmptyUiState>(navContainerHolder) {
 
     companion object {
         private const val SPLASH_DELAY = 1000L
     }
+
+    override val _uiState = MutableStateFlow(EmptyUiState())
 
     fun checkLoggedIn() {
         viewModelScope.launch {
@@ -42,6 +43,4 @@ class SplashViewModel @Inject constructor(
             }
         }
     }
-
-    override val _uiState = MutableStateFlow<UiState>(EmptyUiState())
 }

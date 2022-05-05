@@ -3,9 +3,9 @@ package com.linc.inphoto.utils.extensions
 import com.linc.inphoto.utils.collections.ImmutableDeque
 
 
-fun <T> ArrayDeque<T>.toImmutableDeque() = ImmutableDeque(this)
+fun <T> ArrayDeque<T>?.toImmutableDeque() = ImmutableDeque(this ?: ArrayDeque())
 
-fun <T> List<T>.toImmutableDeque() = ImmutableDeque(ArrayDeque(this))
+fun <T> List<T>?.toImmutableDeque() = ImmutableDeque(ArrayDeque(this.orEmpty()))
 
 fun <T> Collection<T>.mapIf(
     predicate: (T) -> Boolean,

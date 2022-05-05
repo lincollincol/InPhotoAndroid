@@ -7,9 +7,9 @@ import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.settings.model.SettingsEntry
 import com.linc.inphoto.ui.settings.model.SettingsOptionUiState
-import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,7 +25,7 @@ class SettingsViewModel @Inject constructor(
     fun loadSettings() {
         val settingsOptions = SettingsEntry.getEntries()
             .map { SettingsOptionUiState(it) { selectSettingsEntry(it) } }
-        _uiState.update { copy(settingsOptions = settingsOptions) }
+        _uiState.update { it.copy(settingsOptions = settingsOptions) }
     }
 
     fun selectSettingsEntry(entry: SettingsEntry) {

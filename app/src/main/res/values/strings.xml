@@ -100,5 +100,9 @@
 
     <string name="message">Message</string>
     <string name="search">Search</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="follow">Follow</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
 
 </resources>

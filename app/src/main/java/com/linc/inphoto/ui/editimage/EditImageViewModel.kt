@@ -12,9 +12,9 @@ import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
-import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,7 +31,6 @@ class EditImageViewModel @Inject constructor(
     }
 
     override val _uiState = MutableStateFlow(EditImageUiState())
-//    private var intent: EditorIntent? = null
 
     fun applyImage(imageUri: Uri?) {
         viewModelScope.launch {
@@ -40,10 +39,7 @@ class EditImageViewModel @Inject constructor(
                     .map { it.toUiState { selectEditorOperation(it) } }
 
                 _uiState.update {
-                    copy(
-                        imageUri = imageUri ?: Uri.EMPTY,
-                        editOperations = editorOperations
-                    )
+                    it.copy(imageUri = imageUri ?: Uri.EMPTY, editOperations = editorOperations)
                 }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -54,7 +50,7 @@ class EditImageViewModel @Inject constructor(
     fun finishEditing(intent: EditorIntent?) {
         viewModelScope.launch {
             try {
-                val imageUri = uiState.value.imageUri ?: return@launch
+                val imageUri = currentState.imageUri ?: return@launch
                 when (intent) {
                     is EditorIntent.NewAvatar -> {
                         router.sendResult(intent.resultKey, imageUri)
@@ -71,13 +67,13 @@ class EditImageViewModel @Inject constructor(
     }
 
     fun cancelEditing() {
-        val imageUri = _uiState.value.imageUri ?: Uri.EMPTY
+        val imageUri = currentState.imageUri ?: Uri.EMPTY
         mediaRepository.deleteLocalUri(imageUri)
         router.exit()
     }
 
     private fun selectEditorOperation(operation: EditOperation) {
-        val imageUri = _uiState.value.imageUri ?: Uri.EMPTY
+        val imageUri = currentState.imageUri ?: Uri.EMPTY
         Timber.d(imageUri.toString())
         val operationScreen = when (operation) {
             is EditOperation.Crop -> NavScreen.CropImageScreen(
@@ -90,7 +86,7 @@ class EditImageViewModel @Inject constructor(
             }
         }
         router.setResultListener(EDITOR_OPERATION_RESULT) { result ->
-            _uiState.update { copy(imageUri = Uri.parse(result.toString())) }
+            _uiState.update { it.copy(imageUri = Uri.parse(result.toString())) }
         }
         router.navigateTo(operationScreen)
     }

@@ -57,4 +57,16 @@ interface UserApiService {
     @GET("/users/{userId}")
     suspend fun getUserById(@Path("userId") id: String): BaseResponse<UserApiModel>
 
+    @POST("/users/{userId}/followers/{followerId}")
+    suspend fun followUser(
+        @Path("userId") userId: String,
+        @Path("followerId") followerId: String
+    ): BaseResponse<UserApiModel>
+
+    @DELETE("/users/{userId}/followers/{followerId}")
+    suspend fun unfollowUser(
+        @Path("userId") userId: String,
+        @Path("followerId") followerId: String
+    ): BaseResponse<UserApiModel>
+
 }

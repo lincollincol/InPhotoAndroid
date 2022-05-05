@@ -12,7 +12,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.linc.inphoto.R
-import com.linc.inphoto.utils.extensions.getDrawable
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 private const val THUMB_MIN_SIZE = 56
@@ -88,20 +87,23 @@ fun ImageView.loadImage(
     size: Size? = null,
     blurRadius: Int? = null,
 //    @DrawableRes placeholder: Int? = R.drawable.ic_image,
-    @DrawableRes errorPlaceholder: Int? = R.drawable.ic_broken_image,
+    @DrawableRes errorPlaceholder: Int = R.drawable.ic_broken_image,
     @ColorInt placeholderTint: Int? = null,
     @ColorInt errorTint: Int? = null,
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
     skipMemoryCache: Boolean = false,
     reloadImage: Boolean = true,
 ) {
+    if (image == null) {
+        return
+    }
 
     if (!reloadImage && drawable != null) {
         return
     }
 
     var requestOptions = RequestOptions()
-        .error(context.getDrawable(errorPlaceholder, errorTint))
+        .error(errorPlaceholder)
         .diskCacheStrategy(diskCacheStrategy)
         .skipMemoryCache(skipMemoryCache)
         .dontAnimate()
@@ -125,7 +127,6 @@ fun ImageView.loadImage(
                 .override(48)
         )
         .apply(requestOptions)
-
         .into(this)
 }
 

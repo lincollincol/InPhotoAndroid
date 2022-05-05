@@ -1,7 +1,6 @@
 package com.linc.inphoto.ui.profile
 
 import androidx.lifecycle.viewModelScope
-import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.Post
@@ -15,7 +14,6 @@ import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.model.ImageSource
 import com.linc.inphoto.ui.profile.model.NewPostUiState
-import com.linc.inphoto.ui.profile.model.ProfilePostUiState
 import com.linc.inphoto.ui.profile.model.toUiState
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,8 +27,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val userRepository: UserRepository,
-    private val postRepository: PostRepository,
-    private val mediaRepository: MediaRepository
+    private val postRepository: PostRepository
 ) : BaseViewModel<ProfileUiState>(navContainerHolder) {
 
     companion object {
@@ -50,6 +47,20 @@ class ProfileViewModel @Inject constructor(
             }
         } catch (e: Exception) {
             Timber.e(e)
+        }
+    }
+
+    fun followUser() {
+        viewModelScope.launch {
+            try {
+                val user = when (currentState.user?.isFollowingUser) {
+                    true -> userRepository.unfollowUser(currentState.user?.id)
+                    else -> userRepository.followUser(currentState.user?.id)
+                }
+                updateUserState(user)
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
         }
     }
 
@@ -80,7 +91,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun selectPost(post: Post) {
-        val username = uiState.value.username.orEmpty()
+        val username = currentState.user?.name.orEmpty()
         val overviewType = OverviewType.Profile(post.id, post.authorUserId, username)
         router.navigateTo(NavScreen.PostOverviewScreen(overviewType))
     }
@@ -90,7 +101,8 @@ class ProfileViewModel @Inject constructor(
         val userPosts = postRepository.getCurrentUserPosts()
             .sortedBy { it.createdTimestamp }
             .map { it.toUiState { selectPost(it) } }
-        updateUserState(user, userPosts)
+        updateUserState(user)
+        _uiState.update { it.copy(posts = userPosts) }
     }
 
     private suspend fun loadUserProfile(userId: String) {
@@ -98,20 +110,14 @@ class ProfileViewModel @Inject constructor(
         val userPosts = postRepository.getUserPosts(userId)
             .sortedBy { it.createdTimestamp }
             .map { it.toUiState { selectPost(it) } }
-        updateUserState(user, userPosts)
+        updateUserState(user)
+        _uiState.update { it.copy(posts = userPosts) }
     }
 
-    private fun updateUserState(user: User?, posts: List<ProfilePostUiState>) {
+    private fun updateUserState(user: User?) {
         _uiState.update {
             it.copy(
-                username = user?.name,
-                status = user?.status,
-                avatarUrl = user?.avatarUrl,
-                headerUrl = user?.headerUrl,
-                followersCount = 0,
-                followingCount = 0,
-                isLoggedInUser = user?.isLoggedInUser ?: false,
-                posts = posts,
+                user = user,
                 newPostUiState = when (user?.isLoggedInUser) {
                     true -> NewPostUiState(::createPost)
                     else -> null
