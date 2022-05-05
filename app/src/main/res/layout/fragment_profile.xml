@@ -214,33 +214,51 @@
             style="@style/MaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_general"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_general"
+            android:layout_margin="@dimen/margin_general"
             android:visibility="gone"
-            tools:text="@string/follow"
+            android:text="@string/follow"
             tools:visibility="visible"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintEnd_toStartOf="@id/messageButton"
+            app:layout_constraintEnd_toEndOf="@id/centerGuideline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/statusTectView"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/unfollowButton"
+            style="@style/OutlinedMaterialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_general"
+            android:text="@string/unfollow"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/centerGuideline"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statusTectView"
+            tools:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/messageButton"
             style="@style/OutlinedMaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_general"
-            android:layout_marginStart="@dimen/margin_general"
-            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_margin="@dimen/margin_general"
             android:text="@string/message"
             android:visibility="gone"
             tools:visibility="visible"
-            app:layout_constraintStart_toEndOf="@id/followButton"
+            app:layout_constraintStart_toStartOf="@id/centerGuideline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/statusTectView"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/centerGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

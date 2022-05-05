@@ -14,6 +14,7 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.main.BottomBarViewModel
+import com.linc.inphoto.ui.navigation.TabStateListener
 import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
 import com.linc.inphoto.utils.extensions.*
@@ -24,7 +25,7 @@ import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
+class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListener {
 
     companion object {
         private const val ROW_IMAGES_COUNT = 3
@@ -60,51 +61,14 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 statusTectView.text = user.status
                 avatarImageView.loadImage(image = user.avatarUrl)
                 headerImageView.loadImage(image = user.headerUrl)
-                followButton.apply {
-                    show(!user.isLoggedInUser)
-                    setText(
-                        when (user.isFollowingUser) {
-                            true -> R.string.unfollow
-                            else -> R.string.follow
-                        }
-                    )
-                }
+                followButton.show(!user.isLoggedInUser && !user.isFollowingUser)
+                unfollowButton.show(!user.isLoggedInUser && user.isFollowingUser)
                 messageButton.show(!user.isLoggedInUser)
                 followersCountTextView.text = user.followersCount.toString()
                 followingCountTextView.text = user.followingCount.toString()
             }
         }
     }
-    /*
-    override suspend fun observeUiState() = with(binding) {
-        viewModel.uiState.collect { state ->
-            profileNameTextField.text = state.username
-            statusTectView.apply {
-                text = state.status
-                show(state.isStatusValid)
-            }
-            avatarImageView.loadImage(image = state.avatarUrl)
-            headerImageView.loadImage(image = state.headerUrl)
-            userPostsSection.update(state.posts.map(::ProfilePostItem))
-            state.newPostUiState?.let { newPostSection.updateSingle(NewPostItem(it)) }
-            animateTargets(
-                Fade(),
-                profileMotionLayout,
-                followButton,
-                messageButton,
-                backButton,
-            )
-            followButton.apply {
-                show(!state.isLoggedInUser)
-                setText(if(state.isFollowingUser) R.string.unfollow else R.string.follow)
-            }
-            messageButton.show(!state.isLoggedInUser)
-            backButton.show(!state.isProfileTab)
-            followersCountTextView.text = state.followersCount.toString()
-            followingCountTextView.text = state.followingCount.toString()
-        }
-    }
-     */
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -140,24 +104,21 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             followButton.setOnThrottledClickListener {
                 viewModel.followUser()
             }
+            unfollowButton.setOnThrottledClickListener {
+                viewModel.unfollowUser()
+            }
             reenterTransition = TransitionSet().apply {
-                addTransition(
-                    Fade(Fade.IN).addTarget(profileDataLayout)
-//                        .addTarget(messageButton)
-//                        .addTarget(followButton)
-//                        .addTarget(postsRecyclerView)
-//                        .addTarget(avatarImageView)
-//                        .addTarget(headerImageView)
-                )
+                addTransition(Fade(Fade.IN).addTarget(profileDataLayout))
                 addTransition(Slide(Gravity.TOP).addTarget(backButton).addTarget(settingsButton))
             }
             enterTransition = reenterTransition
         }
         bottomBarViewModel.showBottomBar()
-    }
-
-    override fun onStart() {
-        super.onStart()
         viewModel.loadProfileData(getArgument(USER_ID_ARG))
     }
+
+    override fun onTabStateChanged(hidden: Boolean) {
+        if (!hidden) viewModel.loadProfileData(getArgument(USER_ID_ARG))
+    }
+
 }

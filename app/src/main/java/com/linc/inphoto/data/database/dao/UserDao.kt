@@ -24,6 +24,18 @@ interface UserDao {
     @Query("UPDATE users SET gender = :gender WHERE id = :id")
     fun updateUserGender(id: String, gender: String)
 
+    @Query("UPDATE users SET id = :id WHERE followersCount = followersCount + 1")
+    fun updateIncreaseUserFollowersCount(id: String)
+
+    @Query("UPDATE users SET id = :id WHERE followingCount = followingCount + 1")
+    fun updateIncreaseUserFollowingCount(id: String)
+
+    @Query("UPDATE users SET id = :id WHERE followersCount = followersCount - 1")
+    fun updateDecreaseUserFollowersCount(id: String)
+
+    @Query("UPDATE users SET id = :id WHERE followingCount = followingCount - 1")
+    fun updateDecreaseUserFollowingCount(id: String)
+
     @Update
     suspend fun updateUser(user: UserEntity)
 

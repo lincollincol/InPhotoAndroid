@@ -53,11 +53,17 @@ class ProfileViewModel @Inject constructor(
     fun followUser() {
         viewModelScope.launch {
             try {
-                val user = when (currentState.user?.isFollowingUser) {
-                    true -> userRepository.unfollowUser(currentState.user?.id)
-                    else -> userRepository.followUser(currentState.user?.id)
-                }
-                updateUserState(user)
+                updateUserState(userRepository.followUser(currentState.user?.id))
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
+    }
+
+    fun unfollowUser() {
+        viewModelScope.launch {
+            try {
+                updateUserState(userRepository.unfollowUser(currentState.user?.id))
             } catch (e: Exception) {
                 Timber.e(e)
             }

@@ -110,26 +110,22 @@ class UserRepository @Inject constructor(
     }
 
     suspend fun followUser(userId: String?): User? = withContext(ioDispatcher) {
-        val user = userApiService.followUser(
-            userId.toString(),
-            authPreferences.userId
-        ).body?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
+        val user = userApiService.followUser(userId.toString(), authPreferences.userId).body
         val followerEntity = FollowerEntity(
             UUID.randomUUID().toString(),
             userId.toString(),
             authPreferences.userId
         )
         followerDao.insertFollower(followerEntity)
-        return@withContext user
+        userDao.updateIncreaseUserFollowingCount(authPreferences.userId)
+        return@withContext user?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
     }
 
     suspend fun unfollowUser(userId: String?): User? = withContext(ioDispatcher) {
-        val user = userApiService.unfollowUser(
-            userId.toString(),
-            authPreferences.userId
-        ).body?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
+        val user = userApiService.unfollowUser(userId.toString(), authPreferences.userId).body
         followerDao.deleteFollower(userId.toString(), authPreferences.userId)
-        return@withContext user
+        userDao.updateDecreaseUserFollowingCount(authPreferences.userId)
+        return@withContext user?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
     }
 
     suspend fun isFollowingUser(userId: String?): Boolean = withContext(ioDispatcher) {
