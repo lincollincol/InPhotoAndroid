@@ -7,7 +7,6 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -29,15 +28,14 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val isLoggedIn = userRepository.getLoggedInUser() != null
+//                delay(SPLASH_DELAY)
 
-                delay(SPLASH_DELAY)
-
-                val screen = when {
-                    isLoggedIn -> NavScreen.MainScreen()
-                    else -> NavScreen.SignInScreen()
+                if (isLoggedIn) {
+                    userRepository.fetchLoggedInUser()
+                    globalRouter.newRootScreen(NavScreen.MainScreen())
+                } else {
+                    globalRouter.newRootScreen(NavScreen.SignInScreen())
                 }
-
-                globalRouter.newRootScreen(screen)
             } catch (e: Exception) {
                 Timber.e(e)
             }

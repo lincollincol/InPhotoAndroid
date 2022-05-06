@@ -16,6 +16,7 @@ import com.linc.inphoto.utils.extensions.isUrl
 import com.linc.inphoto.utils.extensions.toMultipartBody
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -28,6 +29,21 @@ class UserRepository @Inject constructor(
     private val mediaLocalDataSource: MediaLocalDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
+
+    suspend fun fetchUserById(userId: String) = withContext(ioDispatcher) {
+        val user = async { userApiService.getUserById(userId).body?.toUserEntity() }
+        val followingIds = async {
+            userApiService.getUserFollowingIds(userId).body
+                ?.map { FollowerEntity(it, authPreferences.userId) }
+                .orEmpty()
+        }
+        user.await()?.let { userDao.upsertUser(it) }
+        followerDao.upsert(followingIds.await())
+    }
+
+    suspend fun fetchLoggedInUser() = withContext(ioDispatcher) {
+        fetchUserById(authPreferences.userId)
+    }
 
     suspend fun getLoggedInUser(): User? = withContext(ioDispatcher) {
         return@withContext userDao.getUserById(authPreferences.userId)
@@ -111,19 +127,16 @@ class UserRepository @Inject constructor(
 
     suspend fun followUser(userId: String?): User? = withContext(ioDispatcher) {
         val user = userApiService.followUser(userId.toString(), authPreferences.userId).body
-        val followerEntity = FollowerEntity(
-            UUID.randomUUID().toString(),
-            userId.toString(),
-            authPreferences.userId
-        )
-        followerDao.insertFollower(followerEntity)
+        val followerEntity = FollowerEntity(userId.toString(), authPreferences.userId)
+        followerDao.insert(followerEntity)
         userDao.updateIncreaseUserFollowingCount(authPreferences.userId)
         return@withContext user?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
     }
 
     suspend fun unfollowUser(userId: String?): User? = withContext(ioDispatcher) {
         val user = userApiService.unfollowUser(userId.toString(), authPreferences.userId).body
-        followerDao.deleteFollower(userId.toString(), authPreferences.userId)
+        val followerEntity = FollowerEntity(userId.toString(), authPreferences.userId)
+        followerDao.delete(followerEntity)
         userDao.updateDecreaseUserFollowingCount(authPreferences.userId)
         return@withContext user?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
     }
