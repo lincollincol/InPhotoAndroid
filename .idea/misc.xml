@@ -40,6 +40,7 @@
         <entry key="app/src/main/res/layout/fragment_edit_image.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/fragment_filter_image.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/layout/fragment_followers_list.xml" value="0.1296875" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/fragment_image_editor.xml" value="0.14895833333333333" />
@@ -52,6 +53,7 @@
         <entry key="app/src/main/res/layout/fragment_post_comments.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_post_overview.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_profile_followers.xml" value="0.1296875" />
         <entry key="app/src/main/res/layout/fragment_profile_settings.xml" value="0.12" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.178125" />
@@ -68,6 +70,8 @@
         <entry key="app/src/main/res/layout/item_editor_filter.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_emij.xml" value="0.18229166666666666" />
         <entry key="app/src/main/res/layout/item_emji.xml" value="0.1802536231884058" />
+        <entry key="app/src/main/res/layout/item_follower_user.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_following_user.xml" value="0.1296875" />
         <entry key="app/src/main/res/layout/item_gallery_image.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/item_new_user_post.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_option.xml" value="0.32447916666666665" />

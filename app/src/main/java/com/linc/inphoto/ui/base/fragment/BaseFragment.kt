@@ -10,6 +10,7 @@ import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.NavContainer
+import com.linc.inphoto.utils.extensions.safeCast
 import kotlinx.coroutines.CancellationException
 
 abstract class BaseFragment(
@@ -25,7 +26,7 @@ abstract class BaseFragment(
         safeStartedLaunch {
             observeUiState()
         }
-        viewModel.setupContainerId((parentFragment as? NavContainer)?.containerId)
+        viewModel.setupContainerId(findContainerId())
     }
 
     override fun onBackPressed() {
@@ -66,4 +67,14 @@ abstract class BaseFragment(
             showErrorMessage(e.localizedMessage)
         }
     }
+
+    private fun findContainerId(): String? {
+        var fragment = parentFragment
+        while (fragment != null) {
+            fragment.safeCast<NavContainer>()?.let { return it.containerId }
+            fragment = fragment.parentFragment
+        }
+        return null
+    }
+
 }

@@ -74,6 +74,14 @@ class ProfileViewModel @Inject constructor(
         router.navigateTo(NavScreen.SettingsScreen())
     }
 
+    fun openFollowers() {
+        router.navigateTo(NavScreen.ProfileFollowersScreen(currentState.user?.id))
+    }
+
+    fun openFollowing() {
+        router.navigateTo(NavScreen.ProfileFollowersScreen(currentState.user?.id))
+    }
+
     private fun createPost() {
         selectImageSource { imageSource ->
             val screen = when (imageSource) {

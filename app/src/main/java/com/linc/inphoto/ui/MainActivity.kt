@@ -13,6 +13,7 @@ import com.linc.inphoto.databinding.ActivityMainBinding
 import com.linc.inphoto.di.navigation.GlobalNavigatorHolder
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -51,7 +52,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onBackPressed() {
-        (supportFragmentManager.fragments.firstOrNull() as? FragmentBackPressedListener)
+        supportFragmentManager.fragments
+            .firstOrNull()
+            ?.safeCast<FragmentBackPressedListener>()
             ?.onBackPressed()
     }
 

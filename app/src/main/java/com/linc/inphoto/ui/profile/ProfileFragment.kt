@@ -107,6 +107,12 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
             unfollowButton.setOnThrottledClickListener {
                 viewModel.unfollowUser()
             }
+            followersLayout.setOnThrottledClickListener {
+                viewModel.openFollowers()
+            }
+            followingLayout.setOnThrottledClickListener {
+                viewModel.openFollowing()
+            }
             reenterTransition = TransitionSet().apply {
                 addTransition(Fade(Fade.IN).addTarget(profileDataLayout))
                 addTransition(Slide(Gravity.TOP).addTarget(backButton).addTarget(settingsButton))
