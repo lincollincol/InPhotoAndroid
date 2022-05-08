@@ -5,6 +5,7 @@ import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.profilefollowers.model.FollowerUserUiState
 
 data class ProfileFollowersUiState(
+    val isLoading: Boolean = false,
     val user: User? = null,
     val selectedPage: Int = 0,
     val searchQuery: String? = null,

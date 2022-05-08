@@ -30,7 +30,7 @@ class ProfileFollowersViewModel @Inject constructor(
         userId: String?,
         subscriptionType: SubscriptionType?
     ) {
-        _uiState.update { it.copy(selectedPage = subscriptionType?.ordinal ?: 0) }
+        _uiState.update { it.copy(selectedPage = subscriptionType?.ordinal ?: 0, isLoading = true) }
         viewModelScope.launch {
             try {
                 val user = userRepository.getUserById(userId)
@@ -40,6 +40,8 @@ class ProfileFollowersViewModel @Inject constructor(
                 applySearchQuery()
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
