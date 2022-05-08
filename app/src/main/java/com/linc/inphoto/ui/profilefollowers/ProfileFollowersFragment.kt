@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.profilefollowers
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -39,6 +40,9 @@ class ProfileFollowersFragment : BaseFragment(R.layout.fragment_profile_follower
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             followersToolbar.setOnCancelClickListener { viewModel.onBackPressed() }
+            searchEditText.doOnTextChanged { text, _, _, _ ->
+                viewModel.updateSearchQuery(text.toString())
+            }
             followersViewPager.apply {
                 adapter = FollowersPageAdapter(this@ProfileFollowersFragment)
                 offscreenPageLimit = SubscriptionType.values().count()

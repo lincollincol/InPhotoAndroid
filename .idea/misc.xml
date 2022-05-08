@@ -53,7 +53,7 @@
         <entry key="app/src/main/res/layout/fragment_post_comments.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_post_overview.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_profile_followers.xml" value="0.1296875" />
+        <entry key="app/src/main/res/layout/fragment_profile_followers.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_profile_settings.xml" value="0.12" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.178125" />

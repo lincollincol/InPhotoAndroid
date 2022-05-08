@@ -11,3 +11,8 @@ fun <T> Collection<T>.mapIf(
     predicate: (T) -> Boolean,
     transform: (T) -> T
 ) = map { item -> if (predicate(item)) transform(item) else item }
+
+fun <T> MutableCollection<T>.update(items: Collection<T>) {
+    clear()
+    addAll(items)
+}

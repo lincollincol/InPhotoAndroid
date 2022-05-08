@@ -4,26 +4,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.linc.inphoto.ui.view.EditorToolbarView
-        android:id="@+id/followersToolbar"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/app_toolbar_height"
-        android:background="@color/white"
-        android:elevation="@dimen/elevation_general"
-        android:paddingHorizontal="@dimen/padding_general"
-        app:cancelIcon="@drawable/ic_arrow_back"
-        app:doneVisible="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/followersTabLayout"
+    <LinearLayout
+        android:id="@+id/controllersLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_small"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/followersToolbar" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.linc.inphoto.ui.view.EditorToolbarView
+            android:id="@+id/followersToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_toolbar_height"
+            android:paddingHorizontal="@dimen/padding_general"
+            app:cancelIcon="@drawable/ic_arrow_back"
+            app:doneVisible="false" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:endIconDrawable="@drawable/ic_close"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/black"
+            app:hintEnabled="false">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/searchEditText"
+                style="@style/TextInputField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/followersTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/followersViewPager"
@@ -32,6 +53,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/followersTabLayout" />
+        app:layout_constraintTop_toBottomOf="@id/controllersLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
