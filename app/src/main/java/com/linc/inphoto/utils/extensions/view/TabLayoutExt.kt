@@ -7,5 +7,8 @@ fun TabLayout.setTabTitle(index: Int, title: String) {
 }
 
 fun TabLayout.setTabSelected(index: Int) {
-    if (selectedTabPosition != index) getTabAt(index)?.select()
+
+//    setScrollPosition(index,0f,true)
+    if (selectedTabPosition != index)
+        getTabAt(index)?.select()
 }

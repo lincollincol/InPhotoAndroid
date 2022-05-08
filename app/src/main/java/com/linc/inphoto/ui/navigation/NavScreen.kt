@@ -33,6 +33,7 @@ import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.ProfileFragment
 import com.linc.inphoto.ui.profilefollowers.ProfileFollowersFragment
+import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
 import com.linc.inphoto.ui.profilesettings.ProfileSettingsFragment
 import com.linc.inphoto.ui.search.SearchFragment
 import com.linc.inphoto.ui.settings.SettingsFragment
@@ -149,10 +150,12 @@ object NavScreen {
         SearchFragment.newInstance()
     }
 
-    fun ProfileFollowersScreen(userId: String?) =
-        FragmentScreen(key = UUID.randomUUID().toString()) {
-            ProfileFollowersFragment.newInstance(userId)
-        }
+    fun ProfileFollowersScreen(
+        userId: String?,
+        subscriptionType: SubscriptionType
+    ) = FragmentScreen(key = UUID.randomUUID().toString()) {
+        ProfileFollowersFragment.newInstance(userId, subscriptionType)
+    }
 
     /**
      * External navigation

@@ -6,6 +6,7 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.profilefollowers.model.FollowerUserUiState
+import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
 import com.linc.inphoto.ui.profilefollowers.model.toUiState
 import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +26,11 @@ class ProfileFollowersViewModel @Inject constructor(
     private val followers = mutableListOf<FollowerUserUiState>()
     private val following = mutableListOf<FollowerUserUiState>()
 
-    fun loadUserSubscriptions(userId: String?) {
+    fun loadUserSubscriptions(
+        userId: String?,
+        subscriptionType: SubscriptionType?
+    ) {
+        _uiState.update { it.copy(selectedPage = subscriptionType?.ordinal ?: 0) }
         viewModelScope.launch {
             try {
                 val user = userRepository.getUserById(userId)
@@ -37,6 +42,10 @@ class ProfileFollowersViewModel @Inject constructor(
                 Timber.e(e)
             }
         }
+    }
+
+    fun selectPage(index: Int) {
+        _uiState.update { it.copy(selectedPage = index) }
     }
 
     fun updateSearchQuery(query: String?) {

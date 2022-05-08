@@ -14,6 +14,7 @@ import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.model.ImageSource
 import com.linc.inphoto.ui.profile.model.NewPostUiState
 import com.linc.inphoto.ui.profile.model.toUiState
+import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -70,12 +71,12 @@ class ProfileViewModel @Inject constructor(
         router.navigateTo(NavScreen.SettingsScreen())
     }
 
-    fun openFollowers() {
-        router.navigateTo(NavScreen.ProfileFollowersScreen(currentState.user?.id))
-    }
+    fun openFollowing() = openFollowers(currentState.user?.id, SubscriptionType.FOLLOWING)
 
-    fun openFollowing() {
-        router.navigateTo(NavScreen.ProfileFollowersScreen(currentState.user?.id))
+    fun openFollowers() = openFollowers(currentState.user?.id, SubscriptionType.FOLLOWER)
+
+    fun openFollowers(userId: String?, subscriptionType: SubscriptionType) {
+        router.navigateTo(NavScreen.ProfileFollowersScreen(userId, subscriptionType))
     }
 
     private fun createPost() {
