@@ -27,6 +27,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListener {
 
+    /**
+     * TODO:
+     * save followers view pager index of page when exit
+     *
+     * */
+
     companion object {
         private const val ROW_IMAGES_COUNT = 3
         private const val USER_ID_ARG = "user_id"
@@ -52,7 +58,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                 messageButton,
                 backButton,
             )
-            backButton.show(!state.isProfileTab)
             statusTectView.show(state.isStatusValid)
             userPostsSection.update(state.posts.map(::ProfilePostItem))
             state.newPostUiState?.let { newPostSection.updateSingle(NewPostItem(it)) }
@@ -99,7 +104,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                 viewModel.openSettings()
             }
             backButton.setOnThrottledClickListener {
-                viewModel.onBackPressed()
+                onSystemBackPressed()
             }
             followButton.setOnThrottledClickListener {
                 viewModel.followUser()

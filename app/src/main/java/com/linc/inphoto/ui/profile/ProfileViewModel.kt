@@ -8,7 +8,6 @@ import com.linc.inphoto.entity.user.User
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
-import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
@@ -41,9 +40,6 @@ class ProfileViewModel @Inject constructor(
             when {
                 userId.isNullOrEmpty() -> loadCurrentProfile()
                 else -> loadUserProfile(userId)
-            }
-            _uiState.update {
-                it.copy(isProfileTab = containerId.equals(MenuTab.PROFILE.name, true))
             }
         } catch (e: Exception) {
             Timber.e(e)

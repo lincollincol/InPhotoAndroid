@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.followerslist.model
+package com.linc.inphoto.ui.profilefollowers.model
 
 import com.linc.inphoto.entity.user.User
 import com.linc.inphoto.ui.base.state.UiState

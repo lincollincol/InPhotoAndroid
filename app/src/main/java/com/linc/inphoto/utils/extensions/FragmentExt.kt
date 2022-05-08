@@ -46,3 +46,5 @@ fun Fragment.permissionDisabled(permission: String) =
 fun FragmentManager.findVisibleFragment() = fragments.firstOrNull { it.isVisible }
 
 fun Fragment.keyboard() = FragmentKeyboardProperty()
+
+fun Fragment.onSystemBackPressed() = requireActivity().onBackPressed()

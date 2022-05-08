@@ -19,9 +19,9 @@ class SingleContainerNavigator(
 
     override fun applyCommand(command: Command) {
         when (command) {
+            is ShowDialog -> showDialog(command)
             is CloseDialog -> closeDialog(command)
             is CloseTopDialog -> closeDialog()
-            is ShowDialog -> showDialog(command)
             else -> super.applyCommand(command)
         }
     }

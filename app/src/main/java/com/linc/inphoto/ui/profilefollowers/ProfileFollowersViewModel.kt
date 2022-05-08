@@ -1,13 +1,11 @@
 package com.linc.inphoto.ui.profilefollowers
 
 import androidx.lifecycle.viewModelScope
-import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.followerslist.model.SubscriptionType
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
-import com.linc.inphoto.ui.profilefollowers.model.FollowersPageUiState
+import com.linc.inphoto.ui.profilefollowers.model.toUiState
 import com.linc.inphoto.utils.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,23 +27,26 @@ class ProfileFollowersViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val user = userRepository.getUserById(userId)
-                val pages = listOf(
-                    createPage(userId, R.string.followers, SubscriptionType.FOLLOWER),
-                    createPage(userId, R.string.following, SubscriptionType.FOLLOWING)
-                )
-                _uiState.update { it.copy(user = user, pages = pages) }
+                val followers = userRepository.loadUserFollowers(userId)
+                    .sortedBy { it.name }
+                    .map { it.toUiState { selectUser(it.id) } }
+                val following = userRepository.loadUserFollowing(userId)
+                    .sortedBy { it.name }
+                    .map { it.toUiState { selectUser(it.id) } }
+                _uiState.update {
+                    it.copy(
+                        user = user,
+                        followers = followers,
+                        following = following
+                    )
+                }
             } catch (e: Exception) {
                 Timber.e(e)
             }
         }
     }
 
-    private fun createPage(
-        userId: String?,
-        title: Int,
-        type: SubscriptionType
-    ) = FollowersPageUiState(
-        resourceProvider.getString(title),
-        NavScreen.FollowersListScreen(userId, type)
-    )
+    private fun selectUser(userId: String) {
+        router.navigateTo(NavScreen.ProfileScreen(userId))
+    }
 }

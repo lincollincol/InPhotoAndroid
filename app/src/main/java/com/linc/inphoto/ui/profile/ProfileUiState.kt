@@ -7,7 +7,6 @@ import com.linc.inphoto.ui.profile.model.ProfilePostUiState
 
 data class ProfileUiState(
     val user: User? = null,
-    val isProfileTab: Boolean = false,
     val newPostUiState: NewPostUiState? = null,
     val posts: List<ProfilePostUiState> = listOf()
 ) : UiState

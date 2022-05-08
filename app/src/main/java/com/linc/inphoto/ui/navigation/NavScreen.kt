@@ -18,8 +18,6 @@ import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.ui.editimage.EditImageFragment
 import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.feed.FeedFragment
-import com.linc.inphoto.ui.followerslist.FollowersListFragment
-import com.linc.inphoto.ui.followerslist.model.SubscriptionType
 import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.home.HomeFragment
@@ -151,13 +149,10 @@ object NavScreen {
         SearchFragment.newInstance()
     }
 
-    fun ProfileFollowersScreen(userId: String?) = FragmentScreen {
-        ProfileFollowersFragment.newInstance(userId)
-    }
-
-    fun FollowersListScreen(userId: String?, type: SubscriptionType) = FragmentScreen {
-        FollowersListFragment.newInstance(userId, type)
-    }
+    fun ProfileFollowersScreen(userId: String?) =
+        FragmentScreen(key = UUID.randomUUID().toString()) {
+            ProfileFollowersFragment.newInstance(userId)
+        }
 
     /**
      * External navigation
