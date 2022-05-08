@@ -67,12 +67,11 @@ class PostCommentsViewModel @Inject constructor(
     fun saveComment() {
         viewModelScope.launch {
             try {
-                val state = _uiState.value
                 val comment = postRepository.commentPost(
                     postId.toString(),
-                    state.commentMessage.toString()
+                    currentState.commentMessage.toString()
                 ) ?: return@launch
-                val comments = _uiState.value.comments.toMutableDeque()
+                val comments = currentState.comments.toMutableDeque()
                 comments.addFirst(comment.toUiState(
                     onUserClicked = { openProfile(comment.userId) },
                     onCommentClicked = { handleCommentMenu(comment.id) }
@@ -92,14 +91,13 @@ class PostCommentsViewModel @Inject constructor(
     fun updateComment() {
         viewModelScope.launch {
             try {
-                val state = _uiState.value
                 postRepository.updatePostComment(
-                    state.editableCommentId.toString(),
-                    state.commentMessage.toString()
+                    currentState.editableCommentId.toString(),
+                    currentState.commentMessage.toString()
                 )
-                val comments = _uiState.value.comments.toMutableDeque()
-                    .mapIf({ it.commentId == state.editableCommentId }) { commentUiState ->
-                        commentUiState.copy(comment = state.commentMessage.orEmpty())
+                val comments = currentState.comments.toMutableDeque()
+                    .mapIf({ it.commentId == currentState.editableCommentId }) { commentUiState ->
+                        commentUiState.copy(comment = currentState.commentMessage.orEmpty())
                     }
                 _uiState.update {
                     it.copy(
@@ -131,7 +129,7 @@ class PostCommentsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 postRepository.deletePostComment(commentId)
-                val comments = _uiState.value.comments.toMutableDeque()
+                val comments = currentState.comments.toMutableDeque()
                 comments.removeAll { it.commentId == commentId }
                 _uiState.update { it.copy(comments = comments.toImmutableDeque()) }
             } catch (e: Exception) {
@@ -141,7 +139,7 @@ class PostCommentsViewModel @Inject constructor(
     }
 
     private fun editComment(commentId: String) {
-        val comment = _uiState.value.comments.find { it.commentId == commentId }
+        val comment = currentState.comments.find { it.commentId == commentId }
         _uiState.update {
             it.copy(editableCommentId = commentId, commentMessage = comment?.comment)
         }

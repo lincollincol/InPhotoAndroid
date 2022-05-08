@@ -26,7 +26,8 @@ class NavContainerHolder @Inject constructor(
     }
 
     fun getRouter(id: String) =
-        containers[id]?.router ?: getGlobalRouter()//throw NullPointerException("Router not found!")
+//        containers[id]?.router ?: getGlobalRouter()//throw NullPointerException("Router not found!")
+        containers[id]?.router ?: throw NullPointerException("Router not found!")
 
     fun setNavigator(id: String, navigator: Navigator) {
         containers[id]?.getNavigatorHolder()?.setNavigator(navigator)

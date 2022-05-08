@@ -51,4 +51,42 @@ interface UserApiService {
         @Body gender: String
     ): BaseResponse<*>
 
+    @GET("/users")
+    suspend fun getUsers(): BaseResponse<List<UserApiModel>>
+
+    @GET("/users/{userId}")
+    suspend fun getUserById(@Path("userId") id: String): BaseResponse<UserApiModel>
+
+    @GET("/users/{userId}/followers")
+    suspend fun getUserFollowers(
+        @Path("userId") id: String
+    ): BaseResponse<List<UserApiModel>>
+
+    @GET("/users/{userId}/following")
+    suspend fun getUserFollowing(
+        @Path("userId") id: String
+    ): BaseResponse<List<UserApiModel>>
+
+    @GET("/users/{userId}/followers-ids")
+    suspend fun getUserFollowersIds(
+        @Path("userId") id: String
+    ): BaseResponse<List<String>>
+
+    @GET("/users/{userId}/following-ids")
+    suspend fun getUserFollowingIds(
+        @Path("userId") id: String
+    ): BaseResponse<List<String>>
+
+    @POST("/users/{userId}/followers/{followerId}")
+    suspend fun followUser(
+        @Path("userId") userId: String,
+        @Path("followerId") followerId: String
+    ): BaseResponse<UserApiModel>
+
+    @DELETE("/users/{userId}/followers/{followerId}")
+    suspend fun unfollowUser(
+        @Path("userId") userId: String,
+        @Path("followerId") followerId: String
+    ): BaseResponse<UserApiModel>
+
 }

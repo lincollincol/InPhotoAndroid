@@ -8,9 +8,9 @@ import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
-import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -28,13 +28,13 @@ class GalleryViewModel @Inject constructor(
         this.intent = intent
         viewModelScope.launch {
             try {
-                _uiState.update { copy(galleryPermissionsGranted = true) }
-                if (_uiState.value.images.isNotEmpty()) {
+                _uiState.update { it.copy(galleryPermissionsGranted = true) }
+                if (currentState.images.isNotEmpty()) {
                     return@launch
                 }
                 val images = mediaRepository.loadGalleryImages()
                     .map { it.toUiState(onClick = { selectImage(intent, it.uri) }) }
-                _uiState.update { copy(images = images) }
+                _uiState.update { it.copy(images = images) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -42,7 +42,7 @@ class GalleryViewModel @Inject constructor(
     }
 
     fun permissionDenied() {
-        _uiState.update { copy(galleryPermissionsGranted = false) }
+        _uiState.update { it.copy(galleryPermissionsGranted = false) }
     }
 
     fun openSettings() {

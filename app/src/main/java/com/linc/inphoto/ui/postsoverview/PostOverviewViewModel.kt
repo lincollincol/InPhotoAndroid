@@ -13,10 +13,10 @@ import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.postsoverview.model.PostOperation
 import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.safeCast
-import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -49,7 +49,7 @@ class PostOverviewViewModel @Inject constructor(
     }
 
     private suspend fun loadUserPosts(profileOverview: OverviewType.Profile) = coroutineScope {
-        _uiState.update { copy(posts = posts, postsSource = profileOverview.username) }
+        _uiState.update { it.copy(postsSource = profileOverview.username) }
         val posts = postRepository.getUserExtendedPosts(profileOverview.userId)
             .sortedBy { it.createdTimestamp }
             .map { post ->
@@ -61,7 +61,7 @@ class PostOverviewViewModel @Inject constructor(
                     onComment = { commentPost(post) },
                 )
             }
-        _uiState.update { copy(posts = posts) }
+        _uiState.update { it.copy(posts = posts) }
     }
 
     private suspend fun loadPublicPosts(feedOverview: OverviewType.Feed) = coroutineScope {
@@ -77,7 +77,7 @@ class PostOverviewViewModel @Inject constructor(
             )
         }
         val postsSource = resourceProvider.getString(R.string.publications_toolbar)
-        _uiState.update { copy(posts = posts, postsSource = postsSource) }
+        _uiState.update { it.copy(posts = posts, postsSource = postsSource) }
     }
 
     // TODO: 23.03.22 refactor code. Move ui state mapping to new function?
@@ -86,7 +86,7 @@ class PostOverviewViewModel @Inject constructor(
             try {
                 val post =
                     postRepository.likePost(selectedPost.id, !selectedPost.isLiked) ?: return@launch
-                val posts = uiState.value.posts
+                val posts = currentState.posts
                     .sortedBy { it.createdTimestamp }
                     .map { postUiState ->
                         when (postUiState.postId) {
@@ -100,7 +100,7 @@ class PostOverviewViewModel @Inject constructor(
                             else -> postUiState
                         }
                     }
-                _uiState.update { copy(posts = posts) }
+                _uiState.update { it.copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -112,7 +112,7 @@ class PostOverviewViewModel @Inject constructor(
             try {
                 val post = postRepository.bookmarkPost(selectedPost.id, !selectedPost.isBookmarked)
                     ?: return@launch
-                val posts = uiState.value.posts
+                val posts = currentState.posts
                     .sortedBy { it.createdTimestamp }
                     .map { postUiState ->
                         when (postUiState.postId) {
@@ -126,7 +126,7 @@ class PostOverviewViewModel @Inject constructor(
                             else -> postUiState
                         }
                     }
-                _uiState.update { copy(posts = posts) }
+                _uiState.update { it.copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -167,13 +167,13 @@ class PostOverviewViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 postRepository.deletePost(selectedPost.id)
-                val posts = uiState.value.posts.mapNotNull { postUiState ->
+                val posts = currentState.posts.mapNotNull { postUiState ->
                     when (postUiState.postId) {
                         selectedPost.id -> null
                         else -> postUiState
                     }
                 }
-                _uiState.update { copy(posts = posts) }
+                _uiState.update { it.copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)
             }

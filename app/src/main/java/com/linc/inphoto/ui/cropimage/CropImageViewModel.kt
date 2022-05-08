@@ -11,9 +11,9 @@ import com.linc.inphoto.ui.cropimage.model.CropShape
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.safeCast
-import com.linc.inphoto.utils.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -41,7 +41,7 @@ class CropImageViewModel @Inject constructor(
             try {
                 val ratioItems = settingsRepository.loadAspectRatios()
                     .map { RatioUiState(it, onClick = { selectRatio(it) }) }
-                _uiState.update { copy(ratioItems = ratioItems) }
+                _uiState.update { it.copy(ratioItems = ratioItems) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -52,15 +52,15 @@ class CropImageViewModel @Inject constructor(
         val shapeOptions = listOf(CropShape.Rect(), CropShape.Circle())
         router.setResultListener(CHOOSE_SHAPE_RESULT) { result ->
             val selectedShape = result.safeCast<CropShape>() ?: return@setResultListener
-            _uiState.update { copy(cropShape = selectedShape) }
+            _uiState.update { it.copy(cropShape = selectedShape) }
         }
         router.showDialog(NavScreen.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
     }
 
     fun changeRatioState(isFixed: Boolean) {
-        val ratioItems = _uiState.value.ratioItems.map { it.copy(selected = false) }
+        val ratioItems = currentState.ratioItems.map { it.copy(selected = false) }
         _uiState.update {
-            copy(isFixedAspectRatio = isFixed, ratioItems = ratioItems, currentRatio = null)
+            it.copy(isFixedAspectRatio = isFixed, ratioItems = ratioItems, currentRatio = null)
         }
     }
 
@@ -79,10 +79,8 @@ class CropImageViewModel @Inject constructor(
     }
 
     private fun selectRatio(ratio: AspectRatio) {
-        val ratioItems = uiState.value.ratioItems.map {
-            it.copy(selected = it.aspectRatio == ratio)
-        }
-        _uiState.update { copy(ratioItems = ratioItems, currentRatio = ratio) }
+        val ratioItems = currentState.ratioItems.map { it.copy(selected = it.aspectRatio == ratio) }
+        _uiState.update { it.copy(ratioItems = ratioItems, currentRatio = ratio) }
     }
 
 }

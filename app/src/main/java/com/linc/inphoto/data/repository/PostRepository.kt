@@ -53,7 +53,11 @@ class PostRepository @Inject constructor(
     }
 
     suspend fun getCurrentUserPosts(): List<Post> = withContext(ioDispatcher) {
-        val response = postApiService.getUserPosts(authPreferences.userId)
+        return@withContext getUserPosts(authPreferences.userId)
+    }
+
+    suspend fun getUserPosts(userId: String): List<Post> = withContext(ioDispatcher) {
+        val response = postApiService.getUserPosts(userId)
         return@withContext response.body?.map(PostApiModel::toPostModel).orEmpty()
     }
 

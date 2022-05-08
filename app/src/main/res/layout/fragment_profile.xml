@@ -123,68 +123,71 @@
         app:layout_constraintEnd_toEndOf="@id/endLine"
         app:layout_constraintStart_toStartOf="@id/startLine">
 
-        <TextView
-            android:id="@+id/followersCountTextView"
-            style="@style/TextFieldBold"
+        <LinearLayout
+            android:id="@+id/followersLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:textSize="@dimen/font_normal"
-            android:text="100k"
-            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@id/audienceSpace"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/audienceSpace" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/followersTextView"
-            style="@style/TextField"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/followersCountTextView"
+                style="@style/TextFieldBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:textSize="@dimen/font_normal"
+                tools:text="100k" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/followersTextView"
+                style="@style/TextField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/followers"
+                android:textColor="@color/black_50"
+                android:textSize="@dimen/font_small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/followingLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
-            android:textColor="@color/black_50"
-            android:text="Followers"
-            app:layout_constraintEnd_toEndOf="@id/followersCountTextView"
-            app:layout_constraintStart_toStartOf="@id/followersCountTextView"
-            app:layout_constraintTop_toBottomOf="@id/followersCountTextView" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/audienceSpace">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/followingCountTextView"
+                style="@style/TextFieldBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:textSize="@dimen/font_normal"
+                tools:text="115k" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/followingTextView"
+                style="@style/TextField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/following"
+                android:textColor="@color/black_50"
+                android:textSize="@dimen/font_small" />
+        </LinearLayout>
 
         <Space
             android:id="@+id/audienceSpace"
-            android:layout_width="100dp"
+            android:layout_width="@dimen/icon_huge"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/followingCountTextView"
-            style="@style/TextFieldBold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:textSize="@dimen/font_normal"
-            android:text="115k"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/audienceSpace" />
-
-        <TextView
-            android:id="@+id/followingTextView"
-            style="@style/TextField"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
-            android:textColor="@color/black_50"
-            android:text="Following"
-            app:layout_constraintEnd_toEndOf="@id/followingCountTextView"
-            app:layout_constraintStart_toStartOf="@id/followingCountTextView"
-            app:layout_constraintTop_toBottomOf="@id/followingCountTextView" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/audienceBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="followersTextView, followingTextView" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Space
             android:id="@+id/usernameSpace"
@@ -194,7 +197,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/audienceBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="followersLayout, followingLayout" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/statusTectView"
             style="@style/TextField"
             android:layout_width="0dp"
@@ -214,29 +224,51 @@
             style="@style/MaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_general"
-            android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_general"
-            android:text="Follow"
+            android:layout_margin="@dimen/margin_general"
+            android:visibility="gone"
+            android:text="@string/follow"
+            tools:visibility="visible"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintEnd_toStartOf="@id/messageButton"
+            app:layout_constraintEnd_toEndOf="@id/centerGuideline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/statusTectView"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/unfollowButton"
+            style="@style/OutlinedMaterialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_general"
+            android:text="@string/unfollow"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/centerGuideline"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statusTectView"
+            tools:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/messageButton"
             style="@style/OutlinedMaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_general"
-            android:layout_marginStart="@dimen/margin_general"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:text="Message"
-            app:layout_constraintStart_toEndOf="@id/followButton"
+            android:layout_margin="@dimen/margin_general"
+            android:text="@string/message"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintStart_toStartOf="@id/centerGuideline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/statusTectView"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/centerGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

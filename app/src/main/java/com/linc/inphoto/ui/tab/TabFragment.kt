@@ -8,10 +8,7 @@ import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.Replace
 import com.linc.inphoto.R
 import com.linc.inphoto.ui.main.MenuTab
-import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
-import com.linc.inphoto.ui.navigation.NavContainer
-import com.linc.inphoto.ui.navigation.NavContainerHolder
-import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.ui.navigation.*
 import com.linc.inphoto.ui.navigation.navigator.SingleContainerNavigator
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.safeCast
@@ -60,6 +57,12 @@ class TabFragment : Fragment(R.layout.fragment_tab), FragmentBackPressedListener
     override fun onBackPressed() {
         val fragment = childFragmentManager.findFragmentById(R.id.tabContainerLayout)
         fragment?.safeCast<FragmentBackPressedListener>()?.onBackPressed()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        val fragment = childFragmentManager.findFragmentById(R.id.tabContainerLayout)
+        fragment?.safeCast<TabStateListener>()?.onTabStateChanged(hidden)
     }
 
 }

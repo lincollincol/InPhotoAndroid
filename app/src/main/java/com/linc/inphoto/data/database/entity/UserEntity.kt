@@ -17,5 +17,7 @@ data class UserEntity(
     @ColumnInfo(name = "avatar_url")
     val avatarUrl: String,
     @ColumnInfo(name = "header_url")
-    val headerUrl: String
+    val headerUrl: String,
+    val followersCount: Int,
+    val followingCount: Int
 )

@@ -3,7 +3,7 @@ package com.linc.inphoto.ui.profile.item
 import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemProfilePostBinding
-import com.linc.inphoto.ui.profile.ProfilePostUiState
+import com.linc.inphoto.ui.profile.model.ProfilePostUiState
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.xwray.groupie.viewbinding.BindableItem
 

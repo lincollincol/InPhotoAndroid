@@ -32,10 +32,14 @@ import com.linc.inphoto.ui.postcomments.PostCommentsFragment
 import com.linc.inphoto.ui.postsoverview.PostOverviewFragment
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.profile.ProfileFragment
+import com.linc.inphoto.ui.profilefollowers.ProfileFollowersFragment
+import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
 import com.linc.inphoto.ui.profilesettings.ProfileSettingsFragment
+import com.linc.inphoto.ui.search.SearchFragment
 import com.linc.inphoto.ui.settings.SettingsFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 import com.linc.inphoto.ui.tab.TabFragment
+import java.util.*
 
 
 object NavScreen {
@@ -110,7 +114,7 @@ object NavScreen {
         MainFragment.newInstance()
     }
 
-    fun ProfileScreen(userId: String? = null) = FragmentScreen {
+    fun ProfileScreen(userId: String? = null) = FragmentScreen(key = UUID.randomUUID().toString()) {
         ProfileFragment.newInstance(userId)
     }
 
@@ -140,6 +144,17 @@ object NavScreen {
 
     fun PostCommentsScreen(postId: String) = FragmentScreen {
         PostCommentsFragment.newInstance(postId)
+    }
+
+    fun SearchScreen() = FragmentScreen {
+        SearchFragment.newInstance()
+    }
+
+    fun ProfileFollowersScreen(
+        userId: String?,
+        subscriptionType: SubscriptionType
+    ) = FragmentScreen(key = UUID.randomUUID().toString()) {
+        ProfileFollowersFragment.newInstance(userId, subscriptionType)
     }
 
     /**
