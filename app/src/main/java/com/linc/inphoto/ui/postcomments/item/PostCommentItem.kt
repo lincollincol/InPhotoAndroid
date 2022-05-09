@@ -46,7 +46,6 @@ class PostCommentItem(
             }
             root.setOnThrottledClickListener { commentUiState.onCommentClicked() }
             dateTextView.text = DateFormatter.getRelativeTimeSpanString2(
-                root.context,
                 commentUiState.createdTimestamp,
                 Locale.US
             )

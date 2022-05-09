@@ -61,6 +61,7 @@
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_tab.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/layout/item_chat.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_choose_option.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_comments_post_info.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/layout/item_crop_ratio.xml" value="0.32447916666666665" />

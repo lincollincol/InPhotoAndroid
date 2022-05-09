@@ -5,14 +5,16 @@ import com.xwray.groupie.GroupieAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.viewbinding.BindableItem
 
+fun createAdapter(vararg sections: Section): GroupieAdapter =
+    createAdapter(hasStableIds = true, *sections)
+
+@JvmOverloads
 fun createAdapter(
-    hasStableIds: Boolean = true,
+    hasStableIds: Boolean,
     vararg sections: Section
-): GroupieAdapter {
-    return GroupieAdapter().apply {
-        addAll(sections.toList())
-        setHasStableIds(hasStableIds)
-    }
+) = GroupieAdapter().apply {
+    addAll(sections.toList())
+    setHasStableIds(hasStableIds)
 }
 
 fun <T : BindableItem<out ViewBinding>> Section.updateSingle(item: T) {

@@ -15,11 +15,11 @@ class ChatsCollection @Inject constructor(
 ) {
 
     companion object {
-        private const val COLLECTION_NAME = "chats"
+        private const val CHATS_COLLECTION = "chats"
     }
 
     suspend fun loadUserChats(userId: String): List<ChatFirebaseModel> = withContext(ioDispatcher) {
-        return@withContext firestore.collection(COLLECTION_NAME)
+        return@withContext firestore.collection(CHATS_COLLECTION)
             .whereArrayContains("participants", userId)
             .get()
             .await()
@@ -27,7 +27,7 @@ class ChatsCollection @Inject constructor(
     }
 
     suspend fun loadChat(chatId: String): ChatFirebaseModel = withContext(ioDispatcher) {
-        return@withContext firestore.collection(COLLECTION_NAME)
+        return@withContext firestore.collection(CHATS_COLLECTION)
             .document(chatId)
             .get()
             .await()

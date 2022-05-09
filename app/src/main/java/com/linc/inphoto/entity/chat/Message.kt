@@ -1,10 +1,11 @@
 package com.linc.inphoto.entity.chat
 
-data class Chat(
+data class Message(
     val id: String,
     val userId: String,
     val username: String,
     val userAvatarUrl: String,
-    val lastMessage: String,
-    val lastMessageTimestamp: Long
+    val text: String,
+    val files: List<String>,
+    val createdTimestamp: Long,
 )
