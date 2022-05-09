@@ -105,5 +105,6 @@
     <string name="following">Following</string>
     <string name="followers">Followers</string>
     <string name="nothing_found">Nothing Found</string>
+    <string name="show_all">Show All</string>
 
 </resources>

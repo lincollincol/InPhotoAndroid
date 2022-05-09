@@ -45,6 +45,8 @@
         android:layout_marginHorizontal="@dimen/margin_general"
         android:textColor="@color/black_50"
         android:textSize="@dimen/font_tiny"
+        android:ellipsize="end"
+        android:lines="1"
         app:layout_constraintBottom_toBottomOf="@id/avatarImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/avatarImageView"

@@ -5,6 +5,7 @@ import com.linc.inphoto.data.repository.ChatRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.chats.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
+import com.linc.inphoto.ui.navigation.NavScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -37,6 +38,6 @@ class ChatsViewModel @Inject constructor(
     }
 
     private fun selectChat(chatId: String) {
-
+        router.navigateTo(NavScreen.ChatMessagesScreen(chatId))
     }
 }

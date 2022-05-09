@@ -6,4 +6,5 @@ data class MessageFirebaseModel(
     val text: String,
     val files: List<String>,
     val createdTimestamp: Long,
+    val isSystem: Boolean,
 )

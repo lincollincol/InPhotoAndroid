@@ -24,13 +24,14 @@ class MessagesCollection @Inject constructor(
         private const val MESSAGES_COLLECTION = "messages"
     }
 
-    suspend fun loadChatMessages(chatId: String): List<MessageFirebaseModel> =
-        withContext(ioDispatcher) {
-            return@withContext getMessagesCollection(chatId)
-                .get()
-                .await()
-                .map(::getMessageFirebaseModel)
-        }
+    suspend fun loadChatMessages(
+        chatId: String
+    ): List<MessageFirebaseModel> = withContext(ioDispatcher) {
+        return@withContext getMessagesCollection(chatId)
+            .get()
+            .await()
+            .map(::getMessageFirebaseModel)
+    }
 
     suspend fun loadChatMessage(
         chatId: String,
@@ -67,6 +68,7 @@ class MessagesCollection @Inject constructor(
         userId = document.getField<String>("userId").orEmpty(),
         text = document.getField<String>("text").orEmpty(),
         files = document.getList("files"),
-        createdTimestamp = document.getTimestampMillis("createdAt")
+        createdTimestamp = document.getTimestampMillis("createdAt"),
+        isSystem = document.getField("isSystem") ?: false
     )
 }

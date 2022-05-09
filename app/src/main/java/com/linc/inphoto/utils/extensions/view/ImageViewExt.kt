@@ -1,6 +1,7 @@
 package com.linc.inphoto.utils.extensions.view
 
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Size
 import android.widget.ImageView
@@ -9,6 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.linc.inphoto.R
@@ -78,8 +80,9 @@ fun ImageView.loadUriImage(
         null,
         null,
         diskCacheStrategy,
-        skipMemoryCache
-    )
+        skipMemoryCache,
+
+        )
 }
 
 fun ImageView.loadImage(
@@ -93,6 +96,7 @@ fun ImageView.loadImage(
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
     skipMemoryCache: Boolean = false,
     reloadImage: Boolean = true,
+    listener: RequestListener<Drawable>? = null
 ) {
     if (image == null) {
         return
@@ -118,6 +122,7 @@ fun ImageView.loadImage(
     if (size != null) {
         requestOptions = requestOptions.override(size.width, size.height)
     }
+
     Glide.with(this)
         .load(image)
         .thumbnail(
@@ -126,6 +131,7 @@ fun ImageView.loadImage(
                 .apply(bitmapTransform(BlurTransformation(24)))
                 .override(48)
         )
+        .listener(listener)
         .apply(requestOptions)
         .into(this)
 }

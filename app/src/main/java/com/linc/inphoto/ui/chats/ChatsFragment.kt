@@ -2,12 +2,14 @@ package com.linc.inphoto.ui.chats
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentChatsBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.chats.item.ChatItem
+import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.view.show
@@ -24,13 +26,14 @@ class ChatsFragment : BaseFragment(R.layout.fragment_chats) {
     }
 
     override val viewModel: ChatsViewModel by viewModels()
+    private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentChatsBinding::bind)
     private val chatsSection by lazy { Section() }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             chatsSection.update(state.chats.map(::ChatItem))
-            progressBar.show(state.isLoading)
+            progressBar.show(state.isLoading && state.chats.isEmpty())
             notFoundLayout.root.show(!state.isLoading && state.chats.isEmpty())
         }
     }
@@ -43,6 +46,7 @@ class ChatsFragment : BaseFragment(R.layout.fragment_chats) {
                 adapter = createAdapter(chatsSection)
             }
         }
+        bottomBarViewModel.showBottomBar()
         viewModel.loadChats()
     }
 
