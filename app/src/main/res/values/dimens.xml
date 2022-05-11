@@ -54,6 +54,7 @@
     <dimen name="translation_top">24dp</dimen>
 
     <!--Translation Z-->
+    <dimen name="icon_small">12dp</dimen>
     <dimen name="icon_general">24dp</dimen>
     <dimen name="icon_medium">36dp</dimen>
     <dimen name="icon_large">48dp</dimen>

@@ -5,6 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/maxWithLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <View
+        android:id="@+id/imageWidthView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/maxWithLine"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/messageLayout"
         android:layout_width="wrap_content"
@@ -16,10 +32,10 @@
         android:elevation="@dimen/elevation_tiny"
         app:layout_constrainedHeight="true"
         app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/maxWithLine"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -40,7 +56,7 @@
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/fileImageView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_general"
             android:layout_marginTop="@dimen/margin_small"
             android:adjustViewBounds="true"
@@ -52,7 +68,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/messageTextView"
-            app:roundPercent="0.1"
+            app:roundPercent="0.05"
             tools:srcCompat="@drawable/header"
             tools:visibility="visible" />
 
@@ -70,6 +86,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fileImageView"
             tools:text="10:10" />
+
+        <ProgressBar
+            android:id="@+id/pendingProgressBar"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="@dimen/icon_small"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/timeTextView"
+            app:layout_constraintEnd_toStartOf="@id/timeTextView"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/timeTextView" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/showAllButton"

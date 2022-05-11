@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.chatmessages
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
@@ -17,10 +18,7 @@ import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.view.enable
-import com.linc.inphoto.utils.extensions.view.show
-import com.linc.inphoto.utils.extensions.view.update
-import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.FadeInUpAnimator
@@ -48,9 +46,9 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 when {
                     it.isIncoming -> IncomingMessageItem(it)
                     else -> OutcomingMessageItem(it)
-//                    else -> IncomingMessageItem(it)
                 }
             })
+            if (state.isScrollDownOnUpdate) messagesRecyclerView.smoothScrollToStart()
             progressBar.show(state.isLoading)
             inputLayout.apply {
                 animateTargets(
@@ -80,6 +78,14 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 layoutManager = verticalLinearLayoutManager(true)
                 adapter = createAdapter(messagesSection)
                 itemAnimator = FadeInUpAnimator()
+            }
+            inputLayout.apply {
+                inputEditText.doOnTextChanged { text, _, _, _ ->
+                    viewModel.updateMessage(text.toString())
+                }
+                sendButton.setOnThrottledClickListener {
+                    viewModel.sendMessage()
+                }
             }
         }
         bottomBarViewModel.hideBottomBar()

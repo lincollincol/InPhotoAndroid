@@ -4,9 +4,12 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Size
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import androidx.core.view.doOnLayout
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -138,4 +141,8 @@ fun ImageView.loadImage(
 
 fun ImageView.setTint(@ColorInt color: Int) {
     ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(color))
+}
+
+fun ImageView.bindWidthTo(view: View) = view.doOnLayout {
+    updateLayoutParams { width = it.width }
 }

@@ -7,11 +7,11 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.getField
 import com.linc.inphoto.data.network.model.chat.MessageFirebaseModel
 import com.linc.inphoto.utils.getList
-import com.linc.inphoto.utils.getTimestampMillis
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 class MessagesCollection @Inject constructor(
@@ -47,13 +47,45 @@ class MessagesCollection @Inject constructor(
     suspend fun loadLastChatMessage(chatId: String): MessageFirebaseModel =
         withContext(ioDispatcher) {
             return@withContext getMessagesCollection(chatId)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .orderBy("createdTimestamp", Query.Direction.DESCENDING)
                 .limit(1)
                 .get()
                 .await()
                 .single()
                 .let(::getMessageFirebaseModel)
         }
+
+    suspend fun sendChatMessages(
+        chatId: String,
+        userId: String,
+        text: String,
+        files: List<String>,
+    ): MessageFirebaseModel = withContext(ioDispatcher) {
+        val message = MessageFirebaseModel(
+            UUID.randomUUID().toString(),
+            userId,
+            text,
+            files,
+            System.currentTimeMillis(),
+            false
+        )
+        return@withContext getMessagesCollection(chatId)
+            .add(message)
+            .await()
+            .get()
+            .await()
+            .let(::getMessageFirebaseModel)
+    }
+
+    suspend fun deleteChatMessages(
+        chatId: String,
+        messageId: String,
+    ) = withContext(ioDispatcher) {
+        return@withContext getMessagesCollection(chatId)
+            .document(messageId)
+            .delete()
+            .await()
+    }
 
     private suspend fun getMessagesCollection(
         chatId: String
@@ -68,7 +100,7 @@ class MessagesCollection @Inject constructor(
         userId = document.getField<String>("userId").orEmpty(),
         text = document.getField<String>("text").orEmpty(),
         files = document.getList("files"),
-        createdTimestamp = document.getTimestampMillis("createdAt"),
+        createdTimestamp = document.getField("createdTimestamp") ?: 0L,
         isSystem = document.getField("isSystem") ?: false
     )
 }

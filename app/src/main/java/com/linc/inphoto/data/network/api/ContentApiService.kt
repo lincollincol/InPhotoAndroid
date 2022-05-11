@@ -1,8 +1,8 @@
 package com.linc.inphoto.data.network.api
 
 import com.linc.inphoto.data.network.model.BaseResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
+import okhttp3.MultipartBody
+import retrofit2.http.*
 
 interface ContentApiService {
 
@@ -11,5 +11,9 @@ interface ContentApiService {
 
     @GET("/content/random-header")
     suspend fun getRandomHeader(): BaseResponse<String>
+
+    @Multipart
+    @POST("/content/chat-file")
+    suspend fun uploadChatContent(@Part image: MultipartBody.Part): BaseResponse<String>
 
 }

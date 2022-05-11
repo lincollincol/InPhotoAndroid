@@ -191,13 +191,3 @@ fun ViewGroup.animateTargets(transition: Transition, vararg targets: View) {
 
 fun ViewGroup.autoAnimateTargets(vararg targets: View) =
     animateTargets(AutoTransition(), *targets)
-
-//fun View.bindWidthTo(
-//    view: View,
-//    action: (() -> Unit)? = null
-//) = view.doOnLayout {
-//    updateLayoutParams {
-//        width = it.width
-//        action?.invoke()
-//    }
-//}

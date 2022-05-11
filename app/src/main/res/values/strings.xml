@@ -106,5 +106,9 @@
     <string name="followers">Followers</string>
     <string name="nothing_found">Nothing Found</string>
     <string name="show_all">Show All</string>
+    <string name="home">Home</string>
+    <string name="feed">Feed</string>
+    <string name="chat">Chat</string>
+    <string name="profile">Profile</string>
 
 </resources>

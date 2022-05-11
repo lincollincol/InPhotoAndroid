@@ -140,7 +140,6 @@ class PostOverviewViewModel @Inject constructor(
     private fun handlePostMenu(selectedPost: ExtendedPost) {
         router.setResultListener(POST_ACTION_RESULT) { result ->
             val operation = result.safeCast<PostOperation>() ?: return@setResultListener
-            Timber.d(operation::class.simpleName)
             when (operation) {
                 PostOperation.Edit -> editPost(selectedPost)
                 PostOperation.Delete -> deletePost(selectedPost)

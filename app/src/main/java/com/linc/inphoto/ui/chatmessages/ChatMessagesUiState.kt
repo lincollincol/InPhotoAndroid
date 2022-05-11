@@ -5,6 +5,7 @@ import com.linc.inphoto.ui.chatmessages.model.MessageUiState
 
 data class ChatMessagesUiState(
     val isLoading: Boolean = false,
+    val isScrollDownOnUpdate: Boolean = false,
     val messages: List<MessageUiState> = listOf(),
     val message: String? = null,
     val editableMessageId: String? = null,
