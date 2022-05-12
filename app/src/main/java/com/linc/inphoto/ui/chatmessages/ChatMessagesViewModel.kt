@@ -1,13 +1,15 @@
 package com.linc.inphoto.ui.chatmessages
 
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.MessageRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.chatmessages.model.MessageOperation
-import com.linc.inphoto.ui.chatmessages.model.MessageUiState
-import com.linc.inphoto.ui.chatmessages.model.toUiState
+import com.linc.inphoto.ui.camera.model.CameraIntent
+import com.linc.inphoto.ui.chatmessages.model.*
+import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.toMutableDeque
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,8 +25,18 @@ class ChatMessagesViewModel @Inject constructor(
     private val messageRepository: MessageRepository
 ) : BaseViewModel<ChatMessagesUiState>(navContainerHolder) {
 
+    /**
+     * TODO
+     * isUpdated state
+     * send media (attachments)
+     * update media
+     * realtime updates
+     */
+
     companion object {
         private const val MESSAGE_ACTION_RESULT = "message_action_result"
+        private const val ATTACHMENT_SOURCE_RESULT = "attachment_source_result"
+        private const val ATTACHMENT_RESULT = "attachment_result"
     }
 
     override val _uiState = MutableStateFlow(ChatMessagesUiState())
@@ -32,6 +44,10 @@ class ChatMessagesViewModel @Inject constructor(
 
     fun updateMessage(message: String?) {
         _uiState.update { it.copy(message = message) }
+    }
+
+    fun cancelMessageEditor() {
+        _uiState.update { it.copy(editableMessageId = null) }
     }
 
     fun loadChatMessages(chatId: String?) {
@@ -92,11 +108,70 @@ class ChatMessagesViewModel @Inject constructor(
         _uiState.update { it.copy(messages = messages, isScrollDownOnUpdate = false) }
     }
 
+    fun updateMessage() {
+        viewModelScope.launch {
+            try {
+                val messages = currentState.messages.mapIf(
+                    predicate = { it.id == currentState.editableMessageId },
+                    transform = { it.copy(isPending = true, text = currentState.message.orEmpty()) }
+                )
+                _uiState.update { it.copy(messages = messages) }
+                messageRepository.updateChatMessage(
+                    chatId,
+                    currentState.editableMessageId.orEmpty(),
+                    currentState.message.orEmpty(),
+                    listOf()
+                )
+                _uiState.update { state ->
+                    state.copy(
+                        messages = messages.mapIf(
+                            predicate = { it.id == currentState.editableMessageId },
+                            transform = { it.copy(isPending = false) }
+                        ),
+                        message = null,
+                        editableMessageId = null,
+                        isScrollDownOnUpdate = false
+                    )
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
+    }
+
+    fun selectAttachments() {
+        router.setResultListener(ATTACHMENT_SOURCE_RESULT) { result ->
+            val source = result.safeCast<AttachmentSource>() ?: return@setResultListener
+            val screen = when (source) {
+                AttachmentSource.Gallery ->
+                    NavScreen.GalleryScreen(GalleryIntent.Result(ATTACHMENT_RESULT))
+                AttachmentSource.Camera ->
+                    NavScreen.CameraScreen(CameraIntent.Result(ATTACHMENT_RESULT))
+            }
+            router.navigateTo(screen)
+        }
+        router.setResultListener(ATTACHMENT_RESULT) { result ->
+            val uri = result.safeCast<Uri>() ?: return@setResultListener
+            val attachments = currentState.messageAttachments.toMutableDeque()
+            if (attachments.firstOrNull { it.uri == uri } != null) {
+                return@setResultListener
+            }
+            val attachmentUiState = MessageAttachmentUiState(uri) { deleteMessageAttachment(uri) }
+            attachments.addFirst(attachmentUiState)
+            _uiState.update { it.copy(messageAttachments = attachments) }
+        }
+        val pickerScreen = NavScreen.ChooseOptionScreen(
+            ATTACHMENT_SOURCE_RESULT,
+            AttachmentSource.getAvailableSources()
+        )
+        router.showDialog(pickerScreen)
+    }
+
     private fun selectMessage(messageId: String) {
         router.setResultListener(MESSAGE_ACTION_RESULT) { result ->
             val operation = result.safeCast<MessageOperation>() ?: return@setResultListener
             when (operation) {
-                MessageOperation.Edit -> deleteMessage(messageId)
+                MessageOperation.Edit -> editMessage(messageId)
                 MessageOperation.Delete -> deleteMessage(messageId)
             }
         }
@@ -110,6 +185,11 @@ class ChatMessagesViewModel @Inject constructor(
         Timber.d(files.toString())
     }
 
+    private fun deleteMessageAttachment(uri: Uri) {
+        val attachments = currentState.messageAttachments.filter { it.uri != uri }
+        _uiState.update { it.copy(messageAttachments = attachments) }
+    }
+
     private fun deleteMessage(messageId: String) {
         viewModelScope.launch {
             try {
@@ -119,6 +199,13 @@ class ChatMessagesViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e)
             }
+        }
+    }
+
+    private fun editMessage(messageId: String) {
+        val message = currentState.messages.find { it.id == messageId }
+        _uiState.update {
+            it.copy(editableMessageId = messageId, message = message?.text)
         }
     }
 }

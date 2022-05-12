@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.chatmessages
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -12,6 +13,7 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentChatMessagesBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.chatmessages.item.IncomingMessageItem
+import com.linc.inphoto.ui.chatmessages.item.MessageAttachmentItem
 import com.linc.inphoto.ui.chatmessages.item.OutcomingMessageItem
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.animateTargets
@@ -39,6 +41,7 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentChatMessagesBinding::bind)
     private val messagesSection by lazy { Section() }
+    private val attachmentsSection by lazy { Section() }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
@@ -50,16 +53,10 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
             })
             if (state.isScrollDownOnUpdate) messagesRecyclerView.smoothScrollToStart()
             progressBar.show(state.isLoading)
+            attachmentsSection.update(state.messageAttachments.map(::MessageAttachmentItem))
             inputLayout.apply {
-                animateTargets(
-                    Fade(),
-                    inputLayout.root,
-                    sendButton,
-                    doneButton,
-                    attachmentsButton,
-                    cancelButton,
-                    inputEditText
-                )
+                animateTargets(Fade(), root, root.children)
+                attachmentsRecyclerView.show(state.hasAttachments)
                 sendButton.enable(state.isMessageValid)
                 doneButton.enable(state.isMessageValid)
                 sendButton.show(!state.isEditorState)
@@ -80,11 +77,25 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 itemAnimator = FadeInUpAnimator()
             }
             inputLayout.apply {
+                attachmentsRecyclerView.apply {
+                    layoutManager = horizontalLinearLayoutManager()
+                    adapter = createAdapter(attachmentsSection)
+                    itemAnimator = FadeInUpAnimator()
+                }
                 inputEditText.doOnTextChanged { text, _, _, _ ->
                     viewModel.updateMessage(text.toString())
                 }
                 sendButton.setOnThrottledClickListener {
                     viewModel.sendMessage()
+                }
+                doneButton.setOnThrottledClickListener {
+                    viewModel.updateMessage()
+                }
+                cancelButton.setOnThrottledClickListener {
+                    viewModel.cancelMessageEditor()
+                }
+                attachmentsButton.setOnThrottledClickListener {
+                    viewModel.selectAttachments()
                 }
             }
         }

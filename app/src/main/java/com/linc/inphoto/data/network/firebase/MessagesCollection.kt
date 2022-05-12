@@ -67,6 +67,7 @@ class MessagesCollection @Inject constructor(
             text,
             files,
             System.currentTimeMillis(),
+            false,
             false
         )
         return@withContext getMessagesCollection(chatId)
@@ -75,6 +76,21 @@ class MessagesCollection @Inject constructor(
             .get()
             .await()
             .let(::getMessageFirebaseModel)
+    }
+
+    suspend fun updateChatMessages(
+        chatId: String,
+        messageId: String,
+        text: String,
+        files: List<String>,
+    ) = withContext(ioDispatcher) {
+        return@withContext getMessagesCollection(chatId)
+            .document(messageId)
+            .update(
+                "text", text,
+                "files", files,
+                "isUpdated", true
+            )
     }
 
     suspend fun deleteChatMessages(
@@ -101,6 +117,7 @@ class MessagesCollection @Inject constructor(
         text = document.getField<String>("text").orEmpty(),
         files = document.getList("files"),
         createdTimestamp = document.getField("createdTimestamp") ?: 0L,
-        isSystem = document.getField("isSystem") ?: false
+        isSystem = document.getField("isSystem") ?: false,
+        isUpdated = document.getField("isUpdated") ?: false
     )
 }

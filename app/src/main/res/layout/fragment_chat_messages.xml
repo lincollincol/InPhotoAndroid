@@ -23,11 +23,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingTop="@dimen/padding_small"
-        android:paddingBottom="@dimen/padding_huge"
+        android:paddingVertical="@dimen/padding_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/inputLayout"
         app:layout_constraintTop_toBottomOf="@id/chatToolbar" />
 
     <ProgressBar
@@ -44,8 +43,6 @@
         layout="@layout/layout_comment_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_general"
-        android:layout_marginBottom="@dimen/margin_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

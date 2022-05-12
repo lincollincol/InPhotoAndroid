@@ -7,6 +7,7 @@ import com.linc.inphoto.data.network.api.ContentApiService
 import com.linc.inphoto.data.network.firebase.MessagesCollection
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.chat.Message
+import com.linc.inphoto.utils.extensions.isUrl
 import com.linc.inphoto.utils.extensions.toMultipartBody
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -45,6 +46,30 @@ class MessageRepository @Inject constructor(
             message,
             filesUrls.filterNotNull()
         ).toModel(isIncoming = false)
+    }
+
+    suspend fun updateChatMessage(
+        chatId: String?,
+        messageId: String,
+        text: String,
+        files: List<Uri>
+    ) = withContext(ioDispatcher) {
+        chatId ?: return@withContext null
+        val filesUrls = files.map { fileUri ->
+            async {
+                if (fileUri.isUrl()) return@async fileUri.toString()
+                mediaLocalDataSource.createTempFile(fileUri)?.let {
+                    it.deleteOnExit()
+                    contentApiService.uploadChatContent(it.toMultipartBody()).body
+                }
+            }
+        }.awaitAll()
+        return@withContext messagesCollection.updateChatMessages(
+            chatId,
+            messageId,
+            text,
+            filesUrls.filterNotNull()
+        )
     }
 
     suspend fun deleteChatMessage(chatId: String?, messageId: String) = withContext(ioDispatcher) {

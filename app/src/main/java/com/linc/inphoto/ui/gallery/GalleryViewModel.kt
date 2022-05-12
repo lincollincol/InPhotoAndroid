@@ -57,6 +57,11 @@ class GalleryViewModel @Inject constructor(
         val editorIntent = when (intent) {
             is GalleryIntent.NewPost -> EditorIntent.NewPost
             is GalleryIntent.NewAvatar -> EditorIntent.NewAvatar(intent.resultKey)
+            is GalleryIntent.Result -> {
+                router.sendResult(intent.resultKey, imageUri)
+                router.exit()
+                return
+            }
             else -> return
         }
         router.navigateTo(NavScreen.EditImageScreen(editorIntent, imageUri))
