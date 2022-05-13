@@ -143,6 +143,8 @@ dependencies {
     // Widgets, views
     implementation 'com.eightbitlab:blurview:1.6.6'
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
+//    implementation "com.otaliastudios:zoomlayout:1.9.0"
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     // Utils
     implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.3'

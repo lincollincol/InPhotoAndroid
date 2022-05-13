@@ -58,7 +58,7 @@ class ChatMessagesViewModel @Inject constructor(
                     .map {
                         it.toUiState(
                             onClick = { selectMessage(it.id) },
-                            onImageClick = { selectMessageFiles(it.files) }
+                            onImageClick = { selectMessageFiles(it.files.map(Uri::parse)) }
                         )
                     }
                 _uiState.update { it.copy(messages = messages) }
@@ -95,7 +95,7 @@ class ChatMessagesViewModel @Inject constructor(
         val message = messageRepository.sendChatMessage(chatId, messageText, files)?.let {
             it.toUiState(
                 onClick = { selectMessage(it.id) },
-                onImageClick = { selectMessageFiles(it.files) }
+                onImageClick = { selectMessageFiles(it.files.map(Uri::parse)) }
             )
         } ?: return
         messages.removeFirst()
@@ -193,8 +193,8 @@ class ChatMessagesViewModel @Inject constructor(
         router.showDialog(pickerScreen)
     }
 
-    private fun selectMessageFiles(files: List<String>) {
-        Timber.d(files.toString())
+    private fun selectMessageFiles(files: List<Uri>) {
+        router.navigateTo(NavScreen.MediaReviewScreen(files))
     }
 
     private fun deleteMessageAttachment(uri: Uri) {

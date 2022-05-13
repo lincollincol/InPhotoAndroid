@@ -27,6 +27,7 @@ import com.linc.inphoto.ui.main.MainFragment
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.managepost.ManagePostFragment
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
+import com.linc.inphoto.ui.mediareview.MediaReviewFragment
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.ui.postcomments.PostCommentsFragment
@@ -93,6 +94,10 @@ object NavScreen {
 
     fun GalleryScreen(intent: GalleryIntent) = FragmentScreen {
         GalleryFragment.newInstance(intent)
+    }
+
+    fun MediaReviewScreen(files: List<Uri>) = FragmentScreen {
+        MediaReviewFragment.newInstance(files)
     }
 
     fun EditImageScreen(intent: EditorIntent, image: Uri) = FragmentScreen {

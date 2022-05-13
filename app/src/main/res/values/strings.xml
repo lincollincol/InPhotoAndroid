@@ -112,5 +112,6 @@
     <string name="chat">Chat</string>
     <string name="profile">Profile</string>
     <string name="edited">edited</string>
+    <string name="media_review">Media Review</string>
 
 </resources>
