@@ -44,15 +44,15 @@ class MessagesCollection @Inject constructor(
             .let(::getMessageFirebaseModel)
     }
 
-    suspend fun loadLastChatMessage(chatId: String): MessageFirebaseModel =
+    suspend fun loadLastChatMessage(chatId: String): MessageFirebaseModel? =
         withContext(ioDispatcher) {
             return@withContext getMessagesCollection(chatId)
                 .orderBy("createdTimestamp", Query.Direction.DESCENDING)
                 .limit(1)
                 .get()
                 .await()
-                .single()
-                .let(::getMessageFirebaseModel)
+                .singleOrNull()
+                ?.let(::getMessageFirebaseModel)
         }
 
     suspend fun sendChatMessages(

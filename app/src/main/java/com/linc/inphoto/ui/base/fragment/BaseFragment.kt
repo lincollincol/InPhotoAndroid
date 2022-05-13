@@ -10,14 +10,19 @@ import com.linc.inphoto.ui.base.state.UiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.NavContainer
+import com.linc.inphoto.ui.navigation.TabStateListener
 import com.linc.inphoto.utils.extensions.safeCast
 import kotlinx.coroutines.CancellationException
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 
 abstract class BaseFragment(
     @LayoutRes layoutId: Int
-) : Fragment(layoutId), FragmentBackPressedListener {
+) : Fragment(layoutId), FragmentBackPressedListener, TabStateListener {
 
     protected abstract val viewModel: BaseViewModel<out UiState>
+
+    private var keyboardListener: Unregistrar? = null
 
     protected abstract suspend fun observeUiState()
 
@@ -27,10 +32,24 @@ abstract class BaseFragment(
             observeUiState()
         }
         viewModel.setupContainerId(findContainerId())
+        registerStateKeyboardListener()
     }
 
     override fun onBackPressed() {
         viewModel.onBackPressed()
+    }
+
+    override fun onTabStateChanged(hidden: Boolean) {
+        if (hidden) {
+            keyboardListener?.unregister()
+            keyboardListener = null
+            return
+        }
+        registerStateKeyboardListener()
+    }
+
+    protected open fun onKeyboardStateChanged(visible: Boolean) {
+        // Not implemented
     }
 
     protected open fun showInfoMessage(message: String) {
@@ -66,6 +85,16 @@ abstract class BaseFragment(
             e.printStackTrace()
             showErrorMessage(e.localizedMessage)
         }
+    }
+
+    private fun registerStateKeyboardListener() {
+        if (keyboardListener != null) {
+            return
+        }
+        keyboardListener = KeyboardVisibilityEvent.registerEventListener(
+            requireActivity(),
+            ::onKeyboardStateChanged
+        )
     }
 
     private fun findContainerId(): String? {

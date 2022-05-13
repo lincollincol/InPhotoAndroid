@@ -4,6 +4,7 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemChatBinding
 import com.linc.inphoto.ui.chats.model.ChatEntityUiState
+import com.linc.inphoto.ui.chats.model.isEmptyConversation
 import com.linc.inphoto.ui.chats.model.isLastMessageAttachmentsOnly
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.getString
@@ -21,6 +22,7 @@ class ChatItem(
             avatarImageView.loadImage(chatEntityUiState.avatarUrl)
             nameTextView.text = chatEntityUiState.username
             lastMessageTextView.text = when {
+                chatEntityUiState.isEmptyConversation -> getString(R.string.no_messages)
                 chatEntityUiState.isLastMessageAttachmentsOnly -> getString(R.string.attachments)
                 else -> chatEntityUiState.lastMessage
             }

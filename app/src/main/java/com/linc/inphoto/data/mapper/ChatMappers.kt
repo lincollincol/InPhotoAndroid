@@ -7,14 +7,14 @@ import com.linc.inphoto.entity.chat.Chat
 import com.linc.inphoto.entity.chat.Message
 import com.linc.inphoto.entity.user.User
 
-fun ChatFirebaseModel.toModel(user: User?, message: MessageFirebaseModel) = Chat(
+fun ChatFirebaseModel.toModel(user: User?, message: MessageFirebaseModel?) = Chat(
     id = id,
     userId = user?.id.orEmpty(),
     username = user?.name.orEmpty(),
     userAvatarUrl = user?.avatarUrl.orEmpty(),
-    lastMessage = message.text,
-    lastMessageTimestamp = message.createdTimestamp,
-    lastMessageFiles = message.files.map(Uri::parse)
+    lastMessage = message?.text,
+    lastMessageTimestamp = message?.createdTimestamp ?: 0L,
+    lastMessageFiles = message?.files?.map(Uri::parse).orEmpty()
 )
 
 fun ChatFirebaseModel.toModel(user: User?, message: Message) = Chat(

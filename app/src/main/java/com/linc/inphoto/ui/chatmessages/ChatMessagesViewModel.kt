@@ -27,8 +27,10 @@ class ChatMessagesViewModel @Inject constructor(
 
     /**
      * TODO
-     * show files
      * realtime updates
+     * user chats
+     * create chat
+     * system message
      */
 
     companion object {
@@ -45,7 +47,9 @@ class ChatMessagesViewModel @Inject constructor(
     }
 
     fun cancelMessageEditor() {
-        _uiState.update { it.copy(editableMessageId = null) }
+        _uiState.update {
+            it.copy(editableMessageId = null, message = null, messageAttachments = listOf())
+        }
     }
 
     fun loadChatMessages(chatId: String?) {
@@ -180,6 +184,8 @@ class ChatMessagesViewModel @Inject constructor(
     }
 
     private fun selectMessage(messageId: String) {
+        currentState.messages.find { it.id == messageId }
+            ?.let { message -> if (message.isIncoming) return }
         router.setResultListener(MESSAGE_ACTION_RESULT) { result ->
             val operation = result.safeCast<MessageOperation>() ?: return@setResultListener
             when (operation) {

@@ -45,6 +45,7 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            attachmentsSection.update(state.messageAttachments.map(::MessageAttachmentItem))
             messagesSection.update(state.messages.map {
                 when {
                     it.isIncoming -> IncomingMessageItem(it)
@@ -53,7 +54,7 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
             })
             if (state.isScrollDownOnUpdate) messagesRecyclerView.smoothScrollToStart()
             progressBar.show(state.isLoading)
-            attachmentsSection.update(state.messageAttachments.map(::MessageAttachmentItem))
+            messagesNotFoundLayout.root.show(state.messages.isEmpty())
             inputLayout.apply {
                 animateTargets(Fade(), root, root.children)
                 attachmentsRecyclerView.show(state.hasAttachments)
@@ -81,6 +82,10 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                     adapter = createAdapter(attachmentsSection)
                     itemAnimator = FadeInUpAnimator()
                 }
+                messagesNotFoundLayout.apply {
+                    notFoundImageView.setImageResource(R.drawable.ic_chat)
+                    notFoundTextView.setText(R.string.no_messages)
+                }
                 inputEditText.doOnTextChanged { text, _, _, _ ->
                     viewModel.updateMessage(text.toString())
                 }
@@ -95,6 +100,9 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 }
                 attachmentsButton.setOnThrottledClickListener {
                     viewModel.selectAttachments()
+                }
+                chatToolbar.setOnCancelClickListener {
+                    viewModel.onBackPressed()
                 }
             }
         }

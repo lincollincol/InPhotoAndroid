@@ -7,7 +7,7 @@ data class Chat(
     val userId: String,
     val username: String,
     val userAvatarUrl: String,
-    val lastMessage: String,
+    val lastMessage: String?,
     val lastMessageTimestamp: Long,
     val lastMessageFiles: List<Uri>
 )

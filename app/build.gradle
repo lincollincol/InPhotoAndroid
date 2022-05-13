@@ -149,5 +149,7 @@ dependencies {
     // Utils
     implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.3'
     implementation 'com.jakewharton.timber:timber:5.0.1'
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
+
 
 }
