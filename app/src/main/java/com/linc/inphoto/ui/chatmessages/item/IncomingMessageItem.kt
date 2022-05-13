@@ -18,7 +18,10 @@ class IncomingMessageItem(
 ) : BindableItem<ItemMessageIncomingBinding>(messageUiState.id.hashCode().toLong()) {
     override fun bind(viewBinding: ItemMessageIncomingBinding, position: Int) {
         with(viewBinding) {
-            messageTextView.text = messageUiState.text
+            messageTextView.apply {
+                text = messageUiState.text
+                show(messageUiState.text.isNotEmpty())
+            }
             timeTextView.text = DateFormatter.format(
                 messageUiState.createdTimestamp,
                 TIME_PATTERN_SEMICOLON,

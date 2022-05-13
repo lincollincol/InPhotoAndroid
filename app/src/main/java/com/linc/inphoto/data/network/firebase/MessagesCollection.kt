@@ -67,8 +67,8 @@ class MessagesCollection @Inject constructor(
             text,
             files,
             System.currentTimeMillis(),
-            false,
-            false
+            isSystem = false,
+            isEdited = false
         )
         return@withContext getMessagesCollection(chatId)
             .add(message)
@@ -89,7 +89,7 @@ class MessagesCollection @Inject constructor(
             .update(
                 "text", text,
                 "files", files,
-                "isUpdated", true
+                "edited", true
             )
     }
 
@@ -117,7 +117,7 @@ class MessagesCollection @Inject constructor(
         text = document.getField<String>("text").orEmpty(),
         files = document.getList("files"),
         createdTimestamp = document.getField("createdTimestamp") ?: 0L,
-        isSystem = document.getField("isSystem") ?: false,
-        isUpdated = document.getField("isUpdated") ?: false
+        isSystem = document.getField("system") ?: false,
+        isEdited = document.getField("edited") ?: false
     )
 }

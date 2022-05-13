@@ -61,7 +61,7 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 doneButton.enable(state.isMessageValid)
                 sendButton.show(!state.isEditorState)
                 doneButton.show(state.isEditorState)
-                attachmentsButton.show(!state.isEditorState)
+//                attachmentsButton.show(!state.isEditorState)
                 cancelButton.show(state.isEditorState)
                 inputEditText.update(state.message)
             }

@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_general"
             android:layout_marginTop="@dimen/margin_small"
+            app:layout_goneMarginTop="@dimen/margin_general"
             android:adjustViewBounds="true"
             android:background="@color/black"
             android:scaleType="centerCrop"
@@ -86,6 +87,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fileImageView"
             tools:text="10:10" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/editedTextView"
+            style="@style/TextField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:text="@string/edited"
+            android:textColor="@color/black_50"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/timeTextView"
+            app:layout_constraintEnd_toStartOf="@id/timeTextView"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/timeTextView" />
 
         <ProgressBar
             android:id="@+id/pendingProgressBar"

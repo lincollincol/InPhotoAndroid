@@ -7,5 +7,6 @@ data class Message(
     val files: List<String>,
     val createdTimestamp: Long,
     val isIncoming: Boolean,
-    val isSystem: Boolean
+    val isSystem: Boolean,
+    val isEdited: Boolean
 )

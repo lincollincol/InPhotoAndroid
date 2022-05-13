@@ -98,6 +98,7 @@
     <string name="date_period_short_second">%1$d sec.</string>
     <string name="date_period_short_now">just now</string>
 
+    <string name="attachments">Attachments</string>
     <string name="message">Message</string>
     <string name="search">Search</string>
     <string name="unfollow">Unfollow</string>
@@ -110,5 +111,6 @@
     <string name="feed">Feed</string>
     <string name="chat">Chat</string>
     <string name="profile">Profile</string>
+    <string name="edited">edited</string>
 
 </resources>

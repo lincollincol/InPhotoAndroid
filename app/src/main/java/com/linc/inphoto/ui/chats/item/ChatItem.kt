@@ -4,7 +4,9 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemChatBinding
 import com.linc.inphoto.ui.chats.model.ChatEntityUiState
+import com.linc.inphoto.ui.chats.model.isLastMessageAttachmentsOnly
 import com.linc.inphoto.utils.DateFormatter
+import com.linc.inphoto.utils.extensions.getString
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.xwray.groupie.viewbinding.BindableItem
@@ -18,7 +20,10 @@ class ChatItem(
         with(viewBinding) {
             avatarImageView.loadImage(chatEntityUiState.avatarUrl)
             nameTextView.text = chatEntityUiState.username
-            lastMessageTextView.text = chatEntityUiState.lastMessage
+            lastMessageTextView.text = when {
+                chatEntityUiState.isLastMessageAttachmentsOnly -> getString(R.string.attachments)
+                else -> chatEntityUiState.lastMessage
+            }
             lastMessageTimeTextView.text = DateFormatter.getRelativeTimeSpanString2(
                 chatEntityUiState.lastMessageTimestamp,
                 Locale.US

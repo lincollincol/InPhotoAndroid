@@ -1,9 +1,11 @@
 package com.linc.inphoto.ui.chatmessages.item
 
 import android.view.View
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemMessageOutcomingBinding
 import com.linc.inphoto.ui.chatmessages.model.MessageUiState
+import com.linc.inphoto.ui.chatmessages.model.hasMultipleAttachments
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
 import com.linc.inphoto.utils.extensions.view.bindWidthTo
@@ -18,7 +20,11 @@ class OutcomingMessageItem(
 ) : BindableItem<ItemMessageOutcomingBinding>(messageUiState.id.hashCode().toLong()) {
     override fun bind(viewBinding: ItemMessageOutcomingBinding, position: Int) {
         with(viewBinding) {
-            messageTextView.text = messageUiState.text
+            messageTextView.apply {
+                text = messageUiState.text
+                show(messageUiState.text.isNotEmpty())
+            }
+            editedTextView.show(messageUiState.isEdited && !messageUiState.isProcessing)
             timeTextView.text = DateFormatter.format(
                 messageUiState.createdTimestamp,
                 TIME_PATTERN_SEMICOLON,
@@ -26,11 +32,14 @@ class OutcomingMessageItem(
             )
             fileImageView.apply {
                 bindWidthTo(imageWidthView)
-                loadImage(messageUiState.files.firstOrNull())
+                loadImage(
+                    messageUiState.files.firstOrNull(),
+                    diskCacheStrategy = DiskCacheStrategy.ALL
+                )
                 show(messageUiState.files.isNotEmpty())
             }
-            showAllButton.show(messageUiState.files.count() > 1)
-            pendingProgressBar.show(messageUiState.isPending)
+            showAllButton.show(messageUiState.hasMultipleAttachments)
+            pendingProgressBar.show(messageUiState.isProcessing)
             fileImageView.setOnThrottledClickListener {
                 messageUiState.onImageClick()
             }

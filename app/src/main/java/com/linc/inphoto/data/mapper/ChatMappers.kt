@@ -1,5 +1,6 @@
 package com.linc.inphoto.data.mapper
 
+import android.net.Uri
 import com.linc.inphoto.data.network.model.chat.ChatFirebaseModel
 import com.linc.inphoto.data.network.model.chat.MessageFirebaseModel
 import com.linc.inphoto.entity.chat.Chat
@@ -12,7 +13,8 @@ fun ChatFirebaseModel.toModel(user: User?, message: MessageFirebaseModel) = Chat
     username = user?.name.orEmpty(),
     userAvatarUrl = user?.avatarUrl.orEmpty(),
     lastMessage = message.text,
-    lastMessageTimestamp = message.createdTimestamp
+    lastMessageTimestamp = message.createdTimestamp,
+    lastMessageFiles = message.files.map(Uri::parse)
 )
 
 fun ChatFirebaseModel.toModel(user: User?, message: Message) = Chat(
@@ -21,7 +23,8 @@ fun ChatFirebaseModel.toModel(user: User?, message: Message) = Chat(
     username = user?.name.orEmpty(),
     userAvatarUrl = user?.avatarUrl.orEmpty(),
     lastMessage = message.text,
-    lastMessageTimestamp = message.createdTimestamp
+    lastMessageTimestamp = message.createdTimestamp,
+    lastMessageFiles = message.files.map(Uri::parse)
 )
 
 fun MessageFirebaseModel.toModel(
@@ -33,5 +36,6 @@ fun MessageFirebaseModel.toModel(
     files = files,
     createdTimestamp = createdTimestamp,
     isSystem = isSystem,
+    isEdited = isEdited,
     isIncoming = isIncoming
 )

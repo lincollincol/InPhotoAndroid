@@ -7,5 +7,5 @@ data class MessageFirebaseModel(
     val files: List<String>,
     val createdTimestamp: Long,
     val isSystem: Boolean,
-    val isUpdated: Boolean
+    val isEdited: Boolean
 )

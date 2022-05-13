@@ -14,5 +14,5 @@ data class ChatMessagesUiState(
 ) : UiState
 
 val ChatMessagesUiState.hasAttachments get() = messageAttachments.isNotEmpty()
-val ChatMessagesUiState.isMessageValid get() = !message.isNullOrEmpty()
+val ChatMessagesUiState.isMessageValid get() = !message.isNullOrEmpty() || hasAttachments
 val ChatMessagesUiState.isEditorState get() = !editableMessageId.isNullOrEmpty()
