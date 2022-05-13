@@ -24,7 +24,6 @@ class OutcomingMessageItem(
                 text = messageUiState.text
                 show(messageUiState.text.isNotEmpty())
             }
-            editedTextView.show(messageUiState.isEdited && !messageUiState.isProcessing)
             timeTextView.text = DateFormatter.format(
                 messageUiState.createdTimestamp,
                 TIME_PATTERN_SEMICOLON,
@@ -37,18 +36,19 @@ class OutcomingMessageItem(
                     diskCacheStrategy = DiskCacheStrategy.ALL
                 )
                 show(messageUiState.files.isNotEmpty())
+                fileImageView.setOnThrottledClickListener { messageUiState.onImageClick() }
+                setOnLongClickListener {
+                    messageUiState.onClick()
+                    return@setOnLongClickListener false
+                }
             }
-            showAllButton.show(messageUiState.hasMultipleAttachments)
+            showAllButton.apply {
+                show(messageUiState.hasMultipleAttachments)
+                setOnThrottledClickListener { messageUiState.onImageClick() }
+            }
+            root.setOnThrottledClickListener { messageUiState.onClick() }
             pendingProgressBar.show(messageUiState.isProcessing)
-            fileImageView.setOnThrottledClickListener {
-                messageUiState.onImageClick()
-            }
-            showAllButton.setOnThrottledClickListener {
-                messageUiState.onImageClick()
-            }
-            root.setOnThrottledClickListener {
-                messageUiState.onClick()
-            }
+            editedTextView.show(messageUiState.isEdited && !messageUiState.isProcessing)
         }
     }
 

@@ -27,7 +27,7 @@ class ChatMessagesViewModel @Inject constructor(
 
     /**
      * TODO
-     * isUpdated state
+     * show files
      * realtime updates
      */
 
@@ -109,7 +109,7 @@ class ChatMessagesViewModel @Inject constructor(
                 val editableMessageId = currentState.editableMessageId.orEmpty()
                 val messageText = currentState.message.orEmpty()
                 val files = currentState.messageAttachments.toUriList()
-                launch { showUpdatingEditableMessage(messageText, files) }
+                launch { showUpdatingEditableMessage(editableMessageId, messageText, files) }
                 launch { updateEditableMessage(editableMessageId, messageText, files) }
                 _uiState.update {
                     it.copy(editableMessageId = null, message = null, messageAttachments = listOf())
@@ -120,10 +120,16 @@ class ChatMessagesViewModel @Inject constructor(
         }
     }
 
-    private fun showUpdatingEditableMessage(messageText: String, files: List<Uri>) {
+    private fun showUpdatingEditableMessage(
+        editableMessageId: String,
+        messageText: String, files:
+        List<Uri>
+    ) {
         val messages = currentState.messages.mapIf(
-            condition = { it.id == currentState.editableMessageId },
-            transform = { it.copy(isProcessing = true, text = messageText, files = files) }
+            condition = { it.id == editableMessageId },
+            transform = {
+                it.copy(isProcessing = true, text = messageText, files = files, isEdited = true)
+            }
         )
         _uiState.update { it.copy(messages = messages) }
     }

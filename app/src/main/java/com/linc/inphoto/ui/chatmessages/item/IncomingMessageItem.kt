@@ -4,6 +4,7 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemMessageIncomingBinding
 import com.linc.inphoto.ui.chatmessages.model.MessageUiState
+import com.linc.inphoto.ui.chatmessages.model.hasMultipleAttachments
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
 import com.linc.inphoto.utils.extensions.view.bindWidthTo
@@ -31,17 +32,19 @@ class IncomingMessageItem(
                 bindWidthTo(imageWidthView)
                 loadImage(messageUiState.files.firstOrNull())
                 show(messageUiState.files.isNotEmpty())
+                setOnThrottledClickListener { messageUiState.onImageClick() }
+                setOnLongClickListener {
+                    messageUiState.onClick()
+                    return@setOnLongClickListener false
+                }
             }
-            showAllButton.show(messageUiState.files.count() > 1)
-            fileImageView.setOnThrottledClickListener {
-                messageUiState.onImageClick()
+            showAllButton.apply {
+                show(messageUiState.hasMultipleAttachments)
+                setOnThrottledClickListener { messageUiState.onImageClick() }
             }
-            showAllButton.setOnThrottledClickListener {
-                messageUiState.onImageClick()
-            }
-            root.setOnThrottledClickListener {
-                messageUiState.onClick()
-            }
+            root.setOnThrottledClickListener { messageUiState.onClick() }
+            editedTextView.show(messageUiState.isEdited && !messageUiState.isProcessing)
+            pendingProgressBar.show(messageUiState.isProcessing)
         }
     }
 

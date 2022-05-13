@@ -88,6 +88,34 @@
             app:layout_constraintTop_toBottomOf="@id/fileImageView"
             tools:text="10:10" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/editedTextView"
+            style="@style/TextField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_general"
+            android:text="@string/edited"
+            android:textColor="@color/black_50"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/timeTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/timeTextView"
+            app:layout_constraintTop_toTopOf="@id/timeTextView" />
+
+        <ProgressBar
+            android:id="@+id/pendingProgressBar"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="@dimen/icon_small"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/timeTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/timeTextView"
+            app:layout_constraintTop_toTopOf="@id/timeTextView" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/showAllButton"
             style="@style/SmallMaterialButton"
