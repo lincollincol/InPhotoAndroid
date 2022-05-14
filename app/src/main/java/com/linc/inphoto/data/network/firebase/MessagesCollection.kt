@@ -3,8 +3,6 @@ package com.linc.inphoto.data.network.firebase
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.getField
 import com.linc.inphoto.data.network.model.chat.MessageFirebaseModel
-import com.linc.inphoto.utils.extensions.from
-import com.linc.inphoto.utils.extensions.isToday
 import com.linc.inphoto.utils.getList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -39,8 +37,9 @@ class MessagesCollection @Inject constructor(
     }.flowOn(ioDispatcher)
 
     suspend fun loadChatMessages(
-        chatId: String
+        chatId: String?
     ): List<MessageFirebaseModel> = withContext(ioDispatcher) {
+        if (chatId.isNullOrEmpty()) error("Chat not found!")
         return@withContext getMessagesCollection(chatId)
             .get()
             .await()
@@ -70,16 +69,13 @@ class MessagesCollection @Inject constructor(
         }
 
     suspend fun sendChatMessages(
-        chatId: String,
+        chatId: String?,
         messageId: String,
         userId: String,
         text: String,
         files: List<String>,
     ) = withContext(ioDispatcher) {
-        val messageFB = loadLastChatMessage(chatId)
-        if (messageFB == null || !LocalDateTime.from(messageFB.createdTimestamp).isToday()) {
-            sendSystemDateMessage(chatId)
-        }
+        if (chatId.isNullOrEmpty()) error("Chat not found!")
         val message = MessageFirebaseModel.getChatMessageInstance(userId, text, files)
         getMessagesCollection(chatId)
             .document(messageId)
@@ -88,11 +84,12 @@ class MessagesCollection @Inject constructor(
     }
 
     suspend fun updateChatMessages(
-        chatId: String,
+        chatId: String?,
         messageId: String,
         text: String,
         files: List<String>,
     ) = withContext(ioDispatcher) {
+        if (chatId.isNullOrEmpty()) error("Chat not found!")
         getMessagesCollection(chatId)
             .document(messageId)
             .update(
@@ -103,10 +100,11 @@ class MessagesCollection @Inject constructor(
     }
 
     suspend fun deleteChatMessages(
-        chatId: String,
+        chatId: String?,
         messageId: String,
     ) = withContext(ioDispatcher) {
-        return@withContext getMessagesCollection(chatId)
+        if (chatId.isNullOrEmpty()) error("Chat not found!")
+        getMessagesCollection(chatId)
             .document(messageId)
             .delete()
             .await()
@@ -118,13 +116,6 @@ class MessagesCollection @Inject constructor(
         return@withContext firestore.collection(CHATS_COLLECTION)
             .document(chatId)
             .collection(MESSAGES_COLLECTION)
-    }
-
-    private suspend fun sendSystemDateMessage(chatId: String) = withContext(ioDispatcher) {
-        return@withContext getMessagesCollection(chatId)
-            .document(UUID.randomUUID().toString())
-            .set(MessageFirebaseModel.getSystemMessageInstance())
-            .await()
     }
 
     private fun getMessageFirebaseModel(document: DocumentSnapshot) = MessageFirebaseModel(

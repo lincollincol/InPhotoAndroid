@@ -58,9 +58,10 @@ class GalleryViewModel @Inject constructor(
             is GalleryIntent.NewPost -> EditorIntent.NewPost
             is GalleryIntent.NewAvatar -> EditorIntent.NewAvatar(intent.resultKey)
             is GalleryIntent.Result -> {
-                router.sendResult(intent.resultKey, imageUri)
-                router.exit()
-                return
+                return router.run {
+                    sendResult(intent.resultKey, imageUri)
+                    exit()
+                }
             }
             else -> return
         }

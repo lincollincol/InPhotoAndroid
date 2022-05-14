@@ -25,6 +25,12 @@ class CameraViewModel @Inject constructor(
         val editorIntent = when (intent) {
             is CameraIntent.NewAvatar -> EditorIntent.NewAvatar(intent.resultKey)
             is CameraIntent.NewPost -> EditorIntent.NewPost
+            is CameraIntent.Result -> {
+                return router.run {
+                    sendResult(intent.resultKey, imageUri)
+                    exit()
+                }
+            }
             else -> return
         }
         router.navigateTo(NavScreen.EditImageScreen(editorIntent, imageUri))

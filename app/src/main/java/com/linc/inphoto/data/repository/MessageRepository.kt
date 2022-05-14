@@ -29,7 +29,6 @@ class MessageRepository @Inject constructor(
     }
 
     suspend fun loadChatMessages(chatId: String?): List<Message> = withContext(ioDispatcher) {
-        chatId ?: return@withContext emptyList()
         return@withContext messagesCollection.loadChatMessages(chatId)
             .map { it.toModel(it.userId != authPreferences.userId) }
     }
@@ -40,7 +39,6 @@ class MessageRepository @Inject constructor(
         message: String,
         files: List<Uri>
     ) = withContext(ioDispatcher) {
-        chatId ?: return@withContext null
         val filesUrls = files.map { fileUri ->
             async {
                 mediaLocalDataSource.createTempFile(fileUri)?.let {
@@ -64,7 +62,6 @@ class MessageRepository @Inject constructor(
         text: String,
         files: List<Uri>
     ) = withContext(ioDispatcher) {
-        chatId ?: return@withContext null
         val filesUrls = files.map { fileUri ->
             async {
                 if (fileUri.isUrl()) return@async fileUri.toString()
@@ -74,7 +71,7 @@ class MessageRepository @Inject constructor(
                 }
             }
         }.awaitAll()
-        return@withContext messagesCollection.updateChatMessages(
+        messagesCollection.updateChatMessages(
             chatId,
             messageId,
             text,

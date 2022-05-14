@@ -35,7 +35,6 @@ class OutcomingMessageItem(
             fileImageView.apply {
                 loadImage(
                     messageUiState.files.firstOrNull(),
-                    reloadImage = false,
                     overrideOriginalSize = true,
                     diskCacheStrategy = DiskCacheStrategy.ALL
                 )

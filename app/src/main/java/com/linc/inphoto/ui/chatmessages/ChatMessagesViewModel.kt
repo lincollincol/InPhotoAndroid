@@ -28,10 +28,8 @@ class ChatMessagesViewModel @Inject constructor(
 
     /**
      * TODO
-     * realtime updates
      * user chats
      * create chat
-     * system message +
      */
 
     companion object {
@@ -44,7 +42,7 @@ class ChatMessagesViewModel @Inject constructor(
     private var chatId: String? = null
 
     fun updateMessage(message: String?) {
-        _uiState.update { it.copy(message = message, isScrollDownOnUpdate = false) }
+        _uiState.update { it.copy(message = message) }
     }
 
     fun cancelMessageEditor() {
@@ -68,7 +66,13 @@ class ChatMessagesViewModel @Inject constructor(
                                     onImageClick = { selectMessageFiles(it.files.map(Uri::parse)) }
                                 )
                             }
-                        _uiState.update { it.copy(messages = messagesStates, isLoading = false) }
+                        _uiState.update {
+                            it.copy(
+                                messages = messagesStates,
+                                isLoading = false,
+                                isScrollDownOnUpdate = false
+                            )
+                        }
                     }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -90,7 +94,6 @@ class ChatMessagesViewModel @Inject constructor(
                         files
                     )
                 )
-                launch { messageRepository.sendChatMessage(chatId, messageId, messageText, files) }
                 _uiState.update {
                     it.copy(
                         messages = messages,
@@ -99,6 +102,7 @@ class ChatMessagesViewModel @Inject constructor(
                         isScrollDownOnUpdate = true
                     )
                 }
+                launch { messageRepository.sendChatMessage(chatId, messageId, messageText, files) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -210,8 +214,7 @@ class ChatMessagesViewModel @Inject constructor(
     }
 
     private fun editMessage(messageId: String) {
-        val message = currentState.messages.find { it.id == messageId }
-            ?: return
+        val message = currentState.messages.find { it.id == messageId } ?: return
         _uiState.update {
             it.copy(
                 editableMessageId = messageId,
