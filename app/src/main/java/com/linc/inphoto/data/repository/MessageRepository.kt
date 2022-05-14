@@ -10,6 +10,7 @@ import com.linc.inphoto.entity.chat.Message
 import com.linc.inphoto.utils.extensions.isUrl
 import com.linc.inphoto.utils.extensions.toMultipartBody
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class MessageRepository @Inject constructor(
@@ -20,6 +21,13 @@ class MessageRepository @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
+    suspend fun loadChatMessagesEvents(chatId: String?): Flow<List<Message>> {
+        return messagesCollection.getChatMessages(chatId)
+            .map { list ->
+                list.map { it.toModel(it.userId != authPreferences.userId) }
+            }
+    }
+
     suspend fun loadChatMessages(chatId: String?): List<Message> = withContext(ioDispatcher) {
         chatId ?: return@withContext emptyList()
         return@withContext messagesCollection.loadChatMessages(chatId)
@@ -28,9 +36,10 @@ class MessageRepository @Inject constructor(
 
     suspend fun sendChatMessage(
         chatId: String?,
+        messageId: String,
         message: String,
         files: List<Uri>
-    ): Message? = withContext(ioDispatcher) {
+    ) = withContext(ioDispatcher) {
         chatId ?: return@withContext null
         val filesUrls = files.map { fileUri ->
             async {
@@ -40,12 +49,13 @@ class MessageRepository @Inject constructor(
                 }
             }
         }.awaitAll()
-        return@withContext messagesCollection.sendChatMessages(
+        messagesCollection.sendChatMessages(
             chatId,
+            messageId,
             authPreferences.userId,
             message,
             filesUrls.filterNotNull()
-        ).toModel(isIncoming = false)
+        )
     }
 
     suspend fun updateChatMessage(

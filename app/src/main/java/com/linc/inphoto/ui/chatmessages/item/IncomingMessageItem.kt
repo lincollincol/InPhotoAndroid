@@ -1,13 +1,16 @@
 package com.linc.inphoto.ui.chatmessages.item
 
 import android.view.View
+import androidx.core.view.children
+import androidx.transition.Fade
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemMessageIncomingBinding
 import com.linc.inphoto.ui.chatmessages.model.MessageUiState
 import com.linc.inphoto.ui.chatmessages.model.hasMultipleAttachments
 import com.linc.inphoto.utils.DateFormatter
+import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
-import com.linc.inphoto.utils.extensions.view.bindWidthTo
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
@@ -16,9 +19,10 @@ import java.util.*
 
 class IncomingMessageItem(
     private val messageUiState: MessageUiState
-) : BindableItem<ItemMessageIncomingBinding>(messageUiState.id.hashCode().toLong()) {
+) : BindableItem<ItemMessageIncomingBinding>(messageUiState.getStateItemId()) {
     override fun bind(viewBinding: ItemMessageIncomingBinding, position: Int) {
         with(viewBinding) {
+            animateTargets(Fade(), messageLayout, messageLayout.children)
             messageTextView.apply {
                 text = messageUiState.text
                 show(messageUiState.text.isNotEmpty())
@@ -29,10 +33,13 @@ class IncomingMessageItem(
                 Locale.US
             )
             fileImageView.apply {
-                bindWidthTo(imageWidthView)
-                loadImage(messageUiState.files.firstOrNull())
+                loadImage(
+                    messageUiState.files.firstOrNull(),
+                    overrideOriginalSize = true,
+                    diskCacheStrategy = DiskCacheStrategy.ALL
+                )
                 show(messageUiState.files.isNotEmpty())
-                setOnThrottledClickListener { messageUiState.onImageClick() }
+                fileImageView.setOnThrottledClickListener { messageUiState.onImageClick() }
                 setOnLongClickListener {
                     messageUiState.onClick()
                     return@setOnLongClickListener false
@@ -43,8 +50,8 @@ class IncomingMessageItem(
                 setOnThrottledClickListener { messageUiState.onImageClick() }
             }
             root.setOnThrottledClickListener { messageUiState.onClick() }
-            editedTextView.show(messageUiState.isEdited && !messageUiState.isProcessing)
             pendingProgressBar.show(messageUiState.isProcessing)
+            editedTextView.show(messageUiState.isEdited && !messageUiState.isProcessing)
         }
     }
 

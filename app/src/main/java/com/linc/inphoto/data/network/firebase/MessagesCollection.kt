@@ -1,16 +1,19 @@
 package com.linc.inphoto.data.network.firebase
 
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.getField
 import com.linc.inphoto.data.network.model.chat.MessageFirebaseModel
+import com.linc.inphoto.utils.extensions.from
+import com.linc.inphoto.utils.extensions.isToday
 import com.linc.inphoto.utils.getList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.*
 import java.util.*
 import javax.inject.Inject
 
@@ -23,6 +26,17 @@ class MessagesCollection @Inject constructor(
         private const val CHATS_COLLECTION = "chats"
         private const val MESSAGES_COLLECTION = "messages"
     }
+
+    suspend fun getChatMessages(chatId: String?) = callbackFlow {
+        if (chatId.isNullOrEmpty()) error("Chat not found!")
+        val listener = getMessagesCollection(chatId).addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                error(error)
+            }
+            trySend(snapshot?.documents?.map { getMessageFirebaseModel(it) }.orEmpty())
+        }
+        awaitClose { listener.remove() }
+    }.flowOn(ioDispatcher)
 
     suspend fun loadChatMessages(
         chatId: String
@@ -57,25 +71,20 @@ class MessagesCollection @Inject constructor(
 
     suspend fun sendChatMessages(
         chatId: String,
+        messageId: String,
         userId: String,
         text: String,
         files: List<String>,
-    ): MessageFirebaseModel = withContext(ioDispatcher) {
-        val message = MessageFirebaseModel(
-            UUID.randomUUID().toString(),
-            userId,
-            text,
-            files,
-            System.currentTimeMillis(),
-            isSystem = false,
-            isEdited = false
-        )
-        return@withContext getMessagesCollection(chatId)
-            .add(message)
+    ) = withContext(ioDispatcher) {
+        val messageFB = loadLastChatMessage(chatId)
+        if (messageFB == null || !LocalDateTime.from(messageFB.createdTimestamp).isToday()) {
+            sendSystemDateMessage(chatId)
+        }
+        val message = MessageFirebaseModel.getChatMessageInstance(userId, text, files)
+        getMessagesCollection(chatId)
+            .document(messageId)
+            .set(message)
             .await()
-            .get()
-            .await()
-            .let(::getMessageFirebaseModel)
     }
 
     suspend fun updateChatMessages(
@@ -84,7 +93,7 @@ class MessagesCollection @Inject constructor(
         text: String,
         files: List<String>,
     ) = withContext(ioDispatcher) {
-        return@withContext getMessagesCollection(chatId)
+        getMessagesCollection(chatId)
             .document(messageId)
             .update(
                 "text", text,
@@ -111,13 +120,20 @@ class MessagesCollection @Inject constructor(
             .collection(MESSAGES_COLLECTION)
     }
 
+    private suspend fun sendSystemDateMessage(chatId: String) = withContext(ioDispatcher) {
+        return@withContext getMessagesCollection(chatId)
+            .document(UUID.randomUUID().toString())
+            .set(MessageFirebaseModel.getSystemMessageInstance())
+            .await()
+    }
+
     private fun getMessageFirebaseModel(document: DocumentSnapshot) = MessageFirebaseModel(
-        id = document.id,
         userId = document.getField<String>("userId").orEmpty(),
         text = document.getField<String>("text").orEmpty(),
         files = document.getList("files"),
         createdTimestamp = document.getField("createdTimestamp") ?: 0L,
         isSystem = document.getField("system") ?: false,
         isEdited = document.getField("edited") ?: false
-    )
+    ).also { it.id = document.id }
+
 }

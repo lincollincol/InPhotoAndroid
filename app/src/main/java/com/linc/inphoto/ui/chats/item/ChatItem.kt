@@ -10,6 +10,7 @@ import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.getString
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
+import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
 import java.util.*
 
@@ -26,10 +27,13 @@ class ChatItem(
                 chatEntityUiState.isLastMessageAttachmentsOnly -> getString(R.string.attachments)
                 else -> chatEntityUiState.lastMessage
             }
-            lastMessageTimeTextView.text = DateFormatter.getRelativeTimeSpanString2(
-                chatEntityUiState.lastMessageTimestamp,
-                Locale.US
-            )
+            lastMessageTimeTextView.apply {
+                text = DateFormatter.getRelativeTimeSpanString2(
+                    chatEntityUiState.lastMessageTimestamp,
+                    Locale.US
+                )
+                show(!chatEntityUiState.isEmptyConversation)
+            }
             root.setOnThrottledClickListener { chatEntityUiState.onClick() }
         }
     }

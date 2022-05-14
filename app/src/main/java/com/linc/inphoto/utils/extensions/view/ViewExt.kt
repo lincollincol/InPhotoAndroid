@@ -191,3 +191,12 @@ fun ViewGroup.animateTargets(transition: Transition, vararg targets: View) {
 
 fun ViewGroup.autoAnimateTargets(vararg targets: View) =
     animateTargets(AutoTransition(), *targets)
+
+fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, vararg targets: View) =
+    scene.animateTargets(transition, *targets)
+
+fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, targets: Collection<View>) =
+    animateTargets(transition, scene, *targets.toTypedArray())
+
+fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, targets: Sequence<View>) =
+    animateTargets(transition, scene, targets.toList())

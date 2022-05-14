@@ -2,8 +2,7 @@ package com.linc.inphoto.ui.chatmessages.model
 
 import android.net.Uri
 import com.linc.inphoto.entity.chat.Message
-import com.linc.inphoto.ui.base.state.UiState
-import com.linc.inphoto.utils.extensions.EMPTY
+import com.linc.inphoto.ui.base.state.ItemUiState
 
 data class MessageUiState(
     val id: String,
@@ -16,22 +15,30 @@ data class MessageUiState(
     val isProcessing: Boolean,
     val onClick: () -> Unit,
     val onImageClick: () -> Unit
-) : UiState {
-    constructor(
-        text: String,
-        files: List<Uri>
-    ) : this(
-        id = String.EMPTY,
-        text = text,
-        files = files,
-        createdTimestamp = System.currentTimeMillis(),
-        isIncoming = false,
-        isSystem = false,
-        isProcessing = true,
-        isEdited = false,
-        onClick = { /* Not implemented */ },
-        onImageClick = { /* Not implemented */ }
-    )
+) : ItemUiState {
+    companion object {
+        @JvmStatic
+        fun getPendingMessageInstance(
+            messageId: String,
+            text: String,
+            files: List<Uri>
+        ) = MessageUiState(
+            id = messageId,
+            text = text,
+            files = files,
+            createdTimestamp = System.currentTimeMillis(),
+            isIncoming = false,
+            isSystem = false,
+            isProcessing = true,
+            isEdited = false,
+            onClick = { /* Not implemented */ },
+            onImageClick = { /* Not implemented */ }
+        )
+    }
+
+    override fun getStateItemId(): Long {
+        return id.hashCode().toLong()
+    }
 }
 
 val MessageUiState.hasAttachments get() = files.isNotEmpty()

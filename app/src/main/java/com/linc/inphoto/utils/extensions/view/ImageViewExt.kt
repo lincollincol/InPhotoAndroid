@@ -1,21 +1,17 @@
 package com.linc.inphoto.utils.extensions.view
 
 import android.content.res.ColorStateList
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Size
-import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import androidx.core.view.doOnLayout
-import androidx.core.view.updateLayoutParams
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
+import com.bumptech.glide.request.target.Target
 import com.linc.inphoto.R
 import jp.wasabeef.glide.transformations.BlurTransformation
 
@@ -99,7 +95,7 @@ fun ImageView.loadImage(
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
     skipMemoryCache: Boolean = false,
     reloadImage: Boolean = true,
-    listener: RequestListener<Drawable>? = null
+    overrideOriginalSize: Boolean = false,
 ) {
     if (image == null) {
         return
@@ -113,8 +109,6 @@ fun ImageView.loadImage(
         .error(errorPlaceholder)
         .diskCacheStrategy(diskCacheStrategy)
         .skipMemoryCache(skipMemoryCache)
-        .dontAnimate()
-        .dontTransform()
 
     if (blurRadius != null) {
         requestOptions = requestOptions.apply(
@@ -126,7 +120,7 @@ fun ImageView.loadImage(
         requestOptions = requestOptions.override(size.width, size.height)
     }
 
-    Glide.with(this)
+    var builder = Glide.with(this)
         .load(image)
         .thumbnail(
             Glide.with(this)
@@ -134,15 +128,15 @@ fun ImageView.loadImage(
                 .apply(bitmapTransform(BlurTransformation(24)))
                 .override(48)
         )
-        .listener(listener)
         .apply(requestOptions)
-        .into(this)
+
+    if (overrideOriginalSize) {
+        builder = builder.override(Target.SIZE_ORIGINAL)
+    }
+
+    builder.into(this)
 }
 
 fun ImageView.setTint(@ColorInt color: Int) {
     ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(color))
-}
-
-fun ImageView.bindWidthTo(view: View) = view.doOnLayout {
-    updateLayoutParams { width = it.width }
 }
