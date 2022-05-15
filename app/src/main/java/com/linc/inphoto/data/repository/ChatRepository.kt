@@ -23,6 +23,10 @@ class ChatRepository @Inject constructor(
         return@withContext chatsCollection.createChat(listOf(authPreferences.userId, userId))
     }
 
+    suspend fun deleteChat(chatsId: String?) = withContext(ioDispatcher) {
+        chatsCollection.deleteChat(chatsId)
+    }
+
     suspend fun getUserChats(): Flow<List<Chat>> = withContext(ioDispatcher) {
         return@withContext chatsCollection.getUserChats(authPreferences.userId)
             .map { chats -> chats.map { loadChatDetails(it) } }

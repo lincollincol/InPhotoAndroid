@@ -68,6 +68,16 @@ class ChatsCollection @Inject constructor(
         return@withContext chatId
     }
 
+    suspend fun deleteChat(chatId: String?) = withContext(ioDispatcher) {
+        if (chatId.isNullOrEmpty()) {
+            error("Chat not found!")
+        }
+        firestore.collection(CHATS_COLLECTION)
+            .document(chatId)
+            .delete()
+            .await()
+    }
+
     private fun getChatFirebaseModel(document: DocumentSnapshot) = ChatFirebaseModel(
         participants = document.getList("participants")
     ).also { it.id = document.id }

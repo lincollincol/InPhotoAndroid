@@ -53,9 +53,6 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                     else -> OutcomingMessageItem(it)
                 }
             })
-            if (state.isScrollDownOnUpdate) messagesRecyclerView.smoothScrollToStart()
-            progressBar.show(state.isLoading)
-            messagesNotFoundLayout.root.show(state.messages.isEmpty())
             inputLayout.apply {
                 animateTargets(Fade(), root, root.children)
                 attachmentsRecyclerView.show(state.hasAttachments)
@@ -66,6 +63,9 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 cancelButton.show(state.isEditorState)
                 inputEditText.update(state.message)
             }
+            if (state.isScrollDownOnUpdate) messagesRecyclerView.smoothScrollToStart()
+            messagesNotFoundLayout.root.show(state.messages.isEmpty())
+            progressBar.show(state.isLoading)
         }
     }
 

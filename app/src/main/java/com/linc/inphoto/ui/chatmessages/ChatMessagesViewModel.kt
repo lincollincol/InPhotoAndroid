@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.ChatRepository
 import com.linc.inphoto.data.repository.MessageRepository
+import com.linc.inphoto.entity.chat.Message
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.chatmessages.model.*
@@ -75,11 +76,12 @@ class ChatMessagesViewModel @Inject constructor(
     private suspend fun loadChatMessages(chatId: String) = coroutineScope {
         messageRepository.getChatMessages(chatId)
             .catch { Timber.e(it) }
+            .distinctUntilChanged()
             .collect { messages ->
                 val messagesStates = messages.sortedByDescending { it.createdTimestamp }
                     .map {
                         it.toUiState(
-                            onClick = { selectMessage(it.id) },
+                            onClick = { selectMessage(it) },
                             onImageClick = { selectMessageFiles(it.files.map(Uri::parse)) }
                         )
                     }
@@ -193,14 +195,13 @@ class ChatMessagesViewModel @Inject constructor(
         router.showDialog(pickerScreen)
     }
 
-    private fun selectMessage(messageId: String) {
-        currentState.messages.find { it.id == messageId }
-            ?.let { message -> if (message.isIncoming) return }
+    private fun selectMessage(message: Message) {
+        if (message.isIncoming) return
         router.setResultListener(MESSAGE_ACTION_RESULT) { result ->
             val operation = result.safeCast<MessageOperation>() ?: return@setResultListener
             when (operation) {
-                MessageOperation.Edit -> editMessage(messageId)
-                MessageOperation.Delete -> deleteMessage(messageId)
+                MessageOperation.Edit -> editMessage(message.id)
+                MessageOperation.Delete -> deleteMessage(message.id)
             }
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(

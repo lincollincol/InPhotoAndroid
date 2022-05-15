@@ -41,6 +41,8 @@
     <string name="filter">Filter</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="mute">Mute</string>
+    <string name="pin">Pin</string>
     <string name="share">Share</string>
 
     <string name="publications_toolbar">Publications</string>

@@ -12,7 +12,8 @@ data class ConversationUiState(
     val lastMessage: String?,
     val lastMessageTimestamp: Long,
     val lastMessageFiles: List<Uri>,
-    val onClick: () -> Unit
+    val onClick: () -> Unit,
+    val onLongClick: () -> Unit,
 ) : ItemUiState {
     override fun getStateItemId(): Long {
         return chatId.hashCode().toLong()
@@ -27,7 +28,10 @@ val ConversationUiState.isLastMessageTextOnly
 
 val ConversationUiState.isLastMessageAttachmentsOnly get() = !isLastMessageTextOnly
 
-fun Chat.toUiState(onClick: () -> Unit) = ConversationUiState(
+fun Chat.toUiState(
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
+) = ConversationUiState(
     chatId = id,
     userId = userId,
     avatarUrl = userAvatarUrl,
@@ -35,5 +39,6 @@ fun Chat.toUiState(onClick: () -> Unit) = ConversationUiState(
     lastMessage = lastMessage,
     lastMessageTimestamp = lastMessageTimestamp,
     lastMessageFiles = lastMessageFiles,
-    onClick = onClick
+    onClick = onClick,
+    onLongClick = onLongClick
 )

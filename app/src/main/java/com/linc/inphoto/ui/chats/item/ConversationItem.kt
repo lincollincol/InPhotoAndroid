@@ -34,7 +34,13 @@ class ConversationItem(
                 )
                 show(!conversationUiState.isEmptyConversation)
             }
-            root.setOnThrottledClickListener { conversationUiState.onClick() }
+            root.apply {
+                setOnThrottledClickListener { conversationUiState.onClick() }
+                setOnLongClickListener {
+                    conversationUiState.onLongClick()
+                    return@setOnLongClickListener false
+                }
+            }
         }
     }
 
