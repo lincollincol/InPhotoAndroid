@@ -6,6 +6,7 @@ import com.linc.inphoto.ui.base.state.ItemUiState
 
 data class ConversationUiState(
     val chatId: String,
+    val userId: String,
     val avatarUrl: String,
     val username: String,
     val lastMessage: String?,
@@ -28,6 +29,7 @@ val ConversationUiState.isLastMessageAttachmentsOnly get() = !isLastMessageTextO
 
 fun Chat.toUiState(onClick: () -> Unit) = ConversationUiState(
     chatId = id,
+    userId = userId,
     avatarUrl = userAvatarUrl,
     username = username,
     lastMessage = lastMessage,

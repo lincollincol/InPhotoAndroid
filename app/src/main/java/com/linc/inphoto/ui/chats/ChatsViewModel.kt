@@ -7,6 +7,8 @@ import com.linc.inphoto.entity.chat.Chat
 import com.linc.inphoto.entity.user.User
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.chatmessages.model.UserConversation
+import com.linc.inphoto.ui.chats.model.ChatContactUiState
+import com.linc.inphoto.ui.chats.model.ConversationUiState
 import com.linc.inphoto.ui.chats.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -30,18 +32,29 @@ class ChatsViewModel @Inject constructor(
 
     /**
      * TODO
-     * user chats
-     * create chat
+     * chats updates
      */
 
     override val _uiState = MutableStateFlow(ChatsUiState())
+    private var chats: List<ConversationUiState> = listOf()
+    private var contacts: List<ChatContactUiState> = listOf()
+
+    fun updateSearchQuery(query: String) {
+        _uiState.update { state ->
+            state.copy(
+                searchQuery = query,
+                chats = chats.filter { it.username.contains(query, ignoreCase = true) },
+                contacts = contacts.filter { it.username.contains(query, ignoreCase = true) }
+            )
+        }
+    }
 
     fun loadChats() {
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(isLoading = true) }
-                launch { loadUserChats() }
-                launch { loadUserContacts() }
+                loadUserChats()
+                loadUserContacts()
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {
@@ -51,19 +64,18 @@ class ChatsViewModel @Inject constructor(
     }
 
     private suspend fun loadUserChats() = coroutineScope {
-        val chats = chatRepository.loadUserChats()
+        chats = chatRepository.loadUserChats()
             .map { it.toUiState { selectChat(it) } }
         _uiState.update { it.copy(chats = chats) }
-
     }
 
     private suspend fun loadUserContacts() = coroutineScope {
-
-        val contacts = listOf(
+        contacts = listOf(
             async { userRepository.loadLoggedInUserFollowers() },
             async { userRepository.loadLoggedInUserFollowing() }
         ).awaitAll()
             .flatMap { it.toList() }
+            .filter { user -> chats.find { it.userId == user.id } == null }
             .toSet()
             .map { it.toUiState { selectContact(it) } }
         _uiState.update { it.copy(contacts = contacts) }
