@@ -46,6 +46,10 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            chatToolbar.apply {
+                setToolbarTitle(state.username)
+                loadAvatarImage(state.userAvatarUrl)
+            }
             attachmentsSection.update(state.messageAttachments.map(::MessageAttachmentItem))
             messagesSection.update(state.messages.map {
                 when {
@@ -102,8 +106,10 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 attachmentsButton.setOnThrottledClickListener {
                     viewModel.selectAttachments()
                 }
-                chatToolbar.setOnCancelClickListener {
-                    viewModel.onBackPressed()
+                chatToolbar.apply {
+                    setOnTitleClickListener { viewModel.selectUserProfile() }
+                    setOnImageClickListener { viewModel.selectUserProfile() }
+                    setOnCancelClickListener { viewModel.onBackPressed() }
                 }
             }
         }

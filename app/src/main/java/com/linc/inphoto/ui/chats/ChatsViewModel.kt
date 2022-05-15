@@ -70,12 +70,7 @@ class ChatsViewModel @Inject constructor(
             .catch { Timber.e(it) }
             .collect { chats ->
                 this@ChatsViewModel.chats = chats.sortedByDescending { it.lastMessageTimestamp }
-                    .map {
-                        it.toUiState(
-                            onClick = { selectChat(it) },
-                            onLongClick = { handleChatActions(it) }
-                        )
-                    }
+                    .map(::getConversationUiState)
                 removeExistingChatContacts(chats.map { it.userId })
                 _uiState.update { it.copy(chats = this@ChatsViewModel.chats) }
             }
@@ -88,7 +83,7 @@ class ChatsViewModel @Inject constructor(
         ).awaitAll()
             .flatMap { it.toList() }
             .toSet()
-            .map { it.toUiState { selectContact(it) } }
+            .map(::getContactUiState)
         removeExistingChatContacts(chats.map { it.userId })
     }
 
@@ -105,6 +100,10 @@ class ChatsViewModel @Inject constructor(
     private fun selectChat(chat: Chat) {
         val conversation = UserConversation.fromChat(chat)
         router.navigateTo(NavScreen.ChatMessagesScreen(conversation))
+    }
+
+    private fun selectUserProfile(userId: String) {
+        router.navigateTo(NavScreen.ProfileScreen(userId))
     }
 
     private fun handleChatActions(chat: Chat) {
@@ -128,12 +127,26 @@ class ChatsViewModel @Inject constructor(
             try {
                 chatRepository.deleteChat(chat.id)
                 val user = userRepository.getUserById(chat.userId) ?: return@launch
-                contacts = contacts.toMutableList()
-                    .apply { add(user.toUiState { selectContact(user) }) }
+                contacts = contacts.toMutableList().apply { add(getContactUiState(user)) }
                 _uiState.update { it.copy(contacts = contacts) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
         }
+    }
+
+    private fun getContactUiState(user: User): ChatContactUiState {
+        return user.toUiState(
+            onClick = { selectContact(user) },
+            onUserClick = { selectUserProfile(user.id) }
+        )
+    }
+
+    private fun getConversationUiState(chat: Chat): ConversationUiState {
+        return chat.toUiState(
+            onClick = { selectChat(chat) },
+            onMenuClick = { handleChatActions(chat) },
+            onUserClick = { selectUserProfile(chat.userId) }
+        )
     }
 }

@@ -7,16 +7,21 @@ data class ChatContactUiState(
     val userId: String,
     val avatarUrl: String,
     val username: String,
-    val onClick: () -> Unit
+    val onClick: () -> Unit,
+    val onUserClick: () -> Unit
 ) : ItemUiState {
     override fun getStateItemId(): Long {
         return userId.hashCode().toLong()
     }
 }
 
-fun User.toUiState(onClick: () -> Unit) = ChatContactUiState(
+fun User.toUiState(
+    onClick: () -> Unit,
+    onUserClick: () -> Unit
+) = ChatContactUiState(
     userId = id,
     avatarUrl = avatarUrl,
     username = name,
-    onClick = onClick
+    onClick = onClick,
+    onUserClick = onUserClick
 )

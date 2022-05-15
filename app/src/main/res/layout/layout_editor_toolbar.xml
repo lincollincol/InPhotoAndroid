@@ -10,11 +10,30 @@
         style="@style/TextFieldBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_general"
+        android:textSize="@dimen/font_normal"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/doneImageView"
-        app:layout_constraintStart_toEndOf="@id/cancelImageView"
+        app:layout_constraintStart_toEndOf="@id/avatarImageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/avatarImageView"
+        android:layout_width="@dimen/icon_large"
+        android:layout_height="@dimen/icon_large"
+        android:layout_marginStart="@dimen/margin_general"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_extra_tiny"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:roundPercent="1"
+        app:layout_constraintStart_toEndOf="@id/cancelImageView"
+        tools:srcCompat="@drawable/avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/cancelImageView"

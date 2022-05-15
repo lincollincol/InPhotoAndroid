@@ -39,7 +39,7 @@
         <entry key="app/src/main/res/layout/dialog_info_message.xml" value="0.2" />
         <entry key="app/src/main/res/layout/dialog_single_option.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_chat_messages.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_chat_messages.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_crop_image.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/fragment_edit_image.xml" value="0.18" />
@@ -99,7 +99,7 @@
         <entry key="app/src/main/res/layout/layout_chat_input.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/layout_comment_input.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_crop_image.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/layout_editor_toolbar.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_editor_toolbar.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_image_text_view.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_not_found.xml" value="0.16" />
         <entry key="app/src/main/res/layout/layout_preview_image.xml" value="0.14" />

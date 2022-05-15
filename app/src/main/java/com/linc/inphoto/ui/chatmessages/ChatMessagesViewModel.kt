@@ -50,6 +50,10 @@ class ChatMessagesViewModel @Inject constructor(
         }
     }
 
+    fun selectUserProfile() {
+        router.navigateTo(NavScreen.ProfileScreen(participantId))
+    }
+
     fun loadConversation(conversation: UserConversation) {
         viewModelScope.launch {
             try {

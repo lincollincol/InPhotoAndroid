@@ -20,7 +20,10 @@ class ConversationItem(
 
     override fun bind(viewBinding: ItemChatBinding, position: Int) {
         with(viewBinding) {
-            avatarImageView.loadImage(conversationUiState.avatarUrl)
+            avatarImageView.apply {
+                loadImage(conversationUiState.avatarUrl)
+                setOnThrottledClickListener { conversationUiState.onUserClick() }
+            }
             nameTextView.text = conversationUiState.username
             lastMessageTextView.text = when {
                 conversationUiState.isEmptyConversation -> getString(R.string.no_messages)
@@ -37,7 +40,7 @@ class ConversationItem(
             root.apply {
                 setOnThrottledClickListener { conversationUiState.onClick() }
                 setOnLongClickListener {
-                    conversationUiState.onLongClick()
+                    conversationUiState.onMenuClick()
                     return@setOnLongClickListener false
                 }
             }

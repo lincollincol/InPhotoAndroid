@@ -14,7 +14,10 @@ class ChatContactItem(
 
     override fun bind(viewBinding: ItemChatContactBinding, position: Int) {
         with(viewBinding) {
-            avatarImageView.loadImage(chatContactUiState.avatarUrl)
+            avatarImageView.apply {
+                loadImage(chatContactUiState.avatarUrl)
+                setOnThrottledClickListener { chatContactUiState.onUserClick() }
+            }
             nameTextView.text = chatContactUiState.username
             root.setOnThrottledClickListener { chatContactUiState.onClick() }
         }
