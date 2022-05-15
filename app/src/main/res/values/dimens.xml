@@ -22,6 +22,7 @@
     <dimen name="padding_general">16dp</dimen>
     <dimen name="padding_large">32dp</dimen>
     <dimen name="padding_huge">64dp</dimen>
+    <dimen name="padding_extra_huge">96dp</dimen>
 
     <!--Margin-->
     <dimen name="margin_extra_tiny">2dp</dimen>
@@ -47,6 +48,7 @@
     <dimen name="corner_general">16dp</dimen>
     <dimen name="corner_large">32dp</dimen>
     <dimen name="corner_huge">64dp</dimen>
+    <dimen name="corner_extra_huge">96dp</dimen>
 
     <!--Translation Z-->
     <dimen name="translation_bottom">8dp</dimen>
@@ -54,9 +56,12 @@
     <dimen name="translation_top">24dp</dimen>
 
     <!--Translation Z-->
-    <dimen name="icon_general">24dp</dimen>
-    <dimen name="icon_medium">36dp</dimen>
+    <dimen name="icon_tiny">12dp</dimen>
+    <dimen name="icon_small">24dp</dimen>
+    <dimen name="icon_general">36dp</dimen>
     <dimen name="icon_large">48dp</dimen>
+    <dimen name="icon_extra_large">72dp</dimen>
     <dimen name="icon_huge">96dp</dimen>
+    <dimen name="icon_extra_huge">128dp</dimen>
 
 </resources>

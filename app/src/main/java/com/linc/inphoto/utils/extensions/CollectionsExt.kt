@@ -7,10 +7,12 @@ fun <T> ArrayDeque<T>?.toImmutableDeque() = ImmutableDeque(this ?: ArrayDeque())
 
 fun <T> List<T>?.toImmutableDeque() = ImmutableDeque(ArrayDeque(this.orEmpty()))
 
+fun <T> List<T>?.toMutableDeque() = ArrayDeque(this.orEmpty())
+
 fun <T> Collection<T>.mapIf(
-    predicate: (T) -> Boolean,
+    condition: (T) -> Boolean,
     transform: (T) -> T
-) = map { item -> if (predicate(item)) transform(item) else item }
+) = map { item -> if (condition(item)) transform(item) else item }
 
 fun <T> MutableCollection<T>.update(items: Collection<T>) {
     clear()

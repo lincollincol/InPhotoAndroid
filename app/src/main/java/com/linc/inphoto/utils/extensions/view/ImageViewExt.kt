@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
+import com.bumptech.glide.request.target.Target
 import com.linc.inphoto.R
 import jp.wasabeef.glide.transformations.BlurTransformation
 
@@ -78,8 +79,9 @@ fun ImageView.loadUriImage(
         null,
         null,
         diskCacheStrategy,
-        skipMemoryCache
-    )
+        skipMemoryCache,
+
+        )
 }
 
 fun ImageView.loadImage(
@@ -93,6 +95,7 @@ fun ImageView.loadImage(
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
     skipMemoryCache: Boolean = false,
     reloadImage: Boolean = true,
+    overrideOriginalSize: Boolean = false,
 ) {
     if (image == null) {
         return
@@ -106,8 +109,6 @@ fun ImageView.loadImage(
         .error(errorPlaceholder)
         .diskCacheStrategy(diskCacheStrategy)
         .skipMemoryCache(skipMemoryCache)
-        .dontAnimate()
-        .dontTransform()
 
     if (blurRadius != null) {
         requestOptions = requestOptions.apply(
@@ -118,7 +119,8 @@ fun ImageView.loadImage(
     if (size != null) {
         requestOptions = requestOptions.override(size.width, size.height)
     }
-    Glide.with(this)
+
+    var builder = Glide.with(this)
         .load(image)
         .thumbnail(
             Glide.with(this)
@@ -127,7 +129,12 @@ fun ImageView.loadImage(
                 .override(48)
         )
         .apply(requestOptions)
-        .into(this)
+
+    if (overrideOriginalSize) {
+        builder = builder.override(Target.SIZE_ORIGINAL)
+    }
+
+    builder.into(this)
 }
 
 fun ImageView.setTint(@ColorInt color: Int) {

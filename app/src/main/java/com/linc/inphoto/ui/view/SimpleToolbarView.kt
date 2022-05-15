@@ -11,9 +11,10 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutEditorToolbarBinding
 import com.linc.inphoto.utils.extensions.getColorInt
 import com.linc.inphoto.utils.extensions.inflater
+import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.show
 
-class EditorToolbarView(
+class SimpleToolbarView(
     context: Context,
     attributeSet: AttributeSet
 ) : FrameLayout(context, attributeSet) {
@@ -22,7 +23,10 @@ class EditorToolbarView(
 
     private var onCancelClickListener: (() -> Unit)? = null
     private var onDoneClickListener: (() -> Unit)? = null
+    private var onTitleClickListener: (() -> Unit)? = null
+    private var onImageClickListener: (() -> Unit)? = null
 
+    private var avatarImageUrl: String? = null
     private var textTitle: String?
 
     @ColorInt
@@ -31,8 +35,10 @@ class EditorToolbarView(
     private var textSize: Int
     private var doneVisible: Boolean
     private var cancelVisible: Boolean
+    private var avatarVisible: Boolean
     private var doneIcon: Drawable?
     private var cancelIcon: Drawable?
+    private var avatarRoundPercent: Float
 
     init {
         val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.EditorToolbarView)
@@ -43,21 +49,17 @@ class EditorToolbarView(
             R.styleable.EditorToolbarView_textColorTitle,
             context.getColorInt(R.color.black)
         )
-        textTitleBold = attributes.getBoolean(
-            R.styleable.EditorToolbarView_textTitleBold,
-            true
-        )
         textSize = attributes.getDimensionPixelSize(
             R.styleable.EditorToolbarView_textSize,
             resources.getDimensionPixelSize(R.dimen.font_small)
         )
-        doneVisible = attributes.getBoolean(
-            R.styleable.EditorToolbarView_doneVisible,
-            true
-        )
-        cancelVisible = attributes.getBoolean(
-            R.styleable.EditorToolbarView_cancelVisible,
-            true
+        textTitleBold = attributes.getBoolean(R.styleable.EditorToolbarView_textTitleBold, true)
+        doneVisible = attributes.getBoolean(R.styleable.EditorToolbarView_doneVisible, true)
+        cancelVisible = attributes.getBoolean(R.styleable.EditorToolbarView_cancelVisible, true)
+        avatarVisible = attributes.getBoolean(R.styleable.EditorToolbarView_avatarVisible, false)
+        avatarRoundPercent = attributes.getFloat(
+            R.styleable.EditorToolbarView_avatarRoundPercent,
+            1f
         )
         attributes.recycle()
     }
@@ -70,11 +72,22 @@ class EditorToolbarView(
 
         binding = LayoutEditorToolbarBinding.inflate(context.inflater, this, true)
         binding?.run {
+            avatarImageView.apply {
+                loadImage(avatarImageUrl, reloadImage = false)
+                show(avatarVisible)
+                roundPercent = avatarRoundPercent
+                setOnClickListener {
+                    onImageClickListener?.invoke()
+                }
+            }
             titleTextView.apply {
                 text = textTitle
-                setTextSize(TypedValue.COMPLEX_UNIT_PX, this@EditorToolbarView.textSize.toFloat())
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, this@SimpleToolbarView.textSize.toFloat())
                 setTextColor(textColorTitle)
                 setTypeface(typeface, if (textTitleBold) Typeface.BOLD else Typeface.NORMAL)
+                setOnClickListener {
+                    onTitleClickListener?.invoke()
+                }
             }
             doneImageView.apply {
                 show(doneVisible)
@@ -98,6 +111,8 @@ class EditorToolbarView(
         binding = null
         onCancelClickListener = null
         onDoneClickListener = null
+        onTitleClickListener = null
+        onImageClickListener = null
     }
 
     fun setOnCancelClickListener(onCancelClickListener: () -> Unit) {
@@ -108,9 +123,22 @@ class EditorToolbarView(
         this.onDoneClickListener = onDoneClickListener
     }
 
+    fun setOnTitleClickListener(onTitleClickListener: () -> Unit) {
+        this.onTitleClickListener = onTitleClickListener
+    }
+
+    fun setOnImageClickListener(onImageClickListener: () -> Unit) {
+        this.onImageClickListener = onImageClickListener
+    }
+
     fun setToolbarTitle(title: String?) {
         this.textTitle = title
         binding?.titleTextView?.text = title
+    }
+
+    fun loadAvatarImage(imageUrl: String?) {
+        this.avatarImageUrl = imageUrl
+        binding?.avatarImageView?.loadImage(imageUrl, reloadImage = false)
     }
 
 }

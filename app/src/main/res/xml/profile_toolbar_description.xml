@@ -71,8 +71,8 @@
 
         <Constraint
             android:id="@id/backButton"
-            android:layout_width="@dimen/icon_medium"
-            android:layout_height="@dimen/icon_medium"
+            android:layout_width="@dimen/icon_general"
+            android:layout_height="@dimen/icon_general"
             android:layout_marginTop="@dimen/margin_general"
             android:layout_marginStart="@dimen/margin_general"
             app:visibilityMode="ignore"
@@ -83,8 +83,8 @@
 
         <Constraint
             android:id="@id/settingsButton"
-            android:layout_width="@dimen/icon_medium"
-            android:layout_height="@dimen/icon_medium"
+            android:layout_width="@dimen/icon_general"
+            android:layout_height="@dimen/icon_general"
             android:layout_marginTop="@dimen/margin_general"
             android:layout_marginEnd="@dimen/margin_general"
             app:layout_constraintBottom_toBottomOf="@id/headerImageView"
@@ -181,8 +181,8 @@
 
         <Constraint
             android:id="@id/backButton"
-            android:layout_width="@dimen/icon_medium"
-            android:layout_height="@dimen/icon_medium"
+            android:layout_width="@dimen/icon_general"
+            android:layout_height="@dimen/icon_general"
             android:layout_marginStart="@dimen/margin_general"
             android:rotation="-360"
             app:visibilityMode="ignore"
@@ -193,8 +193,8 @@
 
         <Constraint
             android:id="@id/settingsButton"
-            android:layout_width="@dimen/icon_medium"
-            android:layout_height="@dimen/icon_medium"
+            android:layout_width="@dimen/icon_general"
+            android:layout_height="@dimen/icon_general"
             android:layout_marginEnd="@dimen/margin_general"
             android:rotation="180"
             app:layout_constraintBottom_toBottomOf="@id/headerImageView"

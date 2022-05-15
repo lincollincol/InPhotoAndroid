@@ -12,7 +12,6 @@ import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.hideKeyboard
-import com.linc.inphoto.utils.extensions.keyboard
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setError
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
@@ -31,7 +30,6 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
     override val viewModel: ProfileSettingsViewModel by viewModels()
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentProfileSettingsBinding::bind)
-    private val keyboardState by keyboard()
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
@@ -98,10 +96,13 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
                 }
                 viewModel.updateGender(gender)
             }
-            keyboardState.observeState {
-                bottomBarViewModel.showBottomBar(!it)
-            }
         }
         bottomBarViewModel.showBottomBar()
     }
+
+    override fun onKeyboardStateChanged(visible: Boolean) {
+        super.onKeyboardStateChanged(visible)
+        bottomBarViewModel.showBottomBar(!visible)
+    }
+
 }

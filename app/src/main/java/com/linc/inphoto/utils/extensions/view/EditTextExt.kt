@@ -15,8 +15,6 @@ fun Editable?.update(data: CharSequence?) {
 }
 
 fun EditText.update(data: CharSequence?) {
-//    text.span
-//    if(data == null && text.isNullOrEmpty()) return
     if (text.contentEquals(data)) return
     setText(data)
     cursorToEnd()

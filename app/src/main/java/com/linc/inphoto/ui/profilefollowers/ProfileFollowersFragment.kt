@@ -16,7 +16,6 @@ import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.hideKeyboard
-import com.linc.inphoto.utils.extensions.keyboard
 import com.linc.inphoto.utils.extensions.view.setTabSelected
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +41,6 @@ class ProfileFollowersFragment : BaseFragment(R.layout.fragment_profile_follower
     override val viewModel: ProfileFollowersViewModel by viewModels()
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentProfileFollowersBinding::bind)
-    private val keyboardState by keyboard()
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
@@ -83,9 +81,6 @@ class ProfileFollowersFragment : BaseFragment(R.layout.fragment_profile_follower
                 }
                 tab.setText(title)
             }.attach()
-            keyboardState.observeState {
-                bottomBarViewModel.showBottomBar(!it)
-            }
         }
         bottomBarViewModel.showBottomBar()
     }
@@ -93,5 +88,9 @@ class ProfileFollowersFragment : BaseFragment(R.layout.fragment_profile_follower
     override fun onStop() {
         super.onStop()
         viewModel.selectPage(binding.followersViewPager.currentItem)
+    }
+
+    override fun onKeyboardStateChanged(visible: Boolean) {
+        bottomBarViewModel.showBottomBar(!visible)
     }
 }

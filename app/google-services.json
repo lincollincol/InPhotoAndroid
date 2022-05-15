@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "891866453891",
+    "project_id": "inphoto-c6497",
+    "storage_bucket": "inphoto-c6497.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891866453891:android:3823b7861018d34d6648b6",
+        "android_client_info": {
+          "package_name": "com.linc.inphoto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891866453891-9n01dnb93kced7prc8r3spq1m5c5gr2u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGZI8LwEm1y2xiP6UHt8HyBrdyWPxiYa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891866453891-9n01dnb93kced7prc8r3spq1m5c5gr2u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

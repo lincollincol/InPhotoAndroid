@@ -4,12 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.33" />
+        <entry key="app/src/main/res/drawable/background_border_black_round.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/drawable/background_bottom_bar.xml" value="0.340625" />
         <entry key="app/src/main/res/drawable/background_circle_image_button.xml" value="0.34010416666666665" />
         <entry key="app/src/main/res/drawable/background_fade_black_.xml" value="0.21927083333333333" />
         <entry key="app/src/main/res/drawable/background_fade_black_50.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/drawable/background_fade_white_bottom.xml" value="0.19166666666666668" />
+        <entry key="app/src/main/res/drawable/background_fade_white_top.xml" value="0.14427083333333332" />
         <entry key="app/src/main/res/drawable/background_filled_button.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/drawable/background_incoming_message.xml" value="0.190625" />
+        <entry key="app/src/main/res/drawable/background_outcoming_message.xml" value="0.190625" />
         <entry key="app/src/main/res/drawable/background_outlined_button.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/drawable/background_text_button.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/drawable/background_white_round_50.xml" value="0.340625" />
@@ -35,7 +39,8 @@
         <entry key="app/src/main/res/layout/dialog_info_message.xml" value="0.2" />
         <entry key="app/src/main/res/layout/dialog_single_option.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/fragment_chat_messages.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_crop_image.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/fragment_edit_image.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.20104166666666667" />
@@ -49,18 +54,22 @@
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_manage_post.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_media_review.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/layout/fragment_option_picker.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_post_comments.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_post_overview.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_profile_followers.xml" value="0.16" />
-        <entry key="app/src/main/res/layout/fragment_profile_settings.xml" value="0.12" />
+        <entry key="app/src/main/res/layout/fragment_profile_settings.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_tab.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/layout/item_chat.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_chat_contact.xml" value="0.32708333333333334" />
+        <entry key="app/src/main/res/layout/item_chats_title.xml" value="0.32708333333333334" />
         <entry key="app/src/main/res/layout/item_choose_option.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_comments_post_info.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/layout/item_crop_ratio.xml" value="0.32447916666666665" />
@@ -73,6 +82,10 @@
         <entry key="app/src/main/res/layout/item_follower_user.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_following_user.xml" value="0.1296875" />
         <entry key="app/src/main/res/layout/item_gallery_image.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/item_media_review.xml" value="0.17395833333333333" />
+        <entry key="app/src/main/res/layout/item_message_attachment.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_message_incoming.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_message_outcoming.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_new_user_post.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_option.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_post_comment.xml" value="0.33" />
@@ -83,9 +96,10 @@
         <entry key="app/src/main/res/layout/item_search_user.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_settings_option.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/item_tag_chip.xml" value="0.31023550724637683" />
-        <entry key="app/src/main/res/layout/layout_comment_input.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/layout/layout_chat_input.xml" value="0.17447916666666666" />
+        <entry key="app/src/main/res/layout/layout_comment_input.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_crop_image.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/layout_editor_toolbar.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_editor_toolbar.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_image_text_view.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_not_found.xml" value="0.16" />
         <entry key="app/src/main/res/layout/layout_preview_image.xml" value="0.14" />

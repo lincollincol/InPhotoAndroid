@@ -105,7 +105,7 @@ fun View.changePadding(
     )
 }
 
-fun View.marginLeft() =
+fun View.marginStart() =
     layoutParams
         ?.safeCast<ViewGroup.MarginLayoutParams>()
         ?.leftMargin
@@ -117,10 +117,22 @@ fun View.marginTop() =
         ?.topMargin
         ?: 0
 
-fun View.marginRight() =
+fun View.marginEnd() =
     layoutParams
         ?.safeCast<ViewGroup.MarginLayoutParams>()
         ?.rightMargin
+        ?: 0
+
+fun View.marginHorizontal() =
+    layoutParams
+        ?.safeCast<ViewGroup.MarginLayoutParams>()
+        ?.let { it.leftMargin + it.rightMargin }
+        ?: 0
+
+fun View.marginVertical() =
+    layoutParams
+        ?.safeCast<ViewGroup.MarginLayoutParams>()
+        ?.let { it.topMargin + it.bottomMargin }
         ?: 0
 
 fun View.marginBottom() =
@@ -179,3 +191,12 @@ fun ViewGroup.animateTargets(transition: Transition, vararg targets: View) {
 
 fun ViewGroup.autoAnimateTargets(vararg targets: View) =
     animateTargets(AutoTransition(), *targets)
+
+fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, vararg targets: View) =
+    scene.animateTargets(transition, *targets)
+
+fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, targets: Collection<View>) =
+    animateTargets(transition, scene, *targets.toTypedArray())
+
+fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, targets: Sequence<View>) =
+    animateTargets(transition, scene, targets.toList())

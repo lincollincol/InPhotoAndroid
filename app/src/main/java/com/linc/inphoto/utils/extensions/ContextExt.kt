@@ -93,6 +93,9 @@ fun Context.windowManager(): WindowManager? =
 inline fun <reified T : Number> Context.getDimension(id: Int) =
     resources.getDimension(id).safeCast<T>()
 
+inline fun <reified T : Number> Context.getDimension(id: Int, default: T) =
+    getDimension(id) ?: default
+
 fun Context.getKeyboard() =
     getSystemService(Context.INPUT_METHOD_SERVICE).safeCast<InputMethodManager>()
 

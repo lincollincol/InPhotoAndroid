@@ -41,7 +41,6 @@ object DateFormatter {
     }
 
     fun getRelativeTimeSpanString2(
-        context: Context,
         millis: Long,
         locale: Locale
     ): String {
@@ -57,5 +56,8 @@ object DateFormatter {
 
         return SimpleDateFormat(pattern, locale).format(millis)
     }
+
+    fun format(millis: Long, pattern: String, locale: Locale) =
+        SimpleDateFormat(pattern, locale).format(millis)
 
 }

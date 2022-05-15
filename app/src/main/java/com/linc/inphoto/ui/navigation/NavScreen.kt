@@ -11,6 +11,8 @@ import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
 import com.linc.inphoto.ui.camera.model.CameraIntent
+import com.linc.inphoto.ui.chatmessages.ChatMessagesFragment
+import com.linc.inphoto.ui.chatmessages.model.UserConversation
 import com.linc.inphoto.ui.chats.ChatsFragment
 import com.linc.inphoto.ui.confirmdialog.ConfirmDialog
 import com.linc.inphoto.ui.cropimage.CropImageFragment
@@ -26,6 +28,7 @@ import com.linc.inphoto.ui.main.MainFragment
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.managepost.ManagePostFragment
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
+import com.linc.inphoto.ui.mediareview.MediaReviewFragment
 import com.linc.inphoto.ui.optionpicker.OptionPickerFragment
 import com.linc.inphoto.ui.optionpicker.model.OptionModel
 import com.linc.inphoto.ui.postcomments.PostCommentsFragment
@@ -94,6 +97,10 @@ object NavScreen {
         GalleryFragment.newInstance(intent)
     }
 
+    fun MediaReviewScreen(files: List<Uri>) = FragmentScreen {
+        MediaReviewFragment.newInstance(files)
+    }
+
     fun EditImageScreen(intent: EditorIntent, image: Uri) = FragmentScreen {
         EditImageFragment.newInstance(intent, image)
     }
@@ -132,6 +139,10 @@ object NavScreen {
 
     fun ChatsScreen() = FragmentScreen {
         ChatsFragment.newInstance()
+    }
+
+    fun ChatMessagesScreen(conversation: UserConversation) = FragmentScreen {
+        ChatMessagesFragment.newInstance(conversation)
     }
 
     fun SettingsScreen() = FragmentScreen {

@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.linc.inphoto.ui.view.EditorToolbarView
+        <com.linc.inphoto.ui.view.SimpleToolbarView
             android:id="@+id/followersToolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_toolbar_height"
@@ -37,6 +37,11 @@
                 style="@style/TextInputField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="@dimen/margin_general"
+                android:paddingStart="@dimen/padding_general"
+                android:paddingEnd="@dimen/padding_general"
                 android:hint="@string/search" />
         </com.google.android.material.textfield.TextInputLayout>
 
