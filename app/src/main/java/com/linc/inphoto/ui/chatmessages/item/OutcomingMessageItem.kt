@@ -1,15 +1,12 @@
 package com.linc.inphoto.ui.chatmessages.item
 
 import android.view.View
-import androidx.core.view.children
-import androidx.transition.Fade
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemMessageOutcomingBinding
 import com.linc.inphoto.ui.chatmessages.model.MessageUiState
 import com.linc.inphoto.ui.chatmessages.model.hasMultipleAttachments
 import com.linc.inphoto.utils.DateFormatter
-import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
@@ -22,7 +19,6 @@ class OutcomingMessageItem(
 ) : BindableItem<ItemMessageOutcomingBinding>(messageUiState.getStateItemId()) {
     override fun bind(viewBinding: ItemMessageOutcomingBinding, position: Int) {
         with(viewBinding) {
-            animateTargets(Fade(), messageLayout, messageLayout.children)
             messageTextView.apply {
                 text = messageUiState.text
                 show(messageUiState.text.isNotEmpty())
@@ -50,7 +46,7 @@ class OutcomingMessageItem(
                 setOnThrottledClickListener { messageUiState.onImageClick() }
             }
             root.setOnThrottledClickListener { messageUiState.onClick() }
-            pendingProgressBar.show(messageUiState.isProcessing)
+            processingProgressBar.show(messageUiState.isProcessing)
             editedTextView.show(messageUiState.isEdited && !messageUiState.isProcessing)
         }
     }

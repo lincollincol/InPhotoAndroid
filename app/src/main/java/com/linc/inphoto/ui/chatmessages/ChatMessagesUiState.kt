@@ -5,12 +5,14 @@ import com.linc.inphoto.ui.chatmessages.model.MessageAttachmentUiState
 import com.linc.inphoto.ui.chatmessages.model.MessageUiState
 
 data class ChatMessagesUiState(
-    val isLoading: Boolean = false,
-    val isScrollDownOnUpdate: Boolean = false,
+    val username: String? = null,
+    val userAvatarUrl: String? = null,
     val messages: List<MessageUiState> = listOf(),
     val editableMessageId: String? = null,
     val message: String? = null,
     val messageAttachments: List<MessageAttachmentUiState> = listOf(),
+    val isLoading: Boolean = false,
+    val isScrollDownOnUpdate: Boolean = false,
 ) : UiState
 
 val ChatMessagesUiState.hasAttachments get() = messageAttachments.isNotEmpty()

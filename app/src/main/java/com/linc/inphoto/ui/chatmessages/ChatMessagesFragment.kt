@@ -15,11 +15,12 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.chatmessages.item.IncomingMessageItem
 import com.linc.inphoto.ui.chatmessages.item.MessageAttachmentItem
 import com.linc.inphoto.ui.chatmessages.item.OutcomingMessageItem
+import com.linc.inphoto.ui.chatmessages.model.UserConversation
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.createAdapter
-import com.linc.inphoto.utils.extensions.getArgument
+import com.linc.inphoto.utils.extensions.getArgumentNotNull
 import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,11 +30,11 @@ import jp.wasabeef.recyclerview.animators.FadeInUpAnimator
 class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
 
     companion object {
-        private const val CHAT_ID_ARG = "chat_id"
+        private const val CONVERSATION_ARG = "conversation_id"
 
         @JvmStatic
-        fun newInstance(chatId: String) = ChatMessagesFragment().apply {
-            arguments = bundleOf(CHAT_ID_ARG to chatId)
+        fun newInstance(conversation: UserConversation) = ChatMessagesFragment().apply {
+            arguments = bundleOf(CONVERSATION_ARG to conversation)
         }
     }
 
@@ -107,7 +108,7 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
             }
         }
         bottomBarViewModel.hideBottomBar()
-        viewModel.loadChatMessages(getArgument(CHAT_ID_ARG))
+        viewModel.loadConversation(getArgumentNotNull(CONVERSATION_ARG))
     }
 
 }

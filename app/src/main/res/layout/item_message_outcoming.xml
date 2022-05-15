@@ -72,9 +72,9 @@
             android:layout_marginBottom="@dimen/margin_small"
             app:layout_constraintTop_toBottomOf="@id/messageTextView"
             android:textColor="@color/black_50"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_goneMarginTop="@dimen/margin_small"
             tools:text="10:10" />
@@ -89,21 +89,23 @@
             android:text="@string/edited"
             android:textColor="@color/black_50"
             android:visibility="gone"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintBottom_toBottomOf="@id/timeTextView"
             app:layout_constraintEnd_toStartOf="@id/timeTextView"
-            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/timeTextView" />
 
         <ProgressBar
-            android:id="@+id/pendingProgressBar"
-            android:layout_width="@dimen/icon_small"
-            android:layout_height="@dimen/icon_small"
-            android:layout_marginHorizontal="@dimen/margin_small"
+            android:id="@+id/processingProgressBar"
+            android:layout_width="@dimen/icon_tiny"
+            android:layout_height="@dimen/icon_tiny"
+            android:layout_marginStart="@dimen/margin_general"
+            android:layout_marginEnd="@dimen/margin_small"
             android:visibility="gone"
+            app:layout_constraintHorizontal_bias="1"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/timeTextView"
             app:layout_constraintEnd_toStartOf="@id/timeTextView"
-            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/timeTextView" />
 

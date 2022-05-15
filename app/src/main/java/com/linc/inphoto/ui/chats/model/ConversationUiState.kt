@@ -2,27 +2,32 @@ package com.linc.inphoto.ui.chats.model
 
 import android.net.Uri
 import com.linc.inphoto.entity.chat.Chat
-import com.linc.inphoto.ui.base.state.UiState
+import com.linc.inphoto.ui.base.state.ItemUiState
 
-data class ChatEntityUiState(
+data class ConversationUiState(
+    val chatId: String,
     val avatarUrl: String,
     val username: String,
     val lastMessage: String?,
     val lastMessageTimestamp: Long,
     val lastMessageFiles: List<Uri>,
     val onClick: () -> Unit
-) : UiState
+) : ItemUiState {
+    override fun getStateItemId(): Long {
+        return chatId.hashCode().toLong()
+    }
+}
 
-val ChatEntityUiState.isEmptyConversation
-    get() =
-        lastMessage == null
+val ConversationUiState.isEmptyConversation
+    get() = lastMessage == null
 
-val ChatEntityUiState.isLastMessageTextOnly
+val ConversationUiState.isLastMessageTextOnly
     get() = !lastMessage.isNullOrEmpty() && lastMessageFiles.isEmpty()
 
-val ChatEntityUiState.isLastMessageAttachmentsOnly get() = !isLastMessageTextOnly
+val ConversationUiState.isLastMessageAttachmentsOnly get() = !isLastMessageTextOnly
 
-fun Chat.toUiState(onClick: () -> Unit) = ChatEntityUiState(
+fun Chat.toUiState(onClick: () -> Unit) = ConversationUiState(
+    chatId = id,
     avatarUrl = userAvatarUrl,
     username = username,
     lastMessage = lastMessage,

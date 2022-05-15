@@ -2,6 +2,7 @@ package com.linc.inphoto.ui.chatmessages
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.data.repository.ChatRepository
 import com.linc.inphoto.data.repository.MessageRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.camera.model.CameraIntent
@@ -14,6 +15,7 @@ import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.toMutableDeque
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,14 +25,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatMessagesViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
+    private val chatRepository: ChatRepository,
     private val messageRepository: MessageRepository
 ) : BaseViewModel<ChatMessagesUiState>(navContainerHolder) {
-
-    /**
-     * TODO
-     * user chats
-     * create chat
-     */
 
     companion object {
         private const val MESSAGE_ACTION_RESULT = "message_action_result"
@@ -40,6 +37,7 @@ class ChatMessagesViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(ChatMessagesUiState())
     private var chatId: String? = null
+    private var participantId: String? = null
 
     fun updateMessage(message: String?) {
         _uiState.update { it.copy(message = message) }
@@ -51,38 +49,57 @@ class ChatMessagesViewModel @Inject constructor(
         }
     }
 
-    fun loadChatMessages(chatId: String?) {
+    fun loadConversation(conversation: UserConversation) {
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(isLoading = true) }
-                this@ChatMessagesViewModel.chatId = chatId
-                messageRepository.loadChatMessagesEvents(chatId)
-                    .catch { Timber.e(it) }
-                    .collect { messages ->
-                        val messagesStates = messages.sortedByDescending { it.createdTimestamp }
-                            .map {
-                                it.toUiState(
-                                    onClick = { selectMessage(it.id) },
-                                    onImageClick = { selectMessageFiles(it.files.map(Uri::parse)) }
-                                )
-                            }
-                        _uiState.update {
-                            it.copy(
-                                messages = messagesStates,
-                                isLoading = false,
-                                isScrollDownOnUpdate = false
-                            )
-                        }
-                    }
+                if (conversation is UserConversation.Existing) {
+                    chatId = conversation.chatId
+                    launch { loadChatMessages(conversation.chatId) }
+                }
+                participantId = conversation.userId
+                _uiState.update {
+                    it.copy(
+                        username = conversation.username,
+                        userAvatarUrl = conversation.avatarUrl
+                    )
+                }
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
+    }
+
+    private suspend fun loadChatMessages(chatId: String) = coroutineScope {
+        messageRepository.loadChatMessagesEvents(chatId)
+            .catch { Timber.e(it) }
+            .collect { messages ->
+                val messagesStates = messages.sortedByDescending { it.createdTimestamp }
+                    .map {
+                        it.toUiState(
+                            onClick = { selectMessage(it.id) },
+                            onImageClick = { selectMessageFiles(it.files.map(Uri::parse)) }
+                        )
+                    }
+                _uiState.update {
+                    it.copy(
+                        messages = messagesStates,
+                        isLoading = false,
+                        isScrollDownOnUpdate = false
+                    )
+                }
+            }
     }
 
     fun sendMessage() {
         viewModelScope.launch {
             try {
+                if (chatId.isNullOrEmpty()) {
+                    chatId = chatRepository.createChat(participantId)
+                    launch { loadChatMessages(chatId.orEmpty()) }
+                }
                 val messageId = UUID.randomUUID().toString()
                 val messageText = currentState.message.orEmpty()
                 val files = currentState.messageAttachments.toUriList()

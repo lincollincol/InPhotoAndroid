@@ -12,6 +12,7 @@ import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.chatmessages.ChatMessagesFragment
+import com.linc.inphoto.ui.chatmessages.model.UserConversation
 import com.linc.inphoto.ui.chats.ChatsFragment
 import com.linc.inphoto.ui.confirmdialog.ConfirmDialog
 import com.linc.inphoto.ui.cropimage.CropImageFragment
@@ -140,8 +141,8 @@ object NavScreen {
         ChatsFragment.newInstance()
     }
 
-    fun ChatMessagesScreen(chatId: String) = FragmentScreen {
-        ChatMessagesFragment.newInstance(chatId)
+    fun ChatMessagesScreen(conversation: UserConversation) = FragmentScreen {
+        ChatMessagesFragment.newInstance(conversation)
     }
 
     fun SettingsScreen() = FragmentScreen {

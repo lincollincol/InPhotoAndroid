@@ -1,6 +1,10 @@
 package com.linc.inphoto.data.network.model.chat
 
-data class ChatFirebaseModel(
-    val id: String,
-    val participants: List<String>
-)
+import com.google.firebase.firestore.Exclude
+import com.linc.inphoto.utils.extensions.EMPTY
+
+data class ChatFirebaseModel(val participants: List<String>) {
+    @Exclude
+    @JvmField
+    var id: String = String.EMPTY
+}

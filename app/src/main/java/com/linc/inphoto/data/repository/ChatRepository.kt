@@ -17,6 +17,10 @@ class ChatRepository @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
+    suspend fun createChat(userId: String?): String = withContext(ioDispatcher) {
+        return@withContext chatsCollection.createChat(listOf(authPreferences.userId, userId))
+    }
+
     suspend fun loadUserChats(): List<Chat> = withContext(ioDispatcher) {
         return@withContext chatsCollection.loadUserChats(authPreferences.userId)
             .map { loadChatDetails(it) }

@@ -141,6 +141,14 @@ class UserRepository @Inject constructor(
         return@withContext user?.toUserModel(isFollowingUser(userId), isLoggedInUser(userId))
     }
 
+    suspend fun loadLoggedInUserFollowers(): List<User> = withContext(ioDispatcher) {
+        return@withContext loadUserFollowers(authPreferences.userId)
+    }
+
+    suspend fun loadLoggedInUserFollowing(): List<User> = withContext(ioDispatcher) {
+        return@withContext loadUserFollowing(authPreferences.userId)
+    }
+
     suspend fun loadUserFollowers(userId: String?): List<User> = withContext(ioDispatcher) {
         return@withContext userApiService.getUserFollowers(userId.toString()).body
             ?.map { it.toUserModel(isFollowingUser(userId), isLoggedInUser(userId)) }

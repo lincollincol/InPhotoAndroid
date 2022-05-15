@@ -16,6 +16,8 @@ fun Fragment.hideKeyboard() =
     requireContext().getKeyboard()?.hideSoftInputFromWindow(view?.applicationWindowToken, 0)
 
 fun <T> Fragment.getArgument(key: String): T? = requireArguments().get(key) as? T
+fun <T> Fragment.getArgumentNotNull(key: String): T =
+    requireArguments().get(key) as? T ?: error("Argument not found!")
 
 fun <T> Fragment.getArgument(key: String, default: T): T =
     requireArguments().get(key) as? T ?: default

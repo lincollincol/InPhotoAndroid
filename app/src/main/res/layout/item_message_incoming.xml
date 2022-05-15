@@ -96,11 +96,12 @@
             app:layout_constraintTop_toTopOf="@id/timeTextView" />
 
         <ProgressBar
-            android:id="@+id/pendingProgressBar"
-            android:layout_width="@dimen/icon_small"
-            android:layout_height="@dimen/icon_small"
+            android:id="@+id/processingProgressBar"
+            android:layout_width="@dimen/icon_tiny"
+            android:layout_height="@dimen/icon_tiny"
             android:layout_marginHorizontal="@dimen/margin_small"
             android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/timeTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
