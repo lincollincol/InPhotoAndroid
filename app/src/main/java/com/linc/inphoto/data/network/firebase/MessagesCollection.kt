@@ -31,7 +31,7 @@ class MessagesCollection @Inject constructor(
             if (error != null) {
                 error(error)
             }
-            trySend(snapshot?.documents?.map { getMessageFirebaseModel(it) }.orEmpty())
+            trySend(snapshot?.documents?.map(::getMessageFirebaseModel).orEmpty())
         }
         awaitClose { listener.remove() }
     }.flowOn(ioDispatcher)

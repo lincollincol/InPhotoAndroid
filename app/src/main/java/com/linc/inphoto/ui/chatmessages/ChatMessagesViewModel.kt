@@ -73,7 +73,7 @@ class ChatMessagesViewModel @Inject constructor(
     }
 
     private suspend fun loadChatMessages(chatId: String) = coroutineScope {
-        messageRepository.loadChatMessagesEvents(chatId)
+        messageRepository.getChatMessages(chatId)
             .catch { Timber.e(it) }
             .collect { messages ->
                 val messagesStates = messages.sortedByDescending { it.createdTimestamp }

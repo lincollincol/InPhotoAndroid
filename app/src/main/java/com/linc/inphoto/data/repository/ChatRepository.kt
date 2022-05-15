@@ -7,6 +7,8 @@ import com.linc.inphoto.data.network.model.chat.ChatFirebaseModel
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.chat.Chat
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ChatRepository @Inject constructor(
@@ -19,6 +21,11 @@ class ChatRepository @Inject constructor(
 
     suspend fun createChat(userId: String?): String = withContext(ioDispatcher) {
         return@withContext chatsCollection.createChat(listOf(authPreferences.userId, userId))
+    }
+
+    suspend fun getUserChats(): Flow<List<Chat>> = withContext(ioDispatcher) {
+        return@withContext chatsCollection.getUserChats(authPreferences.userId)
+            .map { chats -> chats.map { loadChatDetails(it) } }
     }
 
     suspend fun loadUserChats(): List<Chat> = withContext(ioDispatcher) {

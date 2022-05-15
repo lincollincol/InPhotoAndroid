@@ -17,6 +17,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -28,7 +30,6 @@ class ChatsViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
     private val userRepository: UserRepository
 ) : BaseViewModel<ChatsUiState>(navContainerHolder) {
-
 
     /**
      * TODO
@@ -53,8 +54,8 @@ class ChatsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(isLoading = true) }
-                loadUserChats()
-                loadUserContacts()
+                launch { loadUserContacts() }
+                launch { loadUserChats() }
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {
@@ -64,9 +65,14 @@ class ChatsViewModel @Inject constructor(
     }
 
     private suspend fun loadUserChats() = coroutineScope {
-        chats = chatRepository.loadUserChats()
-            .map { it.toUiState { selectChat(it) } }
-        _uiState.update { it.copy(chats = chats) }
+        chatRepository.getUserChats()
+            .catch { Timber.e(it) }
+            .collect { chats ->
+                this@ChatsViewModel.chats = chats.sortedByDescending { it.lastMessageTimestamp }
+                    .map { it.toUiState { selectChat(it) } }
+                removeExistingChatContacts(chats.map { it.userId })
+                _uiState.update { it.copy(chats = this@ChatsViewModel.chats) }
+            }
     }
 
     private suspend fun loadUserContacts() = coroutineScope {
@@ -75,9 +81,13 @@ class ChatsViewModel @Inject constructor(
             async { userRepository.loadLoggedInUserFollowing() }
         ).awaitAll()
             .flatMap { it.toList() }
-            .filter { user -> chats.find { it.userId == user.id } == null }
             .toSet()
             .map { it.toUiState { selectContact(it) } }
+        removeExistingChatContacts(chats.map { it.userId })
+    }
+
+    private suspend fun removeExistingChatContacts(chatsIds: List<String>) {
+        contacts = contacts.filter { !chatsIds.contains(it.userId) }
         _uiState.update { it.copy(contacts = contacts) }
     }
 

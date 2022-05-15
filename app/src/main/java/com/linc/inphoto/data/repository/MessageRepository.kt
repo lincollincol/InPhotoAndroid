@@ -21,7 +21,7 @@ class MessageRepository @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
-    suspend fun loadChatMessagesEvents(chatId: String?): Flow<List<Message>> {
+    suspend fun getChatMessages(chatId: String?): Flow<List<Message>> {
         return messagesCollection.getChatMessages(chatId)
             .map { list ->
                 list.map { it.toModel(it.userId != authPreferences.userId) }
