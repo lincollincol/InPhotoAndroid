@@ -35,10 +35,10 @@ class SimpleToolbarView(
     private var textSize: Int
     private var doneVisible: Boolean
     private var cancelVisible: Boolean
-    private var avatarVisible: Boolean
+    private var imageVisible: Boolean
     private var doneIcon: Drawable?
     private var cancelIcon: Drawable?
-    private var avatarRoundPercent: Float
+    private var imageRoundPercent: Float
 
     init {
         val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.EditorToolbarView)
@@ -56,9 +56,9 @@ class SimpleToolbarView(
         textTitleBold = attributes.getBoolean(R.styleable.EditorToolbarView_textTitleBold, true)
         doneVisible = attributes.getBoolean(R.styleable.EditorToolbarView_doneVisible, true)
         cancelVisible = attributes.getBoolean(R.styleable.EditorToolbarView_cancelVisible, true)
-        avatarVisible = attributes.getBoolean(R.styleable.EditorToolbarView_avatarVisible, false)
-        avatarRoundPercent = attributes.getFloat(
-            R.styleable.EditorToolbarView_avatarRoundPercent,
+        imageVisible = attributes.getBoolean(R.styleable.EditorToolbarView_imageVisible, false)
+        imageRoundPercent = attributes.getFloat(
+            R.styleable.EditorToolbarView_imageRoundPercent,
             1f
         )
         attributes.recycle()
@@ -72,10 +72,10 @@ class SimpleToolbarView(
 
         binding = LayoutEditorToolbarBinding.inflate(context.inflater, this, true)
         binding?.run {
-            avatarImageView.apply {
+            toolbarImageView.apply {
                 loadImage(avatarImageUrl, reloadImage = false)
-                show(avatarVisible)
-                roundPercent = avatarRoundPercent
+                show(imageVisible)
+                roundPercent = imageRoundPercent
                 setOnClickListener {
                     onImageClickListener?.invoke()
                 }
@@ -138,7 +138,7 @@ class SimpleToolbarView(
 
     fun loadAvatarImage(imageUrl: String?) {
         this.avatarImageUrl = imageUrl
-        binding?.avatarImageView?.loadImage(imageUrl, reloadImage = false)
+        binding?.toolbarImageView?.loadImage(imageUrl, reloadImage = false)
     }
 
 }

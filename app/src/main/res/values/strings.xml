@@ -44,6 +44,7 @@
     <string name="mute">Mute</string>
     <string name="pin">Pin</string>
     <string name="share">Share</string>
+    <string name="report">Report</string>
 
     <string name="publications_toolbar">Publications</string>
     <string name="edit_image_toolbar">Edit Image</string>
@@ -119,5 +120,8 @@
     <string name="contacts">Contacts</string>
     <string name="edited">edited</string>
     <string name="media_review">Media Review</string>
+    <string name="random">Random</string>
+    <string name="upload">Upload</string>
+    <string name="posts">Posts</string>
 
 </resources>

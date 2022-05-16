@@ -49,35 +49,18 @@ class PostOverviewViewModel @Inject constructor(
     }
 
     private suspend fun loadUserPosts(profileOverview: OverviewType.Profile) = coroutineScope {
-        _uiState.update { it.copy(postsSource = profileOverview.username) }
         val posts = postRepository.getUserExtendedPosts(profileOverview.userId)
             .sortedBy { it.createdTimestamp }
-            .map { post ->
-                post.toUiState(
-                    onMore = { handlePostMenu(post) },
-                    onDoubleTap = { if (!post.isLiked) likePost(post) },
-                    onLike = { likePost(post) },
-                    onBookmark = { bookmarkPost(post) },
-                    onComment = { commentPost(post) },
-                )
-            }
+            .map(::getPostUiState)
         _uiState.update { it.copy(posts = posts) }
     }
 
     private suspend fun loadPublicPosts(feedOverview: OverviewType.Feed) = coroutineScope {
         val selectedPost = postRepository.getExtendedPost(feedOverview.postId)
-        val recommendedPosts = postRepository.getExtendedPosts()
-        val posts = listOfNotNull(selectedPost, *recommendedPosts.toTypedArray()).map { post ->
-            post.toUiState(
-                onMore = { handlePostMenu(post) },
-                onDoubleTap = { if (!post.isLiked) likePost(post) },
-                onLike = { likePost(post) },
-                onBookmark = { bookmarkPost(post) },
-                onComment = { commentPost(post) },
-            )
-        }
-        val postsSource = resourceProvider.getString(R.string.publications_toolbar)
-        _uiState.update { it.copy(posts = posts, postsSource = postsSource) }
+        val recommendedPosts = postRepository.getAllExtendedPosts()
+        val posts = listOfNotNull(selectedPost, *recommendedPosts.toTypedArray())
+            .map(::getPostUiState)
+        _uiState.update { it.copy(posts = posts) }
     }
 
     // TODO: 23.03.22 refactor code. Move ui state mapping to new function?
@@ -90,13 +73,7 @@ class PostOverviewViewModel @Inject constructor(
                     .sortedBy { it.createdTimestamp }
                     .map { postUiState ->
                         when (postUiState.postId) {
-                            selectedPost.id -> post.toUiState(
-                                onMore = { handlePostMenu(selectedPost) },
-                                onDoubleTap = { if (!post.isLiked) likePost(post) },
-                                onLike = { likePost(post) },
-                                onBookmark = { bookmarkPost(post) },
-                                onComment = { commentPost(post) },
-                            )
+                            selectedPost.id -> getPostUiState(post)
                             else -> postUiState
                         }
                     }
@@ -116,13 +93,7 @@ class PostOverviewViewModel @Inject constructor(
                     .sortedBy { it.createdTimestamp }
                     .map { postUiState ->
                         when (postUiState.postId) {
-                            selectedPost.id -> post.toUiState(
-                                onMore = { handlePostMenu(selectedPost) },
-                                onDoubleTap = { if (!post.isLiked) likePost(post) },
-                                onLike = { likePost(post) },
-                                onBookmark = { bookmarkPost(post) },
-                                onComment = { commentPost(post) },
-                            )
+                            selectedPost.id -> getPostUiState(post)
                             else -> postUiState
                         }
                     }
@@ -188,6 +159,16 @@ class PostOverviewViewModel @Inject constructor(
             selectedPost.contentUrl
         )
         router.navigateTo(NavScreen.ShareContentScreen(content))
+    }
+
+    private fun getPostUiState(post: ExtendedPost): PostUiState {
+        return post.toUiState(
+            onMore = { handlePostMenu(post) },
+            onDoubleTap = { if (!post.isLiked) likePost(post) },
+            onLike = { likePost(post) },
+            onBookmark = { bookmarkPost(post) },
+            onComment = { commentPost(post) },
+        )
     }
 
 }
