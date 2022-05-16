@@ -71,8 +71,8 @@
         <attr name="textColorTitle" />
         <attr name="textTitleBold" />
         <attr name="textSize" />
-        <attr name="avatarRoundPercent" format="float" />
-        <attr name="avatarVisible" format="boolean" />
+        <attr name="imageRoundPercent" format="float" />
+        <attr name="imageVisible" format="boolean" />
         <attr name="doneVisible" format="boolean" />
         <attr name="cancelVisible" format="boolean" />
         <attr name="doneIcon" format="reference" />

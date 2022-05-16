@@ -20,7 +20,7 @@ import com.linc.inphoto.utils.extensions.view.show
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
-import jp.wasabeef.recyclerview.animators.FadeInAnimator
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 
 @AndroidEntryPoint
 class FollowersListFragment : BaseFragment(R.layout.fragment_followers_list) {
@@ -47,7 +47,7 @@ class FollowersListFragment : BaseFragment(R.layout.fragment_followers_list) {
             usersSection.update(items)
             animateTargets(Fade(Fade.IN), root, notFoundLayout.root, progressBar)
             notFoundLayout.root.show(!state.isLoading && items.isEmpty())
-            progressBar.show(state.isLoading)
+            progressBar.show(state.isLoading && items.isEmpty())
         }
     }
 
@@ -57,7 +57,7 @@ class FollowersListFragment : BaseFragment(R.layout.fragment_followers_list) {
             usersRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = createAdapter(true, usersSection)
-                itemAnimator = FadeInAnimator()
+                itemAnimator = FadeInDownAnimator()
             }
         }
     }

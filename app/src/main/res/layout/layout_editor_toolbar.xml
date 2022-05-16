@@ -15,12 +15,12 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/doneImageView"
-        app:layout_constraintStart_toEndOf="@id/avatarImageView"
+        app:layout_constraintStart_toEndOf="@id/toolbarImageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/avatarImageView"
+        android:id="@+id/toolbarImageView"
         android:layout_width="@dimen/icon_large"
         android:layout_height="@dimen/icon_large"
         android:layout_marginStart="@dimen/margin_general"

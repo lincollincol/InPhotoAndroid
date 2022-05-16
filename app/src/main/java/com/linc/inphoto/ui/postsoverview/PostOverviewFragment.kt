@@ -43,7 +43,6 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             postsAdapter.update(state.posts.map(::PostOverviewItem))
-            toolbarView.setToolbarTitle(state.postsSource)
         }
     }
 

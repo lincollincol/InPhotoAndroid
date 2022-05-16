@@ -32,7 +32,7 @@ abstract class BaseFragment(
             observeUiState()
         }
         viewModel.setupContainerId(findContainerId())
-        registerStateKeyboardListener()
+        registerKeyboardStateListener()
     }
 
     override fun onBackPressed() {
@@ -41,11 +41,19 @@ abstract class BaseFragment(
 
     override fun onTabStateChanged(hidden: Boolean) {
         if (hidden) {
-            keyboardListener?.unregister()
-            keyboardListener = null
-            return
+            return unregisterKeyboardStateListener()
         }
-        registerStateKeyboardListener()
+        registerKeyboardStateListener()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerKeyboardStateListener()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterKeyboardStateListener()
     }
 
     protected open fun onKeyboardStateChanged(visible: Boolean) {
@@ -87,7 +95,7 @@ abstract class BaseFragment(
         }
     }
 
-    private fun registerStateKeyboardListener() {
+    private fun registerKeyboardStateListener() {
         if (keyboardListener != null) {
             return
         }
@@ -95,6 +103,11 @@ abstract class BaseFragment(
             requireActivity(),
             ::onKeyboardStateChanged
         )
+    }
+
+    private fun unregisterKeyboardStateListener() {
+        keyboardListener?.unregister()
+        keyboardListener = null
     }
 
     private fun findContainerId(): String? {

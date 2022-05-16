@@ -33,7 +33,7 @@ interface PostApiService {
         @Path("userId") userId: String
     ): BaseResponse<List<PostApiModel>>
 
-    @GET("/posts-extended/{userId}")
+    @GET("/posts-extended/users/{userId}")
     suspend fun getExtendedUserPosts(
         @Path("userId") userId: String
     ): BaseResponse<List<ExtendedPostApiModel>>
@@ -45,7 +45,12 @@ interface PostApiService {
     ): BaseResponse<ExtendedPostApiModel>
 
     @GET("/posts-extended/{userId}")
-    suspend fun getExtendedPosts(
+    suspend fun getAllExtendedPosts(
+        @Path("userId") userId: String
+    ): BaseResponse<List<ExtendedPostApiModel>>
+
+    @GET("/posts-extended/users-following/{userId}")
+    suspend fun getUserFollowingExtendedPosts(
         @Path("userId") userId: String
     ): BaseResponse<List<ExtendedPostApiModel>>
 

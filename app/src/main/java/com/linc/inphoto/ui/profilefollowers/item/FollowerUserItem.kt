@@ -10,7 +10,7 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class FollowerUserItem(
     private val followerUserUiState: FollowerUserUiState
-) : BindableItem<ItemFollowerUserBinding>(followerUserUiState.username.hashCode().toLong()) {
+) : BindableItem<ItemFollowerUserBinding>(followerUserUiState.getStateItemId()) {
 
     override fun bind(viewBinding: ItemFollowerUserBinding, position: Int) {
         with(viewBinding) {

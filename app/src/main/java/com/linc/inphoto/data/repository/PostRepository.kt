@@ -61,26 +61,35 @@ class PostRepository @Inject constructor(
         return@withContext response.body?.map(PostApiModel::toPostModel).orEmpty()
     }
 
-    suspend fun getCurrentUserExtendedPosts(): List<ExtendedPost> = withContext(ioDispatcher) {
-        val response = postApiService.getExtendedUserPosts(authPreferences.userId)
-        return@withContext response.body?.map(ExtendedPostApiModel::toExtendedPostModel).orEmpty()
+    suspend fun getCurrentUserExtendedPosts(): List<ExtendedPost> =
+        getUserExtendedPosts(authPreferences.userId)
+
+    suspend fun getUserExtendedPosts(
+        userId: String
+    ): List<ExtendedPost> = withContext(ioDispatcher) {
+        return@withContext postApiService.getExtendedUserPosts(userId).body
+            ?.map(ExtendedPostApiModel::toExtendedPostModel)
+            .orEmpty()
     }
 
-    suspend fun getUserExtendedPosts(userId: String): List<ExtendedPost> =
-        withContext(ioDispatcher) {
-            val response = postApiService.getExtendedUserPosts(userId)
-            return@withContext response.body
-                ?.map(ExtendedPostApiModel::toExtendedPostModel)
-                .orEmpty()
-        }
+    suspend fun getCurrentUserFollowingExtendedPosts(): List<ExtendedPost> =
+        getUserFollowingExtendedPosts(authPreferences.userId)
+
+    suspend fun getUserFollowingExtendedPosts(
+        userId: String
+    ): List<ExtendedPost> = withContext(ioDispatcher) {
+        postApiService.getUserFollowingExtendedPosts(userId).body
+            ?.map(ExtendedPostApiModel::toExtendedPostModel)
+            .orEmpty()
+    }
 
     suspend fun getExtendedPost(postId: String): ExtendedPost? = withContext(ioDispatcher) {
         val response = postApiService.getExtendedPost(postId, authPreferences.userId)
         return@withContext response.body?.toExtendedPostModel()
     }
 
-    suspend fun getExtendedPosts(): List<ExtendedPost> = withContext(ioDispatcher) {
-        val response = postApiService.getExtendedPosts(authPreferences.userId)
+    suspend fun getAllExtendedPosts(): List<ExtendedPost> = withContext(ioDispatcher) {
+        val response = postApiService.getAllExtendedPosts(authPreferences.userId)
         return@withContext response.body
             ?.map(ExtendedPostApiModel::toExtendedPostModel)
             .orEmpty()

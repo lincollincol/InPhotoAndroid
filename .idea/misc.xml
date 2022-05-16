@@ -82,6 +82,7 @@
         <entry key="app/src/main/res/layout/item_follower_user.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_following_user.xml" value="0.1296875" />
         <entry key="app/src/main/res/layout/item_gallery_image.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/item_home_post.xml" value="0.16145833333333334" />
         <entry key="app/src/main/res/layout/item_media_review.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/layout/item_message_attachment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_message_incoming.xml" value="0.25" />

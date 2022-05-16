@@ -102,8 +102,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun selectPost(post: Post) {
-        val username = currentState.user?.name.orEmpty()
-        val overviewType = OverviewType.Profile(post.id, post.authorUserId, username)
+        val overviewType = OverviewType.Profile(post.id, post.authorUserId)
         router.navigateTo(NavScreen.PostOverviewScreen(overviewType))
     }
 
@@ -129,10 +128,7 @@ class ProfileViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 user = user,
-                newPostUiState = when (user?.isLoggedInUser) {
-                    true -> NewPostUiState(::createPost)
-                    else -> null
-                }
+                newPostUiState = user?.isLoggedInUser?.let { NewPostUiState(::createPost) }
             )
         }
     }

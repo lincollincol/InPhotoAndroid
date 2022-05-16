@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_general">
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/userAvatarImageView"
+        android:layout_width="@dimen/icon_large"
+        android:layout_height="@dimen/icon_large"
+        android:layout_margin="@dimen/margin_general"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_small"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundPercent="1"
+        tools:srcCompat="@drawable/mango" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/usernameTextView"
+        style="@style/TextFieldBold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:textSize="@dimen/font_small"
+        app:layout_constraintBottom_toBottomOf="@id/userAvatarImageView"
+        app:layout_constraintEnd_toStartOf="@id/moreImageView"
+        app:layout_constraintStart_toEndOf="@id/userAvatarImageView"
+        app:layout_constraintTop_toTopOf="@id/userAvatarImageView"
+        tools:text="Username" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/moreImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_general"
+        android:background="?actionBarItemBackground"
+        app:layout_constraintBottom_toBottomOf="@id/userAvatarImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/userAvatarImageView"
+        app:srcCompat="@drawable/ic_more_vertical"
+        app:tint="@color/black" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/headerBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="
+        userAvatarImageView,
+        usernameTextView,
+        moreImageView" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/postImageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_small"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+        app:roundPercent="0.1"
+        tools:srcCompat="@drawable/mango" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/likeAnimationView"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:elevation="@dimen/elevation_small"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/postImageView"
+        app:layout_constraintEnd_toEndOf="@id/postImageView"
+        app:layout_constraintStart_toStartOf="@id/postImageView"
+        app:layout_constraintTop_toTopOf="@id/postImageView"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/anim_like"
+        app:lottie_repeatMode="restart"
+        app:lottie_speed="2" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/likeImageTextView"
+        style="@style/TextFieldBold"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/postImageView"
+        app:srcCompat="@drawable/selector_like"
+        app:tint="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/commentImageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintStart_toEndOf="@id/likeImageTextView"
+        app:layout_constraintTop_toBottomOf="@id/postImageView"
+        app:srcCompat="@drawable/ic_comment_outlined"
+        app:tint="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/bookmarkImageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/postImageView"
+        app:srcCompat="@drawable/selector_bookmark"
+        app:tint="@color/black" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/controllersBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="
+        likeImageTextView,
+        commentImageView,
+        bookmarkImageView" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/descriptionTextView"
+        style="@style/TextField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="@dimen/font_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/controllersBarrier"
+        tools:text="@string/example_lorem_ipsum" />
+
+    <HorizontalScrollView
+        android:id="@+id/tagsScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTextView">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/tagsChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="true" />
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
