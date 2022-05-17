@@ -9,6 +9,7 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.ui.editimage.model.EditOperation
 import com.linc.inphoto.ui.editimage.model.EditorIntent
+import com.linc.inphoto.ui.imagesticker.model.ImageStickerIntent
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -78,6 +79,10 @@ class EditImageViewModel @Inject constructor(
         val operationScreen = when (operation) {
             is EditOperation.Crop -> NavScreen.CropImageScreen(
                 CropIntent.Result(EDITOR_OPERATION_RESULT),
+                imageUri
+            )
+            is EditOperation.Sticker -> NavScreen.ImageStickerScreen(
+                ImageStickerIntent.Result(EDITOR_OPERATION_RESULT),
                 imageUri
             )
             else -> {

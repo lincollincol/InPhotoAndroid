@@ -39,6 +39,8 @@
 
     <string name="crop">Crop</string>
     <string name="filter">Filter</string>
+    <string name="text">Text</string>
+    <string name="sticker">Sticker</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="mute">Mute</string>
@@ -53,6 +55,7 @@
     <string name="manage_post_toolbar">Manage Post</string>
     <string name="description">Description</string>
     <string name="tags">Tags</string>
+    <string name="stickers">Stickers</string>
 
     <string name="not_found">Not Found!</string>
     <string name="image_not_found">Image not found!</string>

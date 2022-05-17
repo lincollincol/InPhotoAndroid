@@ -10,9 +10,11 @@ sealed class EditOperation(
 ) {
 
     companion object {
-        fun getEditorOperations() = listOf(Crop, Filter)
+        fun getEditorOperations() = listOf(Crop, Sticker, Text, Filter)
     }
 
     object Crop : EditOperation(R.drawable.ic_crop, R.string.crop)
+    object Text : EditOperation(R.drawable.ic_text_field, R.string.text)
+    object Sticker : EditOperation(R.drawable.ic_sticker, R.string.sticker)
     object Filter : EditOperation(R.drawable.ic_photo_filter, R.string.filter)
 }

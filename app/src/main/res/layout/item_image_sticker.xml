@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/stickerImageView"
+        android:layout_width="@dimen/icon_extra_large"
+        android:layout_height="@dimen/icon_extra_large"
+        android:layout_marginHorizontal="@dimen/margin_small"
+        android:layout_marginVertical="@dimen/margin_general"
+        tools:srcCompat="@drawable/mango" />
+
+</FrameLayout>
