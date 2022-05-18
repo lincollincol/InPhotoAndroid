@@ -1,6 +1,8 @@
 package com.linc.inphoto.utils.extensions.view
 
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.RippleDrawable
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +10,6 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.IntDef
 import androidx.core.view.isVisible
-import androidx.transition.AutoTransition
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.view.DoubleClickListener
 import com.linc.inphoto.utils.view.WordsTouchListener
@@ -180,23 +179,9 @@ fun TextView.setWordsClickListener(
     )
 )
 
-fun ViewGroup.animateTargets(transition: Transition, vararg targets: View) {
-    TransitionManager.beginDelayedTransition(
-        this,
-        transition.apply {
-            targets.forEach(::addTarget)
-        }
-    )
+fun View.getBitmap(): Bitmap? {
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    draw(canvas)
+    return bitmap
 }
-
-fun ViewGroup.autoAnimateTargets(vararg targets: View) =
-    animateTargets(AutoTransition(), *targets)
-
-fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, vararg targets: View) =
-    scene.animateTargets(transition, *targets)
-
-fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, targets: Collection<View>) =
-    animateTargets(transition, scene, *targets.toTypedArray())
-
-fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, targets: Sequence<View>) =
-    animateTargets(transition, scene, targets.toList())

@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.view.model
+package com.linc.inphoto.ui.view.imageoverlay.model
 
 import android.graphics.Canvas
 import android.graphics.Matrix
@@ -171,12 +171,9 @@ abstract class MotionEntity(
         return pointInTriangle(point!!, pA, pB, pC) || pointInTriangle(point, pA, pD, pC)
     }
 
-    fun pointInDeleteCircle(point: PointF?): Boolean {
-        return pointInCircle(
-            point!!,
-            PointF(destPoints[0], destPoints[1]),
-            deleteRadius
-        ) && isSelected
+    fun pointInDeleteCircle(point: PointF): Boolean {
+        return pointInCircle(point, PointF(destPoints[0], destPoints[1]), deleteRadius)
+                && isSelected
     }
 
     /**

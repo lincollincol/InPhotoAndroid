@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true" />
 
-    <com.linc.inphoto.ui.view.MotionView
+    <com.linc.inphoto.ui.view.imageoverlay.MotionView
         android:id="@+id/main_motion_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

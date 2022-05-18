@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.view
+package com.linc.inphoto.ui.view.imageoverlay
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -12,8 +12,7 @@ import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.view.View.OnTouchListener
 import android.widget.FrameLayout
 import androidx.core.view.GestureDetectorCompat
-import com.linc.inphoto.ui.view.MotionView
-import com.linc.inphoto.ui.view.model.MotionEntity
+import com.linc.inphoto.ui.view.imageoverlay.model.MotionEntity
 import com.linc.inphoto.utils.view.multitouch.MoveGestureDetector
 import com.linc.inphoto.utils.view.multitouch.MoveGestureDetector.SimpleOnMoveGestureListener
 import com.linc.inphoto.utils.view.multitouch.RotateGestureDetector
@@ -171,7 +170,8 @@ class MotionView : FrameLayout {
             val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             // IMPORTANT: always create white background, cos if the image is saved in JPEG format,
             // which doesn't have transparent pixels, the background will be black
-            bmp.eraseColor(Color.WHITE)
+//            bmp.eraseColor(Color.WHITE)
+            bmp.eraseColor(Color.TRANSPARENT)
             val canvas = Canvas(bmp)
             drawAllEntities(canvas)
             return bmp
@@ -342,8 +342,10 @@ class MotionView : FrameLayout {
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             val point = PointF(e.x, e.y)
-            if (selectedEntity != null && selectedEntity!!.pointInDeleteCircle(point) && motionViewCallback != null) {
-                motionViewCallback!!.onEntityDeleteTap(selectedEntity!!)
+            selectedEntity?.let { entity ->
+                if (entity.pointInDeleteCircle(point) && motionViewCallback != null) {
+                    motionViewCallback?.onEntityDeleteTap(entity)
+                }
             }
             updateSelectionOnTap(e)
             return true

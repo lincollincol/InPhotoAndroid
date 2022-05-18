@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:textTitle="@string/stickers" />
 
-    <com.linc.inphoto.ui.view.MotionOverlayImageView
+    <com.linc.inphoto.ui.view.imageoverlay.MotionOverlayImageView
         android:id="@+id/overlayImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"

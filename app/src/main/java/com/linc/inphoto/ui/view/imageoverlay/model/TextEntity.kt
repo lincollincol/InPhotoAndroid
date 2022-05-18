@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.view.model
+package com.linc.inphoto.ui.view.imageoverlay.model
 
 import android.graphics.Bitmap
 import android.graphics.Canvas

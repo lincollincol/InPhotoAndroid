@@ -1,12 +1,16 @@
 package com.linc.inphoto.utils.extensions.view
 
+import android.graphics.Bitmap
 import android.graphics.PointF
 import kotlin.math.pow
+
+fun Bitmap.copy(): Bitmap? = copy(Bitmap.Config.ARGB_8888, isMutable)
+
 
 fun pointInCircle(pt: PointF, center: PointF, radius: Float): Boolean {
     // Point is in circle area formula:
     // (x - center_x)² + (y - center_y)² < radius²
-    return (pt.x - center.x).pow(2) + (pt.y - center.y).pow(2) > radius.pow(2)
+    return (pt.x - center.x).pow(2) + (pt.y - center.y).pow(2) < radius.pow(2)
 }
 
 /**

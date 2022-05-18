@@ -46,7 +46,7 @@ class ImageStickerFragment : BaseFragment(R.layout.fragment_image_sticker) {
         viewModel.uiState.collect { state ->
             stickersSection.update(state.availableStickers.map(::ImageStickerItem))
             state.selectedStickers.firstOrNull()?.let {
-                overlayImageView.addSticker(it.uri)
+                overlayImageView.addStickerAsync(it.uri)
                 viewModel.stickerAdded(it)
             }
             overlayImageView.setImageUri(state.image)
@@ -55,13 +55,17 @@ class ImageStickerFragment : BaseFragment(R.layout.fragment_image_sticker) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.loadStickers(getArgument(IMAGE_URI_ARG))
+        viewModel.loadStickers(getArgument(INTENT_ARG), getArgument(IMAGE_URI_ARG))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            overlayImageView.registerLifecycleOwner(lifecycle)
+            overlayImageView.apply {
+                setOnSaveImageListener {
+                    viewModel.saveImage(it)
+                }
+            }
             stickersRecyclerView.apply {
                 layoutManager = horizontalLinearLayoutManager()
                 adapter = createAdapter(stickersSection)
@@ -72,14 +76,9 @@ class ImageStickerFragment : BaseFragment(R.layout.fragment_image_sticker) {
                     viewModel.onBackPressed()
                 }
                 setOnDoneClickListener {
-                    // TODO: 17.05.22 get and save image
+                    overlayImageView.saveImageAsync()
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        binding.overlayImageView.unregisterLifecycleOwner(lifecycle)
-        super.onDestroyView()
     }
 }
