@@ -1,11 +1,33 @@
 package com.linc.inphoto.utils.extensions.view
 
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.graphics.PointF
 import kotlin.math.pow
 
 fun Bitmap.copy(): Bitmap? = copy(Bitmap.Config.ARGB_8888, isMutable)
 
+fun Bitmap.resize(w: Int, h: Int): Bitmap? {
+    val scaleWidth = w.toFloat() / width
+    val scaleHeight = h.toFloat() / height
+    // CREATE A MATRIX FOR THE MANIPULATION
+    val matrix = Matrix()
+    // RESIZE THE BIT MAP
+    matrix.postScale(scaleWidth, scaleHeight)
+
+    // "RECREATE" THE NEW BITMAP
+    val resizedBitmap = Bitmap.createBitmap(
+        this, 0, 0, width, height, matrix, false
+    )
+    this.recycle()
+    return resizedBitmap
+}
+
+fun Bitmap.crop(x: Int, y: Int, w: Int, h: Int): Bitmap? {
+    val croppedBitmap = Bitmap.createBitmap(this, x, y, w, h)
+    recycle()
+    return croppedBitmap
+}
 
 fun pointInCircle(pt: PointF, center: PointF, radius: Float): Boolean {
     // Point is in circle area formula:

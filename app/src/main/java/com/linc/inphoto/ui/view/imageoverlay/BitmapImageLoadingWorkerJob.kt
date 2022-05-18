@@ -1,16 +1,21 @@
 package com.linc.inphoto.ui.view.imageoverlay
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import com.linc.inphoto.utils.extensions.getFileBytes
+import com.linc.inphoto.utils.extensions.isUrl
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 import java.net.URL
 import kotlin.coroutines.CoroutineContext
 
-class BitmapLoadingWorkerJob internal constructor(
+class BitmapImageLoadingWorkerJob constructor(
+    private val context: Context,
     private val overlayImageViewReference: WeakReference<MotionOverlayImageView>,
-    val uri: Uri
+    private val uri: Uri,
+    private val isLayerResource: Boolean
 ) : CoroutineScope {
 
     private var currentJob: Job = Job()
@@ -21,10 +26,13 @@ class BitmapLoadingWorkerJob internal constructor(
         currentJob = launch(Dispatchers.Default) {
             try {
                 if (isActive) {
-                    val url = URL(uri.toString())
-                    val bitmap = BitmapFactory.decodeStream(url.openStream())
+                    val bitmap = when {
+                        uri.isUrl() -> BitmapFactory.decodeStream(URL(uri.toString()).openStream())
+                        else -> uri.getFileBytes(context)?.let {
+                            BitmapFactory.decodeByteArray(it, 0, it.count())
+                        }
+                    }
                     onPostExecute(Result(bitmap = bitmap))
-//                    bitmap.recycle()
                 }
             } catch (e: Exception) {
                 onPostExecute(Result(e))
@@ -38,7 +46,10 @@ class BitmapLoadingWorkerJob internal constructor(
             if (isActive) {
                 overlayImageViewReference.get()?.let {
                     completeCalled = true
-                    it.onStickerLoadingAsyncComplete(result)
+                    when {
+                        isLayerResource -> it.onLayerLoadingAsyncComplete(result)
+                        else -> it.onImageLoadingAsyncComplete(result)
+                    }
                 }
             }
             if (!completeCalled && result.bitmap != null) {
@@ -52,8 +63,6 @@ class BitmapLoadingWorkerJob internal constructor(
         currentJob.cancel()
     }
 
-    /** The result of BitmapLoadingWorkerJob async loading.  */
-    companion object
     class Result {
         val bitmap: Bitmap?
         val error: Exception?

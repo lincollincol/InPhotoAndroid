@@ -179,9 +179,15 @@ fun TextView.setWordsClickListener(
     )
 )
 
-fun View.getBitmap(): Bitmap? {
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+fun View.getBitmap(desiredWidth: Int? = null, desiredHeight: Int? = null): Bitmap? {
+    val bitmap = Bitmap.createBitmap(
+        desiredWidth ?: width,
+        desiredHeight ?: height,
+        Bitmap.Config.ARGB_8888
+    )
     val canvas = Canvas(bitmap)
     draw(canvas)
     return bitmap
+//    invalidate()
+//    return safeCast<BitmapDrawable>()?.bitmap
 }

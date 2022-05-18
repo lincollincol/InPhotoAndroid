@@ -144,8 +144,8 @@ fun Context.createTempFile(bitmap: Bitmap): File {
 fun Context.deleteFileUri(uri: Uri?) = uri?.let {
     try {
         contentResolver.delete(it, null, null)
-    } catch (iae: IllegalArgumentException) {
-        // Unknown URL ignored
+    } catch (iae: Exception) {
+        // Ignore unknown URL or already deleted uri
     }
 }
 

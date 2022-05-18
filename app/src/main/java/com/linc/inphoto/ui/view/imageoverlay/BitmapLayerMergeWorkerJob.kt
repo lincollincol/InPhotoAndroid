@@ -3,17 +3,21 @@ package com.linc.inphoto.ui.view.imageoverlay
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Point
 import android.net.Uri
 import com.linc.inphoto.utils.extensions.createTempUri
-import com.linc.inphoto.utils.extensions.view.getBitmap
+import com.linc.inphoto.utils.extensions.view.crop
+import com.linc.inphoto.utils.extensions.view.resize
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 import kotlin.coroutines.CoroutineContext
 
-class BitmapsMergingWorkerJob(
+class BitmapLayerMergeWorkerJob(
     private val context: Context,
     private val overlayImageViewReference: WeakReference<MotionOverlayImageView>,
-    private val motionViewReference: WeakReference<MotionView>
+    private val imagePoint: Point,
+    private val imageBitmap: Bitmap,
+    private val layersBitmap: Bitmap
 ) : CoroutineScope {
 
     private var job: Job = Job()
@@ -24,23 +28,23 @@ class BitmapsMergingWorkerJob(
         job = launch(Dispatchers.Default) {
             try {
                 if (isActive) {
-                    val editableImageBitmap = overlayImageViewReference.get()?.getBitmap()
-                    val stickersBitmap = motionViewReference.get()?.thumbnailImage
-                    if (editableImageBitmap == null || stickersBitmap == null) {
-                        throw KotlinNullPointerException("Image or stickers not found!")
-                    }
+                    val preparedLayersBitmap = layersBitmap.crop(
+                        0,
+                        imagePoint.y,
+                        layersBitmap.width,
+                        imageBitmap.height
+                    )?.resize(imageBitmap.width, imageBitmap.height)
                     val outputBitmap = Bitmap.createBitmap(
-                        editableImageBitmap.width,
-                        editableImageBitmap.height,
-                        editableImageBitmap.config
+                        imageBitmap.width,
+                        imageBitmap.height,
+                        imageBitmap.config
                     )
                     val canvas = Canvas(outputBitmap)
-                    canvas.drawBitmap(editableImageBitmap, 0F, 0F, null)
-                    canvas.drawBitmap(stickersBitmap, 0F, 0F, null)
-                    onPostExecute(Result(context.createTempUri(outputBitmap)))
+                    canvas.drawBitmap(imageBitmap, 0F, 0F, null)
+                    canvas.drawBitmap(preparedLayersBitmap!!, 0F, 0F, null)
+                    val outputImageUri = context.createTempUri(outputBitmap)
                     outputBitmap.recycle()
-                    editableImageBitmap.recycle()
-                    stickersBitmap.recycle()
+                    onPostExecute(Result(outputImageUri))
                 }
             } catch (e: Exception) {
                 onPostExecute(Result(e))
@@ -54,7 +58,7 @@ class BitmapsMergingWorkerJob(
             if (isActive) {
                 overlayImageViewReference.get()?.let {
                     completeCalled = true
-                    it.onImageMergingAsyncComplete(result)
+                    it.onImageLayersMergeAsyncComplete(result)
                 }
             }
         }

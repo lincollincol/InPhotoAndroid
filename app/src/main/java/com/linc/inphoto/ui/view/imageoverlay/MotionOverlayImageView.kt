@@ -1,8 +1,7 @@
 package com.linc.inphoto.ui.view.imageoverlay
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
 import android.net.Uri
 import android.util.AttributeSet
 import android.widget.FrameLayout
@@ -12,12 +11,14 @@ import com.linc.inphoto.ui.view.imageoverlay.model.ImageEntity
 import com.linc.inphoto.ui.view.imageoverlay.model.Layer
 import com.linc.inphoto.ui.view.imageoverlay.model.MotionEntity
 import com.linc.inphoto.ui.view.imageoverlay.model.TextEntity
+import com.linc.inphoto.utils.extensions.createTempUri
 import com.linc.inphoto.utils.extensions.inflater
 import com.linc.inphoto.utils.extensions.view.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.lang.Runnable
 import java.lang.ref.WeakReference
+
 
 class MotionOverlayImageView(
     context: Context,
@@ -27,14 +28,10 @@ class MotionOverlayImageView(
     private var binding: LayoutMotionOverlayImageViewBinding? = null
     private var onSaveImageListener: ((Uri?) -> Unit)? = null
 
-    private var bitmapStickerLoadingWorkerJob: WeakReference<BitmapLoadingWorkerJob>? = null
-    private var bitmapsMergingWorkerJob: WeakReference<BitmapsMergingWorkerJob>? = null
+    private var bitmapImageLoadingWorkerJob: WeakReference<BitmapImageLoadingWorkerJob>? = null
+    private var bitmapLayerMergeWorkerJob: WeakReference<BitmapLayerMergeWorkerJob>? = null
 
-    init {
-//        val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.ImageTextView)
-//        icon = attributes.getDrawable(R.styleable.ImageTextView_icon)
-//        attributes.recycle()
-    }
+    private var bitmap: Bitmap? = null
 
     override fun onEntitySelected(entity: MotionEntity?) {
         if (entity is TextEntity) {
@@ -49,7 +46,7 @@ class MotionOverlayImageView(
     }
 
     override fun onEntityDeleteTap(entity: MotionEntity) {
-        binding?.mainMotionView?.deleteEntity(entity)
+        binding?.motionView?.deleteEntity(entity)
     }
 
     override fun onAttachedToWindow() {
@@ -57,10 +54,9 @@ class MotionOverlayImageView(
         if (binding != null) {
             return
         }
-
         binding = LayoutMotionOverlayImageViewBinding.inflate(context.inflater, this, true)
         binding?.run {
-            mainMotionView.setMotionViewCallback(this@MotionOverlayImageView)
+            motionView.setMotionViewCallback(this@MotionOverlayImageView)
 
         }
     }
@@ -68,24 +64,25 @@ class MotionOverlayImageView(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         binding = null
+        onSaveImageListener = null
     }
 
     fun setOnSaveImageListener(onSaveImageListener: (Uri?) -> Unit) {
         this.onSaveImageListener = onSaveImageListener
     }
 
-    fun onImageMergingAsyncComplete(result: BitmapsMergingWorkerJob.Result) {
-        bitmapsMergingWorkerJob = null
+    fun onImageLayersMergeAsyncComplete(result: BitmapLayerMergeWorkerJob.Result) {
+        bitmapLayerMergeWorkerJob = null
         if (result.error != null) {
             Timber.e(result.error)
             return
         }
-        binding?.mainMotionView?.release()
+        binding?.motionView?.release()
         onSaveImageListener?.invoke(result.uri)
     }
 
-    fun onStickerLoadingAsyncComplete(result: BitmapLoadingWorkerJob.Result) {
-        bitmapStickerLoadingWorkerJob = null
+    fun onLayerLoadingAsyncComplete(result: BitmapImageLoadingWorkerJob.Result) {
+        bitmapImageLoadingWorkerJob = null
         if (result.error != null) {
             Timber.e(result.error)
             return
@@ -93,32 +90,87 @@ class MotionOverlayImageView(
         result.bitmap?.let(::addSticker)
     }
 
-    fun saveImageAsync() {
-        binding?.mainMotionView?.unselectEntity()
-        bitmapsMergingWorkerJob?.get()?.cancel()
-        bitmapsMergingWorkerJob = WeakReference(
-            BitmapsMergingWorkerJob(
-                context = context,
-                overlayImageViewReference = WeakReference(this),
-                motionViewReference = WeakReference(binding?.mainMotionView)
-            )
-        )
-        bitmapsMergingWorkerJob?.get()?.start()
+    fun onImageLoadingAsyncComplete(result: BitmapImageLoadingWorkerJob.Result) {
+        bitmapImageLoadingWorkerJob = null
+        if (result.error != null) {
+            Timber.e(result.error)
+            return
+        }
+        binding?.imageView?.setImageBitmap(result.bitmap)
+        bitmap = result.bitmap
     }
 
-    fun setImageUri(image: Uri?) = binding?.run {
-        imageView.loadImage(image)
+    fun saveImageAsync() = binding?.run {
+        val bmp = bitmap ?: return@run
+        val image = imageView.getBitmap() ?: return@run
+        val layer = motionView.getBitmap(desiredWidth = image.width) ?: return@run
+
+        val result = Bitmap.createBitmap(
+            image.width,
+            image.height,
+            image.config
+        )
+        val canvas = Canvas(result)
+
+        canvas.drawBitmap(image, 0F, 0F, null)
+        canvas.drawBitmap(layer, 0F, 0F, null)
+
+        // Crop layer
+        val croppedLayerBitmap = Bitmap.createBitmap(
+            result,
+            0,
+            (imageView.height - bmp.height) / 2,
+            image.width,
+            bmp.height
+        )
+
+        onSaveImageListener?.invoke(context.createTempUri(croppedLayerBitmap))
+        /*bitmap ?: return
+        val layersBitmap = binding?.motionView?.thumbnailImage ?: return
+
+        bitmapLayerMergeWorkerJob?.get()?.cancel()
+        bitmapLayerMergeWorkerJob = WeakReference(
+            BitmapLayerMergeWorkerJob(
+                context = context,
+                overlayImageViewReference = WeakReference(this),
+                imagePoint = Point(
+                    binding?.imageView?.x?.toInt() ?: 0,
+                    binding?.imageView?.y?.toInt() ?: 0
+                ),
+                bitmap!!,
+                layersBitmap
+            )
+        )
+        bitmapLayerMergeWorkerJob?.get()?.start()*/
+    }
+
+    fun setImageUri(image: Uri?) {
+        image ?: return
+        bitmapImageLoadingWorkerJob?.get()
+        bitmapImageLoadingWorkerJob = WeakReference(
+            BitmapImageLoadingWorkerJob(
+                context = context,
+                overlayImageViewReference = WeakReference(this),
+                uri = image,
+                isLayerResource = false
+            )
+        )
+        bitmapImageLoadingWorkerJob?.get()?.start()
     }
 
     fun addStickerAsync(image: Uri) {
-        bitmapStickerLoadingWorkerJob?.get()?.cancel()
-        bitmapStickerLoadingWorkerJob = WeakReference(
-            BitmapLoadingWorkerJob(
+        if (bitmapImageLoadingWorkerJob?.get() != null) {
+            return
+        }
+        bitmapImageLoadingWorkerJob = WeakReference(
+            BitmapImageLoadingWorkerJob(
+                context = context,
                 overlayImageViewReference = WeakReference(this),
-                uri = image
+                uri = image,
+                isLayerResource = true
             )
         )
-        bitmapStickerLoadingWorkerJob?.get()?.start()
+        bitmapImageLoadingWorkerJob?.get()?.start()
     }
 
     fun addSticker(@DrawableRes image: Int) {
@@ -126,9 +178,9 @@ class MotionOverlayImageView(
     }
 
     private fun addSticker(image: Bitmap) = binding?.run {
-        mainMotionView.post(Runnable {
-            val entity = ImageEntity(Layer(), image, mainMotionView.width, mainMotionView.height)
-            mainMotionView.addEntityAndPosition(entity)
+        motionView.post(Runnable {
+            val entity = ImageEntity(Layer(), image, motionView.width, motionView.height)
+            motionView.addEntityAndPosition(entity)
         })
     }
 }

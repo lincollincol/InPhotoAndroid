@@ -118,8 +118,6 @@ class MotionView : FrameLayout {
     }
 
     private fun initEntityBorder(entity: MotionEntity) {
-        // init stroke
-//        int strokeSize = getResources().getDimensionPixelSize(R.dimen.stroke_size);
         val borderPaint = Paint()
         borderPaint.strokeWidth = 2f
         borderPaint.isAntiAlias = true
@@ -128,7 +126,6 @@ class MotionView : FrameLayout {
         crossPaint.isAntiAlias = true
         crossPaint.strokeWidth = 5f
         crossPaint.color = Color.BLACK
-        //        crossPaint.setAlpha(255);
         entity.setBorderPaint(borderPaint)
         entity.setCrossPaint(crossPaint)
     }
@@ -158,8 +155,7 @@ class MotionView : FrameLayout {
         for (i in entities.indices) {
             entities[i].draw(canvas, null)
         }
-    }// IMPORTANT: always create white background, cos if the image is saved in JPEG format,
-    // which doesn't have transparent pixels, the background will be black
+    }
     /**
      * as a side effect - the method deselects Entity (if any selected)
      * @return bitmap with all the Entities at their current positions
@@ -168,9 +164,6 @@ class MotionView : FrameLayout {
         get() {
             selectEntity(null, false)
             val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-            // IMPORTANT: always create white background, cos if the image is saved in JPEG format,
-            // which doesn't have transparent pixels, the background will be black
-//            bmp.eraseColor(Color.WHITE)
             bmp.eraseColor(Color.TRANSPARENT)
             val canvas = Canvas(bmp)
             drawAllEntities(canvas)

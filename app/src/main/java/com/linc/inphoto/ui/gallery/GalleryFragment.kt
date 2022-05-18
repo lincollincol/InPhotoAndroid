@@ -22,6 +22,7 @@ import com.linc.inphoto.utils.extensions.view.verticalSquareGridLayoutManager
 import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -70,6 +71,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
             imagesRecyclerView.apply {
                 layoutManager = verticalSquareGridLayoutManager(ROW_IMAGES_COUNT)
                 adapter = imagesAdapter
+                itemAnimator = FadeInDownAnimator()
                 addItemDecoration(
                     GridSpaceItemDecoration(
                         ROW_IMAGES_COUNT,
