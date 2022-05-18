@@ -12,6 +12,9 @@ interface ContentApiService {
     @GET("/content/random-header")
     suspend fun getRandomHeader(): BaseResponse<String>
 
+    @GET("/content/stickers")
+    suspend fun getStickers(): BaseResponse<List<String>>
+
     @Multipart
     @POST("/content/chat-file")
     suspend fun uploadChatContent(@Part image: MultipartBody.Part): BaseResponse<String>

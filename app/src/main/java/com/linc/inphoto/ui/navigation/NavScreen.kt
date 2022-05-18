@@ -23,6 +23,8 @@ import com.linc.inphoto.ui.feed.FeedFragment
 import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.home.HomeFragment
+import com.linc.inphoto.ui.imagesticker.ImageStickerFragment
+import com.linc.inphoto.ui.imagesticker.model.ImageStickerIntent
 import com.linc.inphoto.ui.infodialog.InfoMessageFragment
 import com.linc.inphoto.ui.main.MainFragment
 import com.linc.inphoto.ui.main.MenuTab
@@ -107,6 +109,10 @@ object NavScreen {
 
     fun CropImageScreen(intent: CropIntent, image: Uri) = FragmentScreen {
         CropImageFragment.newInstance(intent, image)
+    }
+
+    fun ImageStickerScreen(intent: ImageStickerIntent, image: Uri) = FragmentScreen {
+        ImageStickerFragment.newInstance(intent, image)
     }
 
     fun ManagePostScreen(intent: ManagePostIntent) = FragmentScreen {
