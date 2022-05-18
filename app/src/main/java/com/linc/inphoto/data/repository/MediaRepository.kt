@@ -4,10 +4,12 @@ import android.graphics.Bitmap
 import android.net.Uri
 import com.linc.inphoto.data.android.MediaLocalDataSource
 import com.linc.inphoto.data.network.api.ContentApiService
+import com.linc.inphoto.entity.media.image.ImageSticker
 import com.linc.inphoto.entity.user.Gender
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 class MediaRepository @Inject constructor(
@@ -26,6 +28,12 @@ class MediaRepository @Inject constructor(
 
     suspend fun loadRandomUserHeader() = withContext(ioDispatcher) {
         return@withContext contentApiService.getRandomHeader().body
+    }
+
+    suspend fun loadStickers() = withContext(ioDispatcher) {
+        return@withContext contentApiService.getStickers().body
+            ?.map { ImageSticker(UUID.randomUUID().toString(), Uri.parse(it)) }
+            .orEmpty()
     }
 
     /**

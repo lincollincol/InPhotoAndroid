@@ -10,8 +10,6 @@ import com.linc.inphoto.databinding.LayoutMotionOverlayImageViewBinding
 import com.linc.inphoto.ui.view.imageoverlay.model.ImageEntity
 import com.linc.inphoto.ui.view.imageoverlay.model.Layer
 import com.linc.inphoto.ui.view.imageoverlay.model.MotionEntity
-import com.linc.inphoto.ui.view.imageoverlay.model.TextEntity
-import com.linc.inphoto.utils.extensions.createTempUri
 import com.linc.inphoto.utils.extensions.inflater
 import com.linc.inphoto.utils.extensions.view.*
 import kotlinx.coroutines.*
@@ -34,15 +32,11 @@ class MotionOverlayImageView(
     private var bitmap: Bitmap? = null
 
     override fun onEntitySelected(entity: MotionEntity?) {
-        if (entity is TextEntity) {
-//                textEntityEditPanel.setVisibility(VISIBLE)
-        } else {
-//                textEntityEditPanel.setVisibility(GONE)
-        }
+        // Not implemented
     }
 
     override fun onEntityDoubleTap(entity: MotionEntity) {
-//            startTextEntityEditing()
+        // Not implemented
     }
 
     override fun onEntityDeleteTap(entity: MotionEntity) {
@@ -78,6 +72,7 @@ class MotionOverlayImageView(
             return
         }
         binding?.motionView?.release()
+        bitmap?.recycle()
         onSaveImageListener?.invoke(result.uri)
     }
 
@@ -100,48 +95,19 @@ class MotionOverlayImageView(
         bitmap = result.bitmap
     }
 
-    fun saveImageAsync() = binding?.run {
-        val bmp = bitmap ?: return@run
-        val image = imageView.getBitmap() ?: return@run
-        val layer = motionView.getBitmap(desiredWidth = image.width) ?: return@run
-
-        val result = Bitmap.createBitmap(
-            image.width,
-            image.height,
-            image.config
-        )
-        val canvas = Canvas(result)
-
-        canvas.drawBitmap(image, 0F, 0F, null)
-        canvas.drawBitmap(layer, 0F, 0F, null)
-
-        // Crop layer
-        val croppedLayerBitmap = Bitmap.createBitmap(
-            result,
-            0,
-            (imageView.height - bmp.height) / 2,
-            image.width,
-            bmp.height
-        )
-
-        onSaveImageListener?.invoke(context.createTempUri(croppedLayerBitmap))
-        /*bitmap ?: return
-        val layersBitmap = binding?.motionView?.thumbnailImage ?: return
-
+    fun saveImageAsync() {
+        val originalBitmap = bitmap ?: return
+        binding?.motionView?.unselectEntity()
         bitmapLayerMergeWorkerJob?.get()?.cancel()
         bitmapLayerMergeWorkerJob = WeakReference(
             BitmapLayerMergeWorkerJob(
                 context = context,
+                motionViewReference = WeakReference(binding?.motionView),
                 overlayImageViewReference = WeakReference(this),
-                imagePoint = Point(
-                    binding?.imageView?.x?.toInt() ?: 0,
-                    binding?.imageView?.y?.toInt() ?: 0
-                ),
-                bitmap!!,
-                layersBitmap
+                originalBitmap
             )
         )
-        bitmapLayerMergeWorkerJob?.get()?.start()*/
+        bitmapLayerMergeWorkerJob?.get()?.start()
     }
 
     fun setImageUri(image: Uri?) {

@@ -8,14 +8,13 @@ import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import androidx.annotation.IntRange
-import com.linc.inphoto.utils.FontProvider
 import com.linc.inphoto.utils.extensions.cast
 
 class TextEntity(
     textLayer: TextLayer,
     @IntRange(from = 1) canvasWidth: Int,
     @IntRange(from = 1) canvasHeight: Int,
-    private val fontProvider: FontProvider
+//    private val fontProvider: FontProvider
 ) : MotionEntity(textLayer, canvasWidth, canvasHeight) {
     private val textPaint: TextPaint
     private var bitmap: Bitmap? = null
@@ -70,7 +69,7 @@ class TextEntity(
 //        textPaint.textSize = textLayer.font?.size * canvasWidth
         textPaint.textSize = textLayer.font?.size?.times(canvasWidth) ?: 0F
         textPaint.color = textLayer.font?.color ?: 0
-        textPaint.typeface = fontProvider.getTypeface(textLayer.font?.typeface)
+//        textPaint.typeface = fontProvider.getTypeface(textLayer.font?.typeface)
 
         // drawing text guide : http://ivankocijan.xyz/android-drawing-multiline-text-on-canvas/
         // Static layout which will be drawn on canvas
