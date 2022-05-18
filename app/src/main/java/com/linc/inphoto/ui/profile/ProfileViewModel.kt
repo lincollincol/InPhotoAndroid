@@ -109,7 +109,7 @@ class ProfileViewModel @Inject constructor(
     private suspend fun loadCurrentProfile() {
         val user = userRepository.getLoggedInUser()
         val userPosts = postRepository.getCurrentUserPosts()
-            .sortedBy { it.createdTimestamp }
+            .sortedByDescending { it.createdTimestamp }
             .map { it.toUiState { selectPost(it) } }
         updateUserState(user)
         _uiState.update { it.copy(posts = userPosts) }
@@ -118,7 +118,7 @@ class ProfileViewModel @Inject constructor(
     private suspend fun loadUserProfile(userId: String) {
         val user = userRepository.getUserById(userId)
         val userPosts = postRepository.getUserPosts(userId)
-            .sortedBy { it.createdTimestamp }
+            .sortedByDescending { it.createdTimestamp }
             .map { it.toUiState { selectPost(it) } }
         updateUserState(user)
         _uiState.update { it.copy(posts = userPosts) }

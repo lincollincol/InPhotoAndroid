@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentManagePostBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.utils.extensions.autoAnimateTargets
 import com.linc.inphoto.utils.extensions.getArgument
@@ -33,6 +35,7 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
     }
 
     override val viewModel: ManagePostViewModel by viewModels()
+    private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentManagePostBinding::bind)
 
     override suspend fun observeUiState() = with(binding) {
@@ -77,8 +80,12 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
                 viewModel.updateDescription(text.toString())
             }
         }
-
+        bottomBarViewModel.hideBottomBar()
     }
 
+    override fun onKeyboardStateChanged(visible: Boolean) {
+        super.onKeyboardStateChanged(visible)
+        bottomBarViewModel.hideBottomBar()
+    }
 
 }
