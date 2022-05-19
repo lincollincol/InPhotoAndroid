@@ -1,6 +1,7 @@
 package com.linc.inphoto.ui.search
 
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.data.repository.TagRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
@@ -16,25 +17,46 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val tagRepository: TagRepository
 ) : BaseViewModel<SearchUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(SearchUiState())
 
-    fun loadUsers() {
+    fun selectPage(index: Int) {
+        _uiState.update { it.copy(selectedPage = index) }
+    }
+
+    fun updateSearchQuery(query: String) {
         viewModelScope.launch {
             try {
-                val users = userRepository.loadAllUsers()
-                    .map { it.toUiState { openProfile(it.id) } }
-                _uiState.update { it.copy(users = users) }
+                launch { loadTags(query) }
+                launch { loadUsers(query) }
+                _uiState.update { it.copy(searchQuery = query) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
         }
     }
 
-    fun openProfile(userId: String) {
+    private suspend fun loadUsers(query: String) {
+        val users = userRepository.loadUsers(query)
+            .map { it.toUiState { selectUser(it.id) } }
+        _uiState.update { it.copy(users = users) }
+    }
+
+    private suspend fun loadTags(query: String) {
+        val tags = tagRepository.loadTags(query)
+            .map { it.toUiState { selectTag(it.id) } }
+        _uiState.update { it.copy(tags = tags) }
+    }
+
+    private fun selectUser(userId: String) {
         router.navigateTo(NavScreen.ProfileScreen(userId))
+    }
+
+    private fun selectTag(tagId: String) {
+//        router.navigateTo(NavScreen.ProfileScreen(userId))
     }
 
 }

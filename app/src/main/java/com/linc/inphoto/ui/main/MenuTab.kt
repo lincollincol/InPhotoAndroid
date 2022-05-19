@@ -4,7 +4,7 @@ import com.linc.inphoto.R
 
 enum class MenuTab(val id: Int) {
     HOME(R.id.homeMenuItem),
-    FEED(R.id.feedMenuItem),
+    SEARCH(R.id.searchMenuItem),
     CHATS(R.id.chatMenuItem),
     PROFILE(R.id.profileMenuItem);
 

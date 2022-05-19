@@ -50,14 +50,6 @@ class ProfileFollowersFragment : BaseFragment(R.layout.fragment_profile_follower
         }
     }
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.loadUserSubscriptions(
-            getArgument(USER_ID_ARG),
-            getArgument(SUBSCRIPTION_TYPE_ARG)
-        )
-    }*/
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {

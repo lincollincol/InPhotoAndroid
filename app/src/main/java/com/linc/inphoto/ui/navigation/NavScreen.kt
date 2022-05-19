@@ -51,7 +51,7 @@ object NavScreen {
 
     fun getTabHostScreen(tab: MenuTab?) = when (tab) {
         MenuTab.HOME -> HomeScreen()
-        MenuTab.FEED -> FeedScreen()
+        MenuTab.SEARCH -> SearchScreen()
         MenuTab.CHATS -> ChatsScreen()
         else -> ProfileScreen()
     }
