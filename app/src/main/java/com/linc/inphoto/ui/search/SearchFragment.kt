@@ -6,7 +6,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.tabs.TabLayoutMediator
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSearchBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
@@ -14,7 +13,8 @@ import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
 import com.linc.inphoto.ui.search.model.SearchType
 import com.linc.inphoto.utils.extensions.hideKeyboard
-import com.linc.inphoto.utils.extensions.view.setTabSelected
+import com.linc.inphoto.utils.extensions.view.*
+import com.linc.inphoto.utils.view.TabPositionListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -32,8 +32,10 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            searchTabLayout.setTabSelected(state.selectedPage)
-            searchViewPager.setCurrentItem(state.selectedPage, false)
+            searchEditText.update(state.searchQuery)
+            searchViewPager.selectPage(state.selectedPage)
+            searchTabLayout.selectTab(state.selectedPage)
+
         }
     }
 
@@ -52,20 +54,19 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
                 adapter = SearchPageAdapter(this@SearchFragment)
                 offscreenPageLimit = SubscriptionType.values().count()
             }
-            TabLayoutMediator(searchTabLayout, searchViewPager) { tab, position ->
-                val title = when (SearchType.values().get(position)) {
-                    SearchType.USERS -> R.string.users
-                    SearchType.TAGS -> R.string.tags
+            searchTabLayout.apply {
+                attachMediator(searchViewPager) { tab, position ->
+                    val title = when (SearchType.values().get(position)) {
+                        SearchType.USERS -> R.string.users
+                        SearchType.TAGS -> R.string.tags
+                    }
+                    tab.setText(title)
                 }
-                tab.setText(title)
-            }.attach()
+                // Add listener after mediator to prevent events
+                addOnTabSelectedListener(TabPositionListener(viewModel::selectPage))
+            }
         }
         bottomBarViewModel.showBottomBar()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.selectPage(binding.searchViewPager.currentItem)
     }
 
     override fun onKeyboardStateChanged(visible: Boolean) {

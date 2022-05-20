@@ -26,11 +26,8 @@ class ProfileFollowersViewModel @Inject constructor(
     private val followers = mutableListOf<FollowerUserUiState>()
     private val following = mutableListOf<FollowerUserUiState>()
 
-    fun loadUserSubscriptions(
-        userId: String?,
-        subscriptionType: SubscriptionType?
-    ) {
-        _uiState.update { it.copy(selectedPage = subscriptionType?.ordinal ?: 0, isLoading = true) }
+    fun loadUserSubscriptions(userId: String?) {
+        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             try {
                 val user = userRepository.getUserById(userId)
@@ -44,6 +41,10 @@ class ProfileFollowersViewModel @Inject constructor(
                 _uiState.update { it.copy(isLoading = false) }
             }
         }
+    }
+
+    fun selectPage(subscriptionType: SubscriptionType?) {
+        selectPage(subscriptionType?.ordinal ?: 0)
     }
 
     fun selectPage(index: Int) {

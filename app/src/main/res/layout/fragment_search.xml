@@ -20,8 +20,6 @@
             style="@style/TextFieldBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="@dimen/elevation_small"
             android:padding="@dimen/margin_general"
             android:text="@string/search"
             android:textSize="@dimen/font_title" />
@@ -40,7 +38,7 @@
                 style="@style/TextInputField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@android:color/transparent"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="@dimen/margin_general"
                 android:hint="@string/search"

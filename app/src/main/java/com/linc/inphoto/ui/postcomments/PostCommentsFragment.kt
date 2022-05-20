@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.postcomments
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -46,15 +47,7 @@ class PostCommentsFragment : BaseFragment(R.layout.fragment_post_comments) {
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             inputLayout.apply {
-                animateTargets(
-                    Fade(),
-                    inputLayout.root,
-                    sendButton,
-                    doneButton,
-                    attachmentsButton,
-                    cancelButton,
-                    inputEditText
-                )
+                animateTargets(Fade(), inputLayout.root, inputLayout.root.children)
                 sendButton.enable(state.isCommentValid)
                 doneButton.enable(state.isCommentValid)
                 sendButton.show(!state.isEditorState)

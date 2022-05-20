@@ -7,7 +7,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.tabs.TabLayoutMediator
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileFollowersBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
@@ -16,7 +15,8 @@ import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.hideKeyboard
-import com.linc.inphoto.utils.extensions.view.setTabSelected
+import com.linc.inphoto.utils.extensions.view.*
+import com.linc.inphoto.utils.view.TabPositionListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,10 +44,16 @@ class ProfileFollowersFragment : BaseFragment(R.layout.fragment_profile_follower
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            searchEditText.update(state.searchQuery)
+            followersViewPager.selectPage(state.selectedPage)
+            followersTabLayout.selectTab(state.selectedPage)
             followersToolbar.setToolbarTitle(state.user?.name)
-            followersTabLayout.setTabSelected(state.selectedPage)
-            followersViewPager.setCurrentItem(state.selectedPage, false)
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.selectPage(getArgument(SUBSCRIPTION_TYPE_ARG))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,28 +72,20 @@ class ProfileFollowersFragment : BaseFragment(R.layout.fragment_profile_follower
                 adapter = FollowersPageAdapter(this@ProfileFollowersFragment)
                 offscreenPageLimit = SubscriptionType.values().count()
             }
-            TabLayoutMediator(followersTabLayout, followersViewPager) { tab, position ->
-                val title = when (SubscriptionType.values().get(position)) {
-                    SubscriptionType.FOLLOWER -> R.string.followers
-                    SubscriptionType.FOLLOWING -> R.string.following
+            followersTabLayout.apply {
+                attachMediator(followersViewPager) { tab, position ->
+                    val title = when (SubscriptionType.values().get(position)) {
+                        SubscriptionType.FOLLOWER -> R.string.followers
+                        SubscriptionType.FOLLOWING -> R.string.following
+                    }
+                    tab.setText(title)
                 }
-                tab.setText(title)
-            }.attach()
+                // Add listener after mediator to prevent events
+                addOnTabSelectedListener(TabPositionListener(viewModel::selectPage))
+            }
         }
         bottomBarViewModel.showBottomBar()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.loadUserSubscriptions(
-            getArgument(USER_ID_ARG),
-            getArgument(SUBSCRIPTION_TYPE_ARG)
-        )
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.selectPage(binding.followersViewPager.currentItem)
+        viewModel.loadUserSubscriptions(getArgument(USER_ID_ARG))
     }
 
     override fun onKeyboardStateChanged(visible: Boolean) {
