@@ -27,12 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListener {
 
-    /**
-     * TODO:
-     * save followers view pager index of page when exit
-     *
-     * */
-
     companion object {
         private const val ROW_IMAGES_COUNT = 3
         private const val USER_ID_ARG = "user_id"
@@ -80,7 +74,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
         with(binding) {
             postsRecyclerView.apply {
                 layoutManager = verticalSquareGridLayoutManager(ROW_IMAGES_COUNT)
-                adapter = createAdapter(hasStableIds = true, newPostSection, userPostsSection)
+                adapter = createAdapter(newPostSection, userPostsSection)
                 enableItemChangeAnimation(false)
                 addItemDecoration(
                     GridSpaceItemDecoration(

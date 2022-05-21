@@ -85,12 +85,12 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val updatedUser = when {
-                    user.isFollowingUser -> userRepository.followUser(user.id)
-                    else -> userRepository.unfollowUser(user.id)
+                    user.isFollowingUser -> userRepository.unfollowUser(user.id)
+                    else -> userRepository.followUser(user.id)
                 } ?: return@launch
                 val users = currentState.users.mapIf(
                     condition = { it.userId == user.id },
-                    transform = { it.copy(isFollowing = updatedUser.isFollowingUser) }
+                    transform = { getUserUiState(updatedUser) }
                 ).sortedByDescending { it.isFollowing }
                 _uiState.update { it.copy(users = users) }
             } catch (e: Exception) {

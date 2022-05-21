@@ -88,6 +88,11 @@ class ProfileFollowersFragment : BaseFragment(R.layout.fragment_profile_follower
         viewModel.loadUserSubscriptions(getArgument(USER_ID_ARG))
     }
 
+    override fun onTabStateChanged(hidden: Boolean) {
+        super.onTabStateChanged(hidden)
+        if (!hidden) viewModel.loadUserSubscriptions(getArgument(USER_ID_ARG))
+    }
+
     override fun onKeyboardStateChanged(visible: Boolean) {
         bottomBarViewModel.showBottomBar(!visible)
     }

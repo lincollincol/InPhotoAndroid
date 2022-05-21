@@ -39,7 +39,10 @@ class UserRepository @Inject constructor(
                 .orEmpty()
         }
         user.await()?.let { userDao.upsertUser(it) }
-        followerDao.upsert(followingIds.await())
+        followerDao.run {
+            deleteUserFollowing(userId)
+            upsert(followingIds.await())
+        }
     }
 
     suspend fun fetchLoggedInUser() = withContext(ioDispatcher) {
@@ -63,6 +66,7 @@ class UserRepository @Inject constructor(
     suspend fun loadUsers(query: String): List<User> = withContext(ioDispatcher) {
         return@withContext userApiService.getUsers(query).body
             ?.map { it.toUserModel(isFollowingUser(it.id), isLoggedInUser(it.id)) }
+            ?.filter { it.id != authPreferences.userId }
             .orEmpty()
     }
 
