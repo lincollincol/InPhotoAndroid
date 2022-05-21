@@ -10,7 +10,7 @@ import androidx.annotation.StringRes
 import androidx.core.view.updateLayoutParams
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutImageTextViewBinding
-import com.linc.inphoto.utils.extensions.getColorInt
+import com.linc.inphoto.utils.extensions.getResColor
 import com.linc.inphoto.utils.extensions.inflater
 import com.linc.inphoto.utils.extensions.view.select
 import com.linc.inphoto.utils.extensions.view.setTint
@@ -40,11 +40,11 @@ class ImageTextView(
         text = attributes.getString(R.styleable.ImageTextView_text)
         textColor = attributes.getColor(
             R.styleable.ImageTextView_textColor,
-            context.getColorInt(R.color.black)
+            context.getResColor(R.color.black)
         )
         iconTint = attributes.getColor(
             R.styleable.ImageTextView_iconTint,
-            context.getColorInt(R.color.black)
+            context.getResColor(R.color.black)
         )
         textSize = attributes.getDimensionPixelSize(
             R.styleable.ImageTextView_textSize,

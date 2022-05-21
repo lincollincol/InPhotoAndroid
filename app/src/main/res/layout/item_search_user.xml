@@ -32,7 +32,7 @@
         android:layout_marginHorizontal="@dimen/margin_general"
         android:textSize="@dimen/font_small"
         app:layout_constraintBottom_toTopOf="@id/statusTextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/followButton"
         app:layout_constraintStart_toEndOf="@id/avatarImageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="xlinc" />
@@ -46,9 +46,24 @@
         android:textColor="@color/black_50"
         android:textSize="@dimen/font_tiny"
         app:layout_constraintBottom_toBottomOf="@id/avatarImageView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/followButton"
         app:layout_constraintStart_toEndOf="@id/avatarImageView"
         app:layout_constraintTop_toBottomOf="@id/nameTextView"
         tools:text="Musician" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/followButton"
+        android:layout_width="@dimen/icon_general"
+        android:layout_height="@dimen/icon_general"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:background="@drawable/selector_drawable_black_white"
+        android:elevation="@dimen/elevation_small"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/avatarImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/avatarImageView"
+        app:roundPercent="0.5"
+        app:srcCompat="@drawable/selector_icon_follow_user"
+        app:tint="@drawable/selector_color_white_black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

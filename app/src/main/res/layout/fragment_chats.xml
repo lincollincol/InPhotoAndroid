@@ -19,21 +19,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/searchEditText"
-        style="@style/TextInputField"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchInputLayout"
+        style="@style/TextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/margin_general"
-        android:paddingStart="@dimen/padding_general"
-        android:paddingEnd="@dimen/padding_general"
         android:background="@color/white"
-        android:drawableStart="@drawable/ic_search"
         android:elevation="@dimen/elevation_small"
-        android:hint="@string/search"
+        app:endIconDrawable="@drawable/ic_close"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chatsTextView" />
+        app:layout_constraintTop_toBottomOf="@id/chatsTextView">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchEditText"
+            style="@style/TextInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/margin_general"
+            android:hint="@string/search"
+            android:paddingStart="@dimen/padding_general"
+            android:paddingEnd="@dimen/padding_general" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatsRecyclerView"
@@ -45,7 +57,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchEditText"
+        app:layout_constraintTop_toBottomOf="@id/searchInputLayout"
         tools:listitem="@layout/item_chat" />
 
     <ProgressBar

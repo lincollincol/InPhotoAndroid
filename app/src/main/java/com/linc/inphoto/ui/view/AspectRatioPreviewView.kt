@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.entity.media.image.AspectRatio
-import com.linc.inphoto.utils.extensions.getColorInt
+import com.linc.inphoto.utils.extensions.getResColor
 import com.linc.inphoto.utils.extensions.toPx
 
 class AspectRatioPreviewView : View {
@@ -92,8 +92,8 @@ class AspectRatioPreviewView : View {
     }
 
     init {
-        colorRectSelected = context.getColorInt(R.color.dream_setting)
-        colorRectNotSelected = context.getColorInt(R.color.black)
+        colorRectSelected = context.getResColor(R.color.dream_setting)
+        colorRectNotSelected = context.getResColor(R.color.black)
         rectPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.STROKE
             strokeWidth = 2.toPx
