@@ -27,10 +27,12 @@ class TagPostsViewModel @Inject constructor(
     private var tagId: String? = null
 
     fun loadTagPosts(tagId: String?) {
+        this.tagId = tagId
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(isLoading = true) }
                 val posts = postRepository.getTagPosts(tagId)
+                    .sortedByDescending { it.createdTimestamp }
                     .map { it.toUiState { selectPost(it) } }
                 val tag = tagRepository.loadTag(tagId)
                 _uiState.update {

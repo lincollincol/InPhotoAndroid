@@ -65,7 +65,7 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
             }
         }
         bottomBarViewModel.showBottomBar()
-        viewModel.loadPosts(getArgument(OVERVIEW_TYPE_ARG))
+        viewModel.applyOverviewType(getArgument(OVERVIEW_TYPE_ARG))
     }
 
 

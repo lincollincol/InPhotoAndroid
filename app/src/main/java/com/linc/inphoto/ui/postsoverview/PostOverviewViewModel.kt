@@ -12,6 +12,7 @@ import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.ui.postsoverview.model.PostOperation
 import com.linc.inphoto.utils.ResourceProvider
+import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
@@ -34,49 +35,55 @@ class PostOverviewViewModel @Inject constructor(
     }
 
     override val _uiState = MutableStateFlow(PostOverviewUiState())
+    private var overviewType: OverviewType? = null
 
-    fun loadPosts(overviewType: OverviewType?) {
+    fun applyOverviewType(overviewType: OverviewType?) {
+        this.overviewType = overviewType
         viewModelScope.launch {
             try {
-                when (overviewType) {
-                    is OverviewType.Profile -> loadUserPosts(overviewType)
-                    is OverviewType.Feed -> loadPublicPosts(overviewType)
-                }
+//                val selectedPost = postRepository.getExtendedPost(overviewType.postId)
+//                val posts = when (overviewType) {
+//                    is OverviewType.Profile -> postRepository.getUserExtendedPosts(overviewType.userId)
+//                    is OverviewType.TagPosts -> postRepository.getExtendedTagPosts(overviewType.tagId)
+//                    is OverviewType.Feed ->
+//                        listOfNotNull(selectedPost, *postRepository.getAllExtendedPosts().toTypedArray())
+//
+//                }
+//                _uiState.update { it.copy(posts = posts, initialPost = selectedPost) }
+                loadPosts()
             } catch (e: Exception) {
                 Timber.e(e)
             }
         }
     }
 
-    private suspend fun loadUserPosts(profileOverview: OverviewType.Profile) = coroutineScope {
-        val posts = postRepository.getUserExtendedPosts(profileOverview.userId)
-            .sortedBy { it.createdTimestamp }
-            .map(::getPostUiState)
-        _uiState.update { it.copy(posts = posts) }
+    private suspend fun loadPosts() = coroutineScope {
+        val type = overviewType ?: return@coroutineScope
+        val selectedPost = postRepository.getExtendedPost(type.postId)
+        val posts = when (type) {
+            is OverviewType.Profile -> postRepository.getUserExtendedPosts(type.userId)
+                .sortedByDescending { it.createdTimestamp }
+            is OverviewType.TagPosts -> postRepository.getExtendedTagPosts(type.tagId)
+                .sortedByDescending { it.createdTimestamp }
+            is OverviewType.Feed ->
+                listOfNotNull(selectedPost, *postRepository.getAllExtendedPosts().toTypedArray())
+        }.map(::getPostUiState)
+        _uiState.update { it.copy(posts = posts, initialPost = selectedPost) }
     }
 
-    private suspend fun loadPublicPosts(feedOverview: OverviewType.Feed) = coroutineScope {
-        val selectedPost = postRepository.getExtendedPost(feedOverview.postId)
-        val recommendedPosts = postRepository.getAllExtendedPosts()
-        val posts = listOfNotNull(selectedPost, *recommendedPosts.toTypedArray())
-            .map(::getPostUiState)
-        _uiState.update { it.copy(posts = posts) }
-    }
-
-    // TODO: 23.03.22 refactor code. Move ui state mapping to new function?
     private fun likePost(selectedPost: ExtendedPost) {
         viewModelScope.launch {
             try {
-                val post =
-                    postRepository.likePost(selectedPost.id, !selectedPost.isLiked) ?: return@launch
+                val post = postRepository.likePost(
+                    selectedPost.id,
+                    !selectedPost.isLiked
+                ) ?: return@launch
                 val posts = currentState.posts
-                    .sortedBy { it.createdTimestamp }
-                    .map { postUiState ->
-                        when (postUiState.postId) {
-                            selectedPost.id -> getPostUiState(post)
-                            else -> postUiState
-                        }
-                    }
+                    .sortedByDescending { it.createdTimestamp }
+                    .mapIf(
+                        condition = { it.postId == selectedPost.id },
+                        transform = { getPostUiState(post) }
+                    )
                 _uiState.update { it.copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -87,16 +94,16 @@ class PostOverviewViewModel @Inject constructor(
     private fun bookmarkPost(selectedPost: ExtendedPost) {
         viewModelScope.launch {
             try {
-                val post = postRepository.bookmarkPost(selectedPost.id, !selectedPost.isBookmarked)
-                    ?: return@launch
+                val post = postRepository.bookmarkPost(
+                    selectedPost.id,
+                    !selectedPost.isBookmarked
+                ) ?: return@launch
                 val posts = currentState.posts
-                    .sortedBy { it.createdTimestamp }
-                    .map { postUiState ->
-                        when (postUiState.postId) {
-                            selectedPost.id -> getPostUiState(post)
-                            else -> postUiState
-                        }
-                    }
+                    .sortedByDescending { it.createdTimestamp }
+                    .mapIf(
+                        condition = { it.postId == selectedPost.id },
+                        transform = { getPostUiState(post) }
+                    )
                 _uiState.update { it.copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)

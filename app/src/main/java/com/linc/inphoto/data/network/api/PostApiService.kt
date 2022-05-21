@@ -35,8 +35,9 @@ interface PostApiService {
 
     @GET("/posts-extended/tags/{tagId}")
     suspend fun getExtendedTagPosts(
-        @Path("tagId") tagId: String?
-    ): BaseResponse<List<PostApiModel>>
+        @Path("tagId") tagId: String?,
+        @Query("userId") userId: String?,
+    ): BaseResponse<List<ExtendedPostApiModel>>
 
     @GET("/posts/users/{userId}")
     suspend fun getUserPosts(

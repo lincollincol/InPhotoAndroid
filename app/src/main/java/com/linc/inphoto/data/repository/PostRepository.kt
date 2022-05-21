@@ -62,11 +62,15 @@ class PostRepository @Inject constructor(
             .orEmpty()
     }
 
-    suspend fun getExtendedTagPosts(tagId: String?): List<Post> = withContext(ioDispatcher) {
-        return@withContext postApiService.getExtendedTagPosts(tagId).body
-            ?.map(PostApiModel::toPostModel)
-            .orEmpty()
-    }
+    suspend fun getExtendedTagPosts(tagId: String?): List<ExtendedPost> =
+        withContext(ioDispatcher) {
+            return@withContext postApiService.getExtendedTagPosts(
+                tagId,
+                authPreferences.userId
+            ).body
+                ?.map(ExtendedPostApiModel::toExtendedPostModel)
+                .orEmpty()
+        }
 
     suspend fun getUserPosts(userId: String): List<Post> = withContext(ioDispatcher) {
         return@withContext postApiService.getUserPosts(userId).body
