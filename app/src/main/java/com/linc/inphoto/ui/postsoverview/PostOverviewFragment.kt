@@ -13,13 +13,15 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.ui.postsoverview.item.PostOverviewItem
 import com.linc.inphoto.ui.postsoverview.model.OverviewType
+import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.enableItemChangeAnimation
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.linc.inphoto.utils.view.recyclerview.listener.VerticalRecyclerScrollListener
-import com.xwray.groupie.GroupieAdapter
+import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 @AndroidEntryPoint
 class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
@@ -38,11 +40,22 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
     override val viewModel: PostOverviewViewModel by viewModels()
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentPostOverviewBinding::bind)
-    private val postsAdapter by lazy { GroupieAdapter() }
+    private val postsSection by lazy { Section() }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            postsAdapter.update(state.posts.map(::PostOverviewItem))
+            postsSection.update(state.posts.map(::PostOverviewItem))
+//            state.initialPost?.let {
+//                val position = postsSection.getPosition(PostOverviewItem(state.initialPost))
+//                postsRecyclerView.scrollToPosition(position)
+//                Timber.d(position.toString())
+//                viewModel.initialPostShown()
+//            }
+            state.initialPosition?.let {
+                Timber.d(it.toString())
+                postsRecyclerView.scrollToPosition(it)
+                viewModel.initialPostShown()
+            }
         }
     }
 
@@ -51,7 +64,7 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
         with(binding) {
             postsRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
-                adapter = postsAdapter
+                adapter = createAdapter(postsSection)
                 enableItemChangeAnimation(false)
                 addOnScrollListener(VerticalRecyclerScrollListener {
                     when (it) {

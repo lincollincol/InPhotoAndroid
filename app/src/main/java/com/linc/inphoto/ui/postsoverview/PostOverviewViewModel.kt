@@ -3,7 +3,6 @@ package com.linc.inphoto.ui.postsoverview
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
-import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
@@ -25,7 +24,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PostOverviewViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
-    private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val resourceProvider: ResourceProvider
 ) : BaseViewModel<PostOverviewUiState>(navContainerHolder) {
@@ -37,19 +35,14 @@ class PostOverviewViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(PostOverviewUiState())
     private var overviewType: OverviewType? = null
 
+    fun initialPostShown() {
+        _uiState.update { it.copy(initialPosition = null) }
+    }
+
     fun applyOverviewType(overviewType: OverviewType?) {
         this.overviewType = overviewType
         viewModelScope.launch {
             try {
-//                val selectedPost = postRepository.getExtendedPost(overviewType.postId)
-//                val posts = when (overviewType) {
-//                    is OverviewType.Profile -> postRepository.getUserExtendedPosts(overviewType.userId)
-//                    is OverviewType.TagPosts -> postRepository.getExtendedTagPosts(overviewType.tagId)
-//                    is OverviewType.Feed ->
-//                        listOfNotNull(selectedPost, *postRepository.getAllExtendedPosts().toTypedArray())
-//
-//                }
-//                _uiState.update { it.copy(posts = posts, initialPost = selectedPost) }
                 loadPosts()
             } catch (e: Exception) {
                 Timber.e(e)
@@ -59,7 +52,7 @@ class PostOverviewViewModel @Inject constructor(
 
     private suspend fun loadPosts() = coroutineScope {
         val type = overviewType ?: return@coroutineScope
-        val selectedPost = postRepository.getExtendedPost(type.postId)
+        val selectedPost = postRepository.getExtendedPost(type.postId) ?: return@coroutineScope
         val posts = when (type) {
             is OverviewType.Profile -> postRepository.getUserExtendedPosts(type.userId)
                 .sortedByDescending { it.createdTimestamp }
@@ -68,7 +61,8 @@ class PostOverviewViewModel @Inject constructor(
             is OverviewType.Feed ->
                 listOfNotNull(selectedPost, *postRepository.getAllExtendedPosts().toTypedArray())
         }.map(::getPostUiState)
-        _uiState.update { it.copy(posts = posts, initialPost = selectedPost) }
+        val initialPosition = posts.indexOfFirst { it.postId == selectedPost.id }
+        _uiState.update { it.copy(posts = posts, initialPosition = initialPosition) }
     }
 
     private fun likePost(selectedPost: ExtendedPost) {

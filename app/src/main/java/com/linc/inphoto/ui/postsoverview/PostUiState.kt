@@ -1,7 +1,7 @@
 package com.linc.inphoto.ui.postsoverview
 
 import com.linc.inphoto.entity.post.ExtendedPost
-import com.linc.inphoto.ui.base.state.UiState
+import com.linc.inphoto.ui.base.state.ItemUiState
 
 data class PostUiState(
     val postId: String,
@@ -21,7 +21,9 @@ data class PostUiState(
     val onLike: () -> Unit,
     val onBookmark: () -> Unit,
     val onComment: () -> Unit
-) : UiState
+) : ItemUiState {
+    override fun getStateItemId(): Long = postId.hashCode().toLong()
+}
 
 fun ExtendedPost.toUiState(
     onMore: () -> Unit,
