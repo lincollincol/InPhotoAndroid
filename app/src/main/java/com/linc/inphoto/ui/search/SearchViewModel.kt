@@ -74,7 +74,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun selectTag(tag: Tag) {
-//        router.navigateTo(NavScreen.ProfileScreen(userId))
+        router.navigateTo(NavScreen.TagPostsScreen(tag.id))
     }
 
     private fun selectUser(user: User) {

@@ -5,7 +5,7 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.annotation.ColorInt
-import com.linc.inphoto.utils.span.SimpleClickableSpan
+import com.linc.inphoto.utils.view.span.SimpleClickableSpan
 
 fun Spannable.addSpan(
     span: Any,

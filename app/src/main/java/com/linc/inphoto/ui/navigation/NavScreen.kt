@@ -44,6 +44,7 @@ import com.linc.inphoto.ui.search.SearchFragment
 import com.linc.inphoto.ui.settings.SettingsFragment
 import com.linc.inphoto.ui.splash.SplashFragment
 import com.linc.inphoto.ui.tab.TabFragment
+import com.linc.inphoto.ui.tagposts.TagPostsFragment
 import java.util.*
 
 
@@ -165,6 +166,10 @@ object NavScreen {
 
     fun SearchScreen() = FragmentScreen {
         SearchFragment.newInstance()
+    }
+
+    fun TagPostsScreen(tagId: String) = FragmentScreen {
+        TagPostsFragment.newInstance(tagId)
     }
 
     fun ProfileFollowersScreen(

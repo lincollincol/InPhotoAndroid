@@ -15,6 +15,10 @@ class TagRepository @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
+    suspend fun loadTag(id: String?): Tag? = withContext(ioDispatcher) {
+        return@withContext tagApiService.getTag(id).body?.toTagModel()
+    }
+
     suspend fun loadTags(): List<Tag> = withContext(ioDispatcher) {
         return@withContext loadTags(String.EMPTY)
     }

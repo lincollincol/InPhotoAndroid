@@ -1,4 +1,4 @@
-package com.linc.inphoto.utils
+package com.linc.inphoto.utils.view
 
 import android.text.InputFilter
 import android.text.Spanned

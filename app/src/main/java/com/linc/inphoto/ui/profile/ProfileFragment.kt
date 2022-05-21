@@ -19,10 +19,11 @@ import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
 import com.linc.inphoto.utils.extensions.*
 import com.linc.inphoto.utils.extensions.view.*
-import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
-import com.linc.inphoto.utils.recyclerview.listener.VerticalScrollListener
+import com.linc.inphoto.utils.view.recyclerview.decorator.GridSpaceItemDecoration
+import com.linc.inphoto.utils.view.recyclerview.listener.VerticalRecyclerScrollListener
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListener {
@@ -75,7 +76,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
             postsRecyclerView.apply {
                 layoutManager = verticalSquareGridLayoutManager(ROW_IMAGES_COUNT)
                 adapter = createAdapter(newPostSection, userPostsSection)
-                enableItemChangeAnimation(false)
+                itemAnimator = FadeInDownAnimator()
                 addItemDecoration(
                     GridSpaceItemDecoration(
                         ROW_IMAGES_COUNT,
@@ -83,7 +84,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                         true
                     )
                 )
-                addOnScrollListener(VerticalScrollListener {
+                addOnScrollListener(VerticalRecyclerScrollListener {
                     when (it) {
                         Gravity.BOTTOM -> bottomBarViewModel.hideBottomBar()
                         Gravity.TOP -> bottomBarViewModel.showBottomBar()

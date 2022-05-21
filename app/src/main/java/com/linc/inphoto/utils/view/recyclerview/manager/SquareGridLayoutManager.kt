@@ -1,4 +1,4 @@
-package com.linc.inphoto.utils.recyclerview.manager
+package com.linc.inphoto.utils.view.recyclerview.manager
 
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager

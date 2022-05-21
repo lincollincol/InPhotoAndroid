@@ -16,7 +16,7 @@ import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.enableItemChangeAnimation
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
-import com.linc.inphoto.utils.recyclerview.listener.VerticalScrollListener
+import com.linc.inphoto.utils.view.recyclerview.listener.VerticalRecyclerScrollListener
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -53,7 +53,7 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = postsAdapter
                 enableItemChangeAnimation(false)
-                addOnScrollListener(VerticalScrollListener {
+                addOnScrollListener(VerticalRecyclerScrollListener {
                     when (it) {
                         Gravity.BOTTOM -> bottomBarViewModel.hideBottomBar()
                         Gravity.TOP -> bottomBarViewModel.showBottomBar()

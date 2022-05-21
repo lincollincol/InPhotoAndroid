@@ -28,6 +28,16 @@ interface PostApiService {
         @Body body: UpdatePostApiModel
     ): BaseResponse<*>
 
+    @GET("/posts/tags/{tagId}")
+    suspend fun getTagPosts(
+        @Path("tagId") tagId: String?
+    ): BaseResponse<List<PostApiModel>>
+
+    @GET("/posts-extended/tags/{tagId}")
+    suspend fun getExtendedTagPosts(
+        @Path("tagId") tagId: String?
+    ): BaseResponse<List<PostApiModel>>
+
     @GET("/posts/users/{userId}")
     suspend fun getUserPosts(
         @Path("userId") userId: String

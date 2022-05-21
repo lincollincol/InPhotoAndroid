@@ -19,7 +19,7 @@ import com.linc.inphoto.utils.extensions.getDimension
 import com.linc.inphoto.utils.extensions.permissionDisabled
 import com.linc.inphoto.utils.extensions.view.show
 import com.linc.inphoto.utils.extensions.view.verticalSquareGridLayoutManager
-import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
+import com.linc.inphoto.utils.view.recyclerview.decorator.GridSpaceItemDecoration
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator

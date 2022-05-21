@@ -14,6 +14,12 @@ sealed class OverviewType : Parcelable {
     ) : OverviewType()
 
     @Parcelize
+    class TagPosts(
+        override val postId: String,
+        val tagId: String
+    ) : OverviewType()
+
+    @Parcelize
     class Feed(override val postId: String) : OverviewType()
 
 }

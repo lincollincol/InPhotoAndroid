@@ -56,9 +56,22 @@ class PostRepository @Inject constructor(
         return@withContext getUserPosts(authPreferences.userId)
     }
 
+    suspend fun getTagPosts(tagId: String?): List<Post> = withContext(ioDispatcher) {
+        return@withContext postApiService.getTagPosts(tagId).body
+            ?.map(PostApiModel::toPostModel)
+            .orEmpty()
+    }
+
+    suspend fun getExtendedTagPosts(tagId: String?): List<Post> = withContext(ioDispatcher) {
+        return@withContext postApiService.getExtendedTagPosts(tagId).body
+            ?.map(PostApiModel::toPostModel)
+            .orEmpty()
+    }
+
     suspend fun getUserPosts(userId: String): List<Post> = withContext(ioDispatcher) {
-        val response = postApiService.getUserPosts(userId)
-        return@withContext response.body?.map(PostApiModel::toPostModel).orEmpty()
+        return@withContext postApiService.getUserPosts(userId).body
+            ?.map(PostApiModel::toPostModel)
+            .orEmpty()
     }
 
     suspend fun getCurrentUserExtendedPosts(): List<ExtendedPost> =
@@ -84,13 +97,12 @@ class PostRepository @Inject constructor(
     }
 
     suspend fun getExtendedPost(postId: String): ExtendedPost? = withContext(ioDispatcher) {
-        val response = postApiService.getExtendedPost(postId, authPreferences.userId)
-        return@withContext response.body?.toExtendedPostModel()
+        return@withContext postApiService.getExtendedPost(postId, authPreferences.userId).body
+            ?.toExtendedPostModel()
     }
 
     suspend fun getAllExtendedPosts(): List<ExtendedPost> = withContext(ioDispatcher) {
-        val response = postApiService.getAllExtendedPosts(authPreferences.userId)
-        return@withContext response.body
+        return@withContext postApiService.getAllExtendedPosts(authPreferences.userId).body
             ?.map(ExtendedPostApiModel::toExtendedPostModel)
             .orEmpty()
     }
@@ -131,7 +143,6 @@ class PostRepository @Inject constructor(
             comment
         ).body?.toCommentModel()
     }
-
 
     suspend fun updatePostComment(
         commentId: String,
