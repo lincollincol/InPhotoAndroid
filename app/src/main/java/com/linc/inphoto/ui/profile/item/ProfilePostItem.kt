@@ -2,28 +2,26 @@ package com.linc.inphoto.ui.profile.item
 
 import android.view.View
 import com.linc.inphoto.R
-import com.linc.inphoto.databinding.ItemProfilePostBinding
+import com.linc.inphoto.databinding.ItemPostPreviewBinding
 import com.linc.inphoto.ui.profile.model.ProfilePostUiState
 import com.linc.inphoto.utils.extensions.view.loadImage
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.xwray.groupie.viewbinding.BindableItem
 
 class ProfilePostItem(
     private val profilePostUiState: ProfilePostUiState
-) : BindableItem<ItemProfilePostBinding>(profilePostUiState.post.id.hashCode().toLong()) {
+) : BindableItem<ItemPostPreviewBinding>(profilePostUiState.getStateItemId()) {
 
-    override fun bind(viewBinding: ItemProfilePostBinding, position: Int) {
+    override fun bind(viewBinding: ItemPostPreviewBinding, position: Int) {
         with(viewBinding) {
-            postImageView.loadImage(
-                image = profilePostUiState.post.contentUrl/*,
-                size = Size(256, 256)*/
-            )
-            root.setOnClickListener {
+            postImageView.loadImage(profilePostUiState.post.contentUrl)
+            root.setOnThrottledClickListener {
                 profilePostUiState.onClick()
             }
         }
     }
 
-    override fun getLayout() = R.layout.item_profile_post
+    override fun getLayout() = R.layout.item_post_preview
 
-    override fun initializeViewBinding(view: View) = ItemProfilePostBinding.bind(view)
+    override fun initializeViewBinding(view: View) = ItemPostPreviewBinding.bind(view)
 }

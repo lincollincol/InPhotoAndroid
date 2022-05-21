@@ -10,7 +10,7 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class PostOverviewItem(
     private val postUiState: PostUiState
-) : BindableItem<ItemPostOverviewBinding>(postUiState.postId.hashCode().toLong()) {
+) : BindableItem<ItemPostOverviewBinding>(postUiState.getStateItemId()) {
 
     override fun bind(viewBinding: ItemPostOverviewBinding, position: Int) {
         with(viewBinding) {

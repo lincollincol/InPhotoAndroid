@@ -24,7 +24,11 @@
         <entry key="app/src/main/res/drawable/ic_sticker.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/drawable/layout_comment_input.xml" value="0.340625" />
         <entry key="app/src/main/res/drawable/selector_bookmark.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/drawable/selector_color_black_white.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/drawable/selector_color_white_black.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/drawable/selector_drawable_black_white.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/drawable/selector_icon_enable_color.xml" value="0.340625" />
+        <entry key="app/src/main/res/drawable/selector_icon_follow_user.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/drawable/selector_like.xml" value="0.14479166666666668" />
         <entry key="app/src/main/res/drawable/selector_switch_thumb.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/drawable/selector_switch_track.xml" value="0.10989583333333333" />
@@ -64,11 +68,13 @@
         <entry key="app/src/main/res/layout/fragment_profile_followers.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_profile_settings.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.16927083333333334" />
+        <entry key="app/src/main/res/layout/fragment_search_result.xml" value="0.17864583333333334" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_tab.xml" value="0.32447916666666665" />
+        <entry key="app/src/main/res/layout/fragment_tag_posts.xml" value="0.32708333333333334" />
         <entry key="app/src/main/res/layout/item_chat.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_chat_contact.xml" value="0.32708333333333334" />
         <entry key="app/src/main/res/layout/item_chats_title.xml" value="0.32708333333333334" />
@@ -94,10 +100,12 @@
         <entry key="app/src/main/res/layout/item_option.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_post_comment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_post_overview.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/item_posts_tag_info.xml" value="0.32708333333333334" />
         <entry key="app/src/main/res/layout/item_profile_image.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_profile_photo.xml" value="0.1765625" />
         <entry key="app/src/main/res/layout/item_profile_post.xml" value="0.14739583333333334" />
-        <entry key="app/src/main/res/layout/item_search_user.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_search_tag.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_search_user.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_settings_option.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/item_tag_chip.xml" value="0.31023550724637683" />
         <entry key="app/src/main/res/layout/layout_chat_input.xml" value="0.17447916666666666" />

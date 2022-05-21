@@ -1,14 +1,13 @@
-package com.linc.inphoto.utils.recyclerview.listener
+package com.linc.inphoto.utils.view.recyclerview.listener
 
 import android.view.Gravity
 import androidx.recyclerview.widget.RecyclerView
 
-class VerticalScrollListener(
+class VerticalRecyclerScrollListener(
     private val onScrolled: (Int) -> Unit,
 ) : RecyclerView.OnScrollListener() {
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-
         val gravity = when {
             dy > 0 -> Gravity.BOTTOM
             dy < 0 -> Gravity.TOP

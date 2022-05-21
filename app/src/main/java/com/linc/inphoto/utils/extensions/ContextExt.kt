@@ -3,6 +3,7 @@ package com.linc.inphoto.utils.extensions
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Insets
 import android.graphics.Point
@@ -99,8 +100,9 @@ inline fun <reified T : Number> Context.getDimension(id: Int, default: T) =
 fun Context.getKeyboard() =
     getSystemService(Context.INPUT_METHOD_SERVICE).safeCast<InputMethodManager>()
 
+fun Context.getResColor(@ColorRes id: Int) = ContextCompat.getColor(this, id)
 
-fun Context.getColorInt(@ColorRes id: Int) = ContextCompat.getColor(this, id)
+fun Context.getStateListColor(@ColorRes id: Int) = ColorStateList.valueOf(getResColor(id))
 
 fun Context.getDrawable(
     @DrawableRes id: Int?,

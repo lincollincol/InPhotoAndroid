@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutEditorToolbarBinding
-import com.linc.inphoto.utils.extensions.getColorInt
+import com.linc.inphoto.utils.extensions.getResColor
 import com.linc.inphoto.utils.extensions.inflater
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.show
@@ -47,7 +47,7 @@ class SimpleToolbarView(
         cancelIcon = attributes.getDrawable(R.styleable.EditorToolbarView_cancelIcon)
         textColorTitle = attributes.getColor(
             R.styleable.EditorToolbarView_textColorTitle,
-            context.getColorInt(R.color.black)
+            context.getResColor(R.color.black)
         )
         textSize = attributes.getDimensionPixelSize(
             R.styleable.EditorToolbarView_textSize,

@@ -11,7 +11,7 @@ import androidx.annotation.StringRes
 import androidx.core.view.updatePadding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutSettingsTextViewBinding
-import com.linc.inphoto.utils.extensions.getColorInt
+import com.linc.inphoto.utils.extensions.getResColor
 import com.linc.inphoto.utils.extensions.inflater
 
 
@@ -41,17 +41,17 @@ class SettingsTextView(
         val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.SettingsTextView)
         rippleColor = attributes.getColor(
             R.styleable.SettingsTextView_rippleColor,
-            context.getColorInt(R.color.black_15)
+            context.getResColor(R.color.black_15)
         )
         textTitle = attributes.getString(R.styleable.SettingsTextView_textTitle)
         textValue = attributes.getString(R.styleable.SettingsTextView_textValue)
         textColorTitle = attributes.getColor(
             R.styleable.SettingsTextView_textColorTitle,
-            context.getColorInt(R.color.black)
+            context.getResColor(R.color.black)
         )
         textColorValue = attributes.getColor(
             R.styleable.SettingsTextView_textColorValue,
-            context.getColorInt(R.color.black_50)
+            context.getResColor(R.color.black_50)
         )
         textTitleBold = attributes.getBoolean(
             R.styleable.SettingsTextView_textTitleBold,

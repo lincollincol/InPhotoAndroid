@@ -7,9 +7,9 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/feedMenuItem"
+        android:id="@+id/searchMenuItem"
         android:icon="@drawable/ic_search"
-        android:title="@string/feed" />
+        android:title="@string/search" />
 
     <item
         android:id="@+id/chatMenuItem"

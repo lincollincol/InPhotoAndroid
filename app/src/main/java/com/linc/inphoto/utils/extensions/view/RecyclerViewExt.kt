@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.linc.inphoto.utils.recyclerview.manager.SquareGridLayoutManager
+import com.linc.inphoto.utils.view.recyclerview.manager.SquareGridLayoutManager
 
 fun RecyclerView.enableItemChangeAnimation(enable: Boolean) {
     (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = enable

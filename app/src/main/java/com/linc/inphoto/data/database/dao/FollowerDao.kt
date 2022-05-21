@@ -16,6 +16,9 @@ abstract class FollowerDao : BaseDao<FollowerEntity>() {
     @Query("DELETE FROM followers WHERE userId = :userId AND followerId = :followerId")
     abstract suspend fun deleteFollower(userId: String, followerId: String)
 
+    @Query("DELETE FROM followers WHERE userId = :userId")
+    abstract suspend fun deleteUserFollowing(userId: String)
+
 //    @Insert(onConflict = OnConflictStrategy.ABORT)
 //    suspend fun insertFollower(follower: FollowerEntity)
 //

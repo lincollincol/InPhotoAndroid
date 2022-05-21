@@ -52,7 +52,7 @@ interface UserApiService {
     ): BaseResponse<*>
 
     @GET("/users")
-    suspend fun getUsers(): BaseResponse<List<UserApiModel>>
+    suspend fun getUsers(@Query("query") query: String): BaseResponse<List<UserApiModel>>
 
     @GET("/users/{userId}")
     suspend fun getUserById(@Path("userId") id: String): BaseResponse<UserApiModel>

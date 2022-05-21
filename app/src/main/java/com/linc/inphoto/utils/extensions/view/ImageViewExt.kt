@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Size
 import android.widget.ImageView
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
@@ -13,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.bumptech.glide.request.target.Target
 import com.linc.inphoto.R
+import com.linc.inphoto.utils.extensions.getStateListColor
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 private const val THUMB_MIN_SIZE = 56
@@ -139,4 +141,8 @@ fun ImageView.loadImage(
 
 fun ImageView.setTint(@ColorInt color: Int) {
     ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(color))
+}
+
+fun ImageView.setResTint(@ColorRes color: Int) {
+    ImageViewCompat.setImageTintList(this, context.getStateListColor(color))
 }

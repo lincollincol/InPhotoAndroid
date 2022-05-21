@@ -45,11 +45,23 @@
     <style name="SmallMaterialButton" parent="MaterialButton">
         <item name="cornerRadius">@dimen/corner_general</item>
         <item name="textAllCaps">false</item>
-        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.MediumComponent
+        <item name="shapeAppearance">
+            @style/ShapeAppearance.MaterialComponents.MediumComponent
         </item>
         <item name="elevation">@dimen/elevation_small</item>
         <item name="android:paddingTop">@dimen/padding_small</item>
         <item name="android:paddingBottom">@dimen/padding_small</item>
+    </style>
+
+    <style name="TinyMaterialButton" parent="MaterialButton">
+        <item name="cornerRadius">@dimen/corner_general</item>
+        <item name="textAllCaps">false</item>
+        <item name="shapeAppearance">
+            @style/ShapeAppearance.MaterialComponents.MediumComponent
+        </item>
+        <item name="elevation">@dimen/elevation_small</item>
+        <item name="android:paddingTop">@dimen/padding_extra_tiny</item>
+        <item name="android:paddingBottom">@dimen/padding_extra_tiny</item>
     </style>
 
     <style name="OutlinedMaterialButton" parent="Widget.MaterialComponents.Button.OutlinedButton">

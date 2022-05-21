@@ -18,6 +18,8 @@
     <string name="sign_in">Sign In</string>
     <string name="allow">Allow</string>
     <string name="username">username</string>
+    <string name="users">Users</string>
+    <string name="tags">Tags</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="repeat_password">repeat password</string>
@@ -54,7 +56,6 @@
     <string name="select_image_toolbar">Select Image</string>
     <string name="manage_post_toolbar">Manage Post</string>
     <string name="description">Description</string>
-    <string name="tags">Tags</string>
     <string name="stickers">Stickers</string>
 
     <string name="not_found">Not Found!</string>
@@ -72,6 +73,9 @@
         %4$s\n\n
         Join InPhoto
     </string>
+
+    <string name="posts_count">%1$s posts</string>
+    <string name="tag_title">#%1$s</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_profile">Profile</string>

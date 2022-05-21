@@ -19,19 +19,14 @@ import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
 import com.linc.inphoto.utils.extensions.*
 import com.linc.inphoto.utils.extensions.view.*
-import com.linc.inphoto.utils.recyclerview.decorator.GridSpaceItemDecoration
-import com.linc.inphoto.utils.recyclerview.listener.VerticalScrollListener
+import com.linc.inphoto.utils.view.recyclerview.decorator.GridSpaceItemDecoration
+import com.linc.inphoto.utils.view.recyclerview.listener.VerticalRecyclerScrollListener
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListener {
-
-    /**
-     * TODO:
-     * save followers view pager index of page when exit
-     *
-     * */
 
     companion object {
         private const val ROW_IMAGES_COUNT = 3
@@ -80,8 +75,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
         with(binding) {
             postsRecyclerView.apply {
                 layoutManager = verticalSquareGridLayoutManager(ROW_IMAGES_COUNT)
-                adapter = createAdapter(hasStableIds = true, newPostSection, userPostsSection)
-                enableItemChangeAnimation(false)
+                adapter = createAdapter(newPostSection, userPostsSection)
+                itemAnimator = FadeInDownAnimator()
                 addItemDecoration(
                     GridSpaceItemDecoration(
                         ROW_IMAGES_COUNT,
@@ -89,7 +84,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                         true
                     )
                 )
-                addOnScrollListener(VerticalScrollListener {
+                addOnScrollListener(VerticalRecyclerScrollListener {
                     when (it) {
                         Gravity.BOTTOM -> bottomBarViewModel.hideBottomBar()
                         Gravity.TOP -> bottomBarViewModel.showBottomBar()

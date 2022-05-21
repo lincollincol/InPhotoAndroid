@@ -1,4 +1,4 @@
-package com.linc.inphoto.utils.span
+package com.linc.inphoto.utils.view.span
 
 import android.text.TextPaint
 import android.text.style.ClickableSpan

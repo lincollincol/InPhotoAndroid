@@ -12,6 +12,7 @@ import com.linc.inphoto.data.network.api.UserApiService
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.entity.user.User
+import com.linc.inphoto.utils.extensions.EMPTY
 import com.linc.inphoto.utils.extensions.isUrl
 import com.linc.inphoto.utils.extensions.toMultipartBody
 import kotlinx.coroutines.CoroutineDispatcher
@@ -38,7 +39,10 @@ class UserRepository @Inject constructor(
                 .orEmpty()
         }
         user.await()?.let { userDao.upsertUser(it) }
-        followerDao.upsert(followingIds.await())
+        followerDao.run {
+            deleteUserFollowing(userId)
+            upsert(followingIds.await())
+        }
     }
 
     suspend fun fetchLoggedInUser() = withContext(ioDispatcher) {
@@ -56,8 +60,13 @@ class UserRepository @Inject constructor(
     }
 
     suspend fun loadAllUsers(): List<User> = withContext(ioDispatcher) {
-        return@withContext userApiService.getUsers().body
+        return@withContext loadUsers(String.EMPTY)
+    }
+
+    suspend fun loadUsers(query: String): List<User> = withContext(ioDispatcher) {
+        return@withContext userApiService.getUsers(query).body
             ?.map { it.toUserModel(isFollowingUser(it.id), isLoggedInUser(it.id)) }
+            ?.filter { it.id != authPreferences.userId }
             .orEmpty()
     }
 

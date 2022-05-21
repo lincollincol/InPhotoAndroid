@@ -1,4 +1,4 @@
-package com.linc.inphoto.utils.recyclerview.decorator
+package com.linc.inphoto.utils.view.recyclerview.decorator
 
 import android.graphics.Rect
 import android.view.View

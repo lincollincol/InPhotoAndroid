@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.IntDef
 import androidx.core.view.isVisible
+import com.linc.inphoto.utils.extensions.getStateListColor
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.view.DoubleClickListener
 import com.linc.inphoto.utils.view.WordsTouchListener
@@ -179,6 +181,10 @@ fun TextView.setWordsClickListener(
     )
 )
 
+fun View.setBackgroundResTint(@ColorRes color: Int) {
+    backgroundTintList = context.getStateListColor(color)
+}
+
 fun View.getBitmap(desiredWidth: Int? = null, desiredHeight: Int? = null): Bitmap? {
     val bitmap = Bitmap.createBitmap(
         desiredWidth ?: width,
@@ -188,6 +194,4 @@ fun View.getBitmap(desiredWidth: Int? = null, desiredHeight: Int? = null): Bitma
     val canvas = Canvas(bitmap)
     draw(canvas)
     return bitmap
-//    invalidate()
-//    return safeCast<BitmapDrawable>()?.bitmap
 }

@@ -3,9 +3,11 @@ package com.linc.inphoto.data.mapper
 import com.linc.inphoto.data.network.model.post.CommentApiModel
 import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
+import com.linc.inphoto.data.network.model.post.TagApiModel
 import com.linc.inphoto.entity.post.Comment
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.entity.post.Post
+import com.linc.inphoto.entity.post.Tag
 
 fun ExtendedPostApiModel.toExtendedPostModel() = ExtendedPost(
     id = id,
@@ -38,3 +40,5 @@ fun CommentApiModel.toCommentModel() = Comment(
     username = username,
     userAvatarUrl = userAvatarUrl
 )
+
+fun TagApiModel.toTagModel() = Tag(id, name)

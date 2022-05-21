@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/previewImageView"
+        android:layout_width="@dimen/icon_extra_large"
+        android:layout_height="@dimen/icon_extra_large"
+        android:layout_margin="@dimen/margin_general"
+        android:elevation="@dimen/elevation_general"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundPercent="1"
+        app:srcCompat="@drawable/mango" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tagTextView"
+        style="@style/TextFieldBold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:textSize="@dimen/font_normal"
+        app:layout_constraintBottom_toTopOf="@id/postsCountTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/previewImageView"
+        app:layout_constraintTop_toTopOf="@id/previewImageView"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="android" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/postsCountTextView"
+        style="@style/TextFieldBold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:textColor="@color/black_50"
+        app:layout_constraintBottom_toBottomOf="@id/previewImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/previewImageView"
+        app:layout_constraintTop_toBottomOf="@id/tagTextView"
+        tools:text="15k posts" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,3 +18,6 @@ fun <T> MutableCollection<T>.update(items: Collection<T>) {
     clear()
     addAll(items)
 }
+
+fun <T> MutableCollection<T>.replace(old: T, new: T) =
+    mapIf(condition = { it == old }, transform = { new })

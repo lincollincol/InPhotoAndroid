@@ -2,7 +2,7 @@ package com.linc.inphoto.utils.extensions
 
 import android.text.Spannable
 import android.text.SpannableString
-import com.linc.inphoto.utils.span.SpanReplaceBuilder
+import com.linc.inphoto.utils.view.span.SpanReplaceBuilder
 
 val String.Companion.EMPTY get() = ""
 

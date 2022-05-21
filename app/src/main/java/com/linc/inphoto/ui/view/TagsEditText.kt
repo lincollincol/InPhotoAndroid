@@ -9,13 +9,13 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.LayoutTagsEditTextBinding
-import com.linc.inphoto.utils.TextInputFilter
 import com.linc.inphoto.utils.extensions.EMPTY
 import com.linc.inphoto.utils.extensions.inflater
 import com.linc.inphoto.utils.extensions.isLongerThan
 import com.linc.inphoto.utils.extensions.view.addChip
 import com.linc.inphoto.utils.extensions.view.deleteLast
 import com.linc.inphoto.utils.extensions.view.textToString
+import com.linc.inphoto.utils.view.TextInputFilter
 
 
 class TagsEditText constructor(
