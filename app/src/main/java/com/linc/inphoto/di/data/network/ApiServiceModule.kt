@@ -37,4 +37,9 @@ object ApiServiceModule {
     fun provideTagApiService(retrofit: Retrofit): TagApiService =
         retrofit.create(TagApiService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideStoryApiService(retrofit: Retrofit): StoryApiService =
+        retrofit.create(StoryApiService::class.java)
+
 }

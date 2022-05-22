@@ -5,18 +5,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.children
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentCreateStoryBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
+import com.linc.inphoto.utils.extensions.view.show
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,6 +35,7 @@ class CreateStoryFragment : BaseFragment(R.layout.fragment_create_story) {
     }
 
     override val viewModel: CreateStoryViewModel by viewModels()
+    private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentCreateStoryBinding::bind)
 
     override suspend fun observeUiState() = with(binding) {
@@ -44,6 +48,7 @@ class CreateStoryFragment : BaseFragment(R.layout.fragment_create_story) {
             expirationSettingsTextView.setValue(
                 DateFormatter.getDuration(requireContext(), state.expirationTimeMillis)
             )
+            loadingView.show(state.isLoading)
         }
     }
 
@@ -55,6 +60,10 @@ class CreateStoryFragment : BaseFragment(R.layout.fragment_create_story) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            toolbarView.apply {
+                setOnDoneClickListener { viewModel.saveStory() }
+                setOnCancelClickListener { viewModel.onBackPressed() }
+            }
             durationSettingsTextView.setOnThrottledClickListener {
                 viewModel.selectDurationTime()
             }
@@ -62,6 +71,7 @@ class CreateStoryFragment : BaseFragment(R.layout.fragment_create_story) {
                 viewModel.selectExpirationTime()
             }
         }
+        bottomBarViewModel.hideBottomBar()
     }
 
 }

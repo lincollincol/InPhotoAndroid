@@ -1,6 +1,8 @@
 package com.linc.inphoto.ui.createstory
 
 import android.net.Uri
+import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.data.repository.StoryRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -8,12 +10,15 @@ import com.linc.inphoto.utils.extensions.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 
 @HiltViewModel
 class CreateStoryViewModel @Inject constructor(
-    navContainerHolder: NavContainerHolder
+    navContainerHolder: NavContainerHolder,
+    private val storyRepository: StoryRepository
 ) : BaseViewModel<CreateStoryUiState>(navContainerHolder) {
 
     companion object {
@@ -26,6 +31,24 @@ class CreateStoryViewModel @Inject constructor(
 
     fun applyStoryContent(contentUri: Uri?) {
         _uiState.update { it.copy(contentUri = contentUri) }
+    }
+
+    fun saveStory() {
+        viewModelScope.launch {
+            try {
+                _uiState.update { it.copy(isLoading = true) }
+                storyRepository.createUserStory(
+                    currentState.contentUri ?: Uri.EMPTY,
+                    currentState.expirationTimeMillis,
+                    currentState.durationMillis
+                )
+                router.backTo(NavScreen.HomeScreen())
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
+            }
+        }
     }
 
     fun selectExpirationTime() {

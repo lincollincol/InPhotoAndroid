@@ -8,5 +8,6 @@ import com.linc.inphoto.utils.extensions.TEN_SECONDS_IN_MILLIS
 data class CreateStoryUiState(
     val contentUri: Uri? = null,
     val durationMillis: Long = TEN_SECONDS_IN_MILLIS,
-    val expirationTimeMillis: Long = ONE_HOUR_IN_MILLIS
+    val expirationTimeMillis: Long = ONE_HOUR_IN_MILLIS,
+    val isLoading: Boolean = false
 ) : UiState
