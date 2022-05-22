@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.home
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
+import com.linc.inphoto.data.repository.StoryRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
@@ -28,6 +29,7 @@ class HomeViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
+    private val storyRepository: StoryRepository,
     private val resourceProvider: ResourceProvider
 ) : BaseViewModel<HomeUiState>(navContainerHolder) {
 
@@ -60,9 +62,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun loadFollowingStories() {
-//        val newStoryState = userRepository.getLoggedInUser()
-//            ?.toUiState {  }
-//        _uiState.update { it.copy(newStory = newStoryState) }
+        val stories = storyRepository.loadCurrentUserFollowingStories()
+            .map { it.toUiState {  } }
+        _uiState.update { it.copy(stories = stories) }
     }
 
     private suspend fun loadFollowingPosts() {
