@@ -65,7 +65,7 @@ class TagPostsFragment : BaseFragment(R.layout.fragment_tag_posts) {
                 show(state.isTagInfoValid)
             }
             postsSection.update(state.posts.map(::TagPostItem))
-            tagPostsProgressBar.show(state.isLoading)
+            tagPostsProgressBar.show(state.isLoading && state.posts.isEmpty())
         }
     }
 

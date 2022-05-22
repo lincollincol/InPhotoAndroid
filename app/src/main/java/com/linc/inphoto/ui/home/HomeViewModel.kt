@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.home
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
+import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.home.model.HomePostOperation
@@ -11,6 +12,7 @@ import com.linc.inphoto.ui.home.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.ResourceProvider
+import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,16 +24,10 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
+    private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val resourceProvider: ResourceProvider
 ) : BaseViewModel<HomeUiState>(navContainerHolder) {
-
-    /**
-     * TODO:
-     * current user posts bug
-     * ??? maybe stories for home screen ???
-     * open profile from post
-     */
 
     companion object {
         private const val POST_ACTION_RESULT = "post_action_result"
@@ -39,20 +35,40 @@ class HomeViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(HomeUiState())
 
-    fun loadFollowingPosts() {
+    fun loadHomeData() {
         viewModelScope.launch {
             try {
-                val posts = postRepository.getCurrentUserFollowingExtendedPosts()
-                    .sortedByDescending { it.createdTimestamp }
-                    .map(::getHomePostUiState)
-                _uiState.update { it.copy(posts = posts) }
+                _uiState.update { it.copy(isLoading = true) }
+                launch { loadCurrentUser() }
+                launch { loadFollowingStories() }
+                launch { loadFollowingPosts() }.join()
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
 
-    // TODO: 23.03.22 refactor code. Move ui state mapping to new function?
+    private suspend fun loadCurrentUser() {
+        val newStoryState = userRepository.getLoggedInUser()
+            ?.toUiState { }
+        _uiState.update { it.copy(newStory = newStoryState) }
+    }
+
+    private suspend fun loadFollowingStories() {
+//        val newStoryState = userRepository.getLoggedInUser()
+//            ?.toUiState {  }
+//        _uiState.update { it.copy(newStory = newStoryState) }
+    }
+
+    private suspend fun loadFollowingPosts() {
+        val posts = postRepository.getCurrentUserFollowingExtendedPosts()
+            .sortedByDescending { it.createdTimestamp }
+            .map(::getHomePostUiState)
+        _uiState.update { it.copy(posts = posts) }
+    }
+
     private fun likePost(selectedPost: ExtendedPost) {
         viewModelScope.launch {
             try {
@@ -62,12 +78,10 @@ class HomeViewModel @Inject constructor(
                 ) ?: return@launch
                 val posts = currentState.posts
                     .sortedByDescending { it.createdTimestamp }
-                    .map { postUiState ->
-                        when (postUiState.postId) {
-                            selectedPost.id -> getHomePostUiState(post)
-                            else -> postUiState
-                        }
-                    }
+                    .mapIf(
+                        condition = { it.postId == selectedPost.id },
+                        transform = { getHomePostUiState(post) }
+                    )
                 _uiState.update { it.copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -84,12 +98,10 @@ class HomeViewModel @Inject constructor(
                 ) ?: return@launch
                 val posts = currentState.posts
                     .sortedByDescending { it.createdTimestamp }
-                    .map { postUiState ->
-                        when (postUiState.postId) {
-                            selectedPost.id -> getHomePostUiState(post)
-                            else -> postUiState
-                        }
-                    }
+                    .mapIf(
+                        condition = { it.postId == selectedPost.id },
+                        transform = { getHomePostUiState(post) }
+                    )
                 _uiState.update { it.copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -125,8 +137,13 @@ class HomeViewModel @Inject constructor(
         router.navigateTo(NavScreen.ShareContentScreen(content))
     }
 
+    private fun selectUser(userId: String) {
+        router.navigateTo(NavScreen.ProfileScreen(userId))
+    }
+
     private fun getHomePostUiState(post: ExtendedPost): HomePostUiState {
         return post.toUiState(
+            onProfile = { selectUser(post.authorUserId) },
             onMore = { handlePostMenu(post) },
             onDoubleTap = { if (!post.isLiked) likePost(post) },
             onLike = { likePost(post) },
