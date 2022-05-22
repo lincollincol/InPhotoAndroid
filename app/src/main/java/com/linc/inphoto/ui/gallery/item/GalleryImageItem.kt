@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemGalleryImageBinding
-import com.linc.inphoto.ui.gallery.ImageUiState
+import com.linc.inphoto.ui.gallery.model.ImageUiState
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.xwray.groupie.viewbinding.BindableItem
 

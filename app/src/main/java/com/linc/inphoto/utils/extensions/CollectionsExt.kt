@@ -21,3 +21,13 @@ fun <T> MutableCollection<T>.update(items: Collection<T>) {
 
 fun <T> MutableCollection<T>.replace(old: T, new: T) =
     mapIf(condition = { it == old }, transform = { new })
+
+fun <T> Collection<T>.indexOf(item: T, defaultIndex: Int) =
+    indexOf(item).let { index -> if (index != -1) index else defaultIndex }
+
+inline fun <T> List(
+    size: Int,
+    startIndex: Int,
+    init: (index: Int) -> T
+): List<T> = List(size) { init(it + startIndex) }
+

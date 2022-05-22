@@ -15,8 +15,10 @@ import com.linc.inphoto.ui.chatmessages.ChatMessagesFragment
 import com.linc.inphoto.ui.chatmessages.model.UserConversation
 import com.linc.inphoto.ui.chats.ChatsFragment
 import com.linc.inphoto.ui.confirmdialog.ConfirmDialog
+import com.linc.inphoto.ui.createstory.CreateStoryFragment
 import com.linc.inphoto.ui.cropimage.CropImageFragment
 import com.linc.inphoto.ui.cropimage.model.CropIntent
+import com.linc.inphoto.ui.datepicker.DurationPickerFragment
 import com.linc.inphoto.ui.editimage.EditImageFragment
 import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.feed.FeedFragment
@@ -66,6 +68,14 @@ object NavScreen {
         options: List<OptionModel>
     ) = DialogScreen {
         OptionPickerFragment.newInstance(resultKey, options)
+    }
+
+    fun DatePickerScreen(
+        resultKey: String,
+        selectedDurationMillis: Long,
+        durationMillis: List<Long>
+    ) = DialogScreen {
+        DurationPickerFragment.newInstance(resultKey, selectedDurationMillis, durationMillis)
     }
 
     fun InfoMessageScreen(
@@ -138,6 +148,10 @@ object NavScreen {
 
     fun HomeScreen() = FragmentScreen {
         HomeFragment.newInstance()
+    }
+
+    fun CreateStoryScreen(contentUri: Uri) = FragmentScreen {
+        CreateStoryFragment.newInstance(contentUri)
     }
 
     fun FeedScreen() = FragmentScreen {

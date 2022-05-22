@@ -48,6 +48,7 @@
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_create_story.xml" value="0.32708333333333334" />
         <entry key="app/src/main/res/layout/fragment_crop_image.xml" value="0.19739583333333333" />
+        <entry key="app/src/main/res/layout/fragment_date_picker.xml" value="0.32708333333333334" />
         <entry key="app/src/main/res/layout/fragment_edit_image.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/fragment_filter_image.xml" value="0.32447916666666665" />
@@ -97,6 +98,7 @@
         <entry key="app/src/main/res/layout/item_message_attachment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_message_incoming.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_message_outcoming.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_new_story.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_new_user_post.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_option.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/item_post_comment.xml" value="0.33" />

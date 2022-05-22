@@ -6,8 +6,10 @@ import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.home.model.HomePostOperation
 import com.linc.inphoto.ui.home.model.HomePostUiState
+import com.linc.inphoto.ui.home.model.StoryContentSource
 import com.linc.inphoto.ui.home.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -31,6 +33,7 @@ class HomeViewModel @Inject constructor(
 
     companion object {
         private const val POST_ACTION_RESULT = "post_action_result"
+        private const val IMAGE_SOURCE_RESULT = "image_source"
     }
 
     override val _uiState = MutableStateFlow(HomeUiState())
@@ -52,7 +55,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadCurrentUser() {
         val newStoryState = userRepository.getLoggedInUser()
-            ?.toUiState { }
+            ?.toUiState { createUserStory() }
         _uiState.update { it.copy(newStory = newStoryState) }
     }
 
@@ -67,6 +70,22 @@ class HomeViewModel @Inject constructor(
             .sortedByDescending { it.createdTimestamp }
             .map(::getHomePostUiState)
         _uiState.update { it.copy(posts = posts) }
+    }
+
+    private fun createUserStory() {
+        router.setResultListener(IMAGE_SOURCE_RESULT) { result ->
+            val screen = when (result.safeCast<StoryContentSource>()) {
+                StoryContentSource.Camera -> NavScreen.GalleryScreen(GalleryIntent.NewStory)
+                StoryContentSource.Gallery -> NavScreen.GalleryScreen(GalleryIntent.NewStory)
+                else -> return@setResultListener
+            }
+            router.navigateTo(screen)
+        }
+        val pickerScreen = NavScreen.ChooseOptionScreen(
+            IMAGE_SOURCE_RESULT,
+            StoryContentSource.getAvailableSources()
+        )
+        router.showDialog(pickerScreen)
     }
 
     private fun likePost(selectedPost: ExtendedPost) {

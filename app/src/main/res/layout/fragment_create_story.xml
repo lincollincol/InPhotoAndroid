@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:textTitle="@string/manage_post_toolbar" />
+        app:textTitle="@string/create_story" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentScrollView"
@@ -25,36 +25,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarView">
-
         <LinearLayout
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/elevation_general"
             android:layout_marginTop="@dimen/margin_general"
             android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/storyImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_general"
-                android:adjustViewBounds="true" />
 
             <com.linc.inphoto.ui.view.SettingsTextView
                 android:id="@+id/durationSettingsTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:textSize="@dimen/font_small"
-                app:textTitle="@string/settings_crop_shape" />
+                app:textTitle="@string/preview_duration" />
 
             <com.linc.inphoto.ui.view.SettingsTextView
-                android:id="@+id/expiresSettingsTextView"
+                android:id="@+id/expirationSettingsTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:textSize="@dimen/font_small"
-                app:textTitle="@string/settings_crop_shape" />
+                app:textTitle="@string/expiration_time" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/storyImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/elevation_general"
+                android:adjustViewBounds="true" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -3,7 +3,7 @@ package com.linc.inphoto.ui.editimage.item
 import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemEditOperationBinding
-import com.linc.inphoto.ui.editimage.EditorOperationUiState
+import com.linc.inphoto.ui.editimage.model.EditorOperationUiState
 import com.xwray.groupie.viewbinding.BindableItem
 
 class EditOperationItem(

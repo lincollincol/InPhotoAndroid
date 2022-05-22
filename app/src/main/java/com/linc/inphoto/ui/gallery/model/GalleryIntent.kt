@@ -11,5 +11,8 @@ sealed class GalleryIntent : Parcelable {
     object NewPost : GalleryIntent()
 
     @Parcelize
+    object NewStory : GalleryIntent()
+
+    @Parcelize
     data class Result(val resultKey: String) : GalleryIntent()
 }

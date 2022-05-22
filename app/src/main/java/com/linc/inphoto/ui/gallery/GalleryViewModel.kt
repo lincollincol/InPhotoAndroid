@@ -6,6 +6,7 @@ import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
+import com.linc.inphoto.ui.gallery.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,6 +57,7 @@ class GalleryViewModel @Inject constructor(
     private fun selectImage(intent: GalleryIntent?, imageUri: Uri) {
         val editorIntent = when (intent) {
             is GalleryIntent.NewPost -> EditorIntent.NewPost
+            is GalleryIntent.NewStory -> EditorIntent.NewStory
             is GalleryIntent.NewAvatar -> EditorIntent.NewAvatar(intent.resultKey)
             is GalleryIntent.Result -> {
                 return router.run {
