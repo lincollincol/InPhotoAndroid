@@ -5,5 +5,6 @@ data class UserStory(
     val username: String,
     val userAvatarUrl: String,
     val latestStoryTimestamp: Long,
+    val isLoggedInUser: Boolean,
     val stories: List<Story>
 )

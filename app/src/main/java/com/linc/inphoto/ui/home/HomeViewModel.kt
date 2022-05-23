@@ -66,6 +66,7 @@ class HomeViewModel @Inject constructor(
     private suspend fun loadFollowingStories() {
         val stories = storyRepository.loadCurrentUserFollowingStories()
             .sortedByDescending { it.latestStoryTimestamp }
+            .sortedByDescending { it.isLoggedInUser }
             .map { it.toUiState { selectUserStory(it) } }
         _uiState.update { it.copy(stories = stories) }
     }

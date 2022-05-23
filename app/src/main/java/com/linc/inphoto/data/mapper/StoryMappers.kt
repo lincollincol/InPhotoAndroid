@@ -13,10 +13,11 @@ fun StoryApiModel.toModel() = Story(
     expiresTimestamp = expiresTimestamp
 )
 
-fun UserStoryApiModel.toModel() = UserStory(
+fun UserStoryApiModel.toModel(isLoggedInUser: Boolean) = UserStory(
     userId = userId,
     username = username,
     userAvatarUrl = userAvatarUrl,
     latestStoryTimestamp = latestStoryTimestamp,
+    isLoggedInUser = isLoggedInUser,
     stories = stories.map(StoryApiModel::toModel)
 )

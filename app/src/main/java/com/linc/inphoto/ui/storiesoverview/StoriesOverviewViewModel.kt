@@ -28,6 +28,7 @@ class StoriesOverviewViewModel @Inject constructor(
                 _uiState.update { it.copy(isLoading = true) }
                 val stories = storyRepository.loadCurrentUserFollowingStories()
                     .sortedByDescending { it.latestStoryTimestamp }
+                    .sortedByDescending { it.isLoggedInUser }
                     .map { it.toUiState() }
                 val storyPosition = stories.indexOfFirst { it.userId == initialUserId }
                 _uiState.update { it.copy(stories = stories, storyPosition = storyPosition) }
