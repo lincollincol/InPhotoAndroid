@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentChatsBinding
@@ -59,6 +60,8 @@ class ChatsFragment : BaseFragment(R.layout.fragment_chats) {
             searchEditText.doOnTextChanged { text, _, _, _ ->
                 viewModel.updateSearchQuery(text.toString())
             }
+            enterTransition = Fade(Fade.IN)
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.showBottomBar()
         viewModel.loadChats()

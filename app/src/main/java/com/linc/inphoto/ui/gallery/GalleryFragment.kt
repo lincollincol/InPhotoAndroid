@@ -2,11 +2,15 @@ package com.linc.inphoto.ui.gallery
 
 import android.Manifest
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentGalleryBinding
@@ -80,7 +84,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
                     )
                 )
             }
-            galleryToolbar.setOnCancelClickListener {
+            galleryToolbarView.setOnCancelClickListener {
                 viewModel.cancelImageSelecting()
             }
             permissionsLayout.apply {
@@ -94,6 +98,15 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
                     requestPermissionLauncher.launch(permission)
                 }
             }
+            enterTransition = TransitionSet().apply {
+                addTransition(Slide(Gravity.TOP).addTarget(galleryToolbarView))
+                addTransition(
+                    Fade(Fade.IN)
+                        .addTarget(permissionsLayout.root)
+                        .addTarget(imagesRecyclerView)
+                )
+            }
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.hideBottomBar()
     }

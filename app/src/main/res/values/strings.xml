@@ -93,10 +93,10 @@
     <string name="choose_avatar_source">Avatar source</string>
     <string name="choose_header_source">Header source</string>
     <string name="choose_story_source">Story source</string>
-    <string name="choose_comment_action">Comment action</string>
-    <string name="choose_post_action">Post action</string>
-    <string name="choose_message_action">Message action</string>
-    <string name="choose_chat_action">Chat action</string>
+    <string name="choose_comment_action">Comment actions</string>
+    <string name="choose_post_action">Post actions</string>
+    <string name="choose_message_action">Message actions</string>
+    <string name="choose_chat_action">Chat actions</string>
     <string name="choose_story_duration">Slide duration</string>
     <string name="choose_story_expiration">Expiration time</string>
     <string name="choose_crop_shape">Crop shape</string>

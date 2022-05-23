@@ -14,6 +14,7 @@ import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 
 @AndroidEntryPoint
 class OptionPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_option_picker) {
@@ -54,6 +55,7 @@ class OptionPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_opt
             optionsRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = optionsAdapter
+                itemAnimator = FadeInDownAnimator()
             }
             optionsAdapter.let { adapter ->
                 adapter.addAll(options?.map(::OptionItem) ?: emptyList())

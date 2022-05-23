@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <com.linc.inphoto.ui.view.SimpleToolbarView
-        android:id="@+id/galleryToolbar"
+        android:id="@+id/galleryToolbarView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/galleryToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/galleryToolbarView" />
 
     <include
         layout="@layout/layout_request_permissions"

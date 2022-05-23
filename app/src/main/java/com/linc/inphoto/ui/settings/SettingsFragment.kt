@@ -13,6 +13,7 @@ import com.linc.inphoto.ui.settings.item.SettingsOptionItem
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -45,6 +46,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             optionsRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = optionsAdapter
+                itemAnimator = FadeInDownAnimator()
             }
             settingsToolbar.setOnCancelClickListener {
                 viewModel.closeSettings()

@@ -115,11 +115,11 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
             followingLayout.setOnThrottledClickListener {
                 viewModel.openFollowing()
             }
-            reenterTransition = TransitionSet().apply {
+            enterTransition = TransitionSet().apply {
                 addTransition(Fade(Fade.IN).addTarget(profileDataLayout))
                 addTransition(Slide(Gravity.TOP).addTarget(backButton).addTarget(settingsButton))
             }
-            enterTransition = reenterTransition
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.showBottomBar()
         viewModel.loadProfileData(getArgument(USER_ID_ARG))

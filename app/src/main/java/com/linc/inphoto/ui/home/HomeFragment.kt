@@ -75,6 +75,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     Gravity.TOP -> bottomBarViewModel.showBottomBar()
                 }
             })
+            enterTransition = Fade(Fade.IN)
+            reenterTransition = enterTransition
         }
         viewModel.loadHomeData()
         bottomBarViewModel.showBottomBar()

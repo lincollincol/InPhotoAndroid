@@ -2,10 +2,14 @@ package com.linc.inphoto.ui.editimage
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentEditImageBinding
@@ -18,6 +22,7 @@ import com.linc.inphoto.utils.extensions.view.horizontalLinearLayoutManager
 import com.linc.inphoto.utils.extensions.view.loadUriImage
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator
 import kotlinx.coroutines.flow.collect
 
 
@@ -63,6 +68,7 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
             operationsRecyclerView.apply {
                 layoutManager = horizontalLinearLayoutManager()
                 adapter = editorActionsAdapter
+                itemAnimator = FadeInLeftAnimator()
             }
             editorToolbarView.setOnDoneClickListener {
                 viewModel.finishEditing(getArgument(INTENT_ARG))
@@ -70,6 +76,12 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
             editorToolbarView.setOnCancelClickListener {
                 viewModel.cancelEditing()
             }
+            enterTransition = TransitionSet().apply {
+                addTransition(Slide(Gravity.TOP).addTarget(editorToolbarView))
+                addTransition(Slide(Gravity.BOTTOM).addTarget(operationsRecyclerView))
+                addTransition(Fade(Fade.IN).addTarget(previewImageView))
+            }
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.hideBottomBar()
     }
