@@ -74,7 +74,9 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_single_user_stories.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_stories_review.xml" value="0.17864583333333334" />
         <entry key="app/src/main/res/layout/fragment_tab.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/fragment_tag_posts.xml" value="0.32708333333333334" />
         <entry key="app/src/main/res/layout/item_chat.xml" value="0.25" />

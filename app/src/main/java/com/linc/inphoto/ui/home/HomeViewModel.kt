@@ -6,6 +6,7 @@ import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.StoryRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.ExtendedPost
+import com.linc.inphoto.entity.story.UserStory
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.home.model.HomePostOperation
@@ -63,7 +64,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadFollowingStories() {
         val stories = storyRepository.loadCurrentUserFollowingStories()
-            .map { it.toUiState {  } }
+            .map { it.toUiState { selectUserStory(it) } }
         _uiState.update { it.copy(stories = stories) }
     }
 
@@ -72,6 +73,10 @@ class HomeViewModel @Inject constructor(
             .sortedByDescending { it.createdTimestamp }
             .map(::getHomePostUiState)
         _uiState.update { it.copy(posts = posts) }
+    }
+
+    private fun selectUserStory(userStory: UserStory) {
+        router.navigateTo(NavScreen.StoriesOverviewScreen(userStory.userId))
     }
 
     private fun createUserStory() {

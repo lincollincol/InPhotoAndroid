@@ -5,6 +5,7 @@ import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemUserStoryBinding
 import com.linc.inphoto.ui.home.model.UserStoryUiState
 import com.linc.inphoto.utils.extensions.view.loadImage
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.xwray.groupie.viewbinding.BindableItem
 
 class UserStoryItem(
@@ -14,6 +15,7 @@ class UserStoryItem(
         with(viewBinding) {
             avatarImageView.loadImage(storyUiState.userAvatarUrl)
             nameTextView.text = storyUiState.username
+            root.setOnThrottledClickListener { storyUiState.onClick() }
         }
     }
 

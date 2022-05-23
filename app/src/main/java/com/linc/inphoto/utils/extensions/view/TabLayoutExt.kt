@@ -18,7 +18,7 @@ fun TabLayout.attachMediator(
     tabConfiguration: (tab: TabLayout.Tab, position: Int) -> Unit
 ) = TabLayoutMediator(this, viewPager, tabConfiguration).attach()
 
-fun ViewPager2.selectPage(index: Int) {
+fun ViewPager2.selectPage(index: Int, animate: Boolean = false) {
     if (currentItem != index)
-        setCurrentItem(index, false)
+        setCurrentItem(index, animate)
 }

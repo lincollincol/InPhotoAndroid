@@ -45,6 +45,7 @@ import com.linc.inphoto.ui.profilesettings.ProfileSettingsFragment
 import com.linc.inphoto.ui.search.SearchFragment
 import com.linc.inphoto.ui.settings.SettingsFragment
 import com.linc.inphoto.ui.splash.SplashFragment
+import com.linc.inphoto.ui.storiesoverview.StoriesOverviewFragment
 import com.linc.inphoto.ui.tab.TabFragment
 import com.linc.inphoto.ui.tagposts.TagPostsFragment
 import java.util.*
@@ -152,6 +153,10 @@ object NavScreen {
 
     fun CreateStoryScreen(contentUri: Uri) = FragmentScreen {
         CreateStoryFragment.newInstance(contentUri)
+    }
+
+    fun StoriesOverviewScreen(initialUserId: String) = FragmentScreen {
+        StoriesOverviewFragment.newInstance(initialUserId)
     }
 
     fun FeedScreen() = FragmentScreen {

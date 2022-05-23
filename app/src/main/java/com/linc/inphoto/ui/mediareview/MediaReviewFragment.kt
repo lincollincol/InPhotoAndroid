@@ -16,6 +16,7 @@ import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.reduceDragSensitivity
+import com.linc.inphoto.utils.view.viewpager.DepthPageTransformer
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,9 +53,10 @@ class MediaReviewFragment : BaseFragment(R.layout.fragment_media_review) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            filesRecyclerView.apply {
+            filesViewPager.apply {
                 adapter = createAdapter(filesSection)
                 reduceDragSensitivity()
+                setPageTransformer(DepthPageTransformer())
             }
             reviewToolbar.setOnCancelClickListener {
                 viewModel.onBackPressed()
