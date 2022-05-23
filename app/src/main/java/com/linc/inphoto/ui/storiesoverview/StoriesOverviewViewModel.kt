@@ -25,14 +25,21 @@ class StoriesOverviewViewModel @Inject constructor(
     fun loadStories(initialUserId: String) {
         viewModelScope.launch {
             try {
+                _uiState.update { it.copy(isLoading = true) }
                 val stories = storyRepository.loadCurrentUserFollowingStories()
                     .map { it.toUiState() }
                 val storyPosition = stories.indexOfFirst { it.userId == initialUserId }
                 _uiState.update { it.copy(stories = stories, storyPosition = storyPosition) }
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
+    }
+
+    fun selectStoryPage(position: Int) {
+        _uiState.update { it.copy(storyPosition = position) }
     }
 
     fun selectStoryTurn(turn: StoryTurnType) {

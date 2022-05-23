@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentStoriesReviewBinding
@@ -14,6 +15,7 @@ import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.getArgumentNotNull
 import com.linc.inphoto.utils.extensions.view.selectPage
 import com.linc.inphoto.utils.extensions.view.setSafeOffscreenPageLimit
+import com.linc.inphoto.utils.extensions.view.show
 import com.linc.inphoto.utils.view.viewpager.CubeRotationTransformer
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,17 +43,35 @@ class StoriesOverviewFragment : BaseFragment(R.layout.fragment_stories_review) {
                 storiesViewPager.setSafeOffscreenPageLimit(state.stories.count())
             }
             storiesViewPager.selectPage(state.storyPosition, animate = true)
+            progressBar.show(state.isLoading && state.stories.isEmpty())
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        userStoriesPageAdapter = StoriesPageAdapter(this)
+        viewModel.loadStories(getArgumentNotNull(INITIAL_USER_ID_ARG))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userStoriesPageAdapter = StoriesPageAdapter(this)
         with(binding) {
-            storiesViewPager.adapter = userStoriesPageAdapter
-            storiesViewPager.setPageTransformer(CubeRotationTransformer())
+            storiesViewPager.apply {
+                adapter = userStoriesPageAdapter
+                storiesViewPager.setPageTransformer(CubeRotationTransformer())
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+                        viewModel.selectStoryPage(position)
+                    }
+                })
+            }
         }
         bottomBarViewModel.hideBottomBar()
-        viewModel.loadStories(getArgumentNotNull(INITIAL_USER_ID_ARG))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        userStoriesPageAdapter = null
     }
 }

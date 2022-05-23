@@ -10,5 +10,8 @@ data class UserStoriesUiState(
     val userAvatarUrl: String? = null,
     val stories: List<Story> = listOf(),
     val storyPosition: Int = 0,
-    val storyTurn: StoryTurnType? = null
+    val storyTurn: StoryTurnType? = null,
+    val isLoading: Boolean = false
 ) : UiState
+
+val UserStoriesUiState.isStoriesLoaded get() = !userId.isNullOrEmpty()

@@ -10,12 +10,15 @@ import androidx.annotation.DrawableRes
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.linc.inphoto.R
 import com.linc.inphoto.utils.extensions.getStateListColor
 import jp.wasabeef.glide.transformations.BlurTransformation
+
 
 private const val THUMB_MIN_SIZE = 56
 
@@ -98,6 +101,7 @@ fun ImageView.loadImage(
     skipMemoryCache: Boolean = false,
     reloadImage: Boolean = true,
     overrideOriginalSize: Boolean = false,
+    crossFadeDurationMillis: Int = 150
 ) {
     if (image == null) {
         return
@@ -122,14 +126,20 @@ fun ImageView.loadImage(
         requestOptions = requestOptions.override(size.width, size.height)
     }
 
+    val factory = DrawableCrossFadeFactory.Builder(crossFadeDurationMillis)
+        .setCrossFadeEnabled(true)
+        .build()
+
     var builder = Glide.with(this)
         .load(image)
         .thumbnail(
             Glide.with(this)
                 .load(image)
                 .apply(bitmapTransform(BlurTransformation(24)))
+                .transition(withCrossFade(factory))
                 .override(48)
         )
+        .transition(withCrossFade(factory))
         .apply(requestOptions)
 
     if (overrideOriginalSize) {

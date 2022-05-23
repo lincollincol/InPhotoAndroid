@@ -7,7 +7,5 @@ data class StoriesOverviewUiState(
     val stories: List<UserStoryUiState> = listOf(),
     val singleStoryOverviewed: Boolean = false,
     val storyPosition: Int = 0,
-//    val overviewedUserStories: UserStory? = null,
-//    val currentUserStories: UserStory? = null,
-//    val currentStoryIndex: Int = 0,
+    val isLoading: Boolean = false
 ) : UiState

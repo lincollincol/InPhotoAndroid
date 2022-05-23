@@ -25,6 +25,7 @@ class UserStoriesViewModel @Inject constructor(
     fun loadUserStories(userId: String) {
         viewModelScope.launch {
             try {
+                _uiState.update { it.copy(isLoading = true) }
                 val userStories = storyRepository.loadUserStories(userId) ?: return@launch
                 _uiState.update {
                     it.copy(
@@ -36,6 +37,8 @@ class UserStoriesViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
@@ -45,6 +48,9 @@ class UserStoriesViewModel @Inject constructor(
     }
 
     fun selectStoryStep(step: Int) {
+        if (!currentState.isStoriesLoaded) {
+            return
+        }
         if (!currentState.stories.isValidIndex(step)) {
             val turn = when {
                 step >= currentState.stories.count() -> StoryTurnType.NEXT_STORY
