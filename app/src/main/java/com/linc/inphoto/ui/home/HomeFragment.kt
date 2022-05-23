@@ -1,16 +1,32 @@
 package com.linc.inphoto.ui.home
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentHomeBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.home.item.HomePostItem
+import com.linc.inphoto.ui.home.item.NewStoryItem
+import com.linc.inphoto.ui.home.item.UserStoryItem
 import com.linc.inphoto.ui.main.BottomBarViewModel
+import com.linc.inphoto.utils.extensions.animateTargets
+import com.linc.inphoto.utils.extensions.collect
+import com.linc.inphoto.utils.extensions.createAdapter
+import com.linc.inphoto.utils.extensions.updateSingle
+import com.linc.inphoto.utils.extensions.view.horizontalLinearLayoutManager
+import com.linc.inphoto.utils.extensions.view.show
+import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
+import com.linc.inphoto.utils.view.VerticalNestedScrollListener
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
+import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(R.layout.fragment_home) {

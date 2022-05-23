@@ -21,21 +21,24 @@ class NavContainerHolder @Inject constructor(
         this.containers.putAll(tabs.associateWith { Cicerone.create(AppRouter()) })
     }
 
+    fun clearContainers() {
+        this.containers.clear()
+    }
+
     fun initContainer(container: String) {
         this.containers.put(container, Cicerone.create(AppRouter()))
     }
 
     fun getRouter(id: String) =
-//        containers[id]?.router ?: getGlobalRouter()//throw NullPointerException("Router not found!")
-        containers[id]?.router ?: throw NullPointerException("Router not found!")
+        this.containers[id]?.router ?: throw NullPointerException("Router not found!")
 
     fun setNavigator(id: String, navigator: Navigator) {
-        containers[id]?.getNavigatorHolder()?.setNavigator(navigator)
+        this.containers[id]?.getNavigatorHolder()?.setNavigator(navigator)
     }
 
     fun removeNavigator(id: String) {
-        containers[id]?.getNavigatorHolder()?.removeNavigator()
+        this.containers[id]?.getNavigatorHolder()?.removeNavigator()
     }
 
-    fun getGlobalRouter() = globalContainer.router
+    fun getGlobalRouter() = this.globalContainer.router
 }

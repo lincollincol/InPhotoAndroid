@@ -1,5 +1,6 @@
 package com.linc.inphoto.data.repository
 
+import com.linc.inphoto.data.database.dao.FollowerDao
 import com.linc.inphoto.data.database.dao.UserDao
 import com.linc.inphoto.data.mapper.toUserEntity
 import com.linc.inphoto.data.network.api.AuthApiService
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
     private val userDao: UserDao,
+    private val followerDao: FollowerDao,
     private val authPreferences: AuthPreferences,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
@@ -47,7 +49,8 @@ class AuthRepository @Inject constructor(
 
     suspend fun signOut() = withContext(ioDispatcher) {
         authPreferences.clear()
-        userDao.deleteUsers()
+        userDao.deleteAll()
+        followerDao.deleteAll()
     }
 
     private suspend fun saveUser(user: UserApiModel) = withContext(ioDispatcher) {

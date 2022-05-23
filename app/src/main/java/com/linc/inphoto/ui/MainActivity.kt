@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onBackPressed() {
         supportFragmentManager.fragments
-            .firstOrNull()
+            .firstOrNull { it.isVisible }
             ?.safeCast<FragmentBackPressedListener>()
             ?.onBackPressed()
     }

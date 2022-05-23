@@ -31,7 +31,7 @@ interface UserDao {
     fun updateDecreaseUserFollowingCount(id: String)
 
     @Query("DELETE FROM users")
-    suspend fun deleteUsers()
+    suspend fun deleteAll()
 
     @Update
     suspend fun updateUser(user: UserEntity)

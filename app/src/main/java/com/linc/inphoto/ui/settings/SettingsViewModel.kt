@@ -46,6 +46,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 authRepository.signOut()
+                clearNavigationContainers()
                 globalRouter.newRootScreen(NavScreen.SignInScreen())
             } catch (e: Exception) {
                 Timber.e(e)

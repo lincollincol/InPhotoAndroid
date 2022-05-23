@@ -26,6 +26,10 @@ abstract class BaseViewModel<StateEntity : UiState>(
         router.navigateTo(NavScreen.InfoMessageScreen(title, description))
     }
 
+    protected fun clearNavigationContainers() {
+        navContainerHolder.clearContainers()
+    }
+
     fun setupContainerId(containerId: String?) {
         this.containerId = containerId
     }
