@@ -2,7 +2,6 @@ package com.linc.inphoto.ui.confirmdialog
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -23,8 +22,8 @@ class ConfirmDialog : BaseBottomSheetDialogFragment(R.layout.dialog_confirm) {
         @JvmStatic
         fun newInstance(
             resultKey: String?,
-            @StringRes title: Int,
-            @StringRes description: Int
+            title: String,
+            description: String
         ) = ConfirmDialog().apply {
             arguments = bundleOf(
                 RESULT_KEY_ARG to resultKey,
@@ -49,8 +48,8 @@ class ConfirmDialog : BaseBottomSheetDialogFragment(R.layout.dialog_confirm) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            titleTextView.setText(getArgument(TITLE_ARG, 0))
-            descriptionTextView.setText(getArgument(DESCRIPTION_ARG, 0))
+            titleTextView.text = getArgument(TITLE_ARG)
+            infoTextView.text = getArgument(DESCRIPTION_ARG)
 
             confirmButton.setOnClickListener {
                 viewModel.confirm()

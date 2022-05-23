@@ -1,12 +1,14 @@
 package com.linc.inphoto.ui.postcomments
 
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postcomments.model.CommentAction
 import com.linc.inphoto.ui.postcomments.model.toUiState
+import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.toImmutableDeque
@@ -21,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PostCommentsViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel<PostCommentsUiState>(navContainerHolder) {
 
     companion object {
@@ -120,7 +123,9 @@ class PostCommentsViewModel @Inject constructor(
             }
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
-            COMMENT_ACTION_RESULT, CommentAction.getCommentActions()
+            COMMENT_ACTION_RESULT,
+            resourceProvider.getString(R.string.choose_comment_action),
+            CommentAction.getCommentActions()
         )
         router.showDialog(pickerScreen)
     }

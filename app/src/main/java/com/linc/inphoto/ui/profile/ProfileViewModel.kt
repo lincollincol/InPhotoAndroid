@@ -1,6 +1,7 @@
 package com.linc.inphoto.ui.profile
 
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.Post
@@ -16,6 +17,7 @@ import com.linc.inphoto.ui.profile.model.ImageSource
 import com.linc.inphoto.ui.profile.model.NewPostUiState
 import com.linc.inphoto.ui.profile.model.toUiState
 import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
+import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +30,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val userRepository: UserRepository,
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel<ProfileUiState>(navContainerHolder) {
 
     companion object {
@@ -102,6 +105,7 @@ class ProfileViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             IMAGE_SOURCE_RESULT,
+            resourceProvider.getString(R.string.choose_post_source),
             ImageSource.getAvailableSources()
         )
         router.showDialog(pickerScreen)

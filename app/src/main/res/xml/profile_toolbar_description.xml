@@ -2,7 +2,6 @@
 <MotionScene xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <Transition
         app:constraintSetStart="@id/header_state"
         app:constraintSetEnd="@id/toolbar_state">
@@ -161,18 +160,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <Constraint
-            android:id="@id/moveUpButton"
-            style="@style/CircleImageButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="@dimen/margin_general"
-            android:layout_marginBottom="@dimen/margin_general"
-            android:src="@drawable/ic_arrow_up"
-            android:alpha="0"
-            app:layout_constraintTop_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
     </ConstraintSet>
 
     <ConstraintSet
@@ -251,18 +238,6 @@
             app:layout_constraintBottom_toBottomOf="@id/headerImageView"
             app:layout_constraintEnd_toEndOf="@id/endLine"
             app:layout_constraintStart_toStartOf="@id/startLine" />
-
-        <Constraint
-            android:id="@id/moveUpButton"
-            style="@style/CircleImageButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="@dimen/margin_general"
-            android:layout_marginBottom="@dimen/margin_general"
-            android:src="@drawable/ic_arrow_up"
-            android:alpha="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
         <Constraint
             android:id="@id/separatorView"

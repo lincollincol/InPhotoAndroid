@@ -2,6 +2,7 @@ package com.linc.inphoto.ui.cropimage
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.SettingsRepository
 import com.linc.inphoto.entity.media.image.AspectRatio
@@ -10,6 +11,7 @@ import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.ui.cropimage.model.CropShape
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +24,8 @@ import javax.inject.Inject
 class CropImageViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val settingsRepository: SettingsRepository,
-    private val mediaRepository: MediaRepository
+    private val mediaRepository: MediaRepository,
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel<CropImageUiState>(navContainerHolder) {
 
     companion object {
@@ -54,7 +57,13 @@ class CropImageViewModel @Inject constructor(
             val selectedShape = result.safeCast<CropShape>() ?: return@setResultListener
             _uiState.update { it.copy(cropShape = selectedShape) }
         }
-        router.showDialog(NavScreen.ChooseOptionScreen(CHOOSE_SHAPE_RESULT, shapeOptions))
+        router.showDialog(
+            NavScreen.ChooseOptionScreen(
+                CHOOSE_SHAPE_RESULT,
+                resourceProvider.getString(R.string.choose_crop_shape),
+                shapeOptions
+            )
+        )
     }
 
     fun changeRatioState(isFixed: Boolean) {

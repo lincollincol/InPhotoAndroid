@@ -14,34 +14,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:id="@+id/title_text_view"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTextView"
             style="@style/TextFieldBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_general"
             android:layout_marginHorizontal="@dimen/margin_general"
-            android:layout_marginTop="@dimen/margin_large"
-            android:gravity="start"
+            android:gravity="center_vertical"
             android:textSize="@dimen/font_normal"
-            tools:text="Title" />
+            android:text="@string/choose_option" />
 
-        <TextView
-            android:id="@+id/message_text_view"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/infoTextView"
             style="@style/TextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_general"
+            android:layout_marginHorizontal="@dimen/margin_general"
+            android:layout_marginTop="@dimen/margin_general"
             android:gravity="start"
             android:textSize="@dimen/font_small"
-            tools:text="Message"/>
+            tools:text="Message" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/got_it_button"
+            android:id="@+id/gotItButton"
             style="@style/SmallMaterialButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_general"
-            android:layout_marginBottom="@dimen/margin_general"
+            android:layout_margin="@dimen/margin_general"
             android:text="@string/got_it" />
 
     </LinearLayout>

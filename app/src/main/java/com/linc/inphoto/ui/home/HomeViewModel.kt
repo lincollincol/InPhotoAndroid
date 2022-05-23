@@ -93,6 +93,7 @@ class HomeViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             IMAGE_SOURCE_RESULT,
+            resourceProvider.getString(R.string.choose_story_source),
             StoryContentSource.getAvailableSources()
         )
         router.showDialog(pickerScreen)
@@ -151,7 +152,11 @@ class HomeViewModel @Inject constructor(
             }
         }
         router.showDialog(
-            NavScreen.ChooseOptionScreen(POST_ACTION_RESULT, HomePostOperation.getPostOperations())
+            NavScreen.ChooseOptionScreen(
+                POST_ACTION_RESULT,
+                resourceProvider.getString(R.string.choose_post_action),
+                HomePostOperation.getPostOperations()
+            )
         )
     }
 

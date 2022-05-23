@@ -2,7 +2,6 @@ package com.linc.inphoto.ui.infodialog
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -14,7 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InfoMessageFragment : BaseBottomSheetDialogFragment(R.layout.fragment_info_message) {
-
     companion object {
         private const val RESULT_KEY_ARG = "result_key"
         private const val TITLE_ARG = "title"
@@ -22,9 +20,9 @@ class InfoMessageFragment : BaseBottomSheetDialogFragment(R.layout.fragment_info
 
         @JvmStatic
         fun newInstance(
-            @StringRes title: Int,
-            @StringRes message: Int,
-            resultKey: String?
+            resultKey: String?,
+            title: String,
+            message: String
         ) = InfoMessageFragment().apply {
             arguments = bundleOf(
                 RESULT_KEY_ARG to resultKey,
@@ -33,6 +31,7 @@ class InfoMessageFragment : BaseBottomSheetDialogFragment(R.layout.fragment_info
             )
         }
     }
+
 
     override val viewModel: InfoMessageViewModel by viewModels()
     private val binding by viewBinding(FragmentInfoMessageBinding::bind)
@@ -44,8 +43,8 @@ class InfoMessageFragment : BaseBottomSheetDialogFragment(R.layout.fragment_info
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            titleTextView.setText(getArgument(TITLE_ARG) ?: 0)
-            messageTextView.setText(getArgument(MESSAGE_ARG) ?: 0)
+            titleTextView.text = getArgument(TITLE_ARG)
+            infoTextView.text = getArgument(MESSAGE_ARG)
             gotItButton.setOnClickListener {
                 viewModel.finishInfo(getArgument(RESULT_KEY_ARG))
             }

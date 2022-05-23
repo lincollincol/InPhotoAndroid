@@ -14,6 +14,7 @@ import com.linc.inphoto.ui.imagesticker.model.ImageStickerIntent
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.utils.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,6 +27,7 @@ class EditImageViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val mediaRepository: MediaRepository,
     private val userRepository: UserRepository,
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel<EditImageUiState>(navContainerHolder) {
 
     companion object {
@@ -89,7 +91,12 @@ class EditImageViewModel @Inject constructor(
                 imageUri
             )
             else -> {
-                showInfo(R.string.unavailable, R.string.unavailable_function_description)
+                router.showDialog(
+                    NavScreen.InfoMessageScreen(
+                        resourceProvider.getString(R.string.unavailable),
+                        resourceProvider.getString(R.string.unavailable_function_description),
+                    )
+                )
                 return
             }
         }

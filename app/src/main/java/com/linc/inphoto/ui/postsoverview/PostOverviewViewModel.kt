@@ -122,7 +122,9 @@ class PostOverviewViewModel @Inject constructor(
             }
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
-            POST_ACTION_RESULT, PostOperation.getPostOperations()
+            POST_ACTION_RESULT,
+            resourceProvider.getString(R.string.choose_post_action),
+            PostOperation.getPostOperations()
         )
         router.showDialog(pickerScreen)
     }

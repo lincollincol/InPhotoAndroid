@@ -2,10 +2,12 @@ package com.linc.inphoto.ui.createstory
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.StoryRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateStoryViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
-    private val storyRepository: StoryRepository
+    private val storyRepository: StoryRepository,
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel<CreateStoryUiState>(navContainerHolder) {
 
     companion object {
@@ -62,7 +65,11 @@ class CreateStoryViewModel @Inject constructor(
             DAY_IN_MILLIS,
             WEEK_IN_MILLIS
         )
-        selectTimeMillis(currentState.expirationTimeMillis, durationOptions) { millis ->
+        selectTimeMillis(
+            resourceProvider.getString(R.string.choose_story_expiration),
+            currentState.expirationTimeMillis,
+            durationOptions
+        ) { millis ->
             _uiState.update { it.copy(expirationTimeMillis = millis) }
         }
     }
@@ -72,12 +79,17 @@ class CreateStoryViewModel @Inject constructor(
             DURATION_MULTIPLIER_GAPS,
             DURATION_GAP_START_INDEX
         ) { FIVE_SECONDS_IN_MILLIS * it }
-        selectTimeMillis(currentState.durationMillis, durationOptions) { millis ->
+        selectTimeMillis(
+            resourceProvider.getString(R.string.choose_story_duration),
+            currentState.durationMillis,
+            durationOptions
+        ) { millis ->
             _uiState.update { it.copy(durationMillis = millis) }
         }
     }
 
     private fun selectTimeMillis(
+        title: String,
         selectedTime: Long,
         values: List<Long>,
         onTimeSelected: (Long) -> Unit
@@ -86,7 +98,7 @@ class CreateStoryViewModel @Inject constructor(
             onTimeSelected(result.safeCast() ?: 0L)
         }
         router.showDialog(
-            NavScreen.DatePickerScreen(DATE_PICKER_RESULT, selectedTime, values)
+            NavScreen.DatePickerScreen(DATE_PICKER_RESULT, title, selectedTime, values)
         )
     }
 

@@ -18,7 +18,10 @@ import com.linc.inphoto.ui.navigation.TabStateListener
 import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
 import com.linc.inphoto.utils.extensions.*
-import com.linc.inphoto.utils.extensions.view.*
+import com.linc.inphoto.utils.extensions.view.loadImage
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
+import com.linc.inphoto.utils.extensions.view.show
+import com.linc.inphoto.utils.extensions.view.verticalSquareGridLayoutManager
 import com.linc.inphoto.utils.view.recyclerview.decorator.GridSpaceItemDecoration
 import com.linc.inphoto.utils.view.recyclerview.listener.VerticalRecyclerScrollListener
 import com.xwray.groupie.Section
@@ -90,10 +93,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                         Gravity.TOP -> bottomBarViewModel.showBottomBar()
                     }
                 })
-            }
-            moveUpButton.setOnThrottledClickListener {
-                binding.postsRecyclerView.scrollToStart()
-                binding.profileMotionLayout.transitionToStart()
             }
             settingsButton.setOnThrottledClickListener {
                 viewModel.openSettings()

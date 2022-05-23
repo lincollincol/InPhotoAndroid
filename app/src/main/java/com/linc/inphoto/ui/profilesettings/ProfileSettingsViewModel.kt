@@ -14,6 +14,7 @@ import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.profile.model.ImageSource
+import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +27,8 @@ import javax.inject.Inject
 class ProfileSettingsViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val userRepository: UserRepository,
-    private val mediaRepository: MediaRepository
+    private val mediaRepository: MediaRepository,
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel<ProfileSettingsUiState>(navContainerHolder) {
 
     companion object {
@@ -101,17 +103,15 @@ class ProfileSettingsViewModel @Inject constructor(
         )
         when {
             updateStatuses.any { updated -> updated } -> {
-                with(router) {
-                    showDialog(
-                        NavScreen.ConfirmDialogScreen(
-                            CANCEL_CHANGES_RESULT,
-                            R.string.settings_cancel_changes_title,
-                            R.string.settings_cancel_changes_description,
-                        )
+                router.showDialog(
+                    NavScreen.ConfirmDialogScreen(
+                        CANCEL_CHANGES_RESULT,
+                        resourceProvider.getString(R.string.settings_cancel_changes_title),
+                        resourceProvider.getString(R.string.settings_cancel_changes_description),
                     )
-                    setResultListener(CANCEL_CHANGES_RESULT) { result ->
-                        if (result as Boolean) router.exit()
-                    }
+                )
+                router.setResultListener(CANCEL_CHANGES_RESULT) { result ->
+                    if (result as Boolean) router.exit()
                 }
             }
             else -> router.exit()
@@ -119,13 +119,19 @@ class ProfileSettingsViewModel @Inject constructor(
     }
 
     fun updateAvatar() {
-        selectImageSource(PROFILE_AVATAR_RESULT) { avatarUri ->
+        selectImageSource(
+            PROFILE_AVATAR_RESULT,
+            resourceProvider.getString(R.string.choose_avatar_source)
+        ) { avatarUri ->
             _uiState.update { it.copy(avatarUri = avatarUri) }
         }
     }
 
     fun updateHeader() {
-        selectImageSource(PROFILE_HEADER_RESULT) { headerUri ->
+        selectImageSource(
+            PROFILE_HEADER_RESULT,
+            resourceProvider.getString(R.string.choose_header_source)
+        ) { headerUri ->
             _uiState.update { it.copy(headerUri = headerUri) }
         }
     }
@@ -164,7 +170,11 @@ class ProfileSettingsViewModel @Inject constructor(
         _uiState.update { it.copy(gender = gender) }
     }
 
-    private fun selectImageSource(resultKey: String, action: (Uri?) -> Unit) {
+    private fun selectImageSource(
+        resultKey: String,
+        title: String,
+        action: (Uri?) -> Unit
+    ) {
         router.setResultListener(IMAGE_SOURCE_RESULT) { result ->
             val imageSource = result.safeCast<ImageSource>() ?: return@setResultListener
             val screen = when (imageSource) {
@@ -179,6 +189,7 @@ class ProfileSettingsViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             IMAGE_SOURCE_RESULT,
+            title,
             ImageSource.getAvailableSources()
         )
         router.showDialog(pickerScreen)
@@ -187,8 +198,8 @@ class ProfileSettingsViewModel @Inject constructor(
     private fun showDataRequired() {
         router.showDialog(
             NavScreen.InfoMessageScreen(
-                R.string.settings_invalid_data,
-                R.string.settings_invalid_data_description,
+                resourceProvider.getString(R.string.settings_invalid_data),
+                resourceProvider.getString(R.string.settings_invalid_data_description)
             )
         )
     }

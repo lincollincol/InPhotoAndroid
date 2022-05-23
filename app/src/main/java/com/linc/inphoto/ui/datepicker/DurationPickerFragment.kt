@@ -21,17 +21,20 @@ class DurationPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_d
 
     companion object {
         private const val RESULT_KEY_ARG = "result_key"
+        private const val TITLE_ARG = "title"
         private const val SELECTED_DURATION_ARG = "selected_duration"
         private const val DURATION_OPTIONS_ARG = "duration_options"
 
         @JvmStatic
         fun newInstance(
             resultKey: String,
+            title: String,
             selectedDuration: Long,
             durationMillisOptions: List<Long>
         ) = DurationPickerFragment().apply {
             arguments = bundleOf(
                 RESULT_KEY_ARG to resultKey,
+                TITLE_ARG to title,
                 SELECTED_DURATION_ARG to selectedDuration,
                 DURATION_OPTIONS_ARG to durationMillisOptions,
             )
@@ -63,6 +66,7 @@ class DurationPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_d
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            titleTextView.text = getArgument(TITLE_ARG)
             durationPicker.setOnValueChangedListener { _, _, position ->
                 viewModel.selectValue(position)
             }

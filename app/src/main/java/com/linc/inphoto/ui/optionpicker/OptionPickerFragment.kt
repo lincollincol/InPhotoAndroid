@@ -20,15 +20,18 @@ class OptionPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_opt
 
     companion object {
         private const val RESULT_KEY_ARG = "result_key"
+        private const val TITLE_ARG = "title"
         private const val OPTIONS_ARG = "options"
 
         @JvmStatic
         fun newInstance(
             resultKey: String,
+            title: String,
             options: List<OptionModel>
         ) = OptionPickerFragment().apply {
             arguments = bundleOf(
                 RESULT_KEY_ARG to resultKey,
+                TITLE_ARG to title,
                 OPTIONS_ARG to options
             )
         }
@@ -45,29 +48,19 @@ class OptionPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_opt
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUi()
-    }
-
-    private fun initUi() = with(binding) {
-        optionsRecyclerView.apply {
-            layoutManager = verticalLinearLayoutManager()
-            adapter = optionsAdapter
-        }
-
-        optionsLayout.setOnClickListener {
-            // Clicks ignored
-        }
-
-        root.setOnClickListener {
-            viewModel.selectOption(getArgument(RESULT_KEY_ARG), null)
-        }
-
         val options = getArgument<List<OptionModel>>(OPTIONS_ARG)
-        optionsAdapter.let { adapter ->
-            adapter.addAll(options?.map(::OptionItem) ?: emptyList())
-            adapter.setOnItemClickListener { item, _ ->
-                val position = adapter.getAdapterPosition(item)
-                viewModel.selectOption(getArgument(RESULT_KEY_ARG), options?.get(position))
+        with(binding) {
+            titleTextView.text = getArgument(TITLE_ARG)
+            optionsRecyclerView.apply {
+                layoutManager = verticalLinearLayoutManager()
+                adapter = optionsAdapter
+            }
+            optionsAdapter.let { adapter ->
+                adapter.addAll(options?.map(::OptionItem) ?: emptyList())
+                adapter.setOnItemClickListener { item, _ ->
+                    val position = adapter.getAdapterPosition(item)
+                    viewModel.selectOption(getArgument(RESULT_KEY_ARG), options?.get(position))
+                }
             }
         }
     }
