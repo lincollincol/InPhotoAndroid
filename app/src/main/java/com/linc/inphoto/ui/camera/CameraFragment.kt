@@ -20,6 +20,7 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.*
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -73,19 +74,21 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
         with(binding) {
             permissionsLayout.apply {
                 permissionTextView.setText(R.string.permission_camera_description)
-                allowButton.setOnClickListener {
+                allowButton.setOnThrottledClickListener {
                     val permission = Manifest.permission.CAMERA
                     if (permissionDisabled(permission)) {
                         viewModel.openSettings()
-                        return@setOnClickListener
+                        return@setOnThrottledClickListener
                     }
                     requestPermissionLauncher.launch(permission)
                 }
             }
-            flipCameraButton.setOnClickListener {
+            flipCameraButton.setOnThrottledClickListener {
                 flipCameraLens()
             }
-
+            cancelButton.setOnThrottledClickListener {
+                viewModel.onBackPressed()
+            }
             takePictureButton.setOnClickListener {
                 imageCapture?.takePicture(
                     getOutputFileOptions(requireContext().contentResolver),

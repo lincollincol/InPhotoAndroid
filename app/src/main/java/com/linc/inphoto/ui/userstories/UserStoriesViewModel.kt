@@ -27,12 +27,12 @@ class UserStoriesViewModel @Inject constructor(
             try {
                 _uiState.update { it.copy(isLoading = true) }
                 val userStories = storyRepository.loadUserStories(userId) ?: return@launch
-                _uiState.update {
-                    it.copy(
+                _uiState.update { state ->
+                    state.copy(
                         userId = userStories.userId,
                         username = userStories.username,
                         userAvatarUrl = userStories.userAvatarUrl,
-                        stories = userStories.stories
+                        stories = userStories.stories.sortedByDescending { it.createdTimestamp }
                     )
                 }
             } catch (e: Exception) {

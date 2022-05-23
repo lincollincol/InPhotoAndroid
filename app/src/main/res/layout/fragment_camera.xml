@@ -8,45 +8,62 @@
         android:id="@+id/cameraPreviewView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/controllersLayout"
+        app:layout_constraintDimensionRatio="3:4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/takePictureButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_general"
-        android:src="@drawable/ic_camera_circle"
-        app:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/black" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/flipCameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_general"
-        android:src="@drawable/ic_flip_camera"
-        app:backgroundTint="@color/white"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/takePictureButton"
-        app:tint="@color/black" />
-
-    <View
-        android:id="@+id/shadowView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/controllersLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_fade_black_50"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/takePictureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:src="@drawable/ic_camera_circle"
+            app:backgroundTint="@color/white"
+            app:fabCustomSize="@dimen/icon_extra_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/flipCameraButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_general"
+            android:src="@drawable/ic_flip_camera"
+            app:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/takePictureButton"
+            app:layout_constraintEnd_toStartOf="@id/takePictureButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/takePictureButton"
+            app:tint="@color/black" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_general"
+            android:src="@drawable/ic_close"
+            app:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/takePictureButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/takePictureButton"
+            app:layout_constraintTop_toTopOf="@id/takePictureButton"
+            app:tint="@color/black" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/cameraControllersGroup"
@@ -54,9 +71,7 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="
         cameraPreviewView,
-        shadowView,
-        takePictureButton,
-        flipCameraButton" />
+        controllersLayout" />
 
     <include
         android:id="@+id/permissionsLayout"

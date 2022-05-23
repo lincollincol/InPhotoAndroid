@@ -17,5 +17,6 @@ fun UserStoryApiModel.toModel() = UserStory(
     userId = userId,
     username = username,
     userAvatarUrl = userAvatarUrl,
+    latestStoryTimestamp = latestStoryTimestamp,
     stories = stories.map(StoryApiModel::toModel)
 )
