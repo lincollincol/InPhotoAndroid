@@ -25,6 +25,7 @@ class CameraViewModel @Inject constructor(
         val editorIntent = when (intent) {
             is CameraIntent.NewAvatar -> EditorIntent.NewAvatar(intent.resultKey)
             is CameraIntent.NewPost -> EditorIntent.NewPost
+            is CameraIntent.NewStory -> EditorIntent.NewStory
             is CameraIntent.Result -> {
                 return router.run {
                     sendResult(intent.resultKey, imageUri)

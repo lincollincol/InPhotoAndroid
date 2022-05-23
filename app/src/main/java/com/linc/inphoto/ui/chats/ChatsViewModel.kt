@@ -127,8 +127,10 @@ class ChatsViewModel @Inject constructor(
             try {
                 chatRepository.deleteChat(chat.id)
                 val user = userRepository.getUserById(chat.userId) ?: return@launch
-                contacts = contacts.toMutableList().apply { add(getContactUiState(user)) }
-                _uiState.update { it.copy(contacts = contacts) }
+                if (user.isFollowingUser) {
+                    contacts = contacts.toMutableList().apply { add(getContactUiState(user)) }
+                    _uiState.update { it.copy(contacts = contacts) }
+                }
             } catch (e: Exception) {
                 Timber.e(e)
             }

@@ -16,9 +16,7 @@ import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.getArgumentNotNull
 import com.linc.inphoto.utils.extensions.millisToSeconds
-import com.linc.inphoto.utils.extensions.view.loadImage
-import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
-import com.linc.inphoto.utils.extensions.view.show
+import com.linc.inphoto.utils.extensions.view.*
 import com.linc.inphoto.utils.view.progress.MultiProgressFinishListener
 import com.linc.inphoto.utils.view.progress.MultiProgressStepListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +52,11 @@ class UserStoriesFragment : BaseFragment(R.layout.fragment_user_stories) {
                     }
                 }
                 contentImageView.loadImage(story.contentUrl)
+                contentBackgroundImageView.loadImage(
+                    story.contentUrl,
+                    size = THUMB_SMALL,
+                    blurRadius = IMAGE_BLUR_MEDIUM
+                )
             } ?: storyProgressBar.pause()
             state.storyTurn?.let {
                 viewModel.storyTurnShown()

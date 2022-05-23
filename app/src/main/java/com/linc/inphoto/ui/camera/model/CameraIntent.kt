@@ -11,5 +11,8 @@ sealed class CameraIntent : Parcelable {
     object NewPost : CameraIntent()
 
     @Parcelize
+    object NewStory : CameraIntent()
+
+    @Parcelize
     data class Result(val resultKey: String) : CameraIntent()
 }

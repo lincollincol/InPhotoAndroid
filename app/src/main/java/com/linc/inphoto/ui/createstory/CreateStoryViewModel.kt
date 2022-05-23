@@ -71,7 +71,7 @@ class CreateStoryViewModel @Inject constructor(
         val durationOptions = List(
             DURATION_MULTIPLIER_GAPS,
             DURATION_GAP_START_INDEX
-        ) { TEN_SECONDS_IN_MILLIS * it }
+        ) { FIVE_SECONDS_IN_MILLIS * it }
         selectTimeMillis(currentState.durationMillis, durationOptions) { millis ->
             _uiState.update { it.copy(durationMillis = millis) }
         }

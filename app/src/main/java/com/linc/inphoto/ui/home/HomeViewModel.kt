@@ -8,6 +8,7 @@ import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.entity.story.UserStory
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.home.model.HomePostOperation
 import com.linc.inphoto.ui.home.model.HomePostUiState
@@ -82,7 +83,7 @@ class HomeViewModel @Inject constructor(
     private fun createUserStory() {
         router.setResultListener(IMAGE_SOURCE_RESULT) { result ->
             val screen = when (result.safeCast<StoryContentSource>()) {
-                StoryContentSource.Camera -> NavScreen.GalleryScreen(GalleryIntent.NewStory)
+                StoryContentSource.Camera -> NavScreen.CameraScreen(CameraIntent.NewStory)
                 StoryContentSource.Gallery -> NavScreen.GalleryScreen(GalleryIntent.NewStory)
                 else -> return@setResultListener
             }

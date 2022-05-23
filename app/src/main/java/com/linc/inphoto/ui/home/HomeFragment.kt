@@ -1,6 +1,7 @@
 package com.linc.inphoto.ui.home
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
@@ -21,6 +22,7 @@ import com.linc.inphoto.utils.extensions.updateSingle
 import com.linc.inphoto.utils.extensions.view.horizontalLinearLayoutManager
 import com.linc.inphoto.utils.extensions.view.show
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
+import com.linc.inphoto.utils.view.VerticalNestedScrollListener
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
@@ -67,6 +69,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 adapter = createAdapter(postsSection)
                 itemAnimator = FadeInDownAnimator()
             }
+            contentScrollView.setOnScrollChangeListener(VerticalNestedScrollListener {
+                when (it) {
+                    Gravity.BOTTOM -> bottomBarViewModel.hideBottomBar()
+                    Gravity.TOP -> bottomBarViewModel.showBottomBar()
+                }
+            })
         }
         viewModel.loadHomeData()
         bottomBarViewModel.showBottomBar()
