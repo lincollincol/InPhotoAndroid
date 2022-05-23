@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.genius.multiprogressbar.MultiProgressBar
         android:id="@+id/progressBar"
         android:layout_width="0dp"
-        android:layout_height="4dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="@dimen/margin_general"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:progressColor="@color/black"
         app:progressLineColor="@color/black_25" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/avatarImageView"
+        android:layout_width="@dimen/icon_general"
+        android:layout_height="@dimen/icon_general"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:layout_marginTop="@dimen/margin_small"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+        app:roundPercent="1"
+        tools:srcCompat="@drawable/avatar" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/nameTextView"
+        style="@style/TextFieldBold"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:elevation="@dimen/elevation_small"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/padding_general"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/avatarImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/avatarImageView"
+        app:layout_constraintTop_toTopOf="@id/avatarImageView"
+        tools:text="xlinc" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/contentImageView"

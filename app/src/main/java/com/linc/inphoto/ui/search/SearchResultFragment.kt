@@ -3,7 +3,6 @@ package com.linc.inphoto.ui.search
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -35,7 +34,7 @@ class SearchResultFragment : BaseFragment(R.layout.fragment_search_result) {
         }
     }
 
-    override val viewModel: SearchViewModel by viewModels({ parentFragment as Fragment })
+    override val viewModel: SearchViewModel by viewModels(::requireParentFragment)
     private val binding by viewBinding(FragmentSearchResultBinding::bind)
     private val resultsSection by lazy { Section() }
 

@@ -3,7 +3,6 @@ package com.linc.inphoto.ui.profilefollowers
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -34,7 +33,7 @@ class FollowersListFragment : BaseFragment(R.layout.fragment_followers_list) {
         }
     }
 
-    override val viewModel: ProfileFollowersViewModel by viewModels({ parentFragment as Fragment })
+    override val viewModel: ProfileFollowersViewModel by viewModels(::requireParentFragment)
     private val binding by viewBinding(FragmentFollowersListBinding::bind)
     private val usersSection by lazy { Section() }
 

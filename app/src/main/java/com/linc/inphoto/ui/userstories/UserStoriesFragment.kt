@@ -1,53 +1,54 @@
-package com.linc.inphoto.ui.singlestoryoverview
+package com.linc.inphoto.ui.userstories
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.genius.multiprogressbar.MultiProgressBar
 import com.linc.inphoto.R
-import com.linc.inphoto.databinding.FragmentSingleUserStoriesBinding
+import com.linc.inphoto.databinding.FragmentUserStoriesBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.storiesoverview.StoriesOverviewViewModel
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.getArgumentNotNull
 import com.linc.inphoto.utils.extensions.millisToSeconds
 import com.linc.inphoto.utils.extensions.view.loadImage
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserStoriesOverviewFragment : BaseFragment(R.layout.fragment_single_user_stories) {
+class UserStoriesFragment : BaseFragment(R.layout.fragment_user_stories) {
 
     companion object {
         private const val USER_ID_ARG = "user_id"
 
         @JvmStatic
-        fun newInstance(userId: String) = UserStoriesOverviewFragment().apply {
+        fun newInstance(userId: String) = UserStoriesFragment().apply {
             arguments = bundleOf(USER_ID_ARG to userId)
         }
     }
 
-    override val viewModel: UserStoriesOverviewViewModel by viewModels()
-    private val storiesOverviewViewModel: StoriesOverviewViewModel by viewModels(
-        { parentFragment as Fragment }
-    )
-    private val binding by viewBinding(FragmentSingleUserStoriesBinding::bind)
+    override val viewModel: UserStoriesViewModel by viewModels()
+    private val overviewViewModel: StoriesOverviewViewModel by viewModels(::requireParentFragment)
+    private val binding by viewBinding(FragmentUserStoriesBinding::bind)
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            state.userStories?.stories?.let { stories ->
-                val story = stories[state.storyPosition]
-                progressBar.setProgressStepsCount(stories.count())
-                progressBar.setSingleDisplayTime(story.duration.millisToSeconds().toFloat())
-                progressBar.pause()
-                progressBar.start(state.storyPosition)
+            avatarImageView.loadImage(state.userAvatarUrl)
+            nameTextView.text = state.username
+            state.stories.getOrNull(state.storyPosition)?.let { story ->
+                progressBar.apply {
+                    setProgressStepsCount(state.stories.count())
+                    setSingleDisplayTime(story.duration.millisToSeconds().toFloat())
+                    pause()
+                    start(state.storyPosition)
+                }
                 contentImageView.loadImage(story.contentUrl)
             }
             state.storyTurn?.let {
                 viewModel.storyTurnShown()
-                storiesOverviewViewModel.selectStoryTurn(it)
+                overviewViewModel.selectStoryTurn(it)
             }
         }
     }
@@ -55,6 +56,12 @@ class UserStoriesOverviewFragment : BaseFragment(R.layout.fragment_single_user_s
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            avatarImageView.setOnThrottledClickListener {
+                viewModel.selectProfile()
+            }
+            nameTextView.setOnThrottledClickListener {
+                viewModel.selectProfile()
+            }
             startSideView.setOnClickListener {
                 viewModel.previousStoryStep()
             }

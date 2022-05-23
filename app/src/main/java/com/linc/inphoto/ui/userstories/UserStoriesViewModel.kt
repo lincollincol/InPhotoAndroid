@@ -1,9 +1,10 @@
-package com.linc.inphoto.ui.singlestoryoverview
+package com.linc.inphoto.ui.userstories
 
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.StoryRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
+import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.storiesoverview.model.StoryTurnType
 import com.linc.inphoto.utils.extensions.isValidIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,33 +15,39 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class UserStoriesOverviewViewModel @Inject constructor(
+class UserStoriesViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val storyRepository: StoryRepository
-) : BaseViewModel<UserStoriesOverviewUiState>(navContainerHolder) {
+) : BaseViewModel<UserStoriesUiState>(navContainerHolder) {
 
-    override val _uiState = MutableStateFlow(UserStoriesOverviewUiState())
-
-    fun storyTurnShown() {
-        _uiState.update { it.copy(storyTurn = null) }
-    }
+    override val _uiState = MutableStateFlow(UserStoriesUiState())
 
     fun loadUserStories(userId: String) {
         viewModelScope.launch {
             try {
-                val stories = storyRepository.loadUserStories(userId)
-                _uiState.update { it.copy(userStories = stories) }
+                val userStories = storyRepository.loadUserStories(userId) ?: return@launch
+                _uiState.update {
+                    it.copy(
+                        userId = userStories.userId,
+                        username = userStories.username,
+                        userAvatarUrl = userStories.userAvatarUrl,
+                        stories = userStories.stories
+                    )
+                }
             } catch (e: Exception) {
                 Timber.e(e)
             }
         }
     }
 
+    fun selectProfile() {
+        router.replaceScreen(NavScreen.ProfileScreen(currentState.userId))
+    }
+
     fun selectStoryStep(step: Int) {
-        val stories = currentState.userStories?.stories.orEmpty()
-        if (!stories.isValidIndex(step)) {
+        if (!currentState.stories.isValidIndex(step)) {
             val turn = when {
-                step >= stories.count() -> StoryTurnType.NEXT_STORY
+                step >= currentState.stories.count() -> StoryTurnType.NEXT_STORY
                 else -> StoryTurnType.PREVIOUS_STORY
             }
             _uiState.update { it.copy(storyTurn = turn) }
@@ -49,16 +56,16 @@ class UserStoriesOverviewViewModel @Inject constructor(
         _uiState.update { it.copy(storyPosition = step) }
     }
 
-    fun previousStoryStep() {
-        selectStoryStep(currentState.storyPosition - 1)
-    }
+    fun previousStoryStep() = selectStoryStep(currentState.storyPosition - 1)
 
-    fun nextStoryStep() {
-        selectStoryStep(currentState.storyPosition + 1)
-    }
+    fun nextStoryStep() = selectStoryStep(currentState.storyPosition + 1)
 
     fun storiesOverviewFinished() {
         _uiState.update { it.copy(storyTurn = StoryTurnType.NEXT_STORY) }
+    }
+
+    fun storyTurnShown() {
+        _uiState.update { it.copy(storyTurn = null) }
     }
 
 }

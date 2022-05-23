@@ -13,6 +13,7 @@ import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.getArgumentNotNull
 import com.linc.inphoto.utils.extensions.view.selectPage
+import com.linc.inphoto.utils.extensions.view.setSafeOffscreenPageLimit
 import com.linc.inphoto.utils.view.viewpager.CubeRotationTransformer
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +36,10 @@ class StoriesOverviewFragment : BaseFragment(R.layout.fragment_stories_review) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            userStoriesPageAdapter?.setPages(state.stories)
+            userStoriesPageAdapter?.apply {
+                setPages(state.stories)
+                storiesViewPager.setSafeOffscreenPageLimit(state.stories.count())
+            }
             storiesViewPager.selectPage(state.storyPosition, animate = true)
         }
     }

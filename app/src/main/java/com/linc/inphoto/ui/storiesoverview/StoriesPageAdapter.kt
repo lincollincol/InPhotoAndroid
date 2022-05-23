@@ -2,8 +2,8 @@ package com.linc.inphoto.ui.storiesoverview
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.linc.inphoto.ui.singlestoryoverview.UserStoriesOverviewFragment
 import com.linc.inphoto.ui.storiesoverview.model.UserStoryUiState
+import com.linc.inphoto.ui.userstories.UserStoriesFragment
 import com.linc.inphoto.utils.extensions.update
 
 class StoriesPageAdapter(
@@ -19,7 +19,7 @@ class StoriesPageAdapter(
 
     override fun getItemCount(): Int = storyPages.count()
     override fun createFragment(position: Int): Fragment {
-        return UserStoriesOverviewFragment.newInstance(storyPages[position].userId)
+        return UserStoriesFragment.newInstance(storyPages[position].userId)
     }
 
 }
