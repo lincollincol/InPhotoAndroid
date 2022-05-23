@@ -1,14 +1,12 @@
 package com.linc.inphoto.ui.managepost
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
-import androidx.transition.Slide
 import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
@@ -82,7 +80,6 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
                 viewModel.updateDescription(text.toString())
             }
             enterTransition = TransitionSet().apply {
-                addTransition(Slide(Gravity.TOP).addTarget(editorToolbarView))
                 addTransition(Fade(Fade.IN).addTarget(contentLayout))
             }
             reenterTransition = enterTransition

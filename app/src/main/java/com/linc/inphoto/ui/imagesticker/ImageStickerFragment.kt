@@ -84,7 +84,6 @@ class ImageStickerFragment : BaseFragment(R.layout.fragment_image_sticker) {
                 }
             }
             enterTransition = TransitionSet().apply {
-                addTransition(Slide(Gravity.TOP).addTarget(toolbarView))
                 addTransition(Slide(Gravity.BOTTOM).addTarget(stickersRecyclerView))
                 addTransition(Fade(Fade.IN).addTarget(overlayImageView))
             }

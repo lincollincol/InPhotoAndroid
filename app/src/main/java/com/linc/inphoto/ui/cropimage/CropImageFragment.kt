@@ -99,7 +99,6 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
                 viewModel.changeRatioState(checked)
             }
             enterTransition = TransitionSet().apply {
-                addTransition(Slide(Gravity.TOP).addTarget(editorToolbarView))
                 addTransition(Slide(Gravity.BOTTOM).addTarget(cropControllersLayout))
                 addTransition(Fade(Fade.IN).addTarget(cropView))
             }

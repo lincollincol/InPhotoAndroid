@@ -33,11 +33,14 @@ class GalleryViewModel @Inject constructor(
                 if (currentState.images.isNotEmpty()) {
                     return@launch
                 }
+                _uiState.update { it.copy(isLoading = true) }
                 val images = mediaRepository.loadGalleryImages()
                     .map { it.toUiState(onClick = { selectImage(intent, it.uri) }) }
                 _uiState.update { it.copy(images = images) }
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }

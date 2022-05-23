@@ -77,7 +77,6 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
                 viewModel.cancelEditing()
             }
             enterTransition = TransitionSet().apply {
-                addTransition(Slide(Gravity.TOP).addTarget(editorToolbarView))
                 addTransition(Slide(Gravity.BOTTOM).addTarget(operationsRecyclerView))
                 addTransition(Fade(Fade.IN).addTarget(previewImageView))
             }

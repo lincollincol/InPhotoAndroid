@@ -8,6 +8,7 @@ import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentCreateStoryBinding
@@ -70,6 +71,10 @@ class CreateStoryFragment : BaseFragment(R.layout.fragment_create_story) {
             expirationSettingsTextView.setOnThrottledClickListener {
                 viewModel.selectExpirationTime()
             }
+            enterTransition = TransitionSet().apply {
+                addTransition(Fade(Fade.IN).addTarget(contentLayout))
+            }
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.hideBottomBar()
     }
