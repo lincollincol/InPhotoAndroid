@@ -14,7 +14,10 @@ class PostOverviewItem(
 
     override fun bind(viewBinding: ItemPostOverviewBinding, position: Int) {
         with(viewBinding) {
-            userAvatarImageView.loadImage(postUiState.userAvatarUrl)
+            userAvatarImageView.apply {
+                loadImage(postUiState.userAvatarUrl)
+                setOnThrottledClickListener { postUiState.onProfile() }
+            }
             postImageView.apply {
                 loadImage(postUiState.contentUrl)
                 setOnDoubleClickListener {
@@ -23,7 +26,10 @@ class PostOverviewItem(
                     likeAnimationView.playOneTime { postUiState.onDoubleTap() }
                 }
             }
-            usernameTextView.text = postUiState.username
+            usernameTextView.apply {
+                text = postUiState.username
+                setOnThrottledClickListener { postUiState.onProfile() }
+            }
             descriptionTextView.text = postUiState.description
             bookmarkImageView.apply {
                 select(postUiState.isBookmarked)

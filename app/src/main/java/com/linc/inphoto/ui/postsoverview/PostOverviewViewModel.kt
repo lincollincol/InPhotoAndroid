@@ -43,9 +43,12 @@ class PostOverviewViewModel @Inject constructor(
         this.overviewType = overviewType
         viewModelScope.launch {
             try {
+                _uiState.update { it.copy(isLoading = true) }
                 loadPosts()
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
@@ -162,8 +165,13 @@ class PostOverviewViewModel @Inject constructor(
         router.navigateTo(NavScreen.ShareContentScreen(content))
     }
 
+    private fun selectUser(userId: String) {
+        router.navigateTo(NavScreen.ProfileScreen(userId))
+    }
+
     private fun getPostUiState(post: ExtendedPost): PostUiState {
         return post.toUiState(
+            onProfile = { selectUser(post.authorUserId) },
             onMore = { handlePostMenu(post) },
             onDoubleTap = { if (!post.isLiked) likePost(post) },
             onLike = { likePost(post) },

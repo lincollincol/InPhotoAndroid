@@ -107,6 +107,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
             unfollowButton.setOnThrottledClickListener {
                 viewModel.unfollowUser()
             }
+            messageButton.setOnThrottledClickListener {
+                viewModel.messageUser()
+            }
             followersLayout.setOnThrottledClickListener {
                 viewModel.openFollowers()
             }

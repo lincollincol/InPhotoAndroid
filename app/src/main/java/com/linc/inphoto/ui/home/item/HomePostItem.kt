@@ -14,7 +14,10 @@ class HomePostItem(
 
     override fun bind(viewBinding: ItemHomePostBinding, position: Int) {
         with(viewBinding) {
-            userAvatarImageView.loadImage(homePostUiState.userAvatarUrl)
+            userAvatarImageView.apply {
+                loadImage(homePostUiState.userAvatarUrl)
+                setOnThrottledClickListener { homePostUiState.onProfile() }
+            }
             postImageView.apply {
                 loadImage(homePostUiState.contentUrl)
                 setOnDoubleClickListener {
@@ -23,7 +26,10 @@ class HomePostItem(
                     likeAnimationView.playOneTime { homePostUiState.onDoubleTap() }
                 }
             }
-            usernameTextView.text = homePostUiState.username
+            usernameTextView.apply {
+                text = homePostUiState.username
+                setOnThrottledClickListener { homePostUiState.onProfile() }
+            }
             descriptionTextView.text = homePostUiState.description
             bookmarkImageView.apply {
                 select(homePostUiState.isBookmarked)

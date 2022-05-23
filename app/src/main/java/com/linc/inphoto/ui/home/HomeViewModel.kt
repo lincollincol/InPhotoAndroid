@@ -3,14 +3,21 @@ package com.linc.inphoto.ui.home
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
+import com.linc.inphoto.data.repository.StoryRepository
+import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.ExtendedPost
+import com.linc.inphoto.entity.story.UserStory
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.camera.model.CameraIntent
+import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.home.model.HomePostOperation
 import com.linc.inphoto.ui.home.model.HomePostUiState
+import com.linc.inphoto.ui.home.model.StoryContentSource
 import com.linc.inphoto.ui.home.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.ResourceProvider
+import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,37 +29,75 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
+    private val userRepository: UserRepository,
     private val postRepository: PostRepository,
+    private val storyRepository: StoryRepository,
     private val resourceProvider: ResourceProvider
 ) : BaseViewModel<HomeUiState>(navContainerHolder) {
 
-    /**
-     * TODO:
-     * current user posts bug
-     * ??? maybe stories for home screen ???
-     * open profile from post
-     */
-
     companion object {
         private const val POST_ACTION_RESULT = "post_action_result"
+        private const val IMAGE_SOURCE_RESULT = "image_source"
     }
 
     override val _uiState = MutableStateFlow(HomeUiState())
 
-    fun loadFollowingPosts() {
+    fun loadHomeData() {
         viewModelScope.launch {
             try {
-                val posts = postRepository.getCurrentUserFollowingExtendedPosts()
-                    .sortedByDescending { it.createdTimestamp }
-                    .map(::getHomePostUiState)
-                _uiState.update { it.copy(posts = posts) }
+                _uiState.update { it.copy(isLoading = true) }
+                launch { loadCurrentUser() }
+                launch { loadFollowingStories() }
+                launch { loadFollowingPosts() }.join()
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
 
-    // TODO: 23.03.22 refactor code. Move ui state mapping to new function?
+    private suspend fun loadCurrentUser() {
+        val newStoryState = userRepository.getLoggedInUser()
+            ?.toUiState { createUserStory() }
+        _uiState.update { it.copy(newStory = newStoryState) }
+    }
+
+    private suspend fun loadFollowingStories() {
+        val stories = storyRepository.loadCurrentUserFollowingStories()
+            .sortedByDescending { it.latestStoryTimestamp }
+            .sortedByDescending { it.isLoggedInUser }
+            .map { it.toUiState { selectUserStory(it) } }
+        _uiState.update { it.copy(stories = stories) }
+    }
+
+    private suspend fun loadFollowingPosts() {
+        val posts = postRepository.getCurrentUserFollowingExtendedPosts()
+            .sortedByDescending { it.createdTimestamp }
+            .map(::getHomePostUiState)
+        _uiState.update { it.copy(posts = posts) }
+    }
+
+    private fun selectUserStory(userStory: UserStory) {
+        router.navigateTo(NavScreen.StoriesOverviewScreen(userStory.userId))
+    }
+
+    private fun createUserStory() {
+        router.setResultListener(IMAGE_SOURCE_RESULT) { result ->
+            val screen = when (result.safeCast<StoryContentSource>()) {
+                StoryContentSource.Camera -> NavScreen.CameraScreen(CameraIntent.NewStory)
+                StoryContentSource.Gallery -> NavScreen.GalleryScreen(GalleryIntent.NewStory)
+                else -> return@setResultListener
+            }
+            router.navigateTo(screen)
+        }
+        val pickerScreen = NavScreen.ChooseOptionScreen(
+            IMAGE_SOURCE_RESULT,
+            StoryContentSource.getAvailableSources()
+        )
+        router.showDialog(pickerScreen)
+    }
+
     private fun likePost(selectedPost: ExtendedPost) {
         viewModelScope.launch {
             try {
@@ -62,12 +107,10 @@ class HomeViewModel @Inject constructor(
                 ) ?: return@launch
                 val posts = currentState.posts
                     .sortedByDescending { it.createdTimestamp }
-                    .map { postUiState ->
-                        when (postUiState.postId) {
-                            selectedPost.id -> getHomePostUiState(post)
-                            else -> postUiState
-                        }
-                    }
+                    .mapIf(
+                        condition = { it.postId == selectedPost.id },
+                        transform = { getHomePostUiState(post) }
+                    )
                 _uiState.update { it.copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -84,12 +127,10 @@ class HomeViewModel @Inject constructor(
                 ) ?: return@launch
                 val posts = currentState.posts
                     .sortedByDescending { it.createdTimestamp }
-                    .map { postUiState ->
-                        when (postUiState.postId) {
-                            selectedPost.id -> getHomePostUiState(post)
-                            else -> postUiState
-                        }
-                    }
+                    .mapIf(
+                        condition = { it.postId == selectedPost.id },
+                        transform = { getHomePostUiState(post) }
+                    )
                 _uiState.update { it.copy(posts = posts) }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -125,8 +166,13 @@ class HomeViewModel @Inject constructor(
         router.navigateTo(NavScreen.ShareContentScreen(content))
     }
 
+    private fun selectUser(userId: String) {
+        router.navigateTo(NavScreen.ProfileScreen(userId))
+    }
+
     private fun getHomePostUiState(post: ExtendedPost): HomePostUiState {
         return post.toUiState(
+            onProfile = { selectUser(post.authorUserId) },
             onMore = { handlePostMenu(post) },
             onDoubleTap = { if (!post.isLiked) likePost(post) },
             onLike = { likePost(post) },

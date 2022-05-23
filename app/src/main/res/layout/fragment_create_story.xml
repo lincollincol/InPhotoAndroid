@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.linc.inphoto.ui.view.SimpleToolbarView
+        android:id="@+id/toolbarView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_general"
+        android:paddingHorizontal="@dimen/padding_general"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textTitle="@string/create_story" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarView">
+        <LinearLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_general"
+            android:orientation="vertical">
+
+            <com.linc.inphoto.ui.view.SettingsTextView
+                android:id="@+id/durationSettingsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:textSize="@dimen/font_small"
+                app:textTitle="@string/preview_duration" />
+
+            <com.linc.inphoto.ui.view.SettingsTextView
+                android:id="@+id/expirationSettingsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:textSize="@dimen/font_small"
+                app:textTitle="@string/expiration_time" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/storyImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/elevation_general"
+                android:adjustViewBounds="true" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.linc.inphoto.ui.view.LoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:translationZ="@dimen/translation_top"
+        android:visibility="gone"
+        app:blurOverlayColor="@color/black_25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

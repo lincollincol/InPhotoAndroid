@@ -16,6 +16,7 @@ data class HomePostUiState(
     val likesCount: Int,
     val commentsCount: Int,
     val tags: List<String>,
+    val onProfile: () -> Unit,
     val onMore: () -> Unit,
     val onDoubleTap: () -> Unit,
     val onLike: () -> Unit,
@@ -26,6 +27,7 @@ data class HomePostUiState(
 }
 
 fun ExtendedPost.toUiState(
+    onProfile: () -> Unit,
     onMore: () -> Unit,
     onDoubleTap: () -> Unit,
     onLike: () -> Unit,
@@ -44,9 +46,10 @@ fun ExtendedPost.toUiState(
     likesCount = likesCount,
     commentsCount = commentsCount,
     tags = tags,
-    onMore,
-    onDoubleTap,
-    onLike,
-    onBookmark,
-    onComment
+    onProfile = onProfile,
+    onMore = onMore,
+    onDoubleTap = onDoubleTap,
+    onLike = onLike,
+    onBookmark = onBookmark,
+    onComment = onComment
 )

@@ -17,3 +17,13 @@ fun ViewPager2.reduceDragSensitivity() {
     val touchSlop = touchSlopField.get(recyclerView).cast<Int>()
     touchSlopField.set(recyclerView, touchSlop * 8)
 }
+
+
+fun ViewPager2.selectPage(index: Int, animate: Boolean = false) {
+    if (currentItem != index)
+        setCurrentItem(index, animate)
+}
+
+fun ViewPager2.setSafeOffscreenPageLimit(pageLimit: Int) {
+    if (pageLimit > 0) offscreenPageLimit = pageLimit
+}

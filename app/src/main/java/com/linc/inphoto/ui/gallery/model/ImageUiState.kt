@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.gallery
+package com.linc.inphoto.ui.gallery.model
 
 import android.net.Uri
 import com.linc.inphoto.entity.LocalMedia

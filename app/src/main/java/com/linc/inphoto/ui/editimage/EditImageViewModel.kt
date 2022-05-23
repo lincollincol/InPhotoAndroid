@@ -9,6 +9,7 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.cropimage.model.CropIntent
 import com.linc.inphoto.ui.editimage.model.EditOperation
 import com.linc.inphoto.ui.editimage.model.EditorIntent
+import com.linc.inphoto.ui.editimage.model.toUiState
 import com.linc.inphoto.ui.imagesticker.model.ImageStickerIntent
 import com.linc.inphoto.ui.managepost.model.ManagePostIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
@@ -60,6 +61,8 @@ class EditImageViewModel @Inject constructor(
                     is EditorIntent.NewPost -> router.navigateTo(
                         NavScreen.ManagePostScreen(ManagePostIntent.NewPost(imageUri))
                     )
+                    is EditorIntent.NewStory ->
+                        router.navigateTo(NavScreen.CreateStoryScreen(imageUri))
                 }
             } catch (e: Exception) {
                 Timber.e(e)

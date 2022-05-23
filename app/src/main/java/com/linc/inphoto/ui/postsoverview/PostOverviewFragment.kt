@@ -16,12 +16,12 @@ import com.linc.inphoto.ui.postsoverview.model.OverviewType
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.enableItemChangeAnimation
+import com.linc.inphoto.utils.extensions.view.show
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.linc.inphoto.utils.view.recyclerview.listener.VerticalRecyclerScrollListener
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 
 @AndroidEntryPoint
 class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
@@ -45,17 +45,11 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             postsSection.update(state.posts.map(::PostOverviewItem))
-//            state.initialPost?.let {
-//                val position = postsSection.getPosition(PostOverviewItem(state.initialPost))
-//                postsRecyclerView.scrollToPosition(position)
-//                Timber.d(position.toString())
-//                viewModel.initialPostShown()
-//            }
             state.initialPosition?.let {
-                Timber.d(it.toString())
                 postsRecyclerView.scrollToPosition(it)
                 viewModel.initialPostShown()
             }
+            postsProgressBar.show(state.isLoading && state.posts.isEmpty())
         }
     }
 
