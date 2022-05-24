@@ -7,11 +7,9 @@ import com.linc.inphoto.ui.postcomments.model.CommentUiState
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.addBoldSpan
 import com.linc.inphoto.utils.extensions.pattern.FORMAT_USER_COMMENT
-import com.linc.inphoto.utils.extensions.view.loadImage
-import com.linc.inphoto.utils.extensions.view.performPressed
-import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
-import com.linc.inphoto.utils.extensions.view.setWordsClickListener
+import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.viewbinding.BindableItem
+import com.xwray.groupie.viewbinding.GroupieViewHolder
 import java.util.*
 
 class PostCommentItem(
@@ -50,6 +48,11 @@ class PostCommentItem(
                 Locale.US
             )
         }
+    }
+
+    override fun unbind(viewHolder: GroupieViewHolder<ItemPostCommentBinding>) {
+        super.unbind(viewHolder)
+        viewHolder.binding.userAvatarImageView.clearImage()
     }
 
     override fun getLayout(): Int = R.layout.item_post_comment

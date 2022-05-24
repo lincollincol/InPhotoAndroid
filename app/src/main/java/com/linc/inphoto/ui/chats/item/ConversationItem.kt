@@ -8,10 +8,12 @@ import com.linc.inphoto.ui.chats.model.isEmptyConversation
 import com.linc.inphoto.ui.chats.model.isLastMessageAttachmentsOnly
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.getString
+import com.linc.inphoto.utils.extensions.view.clearImage
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
+import com.xwray.groupie.viewbinding.GroupieViewHolder
 import java.util.*
 
 class ConversationItem(
@@ -45,6 +47,11 @@ class ConversationItem(
                 }
             }
         }
+    }
+
+    override fun unbind(viewHolder: GroupieViewHolder<ItemChatBinding>) {
+        super.unbind(viewHolder)
+        viewHolder.binding.avatarImageView.clearImage()
     }
 
     override fun getLayout(): Int = R.layout.item_chat

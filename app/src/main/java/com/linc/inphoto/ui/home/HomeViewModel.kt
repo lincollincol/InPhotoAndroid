@@ -155,7 +155,10 @@ class HomeViewModel @Inject constructor(
             NavScreen.ChooseOptionScreen(
                 POST_ACTION_RESULT,
                 resourceProvider.getString(R.string.choose_post_action),
-                HomePostOperation.getPostOperations()
+                when {
+                    selectedPost.isCurrentUserAuthor -> HomePostOperation.getAuthorPostOperations()
+                    else -> HomePostOperation.getGuestPostOperations()
+                }
             )
         )
     }

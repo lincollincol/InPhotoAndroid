@@ -1,9 +1,12 @@
 package com.linc.inphoto.ui.settings
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSettingsBinding
@@ -51,6 +54,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             settingsToolbar.setOnCancelClickListener {
                 viewModel.closeSettings()
             }
+            enterTransition = Slide(Gravity.END)
+            exitTransition = Fade(Fade.OUT)
+            reenterTransition = Fade(Fade.IN)
         }
         bottomBarViewModel.showBottomBar()
     }

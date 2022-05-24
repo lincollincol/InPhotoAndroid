@@ -14,7 +14,10 @@ sealed class PostOperation(
 ) : OptionModel(value, enabled, icon), Parcelable {
     companion object {
         @JvmStatic
-        fun getPostOperations() = listOf(Edit, Delete, Share)
+        fun getAuthorPostOperations() = listOf(Edit, Delete, Share, Report)
+
+        @JvmStatic
+        fun getGuestPostOperations() = listOf(Share, Report)
     }
 
     @Parcelize
@@ -25,5 +28,8 @@ sealed class PostOperation(
 
     @Parcelize
     object Share : PostOperation(R.string.share, true, R.drawable.ic_share)
+
+    @Parcelize
+    object Report : PostOperation(R.string.report, true, R.drawable.ic_report_outline)
 
 }

@@ -4,9 +4,11 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemPostPreviewBinding
 import com.linc.inphoto.ui.tagposts.model.TagPostUiState
+import com.linc.inphoto.utils.extensions.view.clearImage
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.xwray.groupie.viewbinding.BindableItem
+import com.xwray.groupie.viewbinding.GroupieViewHolder
 
 class TagPostItem(
     private val tagPostUiState: TagPostUiState
@@ -19,6 +21,11 @@ class TagPostItem(
                 tagPostUiState.onClick()
             }
         }
+    }
+
+    override fun unbind(viewHolder: GroupieViewHolder<ItemPostPreviewBinding>) {
+        super.unbind(viewHolder)
+        viewHolder.binding.postImageView.clearImage()
     }
 
     override fun getLayout() = R.layout.item_post_preview

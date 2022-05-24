@@ -4,9 +4,11 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemChatContactBinding
 import com.linc.inphoto.ui.chats.model.ChatContactUiState
+import com.linc.inphoto.utils.extensions.view.clearImage
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.xwray.groupie.viewbinding.BindableItem
+import com.xwray.groupie.viewbinding.GroupieViewHolder
 
 class ChatContactItem(
     private val chatContactUiState: ChatContactUiState
@@ -21,6 +23,11 @@ class ChatContactItem(
             nameTextView.text = chatContactUiState.username
             root.setOnThrottledClickListener { chatContactUiState.onClick() }
         }
+    }
+
+    override fun unbind(viewHolder: GroupieViewHolder<ItemChatContactBinding>) {
+        super.unbind(viewHolder)
+        viewHolder.binding.avatarImageView.clearImage()
     }
 
     override fun getLayout(): Int = R.layout.item_chat_contact

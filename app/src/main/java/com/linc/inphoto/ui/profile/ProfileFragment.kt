@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
@@ -116,7 +117,12 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                 viewModel.openFollowing()
             }
             enterTransition = TransitionSet().apply {
-                addTransition(Fade(Fade.IN).addTarget(profileDataLayout))
+                ordering = TransitionSet.ORDERING_SEQUENTIAL
+                addTransition(
+                    Fade(Fade.IN).apply {
+                        profileDataLayout.children.forEach(::addTarget)
+                    }
+                )
                 addTransition(Slide(Gravity.TOP).addTarget(backButton).addTarget(settingsButton))
             }
             reenterTransition = enterTransition

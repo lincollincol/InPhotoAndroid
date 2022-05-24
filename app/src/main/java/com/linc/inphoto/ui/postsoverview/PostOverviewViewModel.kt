@@ -124,7 +124,10 @@ class PostOverviewViewModel @Inject constructor(
         val pickerScreen = NavScreen.ChooseOptionScreen(
             POST_ACTION_RESULT,
             resourceProvider.getString(R.string.choose_post_action),
-            PostOperation.getPostOperations()
+            when {
+                selectedPost.isCurrentUserAuthor -> PostOperation.getAuthorPostOperations()
+                else -> PostOperation.getGuestPostOperations()
+            }
         )
         router.showDialog(pickerScreen)
     }

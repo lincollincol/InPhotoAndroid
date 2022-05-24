@@ -10,6 +10,7 @@ data class ExtendedPost(
     val userAvatarUrl: String?,
     val isLiked: Boolean,
     val isBookmarked: Boolean,
+    val isCurrentUserAuthor: Boolean,
     val likesCount: Int,
     val commentsCount: Int,
     val tags: List<String>

@@ -6,8 +6,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.transition.Slide
-import androidx.transition.TransitionSet
+import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentPostOverviewBinding
@@ -72,9 +71,7 @@ class PostOverviewFragment : BaseFragment(R.layout.fragment_post_overview) {
             toolbarView.apply {
                 setOnCancelClickListener(viewModel::onBackPressed)
             }
-            enterTransition = TransitionSet().apply {
-                addTransition(Slide(Gravity.TOP).addTarget(toolbarView))
-            }
+            enterTransition = Fade(Fade.IN)
             reenterTransition = enterTransition
         }
         bottomBarViewModel.showBottomBar()

@@ -3,7 +3,6 @@ package com.linc.inphoto.ui.home
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
@@ -15,7 +14,6 @@ import com.linc.inphoto.ui.home.item.HomePostItem
 import com.linc.inphoto.ui.home.item.NewStoryItem
 import com.linc.inphoto.ui.home.item.UserStoryItem
 import com.linc.inphoto.ui.main.BottomBarViewModel
-import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.updateSingle
@@ -45,7 +43,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            animateTargets(Fade(Fade.IN), contentLayout, contentLayout.children)
+//            animateTargets(Fade(Fade.IN), contentLayout, contentLayout.children)
             postsSection.update(state.posts.map(::HomePostItem))
             storiesSection.update(state.stories.map(::UserStoryItem))
             state.newStory?.let { newStorySection.updateSingle(NewStoryItem(it)) }
@@ -76,7 +74,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 }
             })
             enterTransition = Fade(Fade.IN)
-            reenterTransition = enterTransition
+            reenterTransition = Fade(Fade.IN)
         }
         viewModel.loadHomeData()
         bottomBarViewModel.showBottomBar()

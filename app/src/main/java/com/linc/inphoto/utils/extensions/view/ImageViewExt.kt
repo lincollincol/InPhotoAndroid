@@ -97,7 +97,7 @@ fun ImageView.loadImage(
     @DrawableRes errorPlaceholder: Int = R.drawable.ic_broken_image,
     @ColorInt placeholderTint: Int? = null,
     @ColorInt errorTint: Int? = null,
-    diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
+    diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC,
     skipMemoryCache: Boolean = false,
     reloadImage: Boolean = true,
     overrideOriginalSize: Boolean = false,
