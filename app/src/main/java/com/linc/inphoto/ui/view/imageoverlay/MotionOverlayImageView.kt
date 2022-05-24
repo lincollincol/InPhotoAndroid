@@ -61,11 +61,14 @@ class MotionOverlayImageView(
         onSaveImageListener = null
     }
 
+    fun getBitmapRect() = binding?.imageView?.getBitmapCoordinatesInsideImageView()
+
     fun setOnSaveImageListener(onSaveImageListener: (Uri?) -> Unit) {
         this.onSaveImageListener = onSaveImageListener
     }
 
     fun onImageLayersMergeAsyncComplete(result: BitmapLayerMergeWorkerJob.Result) {
+        binding?.progressBar?.hide()
         bitmapLayerMergeWorkerJob = null
         if (result.error != null) {
             Timber.e(result.error)
@@ -86,6 +89,7 @@ class MotionOverlayImageView(
     }
 
     fun onImageLoadingAsyncComplete(result: BitmapImageLoadingWorkerJob.Result) {
+        binding?.progressBar?.hide()
         bitmapImageLoadingWorkerJob = null
         if (result.error != null) {
             Timber.e(result.error)
@@ -98,6 +102,7 @@ class MotionOverlayImageView(
     fun saveImageAsync() {
         val originalBitmap = bitmap ?: return
         binding?.motionView?.unselectEntity()
+        binding?.progressBar?.show()
         bitmapLayerMergeWorkerJob?.get()?.cancel()
         bitmapLayerMergeWorkerJob = WeakReference(
             BitmapLayerMergeWorkerJob(
@@ -112,6 +117,7 @@ class MotionOverlayImageView(
 
     fun setImageUri(image: Uri?) {
         image ?: return
+        binding?.progressBar?.show()
         bitmapImageLoadingWorkerJob?.get()
         bitmapImageLoadingWorkerJob = WeakReference(
             BitmapImageLoadingWorkerJob(
