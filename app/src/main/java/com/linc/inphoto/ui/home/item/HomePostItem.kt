@@ -21,11 +21,15 @@ class HomePostItem(
             }
             postImageView.apply {
                 loadImage(homePostUiState.contentUrl)
-                setOnDoubleClickListener {
-                    autoAnimateTargets(root, likeAnimationView)
-                    likeImageTextView.select()
-                    likeAnimationView.playOneTime { homePostUiState.onDoubleTap() }
-                }
+                setOnThrottledClickListener { homePostUiState.onImage() }
+                setOnDoubleClickListener(
+                    onSingleClick = { homePostUiState.onImage() },
+                    onDoubleClick = {
+                        autoAnimateTargets(root, likeAnimationView)
+                        likeImageTextView.select()
+                        likeAnimationView.playOneTime { homePostUiState.onDoubleTap() }
+                    }
+                )
             }
             usernameTextView.apply {
                 text = homePostUiState.username

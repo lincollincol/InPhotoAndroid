@@ -1,5 +1,6 @@
 package com.linc.inphoto.ui.home
 
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
@@ -178,8 +179,14 @@ class HomeViewModel @Inject constructor(
         router.navigateTo(NavScreen.ProfileScreen(userId))
     }
 
+    private fun selectImage(post: ExtendedPost) {
+        val imagesToOverview = listOf(post.contentUrl.toUri())
+        router.navigateTo(NavScreen.MediaReviewScreen(imagesToOverview))
+    }
+
     private fun getHomePostUiState(post: ExtendedPost): HomePostUiState {
         return post.toUiState(
+            onImage = { selectImage(post) },
             onProfile = { selectUser(post.authorUserId) },
             onMore = { handlePostMenu(post) },
             onDoubleTap = { if (!post.isLiked) likePost(post) },

@@ -135,11 +135,13 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun updateUserState(user: User?) {
-        _uiState.update {
-            it.copy(
-                user = user,
-                newPostUiState = user?.isLoggedInUser?.let { NewPostUiState(::createPost) }
-            )
+        _uiState.update { it.copy(user = user, newPostUiState = getNewPostUiState(user)) }
+    }
+
+    private fun getNewPostUiState(user: User?): NewPostUiState? {
+        return when (user?.isLoggedInUser) {
+            true -> NewPostUiState(::createPost)
+            else -> null
         }
     }
 }

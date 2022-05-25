@@ -16,6 +16,7 @@ data class PostUiState(
     val likesCount: Int,
     val commentsCount: Int,
     val tags: List<String>,
+    val onImage: () -> Unit,
     val onProfile: () -> Unit,
     val onMore: () -> Unit,
     val onDoubleTap: () -> Unit,
@@ -27,6 +28,7 @@ data class PostUiState(
 }
 
 fun ExtendedPost.toUiState(
+    onImage: () -> Unit,
     onProfile: () -> Unit,
     onMore: () -> Unit,
     onDoubleTap: () -> Unit,
@@ -46,6 +48,7 @@ fun ExtendedPost.toUiState(
     likesCount = likesCount,
     commentsCount = commentsCount,
     tags = tags,
+    onImage = onImage,
     onProfile = onProfile,
     onMore = onMore,
     onDoubleTap = onDoubleTap,

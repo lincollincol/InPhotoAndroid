@@ -1,43 +1,35 @@
 package com.linc.inphoto.utils.view
 
 import android.view.View
-import java.lang.ref.WeakReference
 
 class DoubleClickListener(
     private val interval: Long,
-    private val action: (view: View) -> Unit
+    private val onDoubleClick: (view: View) -> Unit,
+    private val onSingleClick: ((view: View) -> Unit)?
 ) : View.OnClickListener {
 
-    companion object {
-        /** The view that was clicked previously. */
-        private var myPreviouslyClickedView: WeakReference<View>? = null
+    private var clicks = 0
+    private var isBusy = false
 
-        /**
-         * Check if the click was a second one or not.
-         * @param view The view to check for.
-         *
-         * @return True if the click was a second one.
-         */
-        private fun isSecondClick(view: View) =
-            myPreviouslyClickedView?.get() == view
+    override fun onClick(view: View) {
+        if (!isBusy) {
+            //  Prevent multiple click in this short time
+            isBusy = true
 
-    }
+            // Increase clicks count
+            clicks++
+            view.postDelayed(Runnable {
+                if (clicks >= 2) {  // Double tap.
+                    onDoubleClick(view)
+                }
+                if (clicks == 1) {  // Single tap
+                    onSingleClick?.invoke(view)
+                }
 
-    /** Execute the click. */
-    override fun onClick(view: View?) {
-        if (view != null) {
-
-            // Make sure this click is the second one
-            if (isSecondClick(view)) {
-                myPreviouslyClickedView?.clear()
-                action(view)
-
-            } else {
-
-                // Set the previous view to this one but remove it after few moments
-                myPreviouslyClickedView = WeakReference(view)
-                view.postDelayed({ myPreviouslyClickedView?.clear() }, interval)
-            }
+                // we need to  restore clicks count
+                clicks = 0
+            }, interval)
+            isBusy = false
         }
     }
 

@@ -74,9 +74,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 }
             })
             enterTransition = Fade(Fade.IN)
-            reenterTransition = Fade(Fade.IN)
+            reenterTransition = Fade(Fade.IN).setStartDelay(200)
+            exitTransition = Fade(Fade.OUT)
         }
         viewModel.loadHomeData()
+    }
+
+    override fun onResume() {
+        super.onResume()
         bottomBarViewModel.showBottomBar()
     }
 

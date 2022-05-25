@@ -46,7 +46,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentProfileBinding::bind)
     private val userPostsSection: Section by lazy { Section() }
-    private val newPostSection: Section by lazy { Section() }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
@@ -59,7 +58,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
             )
             statusTectView.show(state.isStatusValid)
             userPostsSection.update(state.posts.map(::ProfilePostItem))
-            state.newPostUiState?.let { newPostSection.updateSingle(NewPostItem(it)) }
+            state.newPostUiState?.let(::NewPostItem)?.let(userPostsSection::setHeader)
             state.user?.let { user ->
                 profileNameTextField.text = user.name
                 statusTectView.text = user.status
@@ -68,6 +67,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                 followButton.show(!user.isLoggedInUser && !user.isFollowingUser)
                 unfollowButton.show(!user.isLoggedInUser && user.isFollowingUser)
                 messageButton.show(!user.isLoggedInUser)
+                messageButton.show(!user.isLoggedInUser)
+                settingsButton.show(user.isLoggedInUser)
                 followersCountTextView.text = user.followersCount.toString()
                 followingCountTextView.text = user.followingCount.toString()
             }
@@ -79,7 +80,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
         with(binding) {
             postsRecyclerView.apply {
                 layoutManager = verticalSquareGridLayoutManager(ROW_IMAGES_COUNT)
-                adapter = createAdapter(newPostSection, userPostsSection)
+                adapter = createAdapter(userPostsSection)
                 itemAnimator = FadeInDownAnimator()
                 addItemDecoration(
                     GridSpaceItemDecoration(

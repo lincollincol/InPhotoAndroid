@@ -2,10 +2,14 @@ package com.linc.inphoto.ui.mediareview
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentMediaReviewBinding
@@ -60,9 +64,15 @@ class MediaReviewFragment : BaseFragment(R.layout.fragment_media_review) {
                 reduceDragSensitivity()
                 setPageTransformer(DepthPageTransformer())
             }
-            reviewToolbar.setOnCancelClickListener {
+            reviewToolbarView.setOnCancelClickListener {
                 viewModel.onBackPressed()
             }
+            enterTransition = TransitionSet().apply {
+                addTransition(Slide(Gravity.TOP)).addTarget(reviewToolbarView)
+                addTransition(Fade(Fade.IN).addTarget(filesViewPager))
+            }
+            reenterTransition = enterTransition
+            exitTransition = Fade(Fade.OUT)
         }
         bottomBarViewModel.hideBottomBar()
     }

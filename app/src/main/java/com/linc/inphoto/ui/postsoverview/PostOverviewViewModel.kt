@@ -1,5 +1,6 @@
 package com.linc.inphoto.ui.postsoverview
 
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
@@ -174,8 +175,14 @@ class PostOverviewViewModel @Inject constructor(
         router.navigateTo(NavScreen.ProfileScreen(userId))
     }
 
+    private fun selectImage(post: ExtendedPost) {
+        val imagesToOverview = listOf(post.contentUrl.toUri())
+        router.navigateTo(NavScreen.MediaReviewScreen(imagesToOverview))
+    }
+
     private fun getPostUiState(post: ExtendedPost): PostUiState {
         return post.toUiState(
+            onImage = { selectImage(post) },
             onProfile = { selectUser(post.authorUserId) },
             onMore = { handlePostMenu(post) },
             onDoubleTap = { if (!post.isLiked) likePost(post) },
