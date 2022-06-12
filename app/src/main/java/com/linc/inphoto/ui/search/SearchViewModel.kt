@@ -26,14 +26,6 @@ class SearchViewModel @Inject constructor(
     private val tagRepository: TagRepository
 ) : BaseViewModel<SearchUiState>(navContainerHolder) {
 
-    /**
-     *
-     * (un) follow user
-     * show tags
-     * send message from profile screen
-     *
-     * */
-
     override val _uiState = MutableStateFlow(SearchUiState())
 
     fun selectPage(index: Int) {

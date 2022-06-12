@@ -119,7 +119,7 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 addTransition(Slide(Gravity.TOP).addTarget(chatToolbarView))
                 addTransition(Slide(Gravity.BOTTOM).addTarget(inputLayout.root))
             }
-            reenterTransition = enterTransition
+            reenterTransition = Fade(Fade.IN)
         }
         bottomBarViewModel.hideBottomBar()
         viewModel.loadConversation(getArgumentNotNull(CONVERSATION_ARG))

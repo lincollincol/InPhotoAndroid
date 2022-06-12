@@ -1,10 +1,9 @@
 package com.linc.inphoto.ui.home.model
 
-import com.linc.inphoto.entity.story.Story
 import com.linc.inphoto.entity.story.UserStory
 import com.linc.inphoto.ui.base.state.ItemUiState
 
-data class UserStoryUiState(
+data class SingleStoryUiState(
     val userId: String,
     val username: String,
     val userAvatarUrl: String,
@@ -13,7 +12,7 @@ data class UserStoryUiState(
     override fun getStateItemId(): Long = userId.hashCode().toLong()
 }
 
-fun UserStory.toUiState(onClick: () -> Unit) = UserStoryUiState(
+fun UserStory.toUiState(onClick: () -> Unit) = SingleStoryUiState(
     userId = userId,
     username = username,
     userAvatarUrl = userAvatarUrl,

@@ -21,6 +21,7 @@ import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -48,7 +49,7 @@ class HomeViewModel @Inject constructor(
             try {
                 _uiState.update { it.copy(isLoading = true) }
                 launch { loadCurrentUser() }
-                launch { loadFollowingStories() }
+                launch { loadStories() }
                 launch { loadFollowingPosts() }.join()
             } catch (e: Exception) {
                 Timber.e(e)
@@ -61,15 +62,17 @@ class HomeViewModel @Inject constructor(
     private suspend fun loadCurrentUser() {
         val newStoryState = userRepository.getLoggedInUser()
             ?.toUiState { createUserStory() }
-        _uiState.update { it.copy(newStory = newStoryState) }
+        val storiesState = currentState.storiesUiState.copy(newStory = newStoryState)
+        _uiState.update { it.copy(storiesUiState = storiesState) }
     }
 
-    private suspend fun loadFollowingStories() {
+    private suspend fun loadStories() = coroutineScope {
         val stories = storyRepository.loadCurrentUserFollowingStories()
             .sortedByDescending { it.latestStoryTimestamp }
             .sortedByDescending { it.isLoggedInUser }
             .map { it.toUiState { selectUserStory(it) } }
-        _uiState.update { it.copy(stories = stories) }
+        val storiesState = currentState.storiesUiState.copy(stories = stories)
+        _uiState.update { it.copy(storiesUiState = storiesState) }
     }
 
     private suspend fun loadFollowingPosts() {
