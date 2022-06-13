@@ -17,6 +17,7 @@ import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.updateSingle
 import com.linc.inphoto.utils.extensions.view.show
+import com.linc.inphoto.utils.extensions.view.stopRefreshingDelayed
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.linc.inphoto.utils.view.recyclerview.listener.VerticalRecyclerScrollListener
 import com.xwray.groupie.Section
@@ -40,15 +41,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             storiesSection.updateSingle(StoriesBarItem(state.storiesUiState))
-            postsSection.setHeader(StoriesBarItem(state.storiesUiState))
-            postsSection.update(state.posts.map(::HomePostItem))
+            postsSection.replaceAll(state.posts.map(::HomePostItem))
             homeProgressBar.show(state.isLoading && state.posts.isEmpty())
             notFoundLayout.root.show(!state.isLoading && state.posts.isEmpty())
+            refreshLayout.stopRefreshingDelayed(!state.isLoading)
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,8 +53,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         with(binding) {
             postsRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
-//                adapter = createAdapter(storiesSection, postsSection)
-                adapter = createAdapter(postsSection)
+                adapter = createAdapter(storiesSection, postsSection)
                 itemAnimator = FadeInDownAnimator()
                 addOnScrollListener(VerticalRecyclerScrollListener {
                     when (it) {
@@ -66,13 +62,15 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     }
                 })
             }
+            refreshLayout.setOnRefreshListener {
+                viewModel.loadHomeData()
+            }
             enterTransition = Fade(Fade.IN)
             reenterTransition = Fade(Fade.IN)
             exitTransition = Fade(Fade.OUT)
         }
         bottomBarViewModel.showBottomBar()
         viewModel.loadHomeData()
-
     }
 
 }
