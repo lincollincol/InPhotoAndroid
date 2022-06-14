@@ -18,7 +18,7 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.chatmessages.item.IncomingMessageItem
 import com.linc.inphoto.ui.chatmessages.item.MessageAttachmentItem
 import com.linc.inphoto.ui.chatmessages.item.OutcomingMessageItem
-import com.linc.inphoto.ui.chatmessages.model.UserConversation
+import com.linc.inphoto.ui.chatmessages.model.ConversationParams
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.collect
@@ -36,7 +36,7 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
         private const val CONVERSATION_ARG = "conversation_id"
 
         @JvmStatic
-        fun newInstance(conversation: UserConversation) = ChatMessagesFragment().apply {
+        fun newInstance(conversation: ConversationParams) = ChatMessagesFragment().apply {
             arguments = bundleOf(CONVERSATION_ARG to conversation)
         }
     }
@@ -49,6 +49,7 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            animateTargets(Fade(), root, root.children)
             chatToolbarView.apply {
                 setToolbarTitle(state.username)
                 loadAvatarImage(state.userAvatarUrl)
@@ -71,9 +72,14 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 inputEditText.update(state.message)
             }
             if (state.isScrollDownOnUpdate) messagesRecyclerView.smoothScrollToStart()
-            messagesNotFoundLayout.root.show(state.messages.isEmpty())
-            progressBar.show(state.isLoading)
+            messagesNotFoundLayout.root.show(!state.isLoading && state.messages.isEmpty())
+            progressBar.show(state.isLoading && state.messages.isEmpty())
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.loadConversation(getArgumentNotNull(CONVERSATION_ARG))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -122,7 +128,6 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
             reenterTransition = Fade(Fade.IN)
         }
         bottomBarViewModel.hideBottomBar()
-        viewModel.loadConversation(getArgumentNotNull(CONVERSATION_ARG))
     }
 
 }

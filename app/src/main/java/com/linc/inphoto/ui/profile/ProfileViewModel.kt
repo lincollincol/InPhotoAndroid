@@ -8,7 +8,7 @@ import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.entity.user.User
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.camera.model.CameraIntent
-import com.linc.inphoto.ui.chatmessages.model.UserConversation
+import com.linc.inphoto.ui.chatmessages.model.ConversationParams
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -72,7 +72,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun messageUser() {
-        val conversation = currentState.user?.let(UserConversation::fromUser) ?: return
+        val conversation = currentState.user?.let(ConversationParams::undefined) ?: return
         router.navigateTo(NavScreen.ChatMessagesScreen(conversation))
     }
 

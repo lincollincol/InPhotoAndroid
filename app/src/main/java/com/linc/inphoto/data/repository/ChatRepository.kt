@@ -6,9 +6,12 @@ import com.linc.inphoto.data.network.firebase.MessagesCollection
 import com.linc.inphoto.data.network.model.chat.ChatFirebaseModel
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.chat.Chat
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ChatRepository @Inject constructor(
@@ -18,6 +21,12 @@ class ChatRepository @Inject constructor(
     private val authPreferences: AuthPreferences,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
+
+    suspend fun findChatWithUser(userId: String?): Chat? = withContext(ioDispatcher) {
+        return@withContext chatsCollection.loadUserChats(authPreferences.userId)
+            .firstOrNull { it.participants.contains(userId) }
+            ?.let { loadChatDetails(it) }
+    }
 
     suspend fun createChat(userId: String?): String = withContext(ioDispatcher) {
         return@withContext chatsCollection.createChat(listOf(authPreferences.userId, userId))

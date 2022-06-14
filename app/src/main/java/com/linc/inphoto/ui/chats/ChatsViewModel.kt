@@ -7,7 +7,7 @@ import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.chat.Chat
 import com.linc.inphoto.entity.user.User
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.chatmessages.model.UserConversation
+import com.linc.inphoto.ui.chatmessages.model.ConversationParams
 import com.linc.inphoto.ui.chats.model.ChatContactUiState
 import com.linc.inphoto.ui.chats.model.ChatOperation
 import com.linc.inphoto.ui.chats.model.ConversationUiState
@@ -96,12 +96,12 @@ class ChatsViewModel @Inject constructor(
     }
 
     private fun selectContact(user: User) {
-        val conversation = UserConversation.fromUser(user)
+        val conversation = ConversationParams.fromUser(user)
         router.navigateTo(NavScreen.ChatMessagesScreen(conversation))
     }
 
     private fun selectChat(chat: Chat) {
-        val conversation = UserConversation.fromChat(chat)
+        val conversation = ConversationParams.fromChat(chat)
         router.navigateTo(NavScreen.ChatMessagesScreen(conversation))
     }
 

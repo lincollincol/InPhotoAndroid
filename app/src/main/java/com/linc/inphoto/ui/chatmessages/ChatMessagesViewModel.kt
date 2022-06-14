@@ -19,7 +19,10 @@ import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.toMutableDeque
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
@@ -41,7 +44,7 @@ class ChatMessagesViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(ChatMessagesUiState())
     private var chatId: String? = null
-    private var participantId: String? = null
+    private var receiverId: String? = null
 
     fun updateMessage(message: String?) {
         _uiState.update { it.copy(message = message) }
@@ -54,23 +57,28 @@ class ChatMessagesViewModel @Inject constructor(
     }
 
     fun selectUserProfile() {
-        router.navigateTo(NavScreen.ProfileScreen(participantId))
+        router.navigateTo(NavScreen.ProfileScreen(receiverId))
     }
 
-    fun loadConversation(conversation: UserConversation) {
+    fun loadConversation(conversation: ConversationParams) {
         viewModelScope.launch {
             try {
-                _uiState.update { it.copy(isLoading = true) }
-                if (conversation is UserConversation.Existing) {
-                    chatId = conversation.chatId
-                    launch { loadChatMessages(conversation.chatId) }
-                }
-                participantId = conversation.userId
                 _uiState.update {
                     it.copy(
+                        isLoading = true,
                         username = conversation.username,
                         userAvatarUrl = conversation.avatarUrl
                     )
+                }
+                receiverId = conversation.userId
+                chatId = when (conversation) {
+                    is ConversationParams.Existent -> conversation.chatId
+                    is ConversationParams.Undefined ->
+                        chatRepository.findChatWithUser(conversation.userId)?.id
+                    else -> null
+                }
+                if (!chatId.isNullOrEmpty()) {
+                    loadChatMessages(chatId.orEmpty())
                 }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -106,7 +114,7 @@ class ChatMessagesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (chatId.isNullOrEmpty()) {
-                    chatId = chatRepository.createChat(participantId)
+                    chatId = chatRepository.createChat(receiverId)
                     launch { loadChatMessages(chatId.orEmpty()) }
                 }
                 val messageId = UUID.randomUUID().toString()
