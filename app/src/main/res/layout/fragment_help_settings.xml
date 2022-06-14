@@ -6,7 +6,7 @@
     android:background="@color/white">
 
     <com.linc.inphoto.ui.view.SimpleToolbarView
-        android:id="@+id/settingsToolbar"
+        android:id="@+id/helpToolbarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -14,10 +14,10 @@
         android:paddingHorizontal="@dimen/padding_general"
         app:cancelIcon="@drawable/ic_arrow_back"
         app:doneVisible="false"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:textTitle="@string/settings_title" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:textTitle="@string/settings_help" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/optionsRecyclerView"
@@ -26,6 +26,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsToolbar"/>
+        app:layout_constraintTop_toBottomOf="@id/helpToolbarView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

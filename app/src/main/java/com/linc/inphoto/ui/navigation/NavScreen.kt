@@ -23,6 +23,7 @@ import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.feed.FeedFragment
 import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
+import com.linc.inphoto.ui.helpsettings.HelpSettingsFragment
 import com.linc.inphoto.ui.home.HomeFragment
 import com.linc.inphoto.ui.imagesticker.ImageStickerFragment
 import com.linc.inphoto.ui.imagesticker.model.ImageStickerIntent
@@ -47,6 +48,7 @@ import com.linc.inphoto.ui.splash.SplashFragment
 import com.linc.inphoto.ui.storiesoverview.StoriesOverviewFragment
 import com.linc.inphoto.ui.tab.TabFragment
 import com.linc.inphoto.ui.tagposts.TagPostsFragment
+import com.linc.inphoto.ui.webpage.WebPageFragment
 import java.util.*
 
 
@@ -178,6 +180,17 @@ object NavScreen {
 
     fun ProfileSettingsScreen() = FragmentScreen {
         ProfileSettingsFragment.newInstance()
+    }
+
+    fun HelpSettingsScreen() = FragmentScreen {
+        HelpSettingsFragment.newInstance()
+    }
+
+    fun WebPageScreen(
+        title: String,
+        pageUrl: String
+    ) = FragmentScreen {
+        WebPageFragment.newInstance(title, pageUrl)
     }
 
     fun PostCommentsScreen(postId: String) = FragmentScreen {

@@ -5,7 +5,7 @@ import com.linc.inphoto.data.repository.AuthRepository
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
-import com.linc.inphoto.ui.settings.model.SettingsEntry
+import com.linc.inphoto.ui.settings.model.SettingsOption
 import com.linc.inphoto.ui.settings.model.SettingsOptionUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,18 +23,17 @@ class SettingsViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(SettingsUiState())
 
     fun loadSettings() {
-        val settingsOptions = SettingsEntry.getEntries()
+        val settingsOptions = SettingsOption.getEntries()
             .map { SettingsOptionUiState(it) { selectSettingsEntry(it) } }
         _uiState.update { it.copy(settingsOptions = settingsOptions) }
     }
 
-    fun selectSettingsEntry(entry: SettingsEntry) {
+    fun selectSettingsEntry(entry: SettingsOption) {
         when (entry) {
-            SettingsEntry.Profile -> router.navigateTo(NavScreen.ProfileSettingsScreen())
-            SettingsEntry.Privacy -> NavScreen.ProfileScreen()
-            SettingsEntry.Language -> NavScreen.ProfileScreen()
-            SettingsEntry.Help -> NavScreen.ProfileScreen()
-            SettingsEntry.SignOut -> signOut()
+            SettingsOption.Profile -> router.navigateTo(NavScreen.ProfileSettingsScreen())
+            SettingsOption.Language -> NavScreen.ProfileScreen()
+            SettingsOption.Help -> router.navigateTo(NavScreen.HelpSettingsScreen())
+            SettingsOption.SignOut -> signOut()
         }
     }
 
