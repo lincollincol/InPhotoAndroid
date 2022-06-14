@@ -3,7 +3,6 @@ package com.linc.inphoto.ui.navigation
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import androidx.annotation.StringRes
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.BuildConfig
@@ -12,7 +11,7 @@ import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.chatmessages.ChatMessagesFragment
-import com.linc.inphoto.ui.chatmessages.model.UserConversation
+import com.linc.inphoto.ui.chatmessages.model.ConversationParams
 import com.linc.inphoto.ui.chats.ChatsFragment
 import com.linc.inphoto.ui.confirmdialog.ConfirmDialog
 import com.linc.inphoto.ui.createstory.CreateStoryFragment
@@ -66,31 +65,33 @@ object NavScreen {
 
     fun ChooseOptionScreen(
         resultKey: String,
+        title: String,
         options: List<OptionModel>
     ) = DialogScreen {
-        OptionPickerFragment.newInstance(resultKey, options)
+        OptionPickerFragment.newInstance(resultKey, title, options)
     }
 
     fun DatePickerScreen(
         resultKey: String,
+        title: String,
         selectedDurationMillis: Long,
         durationMillis: List<Long>
     ) = DialogScreen {
-        DurationPickerFragment.newInstance(resultKey, selectedDurationMillis, durationMillis)
+        DurationPickerFragment.newInstance(resultKey, title, selectedDurationMillis, durationMillis)
     }
 
     fun InfoMessageScreen(
-        @StringRes title: Int,
-        @StringRes message: Int,
+        title: String,
+        message: String,
         resultKey: String? = null
     ) = DialogScreen {
-        InfoMessageFragment.newInstance(title, message, resultKey)
+        InfoMessageFragment.newInstance(resultKey, title, message)
     }
 
     fun ConfirmDialogScreen(
         resultKey: String,
-        @StringRes title: Int,
-        @StringRes message: Int
+        title: String,
+        message: String,
     ) = DialogScreen {
         ConfirmDialog.newInstance(resultKey, title, message)
     }
@@ -167,7 +168,7 @@ object NavScreen {
         ChatsFragment.newInstance()
     }
 
-    fun ChatMessagesScreen(conversation: UserConversation) = FragmentScreen {
+    fun ChatMessagesScreen(conversation: ConversationParams) = FragmentScreen {
         ChatMessagesFragment.newInstance(conversation)
     }
 

@@ -34,13 +34,6 @@
             android:layout_marginTop="@dimen/margin_general"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/postImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_general"
-                android:adjustViewBounds="true" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/descriptionTextView"
                 style="@style/TextFieldBold"
@@ -85,6 +78,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_tags_list_error" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/postImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_general"
+                android:adjustViewBounds="true" />
 
             <Space
                 android:layout_width="match_parent"

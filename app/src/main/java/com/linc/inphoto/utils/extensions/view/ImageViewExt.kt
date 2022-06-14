@@ -1,6 +1,9 @@
 package com.linc.inphoto.utils.extensions.view
 
 import android.content.res.ColorStateList
+import android.graphics.Matrix
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Size
 import android.widget.ImageView
@@ -97,7 +100,7 @@ fun ImageView.loadImage(
     @DrawableRes errorPlaceholder: Int = R.drawable.ic_broken_image,
     @ColorInt placeholderTint: Int? = null,
     @ColorInt errorTint: Int? = null,
-    diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
+    diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC,
     skipMemoryCache: Boolean = false,
     reloadImage: Boolean = true,
     overrideOriginalSize: Boolean = false,
@@ -155,4 +158,39 @@ fun ImageView.setTint(@ColorInt color: Int) {
 
 fun ImageView.setResTint(@ColorRes color: Int) {
     ImageViewCompat.setImageTintList(this, context.getStateListColor(color))
+}
+
+fun ImageView.getBitmapCoordinatesInsideImageView(): Rect {
+    val rect = Rect()
+    if (drawable == null) {
+        return rect
+    }
+
+    // Get image dimensions
+    // Get image matrix values and place them in an array
+    val f = FloatArray(9)
+    imageMatrix.getValues(f)
+
+    // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
+    val scaleX = f[Matrix.MSCALE_X]
+    val scaleY = f[Matrix.MSCALE_Y]
+
+    // Get the drawable (could also get the bitmap behind the drawable and getWidth/getHeight)
+    val d: Drawable = drawable
+    val origW = d.intrinsicWidth
+    val origH = d.intrinsicHeight
+
+    // Calculate the actual dimensions
+    val actW = Math.round(origW * scaleX)
+    val actH = Math.round(origH * scaleY)
+
+    // Get image position
+    // We assume that the image is centered into ImageView
+    val imgViewW: Int = width
+    val imgViewH: Int = height
+    rect.top = (imgViewH - actH) / 2
+    rect.left = (imgViewW - actW) / 2
+    rect.bottom = rect.top + actH
+    rect.right = rect.left + actW
+    return rect
 }

@@ -1,12 +1,15 @@
 package com.linc.inphoto.ui.postcomments
 
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
+import com.linc.inphoto.entity.post.Comment
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.ui.postcomments.model.CommentAction
 import com.linc.inphoto.ui.postcomments.model.toUiState
+import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.toImmutableDeque
@@ -21,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PostCommentsViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel<PostCommentsUiState>(navContainerHolder) {
 
     companion object {
@@ -49,7 +53,7 @@ class PostCommentsViewModel @Inject constructor(
                     .map { comment ->
                         comment.toUiState(
                             onUserClicked = { openProfile(comment.userId) },
-                            onCommentClicked = { handleCommentMenu(comment.id) }
+                            onCommentClicked = { handleCommentMenu(comment) }
                         )
                     }
                 _uiState.update {
@@ -74,7 +78,7 @@ class PostCommentsViewModel @Inject constructor(
                 val comments = currentState.comments.toMutableDeque()
                 comments.addFirst(comment.toUiState(
                     onUserClicked = { openProfile(comment.userId) },
-                    onCommentClicked = { handleCommentMenu(comment.id) }
+                    onCommentClicked = { handleCommentMenu(comment) }
                 ))
                 _uiState.update {
                     it.copy(
@@ -112,15 +116,20 @@ class PostCommentsViewModel @Inject constructor(
         }
     }
 
-    private fun handleCommentMenu(commentId: String) {
+    private fun handleCommentMenu(comment: Comment) {
+        if (!comment.isCurrentUserAuthor) {
+            return
+        }
         router.setResultListener(COMMENT_ACTION_RESULT) { result ->
             when (result.safeCast<CommentAction>()) {
-                CommentAction.Edit -> editComment(commentId)
-                CommentAction.Delete -> deleteComment(commentId)
+                CommentAction.Edit -> editComment(comment.id)
+                CommentAction.Delete -> deleteComment(comment.id)
             }
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
-            COMMENT_ACTION_RESULT, CommentAction.getCommentActions()
+            COMMENT_ACTION_RESULT,
+            resourceProvider.getString(R.string.choose_comment_action),
+            CommentAction.getCommentActions()
         )
         router.showDialog(pickerScreen)
     }

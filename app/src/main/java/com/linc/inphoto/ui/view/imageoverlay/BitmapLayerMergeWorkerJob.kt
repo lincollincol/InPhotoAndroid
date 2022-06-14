@@ -10,6 +10,7 @@ import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 import kotlin.coroutines.CoroutineContext
 
+
 class BitmapLayerMergeWorkerJob(
     private val context: Context,
     private val motionViewReference: WeakReference<MotionView>,
@@ -25,7 +26,8 @@ class BitmapLayerMergeWorkerJob(
         job = launch(Dispatchers.Default) {
             try {
                 if (isActive) {
-                    val imageViewHeight = overlayImageViewReference.get()?.height ?: return@launch
+                    val imageViewRect =
+                        overlayImageViewReference.get()?.getBitmapRect() ?: return@launch
                     val imageBitmap = overlayImageViewReference.get()?.getBitmap() ?: return@launch
                     val layersBitmap = motionViewReference.get()?.getBitmap(
                         desiredWidth = imageBitmap.width
@@ -46,9 +48,9 @@ class BitmapLayerMergeWorkerJob(
                     val resultBitmap = Bitmap.createBitmap(
                         mergedBitmap,
                         0,
-                        (imageViewHeight - originalImageBitmap.height) / 2,
+                        imageViewRect.top,
                         imageBitmap.width,
-                        originalImageBitmap.height
+                        imageViewRect.height()
                     )
                     val outputImageUri = context.createTempUri(resultBitmap)
                     imageBitmap.recycle()

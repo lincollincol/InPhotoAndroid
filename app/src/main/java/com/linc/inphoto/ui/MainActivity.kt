@@ -14,6 +14,7 @@ import com.linc.inphoto.di.navigation.GlobalNavigatorHolder
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.safeCast
+import com.linc.inphoto.utils.glide.GlideApp
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -38,7 +39,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onDestroy() {
         super.onDestroy()
-        Glide.get(this).clearMemory()
+        Glide.get(applicationContext).clearMemory()
+    }
+
+    override fun onTrimMemory(level: Int) {
+        GlideApp.with(applicationContext).onTrimMemory(TRIM_MEMORY_MODERATE)
+        super.onTrimMemory(level)
     }
 
     override fun onResumeFragments() {
@@ -53,7 +59,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onBackPressed() {
         supportFragmentManager.fragments
-            .firstOrNull()
+            .firstOrNull { it.isVisible }
             ?.safeCast<FragmentBackPressedListener>()
             ?.onBackPressed()
     }

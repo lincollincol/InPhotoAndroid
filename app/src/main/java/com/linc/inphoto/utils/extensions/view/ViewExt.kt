@@ -155,8 +155,14 @@ fun View.setOnThrottledClickListener(
 
 fun View.setOnDoubleClickListener(
     interval: Long = 500L,
-    action: (view: View) -> Unit
-) = setOnClickListener(DoubleClickListener(interval, action))
+    onDoubleClick: (view: View) -> Unit
+) = setOnDoubleClickListener(interval, onDoubleClick, null)
+
+fun View.setOnDoubleClickListener(
+    interval: Long = 500L,
+    onDoubleClick: (view: View) -> Unit,
+    onSingleClick: ((view: View) -> Unit)?
+) = setOnClickListener(DoubleClickListener(interval, onDoubleClick, onSingleClick))
 
 fun View.setBackgroundRipple(@ColorInt color: Int) {
     background = RippleDrawable(

@@ -59,4 +59,7 @@ class SignUpViewModel @Inject constructor(
         _uiState.update { it.copy(gender = gender) }
     }
 
+    override fun onBackPressed() {
+        globalRouter.exit()
+    }
 }

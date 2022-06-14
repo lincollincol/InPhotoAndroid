@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
@@ -18,7 +19,10 @@ import com.linc.inphoto.ui.navigation.TabStateListener
 import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
 import com.linc.inphoto.utils.extensions.*
-import com.linc.inphoto.utils.extensions.view.*
+import com.linc.inphoto.utils.extensions.view.loadImage
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
+import com.linc.inphoto.utils.extensions.view.show
+import com.linc.inphoto.utils.extensions.view.verticalSquareGridLayoutManager
 import com.linc.inphoto.utils.view.recyclerview.decorator.GridSpaceItemDecoration
 import com.linc.inphoto.utils.view.recyclerview.listener.VerticalRecyclerScrollListener
 import com.xwray.groupie.Section
@@ -42,7 +46,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentProfileBinding::bind)
     private val userPostsSection: Section by lazy { Section() }
-    private val newPostSection: Section by lazy { Section() }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
@@ -55,7 +58,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
             )
             statusTectView.show(state.isStatusValid)
             userPostsSection.update(state.posts.map(::ProfilePostItem))
-            state.newPostUiState?.let { newPostSection.updateSingle(NewPostItem(it)) }
+            state.newPostUiState?.let(::NewPostItem)?.let(userPostsSection::setHeader)
             state.user?.let { user ->
                 profileNameTextField.text = user.name
                 statusTectView.text = user.status
@@ -64,6 +67,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                 followButton.show(!user.isLoggedInUser && !user.isFollowingUser)
                 unfollowButton.show(!user.isLoggedInUser && user.isFollowingUser)
                 messageButton.show(!user.isLoggedInUser)
+                messageButton.show(!user.isLoggedInUser)
+                settingsButton.show(user.isLoggedInUser)
                 followersCountTextView.text = user.followersCount.toString()
                 followingCountTextView.text = user.followingCount.toString()
             }
@@ -75,7 +80,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
         with(binding) {
             postsRecyclerView.apply {
                 layoutManager = verticalSquareGridLayoutManager(ROW_IMAGES_COUNT)
-                adapter = createAdapter(newPostSection, userPostsSection)
+                adapter = createAdapter(userPostsSection)
                 itemAnimator = FadeInDownAnimator()
                 addItemDecoration(
                     GridSpaceItemDecoration(
@@ -90,10 +95,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                         Gravity.TOP -> bottomBarViewModel.showBottomBar()
                     }
                 })
-            }
-            moveUpButton.setOnThrottledClickListener {
-                binding.postsRecyclerView.scrollToStart()
-                binding.profileMotionLayout.transitionToStart()
             }
             settingsButton.setOnThrottledClickListener {
                 viewModel.openSettings()
@@ -116,11 +117,16 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
             followingLayout.setOnThrottledClickListener {
                 viewModel.openFollowing()
             }
-            reenterTransition = TransitionSet().apply {
-                addTransition(Fade(Fade.IN).addTarget(profileDataLayout))
+            enterTransition = TransitionSet().apply {
+                ordering = TransitionSet.ORDERING_SEQUENTIAL
+                addTransition(
+                    Fade(Fade.IN).apply {
+                        profileDataLayout.children.forEach(::addTarget)
+                    }
+                )
                 addTransition(Slide(Gravity.TOP).addTarget(backButton).addTarget(settingsButton))
             }
-            enterTransition = reenterTransition
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.showBottomBar()
         viewModel.loadProfileData(getArgument(USER_ID_ARG))

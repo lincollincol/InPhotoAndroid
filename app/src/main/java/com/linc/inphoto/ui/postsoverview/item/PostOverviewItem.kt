@@ -7,6 +7,7 @@ import com.linc.inphoto.ui.postsoverview.PostUiState
 import com.linc.inphoto.utils.extensions.autoAnimateTargets
 import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.viewbinding.BindableItem
+import com.xwray.groupie.viewbinding.GroupieViewHolder
 
 class PostOverviewItem(
     private val postUiState: PostUiState
@@ -20,11 +21,14 @@ class PostOverviewItem(
             }
             postImageView.apply {
                 loadImage(postUiState.contentUrl)
-                setOnDoubleClickListener {
-                    autoAnimateTargets(root, likeAnimationView)
-                    likeImageTextView.select()
-                    likeAnimationView.playOneTime { postUiState.onDoubleTap() }
-                }
+                setOnDoubleClickListener(
+                    onSingleClick = { postUiState.onImage() },
+                    onDoubleClick = {
+                        autoAnimateTargets(root, likeAnimationView)
+                        likeImageTextView.select()
+                        likeAnimationView.playOneTime { postUiState.onDoubleTap() }
+                    }
+                )
             }
             usernameTextView.apply {
                 text = postUiState.username
@@ -50,6 +54,14 @@ class PostOverviewItem(
             }
             tagsChipGroup.addChips(postUiState.tags, R.layout.item_tag_chip)
             moreImageView.setOnClickListener { postUiState.onMore() }
+        }
+    }
+
+    override fun unbind(viewHolder: GroupieViewHolder<ItemPostOverviewBinding>) {
+        super.unbind(viewHolder)
+        with(viewHolder.binding) {
+            postImageView.clearImage()
+            userAvatarImageView.clearImage()
         }
     }
 

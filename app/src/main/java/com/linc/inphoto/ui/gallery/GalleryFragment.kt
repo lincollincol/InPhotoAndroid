@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentGalleryBinding
@@ -57,6 +58,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
             imagesAdapter.replaceAll(state.images.map(::GalleryImageItem))
             imagesRecyclerView.show(state.galleryPermissionsGranted)
             permissionsLayout.root.show(!state.galleryPermissionsGranted)
+            progressBar.show(state.isLoading && state.images.isEmpty())
         }
     }
 
@@ -80,7 +82,7 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
                     )
                 )
             }
-            galleryToolbar.setOnCancelClickListener {
+            galleryToolbarView.setOnCancelClickListener {
                 viewModel.cancelImageSelecting()
             }
             permissionsLayout.apply {
@@ -94,6 +96,8 @@ class GalleryFragment : BaseFragment(R.layout.fragment_gallery) {
                     requestPermissionLauncher.launch(permission)
                 }
             }
+            enterTransition = Fade(Fade.IN)
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.hideBottomBar()
     }

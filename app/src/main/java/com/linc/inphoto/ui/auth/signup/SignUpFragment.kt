@@ -2,14 +2,20 @@ package com.linc.inphoto.ui.auth.signup
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.transition.AutoTransition
+import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSignUpBinding
 import com.linc.inphoto.entity.user.Gender
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.utils.extensions.animateTargets
+import com.linc.inphoto.utils.extensions.hideKeyboard
 import com.linc.inphoto.utils.extensions.view.enable
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -27,6 +33,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            animateTargets(AutoTransition(), contentLayout, contentLayout.children)
             signUpButton.enable(state.signUpEnabled)
             loadingView.show(state.isLoading)
             authErrorTextView.apply {
@@ -57,7 +64,8 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
             repeatPasswordEditText.doOnTextChanged { text, _, _, _ ->
                 viewModel.updateRepeatPassword(text.toString())
             }
-            signUpButton.setOnClickListener {
+            signUpButton.setOnThrottledClickListener {
+                hideKeyboard()
                 viewModel.signUp()
             }
             genderRadioGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -68,6 +76,8 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
                 }
                 viewModel.updateGender(gender)
             }
+            enterTransition = Fade(Fade.IN)
+            reenterTransition = enterTransition
         }
     }
 

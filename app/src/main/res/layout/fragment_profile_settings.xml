@@ -1,188 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:background="@color/white">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.linc.inphoto.ui.view.SimpleToolbarView
+        android:id="@+id/settingsToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/white"
+        android:elevation="@dimen/elevation_general"
+        android:paddingHorizontal="@dimen/padding_general"
+        app:cancelIcon="@drawable/ic_arrow_back"
+        app:doneIcon="@drawable/ic_check"
+        app:imageVisible="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textTitle="@string/settings_profile" />
 
-        <com.linc.inphoto.ui.view.SimpleToolbarView
-            android:id="@+id/settingsToolbar"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settingsToolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="@dimen/elevation_general"
-            android:paddingHorizontal="@dimen/padding_general"
-            app:cancelIcon="@drawable/ic_arrow_back"
-            app:doneIcon="@drawable/ic_check"
-            app:imageVisible="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:textTitle="@string/settings_profile" />
+            android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/headerImageView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/margin_general"
-            android:elevation="@dimen/elevation_none"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="H,2:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settingsToolbar"
-            tools:src="@drawable/header" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/headerImageView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_general"
+                android:elevation="@dimen/elevation_none"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="H,2:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/header" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/randomHeaderButton"
-            style="@style/SmallOutlinedMaterialButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_general"
-            android:text="@string/random"
-            app:layout_constraintEnd_toStartOf="@id/uploadAvatarButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headerImageView"
-            app:layout_constraintWidth_percent="0.3" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/uploadHeaderButton"
-            style="@style/SmallMaterialButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_general"
-            android:text="@string/upload"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/randomAvatarButton"
-            app:layout_constraintTop_toBottomOf="@id/headerImageView"
-            app:layout_constraintWidth_percent="0.3" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/headerButtonsBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="randomHeaderButton, uploadHeaderButton" />
-
-        <androidx.constraintlayout.utils.widget.ImageFilterView
-            android:id="@+id/avatarImageView"
-            android:layout_width="@dimen/icon_huge"
-            android:layout_height="@dimen/icon_huge"
-            android:layout_margin="@dimen/margin_general"
-            android:elevation="@dimen/elevation_tiny"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headerButtonsBarrier"
-            app:roundPercent="1"
-            tools:srcCompat="@drawable/avatar" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/randomAvatarButton"
-            style="@style/SmallOutlinedMaterialButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_general"
-            android:text="@string/random"
-            app:layout_constraintEnd_toStartOf="@id/uploadAvatarButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avatarImageView"
-            app:layout_constraintWidth_percent="0.3" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/uploadAvatarButton"
-            style="@style/SmallMaterialButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_general"
-            android:text="@string/upload"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/randomAvatarButton"
-            app:layout_constraintTop_toBottomOf="@id/avatarImageView"
-            app:layout_constraintWidth_percent="0.3" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/avatarButtonsBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="randomAvatarButton, uploadAvatarButton" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/usernameTextLayout"
-            style="@style/TextLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_general"
-            android:layout_marginTop="@dimen/margin_small"
-            android:hint="@string/title_username"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avatarButtonsBarrier">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/usernameEditText"
-                style="@style/TextInputField"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/randomHeaderButton"
+                style="@style/SmallOutlinedMaterialButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="@dimen/margin_general"
+                android:text="@string/random"
+                app:layout_constraintEnd_toStartOf="@id/uploadAvatarButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerImageView"
+                app:layout_constraintWidth_percent="0.3" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/statusTextLayout"
-            style="@style/TextLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_general"
-            android:layout_marginTop="@dimen/margin_small"
-            android:hint="@string/title_status"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/usernameTextLayout">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/statusEditText"
-                style="@style/TextInputField"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/uploadHeaderButton"
+                style="@style/SmallMaterialButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="@dimen/margin_general"
+                android:text="@string/upload"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/randomAvatarButton"
+                app:layout_constraintTop_toBottomOf="@id/headerImageView"
+                app:layout_constraintWidth_percent="0.3" />
 
-        <RadioGroup
-            android:id="@+id/genderRadioGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_general"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/statusTextLayout">
-
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/maleRadioButton"
-                style="@style/TextField"
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/headerButtonsBarrier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:text="@string/male"
-                android:textSize="@dimen/font_small" />
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="randomHeaderButton, uploadHeaderButton" />
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/femaleRadioButton"
-                style="@style/TextField"
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/avatarImageView"
+                android:layout_width="@dimen/icon_huge"
+                android:layout_height="@dimen/icon_huge"
+                android:layout_margin="@dimen/margin_general"
+                android:background="@color/white"
+                android:elevation="@dimen/elevation_tiny"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerButtonsBarrier"
+                app:roundPercent="1"
+                tools:srcCompat="@drawable/avatar" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/randomAvatarButton"
+                style="@style/SmallOutlinedMaterialButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_general"
+                android:text="@string/random"
+                app:layout_constraintEnd_toStartOf="@id/uploadAvatarButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/avatarImageView"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/uploadAvatarButton"
+                style="@style/SmallMaterialButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_general"
+                android:text="@string/upload"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/randomAvatarButton"
+                app:layout_constraintTop_toBottomOf="@id/avatarImageView"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/avatarButtonsBarrier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:text="@string/female"
-                android:textSize="@dimen/font_small" />
-        </RadioGroup>
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="randomAvatarButton, uploadAvatarButton" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usernameTextLayout"
+                style="@style/TextLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_general"
+                android:layout_marginTop="@dimen/margin_small"
+                android:hint="@string/title_username"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/avatarButtonsBarrier">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/usernameEditText"
+                    style="@style/TextInputField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/statusTextLayout"
+                style="@style/TextLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_general"
+                android:layout_marginTop="@dimen/margin_small"
+                android:hint="@string/title_status"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/usernameTextLayout">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/statusEditText"
+                    style="@style/TextInputField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RadioGroup
+                android:id="@+id/genderRadioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_general"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/statusTextLayout">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/maleRadioButton"
+                    style="@style/TextField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/male"
+                    android:textSize="@dimen/font_small" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/femaleRadioButton"
+                    style="@style/TextField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:text="@string/female"
+                    android:textSize="@dimen/font_small" />
+            </RadioGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

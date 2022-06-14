@@ -2,9 +2,13 @@ package com.linc.inphoto.ui.imagesticker
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentImageStickerBinding
@@ -17,7 +21,7 @@ import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.horizontalLinearLayoutManager
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
-import jp.wasabeef.recyclerview.animators.FadeInRightAnimator
+import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator
 
 @AndroidEntryPoint
 class ImageStickerFragment : BaseFragment(R.layout.fragment_image_sticker) {
@@ -69,7 +73,7 @@ class ImageStickerFragment : BaseFragment(R.layout.fragment_image_sticker) {
             stickersRecyclerView.apply {
                 layoutManager = horizontalLinearLayoutManager()
                 adapter = createAdapter(stickersSection)
-                itemAnimator = FadeInRightAnimator()
+                itemAnimator = FadeInLeftAnimator()
             }
             toolbarView.apply {
                 setOnCancelClickListener {
@@ -79,6 +83,11 @@ class ImageStickerFragment : BaseFragment(R.layout.fragment_image_sticker) {
                     overlayImageView.saveImageAsync()
                 }
             }
+            enterTransition = TransitionSet().apply {
+                addTransition(Slide(Gravity.BOTTOM).addTarget(stickersRecyclerView))
+                addTransition(Fade(Fade.IN).addTarget(overlayImageView))
+            }
+            reenterTransition = enterTransition
         }
     }
 }

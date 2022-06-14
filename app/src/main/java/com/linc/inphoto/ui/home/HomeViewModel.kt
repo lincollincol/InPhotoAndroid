@@ -1,5 +1,6 @@
 package com.linc.inphoto.ui.home
 
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
@@ -20,6 +21,7 @@ import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -47,7 +49,7 @@ class HomeViewModel @Inject constructor(
             try {
                 _uiState.update { it.copy(isLoading = true) }
                 launch { loadCurrentUser() }
-                launch { loadFollowingStories() }
+                launch { loadStories() }
                 launch { loadFollowingPosts() }.join()
             } catch (e: Exception) {
                 Timber.e(e)
@@ -60,15 +62,17 @@ class HomeViewModel @Inject constructor(
     private suspend fun loadCurrentUser() {
         val newStoryState = userRepository.getLoggedInUser()
             ?.toUiState { createUserStory() }
-        _uiState.update { it.copy(newStory = newStoryState) }
+        val storiesState = currentState.storiesUiState.copy(newStory = newStoryState)
+        _uiState.update { it.copy(storiesUiState = storiesState) }
     }
 
-    private suspend fun loadFollowingStories() {
+    private suspend fun loadStories() = coroutineScope {
         val stories = storyRepository.loadCurrentUserFollowingStories()
             .sortedByDescending { it.latestStoryTimestamp }
             .sortedByDescending { it.isLoggedInUser }
             .map { it.toUiState { selectUserStory(it) } }
-        _uiState.update { it.copy(stories = stories) }
+        val storiesState = currentState.storiesUiState.copy(stories = stories)
+        _uiState.update { it.copy(storiesUiState = storiesState) }
     }
 
     private suspend fun loadFollowingPosts() {
@@ -93,6 +97,7 @@ class HomeViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             IMAGE_SOURCE_RESULT,
+            resourceProvider.getString(R.string.choose_story_source),
             StoryContentSource.getAvailableSources()
         )
         router.showDialog(pickerScreen)
@@ -151,7 +156,14 @@ class HomeViewModel @Inject constructor(
             }
         }
         router.showDialog(
-            NavScreen.ChooseOptionScreen(POST_ACTION_RESULT, HomePostOperation.getPostOperations())
+            NavScreen.ChooseOptionScreen(
+                POST_ACTION_RESULT,
+                resourceProvider.getString(R.string.choose_post_action),
+                when {
+                    selectedPost.isCurrentUserAuthor -> HomePostOperation.getAuthorPostOperations()
+                    else -> HomePostOperation.getGuestPostOperations()
+                }
+            )
         )
     }
 
@@ -170,8 +182,14 @@ class HomeViewModel @Inject constructor(
         router.navigateTo(NavScreen.ProfileScreen(userId))
     }
 
+    private fun selectImage(post: ExtendedPost) {
+        val imagesToOverview = listOf(post.contentUrl.toUri())
+        router.navigateTo(NavScreen.MediaReviewScreen(imagesToOverview))
+    }
+
     private fun getHomePostUiState(post: ExtendedPost): HomePostUiState {
         return post.toUiState(
+            onImage = { selectImage(post) },
             onProfile = { selectUser(post.authorUserId) },
             onMore = { handlePostMenu(post) },
             onDoubleTap = { if (!post.isLiked) likePost(post) },

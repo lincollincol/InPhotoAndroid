@@ -6,5 +6,6 @@ data class Comment(
     val createdTimestamp: Long,
     val userId: String,
     val username: String,
-    val userAvatarUrl: String
+    val userAvatarUrl: String,
+    val isCurrentUserAuthor: Boolean
 )

@@ -15,7 +15,10 @@ import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.hideKeyboard
-import com.linc.inphoto.utils.extensions.view.*
+import com.linc.inphoto.utils.extensions.view.attachMediator
+import com.linc.inphoto.utils.extensions.view.selectPage
+import com.linc.inphoto.utils.extensions.view.selectTab
+import com.linc.inphoto.utils.extensions.view.update
 import com.linc.inphoto.utils.view.TabPositionListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -93,7 +96,9 @@ class ProfileFollowersFragment : BaseFragment(R.layout.fragment_profile_follower
         if (!hidden) viewModel.loadUserSubscriptions(getArgument(USER_ID_ARG))
     }
 
-    override fun onKeyboardStateChanged(visible: Boolean) {
-        bottomBarViewModel.showBottomBar(!visible)
+    override fun onKeyboardStateChanged(hidden: Boolean) {
+        super.onKeyboardStateChanged(hidden)
+        bottomBarViewModel.hideBottomBar(hidden)
     }
+
 }

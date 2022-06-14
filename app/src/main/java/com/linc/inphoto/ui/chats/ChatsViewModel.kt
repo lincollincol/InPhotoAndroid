@@ -1,18 +1,20 @@
 package com.linc.inphoto.ui.chats
 
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.ChatRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.chat.Chat
 import com.linc.inphoto.entity.user.User
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
-import com.linc.inphoto.ui.chatmessages.model.UserConversation
+import com.linc.inphoto.ui.chatmessages.model.ConversationParams
 import com.linc.inphoto.ui.chats.model.ChatContactUiState
 import com.linc.inphoto.ui.chats.model.ChatOperation
 import com.linc.inphoto.ui.chats.model.ConversationUiState
 import com.linc.inphoto.ui.chats.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -30,7 +32,8 @@ import javax.inject.Inject
 class ChatsViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val chatRepository: ChatRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel<ChatsUiState>(navContainerHolder) {
 
     companion object {
@@ -93,12 +96,12 @@ class ChatsViewModel @Inject constructor(
     }
 
     private fun selectContact(user: User) {
-        val conversation = UserConversation.fromUser(user)
+        val conversation = ConversationParams.fromUser(user)
         router.navigateTo(NavScreen.ChatMessagesScreen(conversation))
     }
 
     private fun selectChat(chat: Chat) {
-        val conversation = UserConversation.fromChat(chat)
+        val conversation = ConversationParams.fromChat(chat)
         router.navigateTo(NavScreen.ChatMessagesScreen(conversation))
     }
 
@@ -117,6 +120,7 @@ class ChatsViewModel @Inject constructor(
         router.showDialog(
             NavScreen.ChooseOptionScreen(
                 CHAT_ACTION_RESULT,
+                resourceProvider.getString(R.string.choose_chat_action),
                 ChatOperation.getChatOperations()
             )
         )

@@ -6,8 +6,6 @@ import com.linc.inphoto.data.mapper.toCommentModel
 import com.linc.inphoto.data.mapper.toExtendedPostModel
 import com.linc.inphoto.data.mapper.toPostModel
 import com.linc.inphoto.data.network.api.PostApiService
-import com.linc.inphoto.data.network.model.post.CommentApiModel
-import com.linc.inphoto.data.network.model.post.ExtendedPostApiModel
 import com.linc.inphoto.data.network.model.post.PostApiModel
 import com.linc.inphoto.data.network.model.post.UpdatePostApiModel
 import com.linc.inphoto.data.preferences.AuthPreferences
@@ -64,11 +62,9 @@ class PostRepository @Inject constructor(
 
     suspend fun getExtendedTagPosts(tagId: String?): List<ExtendedPost> =
         withContext(ioDispatcher) {
-            return@withContext postApiService.getExtendedTagPosts(
-                tagId,
-                authPreferences.userId
-            ).body
-                ?.map(ExtendedPostApiModel::toExtendedPostModel)
+            return@withContext postApiService.getExtendedTagPosts(tagId, authPreferences.userId)
+                .body
+                ?.map { it.toExtendedPostModel(isCurrentUserAuthor(it.userId)) }
                 .orEmpty()
         }
 
@@ -85,7 +81,7 @@ class PostRepository @Inject constructor(
         userId: String
     ): List<ExtendedPost> = withContext(ioDispatcher) {
         return@withContext postApiService.getExtendedUserPosts(userId).body
-            ?.map(ExtendedPostApiModel::toExtendedPostModel)
+            ?.map { it.toExtendedPostModel(isCurrentUserAuthor(it.userId)) }
             .orEmpty()
     }
 
@@ -96,18 +92,18 @@ class PostRepository @Inject constructor(
         userId: String
     ): List<ExtendedPost> = withContext(ioDispatcher) {
         postApiService.getUserFollowingExtendedPosts(userId).body
-            ?.map(ExtendedPostApiModel::toExtendedPostModel)
+            ?.map { it.toExtendedPostModel(isCurrentUserAuthor(it.userId)) }
             .orEmpty()
     }
 
     suspend fun getExtendedPost(postId: String): ExtendedPost? = withContext(ioDispatcher) {
         return@withContext postApiService.getExtendedPost(postId, authPreferences.userId).body
-            ?.toExtendedPostModel()
+            ?.let { it.toExtendedPostModel(isCurrentUserAuthor(it.userId)) }
     }
 
     suspend fun getAllExtendedPosts(): List<ExtendedPost> = withContext(ioDispatcher) {
         return@withContext postApiService.getAllExtendedPosts(authPreferences.userId).body
-            ?.map(ExtendedPostApiModel::toExtendedPostModel)
+            ?.map { it.toExtendedPostModel(isCurrentUserAuthor(it.userId)) }
             .orEmpty()
     }
 
@@ -119,7 +115,7 @@ class PostRepository @Inject constructor(
             postId,
             authPreferences.userId,
             isLiked
-        ).body?.toExtendedPostModel()
+        ).body?.let { it.toExtendedPostModel(isCurrentUserAuthor(it.userId)) }
     }
 
     suspend fun bookmarkPost(
@@ -130,7 +126,7 @@ class PostRepository @Inject constructor(
             postId,
             authPreferences.userId,
             isBookmarked
-        ).body?.toExtendedPostModel()
+        ).body?.let { it.toExtendedPostModel(isCurrentUserAuthor(it.userId)) }
     }
 
     suspend fun deletePost(postId: String) = withContext(ioDispatcher) {
@@ -145,7 +141,7 @@ class PostRepository @Inject constructor(
             postId,
             authPreferences.userId,
             comment
-        ).body?.toCommentModel()
+        ).body?.let { it.toCommentModel(isCurrentUserAuthor(it.userId)) }
     }
 
     suspend fun updatePostComment(
@@ -161,8 +157,12 @@ class PostRepository @Inject constructor(
 
     suspend fun getPostComments(postId: String): List<Comment> = withContext(ioDispatcher) {
         return@withContext postApiService.getPostComments(postId).body
-            ?.map(CommentApiModel::toCommentModel)
+            ?.map { it.toCommentModel(isCurrentUserAuthor(it.userId)) }
             .orEmpty()
+    }
+
+    private fun isCurrentUserAuthor(userId: String): Boolean {
+        return authPreferences.userId == userId
     }
 
 }

@@ -41,11 +41,14 @@ class MainFragment : BaseFragment(R.layout.fragment_main), FragmentBackPressedLi
 
     override suspend fun observeUiState() = with(binding) {
         bottomBarViewModel.uiState.collect { state ->
-            animateTargets(Slide(Gravity.BOTTOM).apply {
-                setDuration(800); setInterpolator(
-                AccelerateDecelerateInterpolator()
+            animateTargets(
+                Slide(Gravity.BOTTOM).apply {
+                    setDuration(800)
+                    setInterpolator(AccelerateDecelerateInterpolator())
+                },
+                mainLayout,
+                bottomNavigationView
             )
-            }, mainLayout, bottomNavigationView)
             bottomNavigationView.show(state.visible)
         }
     }

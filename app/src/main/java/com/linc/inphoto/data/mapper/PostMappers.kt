@@ -9,7 +9,9 @@ import com.linc.inphoto.entity.post.ExtendedPost
 import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.entity.post.Tag
 
-fun ExtendedPostApiModel.toExtendedPostModel() = ExtendedPost(
+fun ExtendedPostApiModel.toExtendedPostModel(
+    isCurrentUserAuthor: Boolean
+) = ExtendedPost(
     id = id,
     authorUserId = userId,
     createdTimestamp = createdTimestamp,
@@ -19,6 +21,7 @@ fun ExtendedPostApiModel.toExtendedPostModel() = ExtendedPost(
     userAvatarUrl = userAvatarUrl,
     isLiked = isLiked,
     isBookmarked = isBookmarked,
+    isCurrentUserAuthor = isCurrentUserAuthor,
     likesCount = likesCount,
     commentsCount = commentsCount,
     tags = tags
@@ -32,13 +35,14 @@ fun PostApiModel.toPostModel() = Post(
     contentUrl = contentUrl
 )
 
-fun CommentApiModel.toCommentModel() = Comment(
+fun CommentApiModel.toCommentModel(isCurrentUserAuthor: Boolean) = Comment(
     id = id,
     comment = comment,
     createdTimestamp = createdTimestamp,
     userId = userId,
     username = username,
-    userAvatarUrl = userAvatarUrl
+    userAvatarUrl = userAvatarUrl,
+    isCurrentUserAuthor = isCurrentUserAuthor
 )
 
 fun TagApiModel.toTagModel() = Tag(id, name)

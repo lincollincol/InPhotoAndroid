@@ -6,6 +6,8 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentManagePostBinding
@@ -16,7 +18,6 @@ import com.linc.inphoto.utils.extensions.autoAnimateTargets
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.hideKeyboard
 import com.linc.inphoto.utils.extensions.view.loadImage
-import com.linc.inphoto.utils.extensions.view.scrollToBottom
 import com.linc.inphoto.utils.extensions.view.show
 import com.linc.inphoto.utils.extensions.view.update
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,20 +73,23 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
             tagsEditText.apply {
                 setOnTagAddedListener {
                     viewModel.addTags(it)
-                    contentScrollView.scrollToBottom(contentLayout)
                 }
                 setOnTagDeletedListener(viewModel::removeTags)
             }
             descriptionEditText.doOnTextChanged { text, _, _, _ ->
                 viewModel.updateDescription(text.toString())
             }
+            enterTransition = TransitionSet().apply {
+                addTransition(Fade(Fade.IN).addTarget(contentLayout))
+            }
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.hideBottomBar()
     }
 
-    override fun onKeyboardStateChanged(visible: Boolean) {
-        super.onKeyboardStateChanged(visible)
-        bottomBarViewModel.hideBottomBar()
+    override fun onKeyboardStateChanged(hidden: Boolean) {
+        super.onKeyboardStateChanged(hidden)
+        bottomBarViewModel.hideBottomBar(hidden)
     }
 
 }

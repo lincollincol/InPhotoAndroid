@@ -1,10 +1,12 @@
 package com.linc.inphoto.ui.storiesoverview
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Slide
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
@@ -66,6 +68,9 @@ class StoriesOverviewFragment : BaseFragment(R.layout.fragment_stories_review) {
                     }
                 })
             }
+            enterTransition = Slide(Gravity.BOTTOM)
+            exitTransition = enterTransition
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.hideBottomBar()
     }

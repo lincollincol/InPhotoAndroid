@@ -32,4 +32,16 @@ fun Fragment.permissionDisabled(permission: String) =
 
 fun FragmentManager.findVisibleFragment() = fragments.firstOrNull { it.isVisible }
 
+fun Fragment.findVisibleChildFragment(): Fragment? {
+    var fragment = parentFragment
+    while (fragment?.parentFragment != null) fragment = fragment.parentFragment
+    var currentFragment: Fragment? = fragment
+    while (currentFragment?.childFragmentManager?.findVisibleFragment() != null)
+        currentFragment = currentFragment.childFragmentManager.findVisibleFragment()
+    return currentFragment
+}
+
+fun Fragment.isChildFragmentVisible() =
+    findVisibleChildFragment()?.javaClass?.simpleName == javaClass.simpleName
+
 fun Fragment.onSystemBackPressed() = requireActivity().onBackPressed()

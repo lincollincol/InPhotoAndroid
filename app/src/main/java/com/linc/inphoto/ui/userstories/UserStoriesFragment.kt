@@ -94,6 +94,8 @@ class UserStoriesFragment : BaseFragment(R.layout.fragment_user_stories) {
                     viewModel.storiesOverviewFinished()
                 })
             }
+            enterTransition = Fade(Fade.IN)
+            reenterTransition = enterTransition
         }
     }
 

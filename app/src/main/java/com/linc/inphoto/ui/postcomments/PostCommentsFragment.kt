@@ -1,6 +1,7 @@
 package com.linc.inphoto.ui.postcomments
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.children
@@ -8,6 +9,8 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.linc.inphoto.R
@@ -23,6 +26,7 @@ import com.linc.inphoto.utils.extensions.updateSingle
 import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 import kotlinx.coroutines.flow.collect
 
 
@@ -74,7 +78,7 @@ class PostCommentsFragment : BaseFragment(R.layout.fragment_post_comments) {
             commentsRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = createAdapter(hasStableIds = true, postInfoSection, commentsSection)
-                enableItemChangeAnimation(false)
+                itemAnimator = FadeInDownAnimator()
             }
             toolbarView.setOnCancelClickListener {
                 viewModel.onBackPressed()
@@ -97,6 +101,11 @@ class PostCommentsFragment : BaseFragment(R.layout.fragment_post_comments) {
                     Snackbar.make(requireContext(), view, "Soon", Snackbar.LENGTH_SHORT).show()
                 }
             }
+            enterTransition = TransitionSet().apply {
+                addTransition(Slide(Gravity.TOP).addTarget(toolbarView))
+                addTransition(Slide(Gravity.BOTTOM).addTarget(inputLayout.root))
+            }
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.hideBottomBar()
     }

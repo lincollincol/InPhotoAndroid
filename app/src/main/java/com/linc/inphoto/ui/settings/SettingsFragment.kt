@@ -1,9 +1,12 @@
 package com.linc.inphoto.ui.settings
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentSettingsBinding
@@ -13,6 +16,7 @@ import com.linc.inphoto.ui.settings.item.SettingsOptionItem
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -45,10 +49,14 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             optionsRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = optionsAdapter
+                itemAnimator = FadeInDownAnimator()
             }
             settingsToolbar.setOnCancelClickListener {
                 viewModel.closeSettings()
             }
+            enterTransition = Slide(Gravity.END)
+            exitTransition = Fade(Fade.OUT)
+            reenterTransition = Fade(Fade.IN)
         }
         bottomBarViewModel.showBottomBar()
     }

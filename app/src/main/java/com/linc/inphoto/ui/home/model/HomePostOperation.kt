@@ -14,7 +14,10 @@ sealed class HomePostOperation(
 ) : OptionModel(value, enabled, icon), Parcelable {
     companion object {
         @JvmStatic
-        fun getPostOperations() = listOf(Share, Report)
+        fun getAuthorPostOperations() = listOf(Share, Report)
+
+        @JvmStatic
+        fun getGuestPostOperations() = listOf(Share, Report)
     }
 
     @Parcelize

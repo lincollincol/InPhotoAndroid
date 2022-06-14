@@ -1,13 +1,14 @@
 package com.linc.inphoto.ui.profile
 
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.Post
 import com.linc.inphoto.entity.user.User
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.camera.model.CameraIntent
-import com.linc.inphoto.ui.chatmessages.model.UserConversation
+import com.linc.inphoto.ui.chatmessages.model.ConversationParams
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
@@ -16,6 +17,7 @@ import com.linc.inphoto.ui.profile.model.ImageSource
 import com.linc.inphoto.ui.profile.model.NewPostUiState
 import com.linc.inphoto.ui.profile.model.toUiState
 import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
+import com.linc.inphoto.utils.ResourceProvider
 import com.linc.inphoto.utils.extensions.safeCast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +30,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val userRepository: UserRepository,
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val resourceProvider: ResourceProvider
 ) : BaseViewModel<ProfileUiState>(navContainerHolder) {
 
     companion object {
@@ -69,7 +72,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun messageUser() {
-        val conversation = currentState.user?.let(UserConversation::fromUser) ?: return
+        val conversation = currentState.user?.let(ConversationParams::undefined) ?: return
         router.navigateTo(NavScreen.ChatMessagesScreen(conversation))
     }
 
@@ -102,6 +105,7 @@ class ProfileViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             IMAGE_SOURCE_RESULT,
+            resourceProvider.getString(R.string.choose_post_source),
             ImageSource.getAvailableSources()
         )
         router.showDialog(pickerScreen)
@@ -131,11 +135,13 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun updateUserState(user: User?) {
-        _uiState.update {
-            it.copy(
-                user = user,
-                newPostUiState = user?.isLoggedInUser?.let { NewPostUiState(::createPost) }
-            )
+        _uiState.update { it.copy(user = user, newPostUiState = getNewPostUiState(user)) }
+    }
+
+    private fun getNewPostUiState(user: User?): NewPostUiState? {
+        return when (user?.isLoggedInUser) {
+            true -> NewPostUiState(::createPost)
+            else -> null
         }
     }
 }

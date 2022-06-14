@@ -2,10 +2,14 @@ package com.linc.inphoto.ui.cropimage
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentCropImageBinding
@@ -18,6 +22,7 @@ import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator
 import kotlinx.coroutines.flow.collect
 
 
@@ -72,6 +77,7 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
             ratioRecyclerView.apply {
                 layoutManager = horizontalLinearLayoutManager()
                 adapter = ratioAdapter
+                itemAnimator = FadeInLeftAnimator()
             }
             cropView.apply {
                 setImageUriAsync(getArgument(IMAGE_URI_ARG))
@@ -92,6 +98,11 @@ class CropImageFragment : BaseFragment(R.layout.fragment_crop_image) {
             fixedRatioSwitch.setOnCheckedChangeListener { _, checked ->
                 viewModel.changeRatioState(checked)
             }
+            enterTransition = TransitionSet().apply {
+                addTransition(Slide(Gravity.BOTTOM).addTarget(cropControllersLayout))
+                addTransition(Fade(Fade.IN).addTarget(cropView))
+            }
+            reenterTransition = enterTransition
         }
         bottomBarViewModel.hideBottomBar()
         viewModel.run {

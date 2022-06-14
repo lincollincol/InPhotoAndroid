@@ -2,6 +2,7 @@ package com.linc.inphoto.ui.camera
 
 import android.Manifest
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
@@ -13,6 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentCameraBinding
@@ -106,6 +110,11 @@ class CameraFragment : BaseFragment(R.layout.fragment_camera) {
                         }
                     })
             }
+            enterTransition = TransitionSet().apply {
+                addTransition(Slide(Gravity.BOTTOM).addTarget(controllersLayout))
+                addTransition(Fade(Fade.IN).addTarget(permissionsLayout.root))
+            }
+            reenterTransition = enterTransition
         }
         // TODO: 17.04.22 move ui state logic to view model
         setupCamera()

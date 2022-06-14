@@ -1,10 +1,13 @@
 package com.linc.inphoto.ui.profilesettings
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentProfileSettingsBinding
@@ -96,13 +99,16 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
                 }
                 viewModel.updateGender(gender)
             }
+            enterTransition = Slide(Gravity.END)
+            exitTransition = Fade(Fade.OUT)
+            reenterTransition = Fade(Fade.IN)
         }
         bottomBarViewModel.showBottomBar()
     }
 
-    override fun onKeyboardStateChanged(visible: Boolean) {
-        super.onKeyboardStateChanged(visible)
-        bottomBarViewModel.showBottomBar(!visible)
+    override fun onKeyboardStateChanged(hidden: Boolean) {
+        super.onKeyboardStateChanged(hidden)
+        bottomBarViewModel.hideBottomBar(hidden)
     }
 
 }

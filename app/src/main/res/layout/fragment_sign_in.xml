@@ -7,6 +7,7 @@
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true">
@@ -88,6 +89,7 @@
             android:gravity="center"
             android:textColor="@color/red"
             android:textSize="@dimen/font_tiny"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/endLine"
             app:layout_constraintStart_toStartOf="@id/startLine"
             app:layout_constraintTop_toBottomOf="@id/password_edit_text" />

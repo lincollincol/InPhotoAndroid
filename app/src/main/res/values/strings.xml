@@ -88,6 +88,19 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
 
+    <string name="choose_attachment_source">Attachments source</string>
+    <string name="choose_post_source">Post source</string>
+    <string name="choose_avatar_source">Avatar source</string>
+    <string name="choose_header_source">Header source</string>
+    <string name="choose_story_source">Story source</string>
+    <string name="choose_comment_action">Comment actions</string>
+    <string name="choose_post_action">Post actions</string>
+    <string name="choose_message_action">Message actions</string>
+    <string name="choose_chat_action">Chat actions</string>
+    <string name="choose_story_duration">Slide duration</string>
+    <string name="choose_story_expiration">Expiration time</string>
+    <string name="choose_crop_shape">Crop shape</string>
+
     <string name="settings_cancel_changes_title">Discard changes?</string>
     <string name="settings_cancel_changes_description">You have updated some of your profile information. Are you sure you want to undo the changes?</string>
     <string name="settings_invalid_username_error">Invalid username!</string>

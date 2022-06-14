@@ -2,6 +2,7 @@ package com.linc.inphoto.utils.extensions.view
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -26,3 +27,12 @@ fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, targets: 
 
 fun ViewGroup.animateTargets(transition: Transition, scene: ViewGroup, targets: Sequence<View>) =
     animateTargets(transition, scene, targets.toList())
+
+fun SwipeRefreshLayout.stopRefreshingDelayed(
+    stopRefreshing: Boolean,
+    delay: Long = 1000L
+) {
+    if (stopRefreshing && isRefreshing) {
+        postDelayed({ isRefreshing = false }, delay)
+    }
+}

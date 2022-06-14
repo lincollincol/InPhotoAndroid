@@ -49,4 +49,8 @@ class SignInViewModel @Inject constructor(
         globalRouter.navigateTo(NavScreen.SignUpScreen())
     }
 
+    override fun onBackPressed() {
+        globalRouter.exit()
+    }
+
 }
