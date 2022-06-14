@@ -67,8 +67,9 @@ class ChatsFragment : BaseFragment(R.layout.fragment_chats) {
         viewModel.loadChats()
     }
 
-    override fun onKeyboardStateChanged(visible: Boolean) {
-        super.onKeyboardStateChanged(visible)
-        bottomBarViewModel.showBottomBar(!visible)
+    override fun onKeyboardStateChanged(hidden: Boolean) {
+        super.onKeyboardStateChanged(hidden)
+        bottomBarViewModel.hideBottomBar(hidden)
     }
+
 }

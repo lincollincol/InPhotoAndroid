@@ -14,7 +14,10 @@ import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.ui.profilefollowers.model.SubscriptionType
 import com.linc.inphoto.ui.search.model.SearchType
 import com.linc.inphoto.utils.extensions.hideKeyboard
-import com.linc.inphoto.utils.extensions.view.*
+import com.linc.inphoto.utils.extensions.view.attachMediator
+import com.linc.inphoto.utils.extensions.view.selectPage
+import com.linc.inphoto.utils.extensions.view.selectTab
+import com.linc.inphoto.utils.extensions.view.update
 import com.linc.inphoto.utils.view.TabPositionListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -36,7 +39,6 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
             searchEditText.update(state.searchQuery)
             searchViewPager.selectPage(state.selectedPage)
             searchTabLayout.selectTab(state.selectedPage)
-
         }
     }
 
@@ -72,8 +74,9 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         bottomBarViewModel.showBottomBar()
     }
 
-    override fun onKeyboardStateChanged(visible: Boolean) {
-        bottomBarViewModel.showBottomBar(!visible)
+    override fun onKeyboardStateChanged(hidden: Boolean) {
+        super.onKeyboardStateChanged(hidden)
+        bottomBarViewModel.hideBottomBar(hidden)
     }
 
 }

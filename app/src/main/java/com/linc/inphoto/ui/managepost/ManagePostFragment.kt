@@ -87,9 +87,9 @@ class ManagePostFragment : BaseFragment(R.layout.fragment_manage_post) {
         bottomBarViewModel.hideBottomBar()
     }
 
-    override fun onKeyboardStateChanged(visible: Boolean) {
-        super.onKeyboardStateChanged(visible)
-        bottomBarViewModel.hideBottomBar()
+    override fun onKeyboardStateChanged(hidden: Boolean) {
+        super.onKeyboardStateChanged(hidden)
+        bottomBarViewModel.hideBottomBar(hidden)
     }
 
 }

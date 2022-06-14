@@ -11,18 +11,16 @@ import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.FragmentBackPressedListener
 import com.linc.inphoto.ui.navigation.NavContainer
 import com.linc.inphoto.ui.navigation.TabStateListener
+import com.linc.inphoto.utils.extensions.isChildFragmentVisible
 import com.linc.inphoto.utils.extensions.safeCast
 import kotlinx.coroutines.CancellationException
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 
 abstract class BaseFragment(
     @LayoutRes layoutId: Int
 ) : Fragment(layoutId), FragmentBackPressedListener, TabStateListener {
 
     protected abstract val viewModel: BaseViewModel<out UiState>
-
-    private var keyboardListener: Unregistrar? = null
 
     protected abstract suspend fun observeUiState()
 
@@ -31,8 +29,13 @@ abstract class BaseFragment(
         safeStartedLaunch {
             observeUiState()
         }
+        KeyboardVisibilityEvent.setEventListener(
+            requireActivity(),
+            viewLifecycleOwner
+        ) {
+            if (isChildFragmentVisible()) onKeyboardStateChanged(it)
+        }
         viewModel.setupContainerId(findContainerId())
-        registerKeyboardStateListener()
     }
 
     override fun onBackPressed() {
@@ -40,23 +43,10 @@ abstract class BaseFragment(
     }
 
     override fun onTabStateChanged(hidden: Boolean) {
-        if (hidden) {
-            return unregisterKeyboardStateListener()
-        }
-        registerKeyboardStateListener()
+        // Not implemented
     }
 
-    override fun onStart() {
-        super.onStart()
-        registerKeyboardStateListener()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unregisterKeyboardStateListener()
-    }
-
-    protected open fun onKeyboardStateChanged(visible: Boolean) {
+    protected open fun onKeyboardStateChanged(hidden: Boolean) {
         // Not implemented
     }
 
@@ -93,21 +83,6 @@ abstract class BaseFragment(
             e.printStackTrace()
             showErrorMessage(e.localizedMessage)
         }
-    }
-
-    private fun registerKeyboardStateListener() {
-        if (keyboardListener != null) {
-            return
-        }
-        keyboardListener = KeyboardVisibilityEvent.registerEventListener(
-            requireActivity(),
-            ::onKeyboardStateChanged
-        )
-    }
-
-    private fun unregisterKeyboardStateListener() {
-        keyboardListener?.unregister()
-        keyboardListener = null
     }
 
     private fun findContainerId(): String? {

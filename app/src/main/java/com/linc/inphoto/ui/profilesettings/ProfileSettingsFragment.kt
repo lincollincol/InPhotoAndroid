@@ -106,9 +106,9 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
         bottomBarViewModel.showBottomBar()
     }
 
-    override fun onKeyboardStateChanged(visible: Boolean) {
-        super.onKeyboardStateChanged(visible)
-        bottomBarViewModel.showBottomBar(!visible)
+    override fun onKeyboardStateChanged(hidden: Boolean) {
+        super.onKeyboardStateChanged(hidden)
+        bottomBarViewModel.hideBottomBar(hidden)
     }
 
 }
