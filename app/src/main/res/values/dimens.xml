@@ -54,6 +54,7 @@
 
     <dimen name="icon_tiny">12dp</dimen>
     <dimen name="icon_small">24dp</dimen>
+    <dimen name="icon_medium">32dp</dimen>
     <dimen name="icon_general">36dp</dimen>
     <dimen name="icon_large">48dp</dimen>
     <dimen name="icon_extra_large">72dp</dimen>

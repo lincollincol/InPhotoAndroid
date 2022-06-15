@@ -3,10 +3,10 @@ package com.linc.inphoto.data.repository
 import com.linc.inphoto.data.android.LocalizationLocalDataSource
 import com.linc.inphoto.data.android.RatioLocalDataSource
 import com.linc.inphoto.data.network.datasource.StaticRemoteDataSource
+import com.linc.inphoto.entity.settings.Localization
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 
 class SettingsRepository @Inject constructor(
@@ -18,7 +18,7 @@ class SettingsRepository @Inject constructor(
 
     fun loadAspectRatios() = ratioLocalDataSource.loadAspectRatios()
 
-    suspend fun loadAvailableLanguages(): List<Locale> = withContext(ioDispatcher) {
+    suspend fun loadAvailableLanguages(): List<Localization> = withContext(ioDispatcher) {
         return@withContext localizationLocalDataSource.loadAvailableLanguages()
     }
 

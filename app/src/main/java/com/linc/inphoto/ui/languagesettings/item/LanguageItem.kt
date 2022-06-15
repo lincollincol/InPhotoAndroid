@@ -7,6 +7,7 @@ import com.linc.inphoto.ui.languagesettings.model.LanguageUiState
 import com.linc.inphoto.utils.extensions.capitalized
 import com.linc.inphoto.utils.extensions.flagEmoji
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
+import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
 
 class LanguageItem(
@@ -20,6 +21,7 @@ class LanguageItem(
             root.setOnThrottledClickListener {
                 languageUiState.onClick()
             }
+            currentImageView.show(languageUiState.isCurrentLocale)
         }
     }
 

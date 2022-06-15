@@ -25,6 +25,13 @@ import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 @AndroidEntryPoint
 class LanguageSettingsFragment : BaseFragment(R.layout.fragment_language_settings) {
 
+    /**
+     *
+     * TODO:
+     * selected language
+     *
+     * */
+
     companion object {
         @JvmStatic
         fun newInstance() = LanguageSettingsFragment()
