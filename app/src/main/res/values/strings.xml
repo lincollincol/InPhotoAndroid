@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">InPhoto</string>
+    <string name="app_name" translatable="false">InPhoto</string>
 
-    <string name="example_lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</string>
+    <string name="example_lorem_ipsum" translatable="false">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</string>
 
     <string name="option_avatar_gallery">Open from gallery</string>
     <string name="option_avatar_camera">Take a picture</string>
@@ -31,7 +31,6 @@
     <string name="profile_following_count">%1$d following</string>
     <string name="profile_permissions_message">You must allow at least one permission to update profile avatar</string>
 
-    <string name="mock_status">Turkish actor. Was born on April 10, 1988, in Bursa, Turkey. Studied International Relations at Koc University, Istanbul. Had a great interest in acting</string>
     <string name="choose_option">Choose Option</string>
 
     <string name="crop_fixed_ratio">Fixed ratio</string>
@@ -165,7 +164,6 @@
     <string name="nothing_found">Nothing Found</string>
     <string name="show_all">Show All</string>
     <string name="home">Home</string>
-    <string name="feed">Feed</string>
     <string name="chat">Chat</string>
     <string name="chats">Chats</string>
     <string name="profile">Profile</string>

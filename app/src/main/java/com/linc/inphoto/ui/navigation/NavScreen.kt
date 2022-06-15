@@ -28,6 +28,7 @@ import com.linc.inphoto.ui.home.HomeFragment
 import com.linc.inphoto.ui.imagesticker.ImageStickerFragment
 import com.linc.inphoto.ui.imagesticker.model.ImageStickerIntent
 import com.linc.inphoto.ui.infodialog.InfoMessageFragment
+import com.linc.inphoto.ui.languagesettings.LanguageSettingsFragment
 import com.linc.inphoto.ui.main.MainFragment
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.managepost.ManagePostFragment
@@ -191,6 +192,10 @@ object NavScreen {
         pageUrl: String
     ) = FragmentScreen {
         WebPageFragment.newInstance(title, pageUrl)
+    }
+
+    fun LanguageSettingsScreen() = FragmentScreen {
+        LanguageSettingsFragment.newInstance()
     }
 
     fun PostCommentsScreen(postId: String) = FragmentScreen {

@@ -31,7 +31,7 @@ class SettingsViewModel @Inject constructor(
     fun selectSettingsEntry(entry: SettingsOption) {
         when (entry) {
             SettingsOption.Profile -> router.navigateTo(NavScreen.ProfileSettingsScreen())
-            SettingsOption.Language -> NavScreen.ProfileScreen()
+            SettingsOption.Language -> router.navigateTo(NavScreen.LanguageSettingsScreen())
             SettingsOption.Help -> router.navigateTo(NavScreen.HelpSettingsScreen())
             SettingsOption.SignOut -> signOut()
         }

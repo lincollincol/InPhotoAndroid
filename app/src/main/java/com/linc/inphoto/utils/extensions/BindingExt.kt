@@ -1,7 +1,6 @@
 package com.linc.inphoto.utils.extensions
 
-import androidx.annotation.StringRes
+import android.content.Context
 import androidx.viewbinding.ViewBinding
 
-fun ViewBinding.getString(@StringRes id: Int, vararg formatArgs: Any) =
-    root.context.getString(id, formatArgs)
+val ViewBinding.context: Context get() = root.context

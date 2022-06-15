@@ -3,8 +3,17 @@ package com.linc.inphoto.utils.extensions
 import android.text.Spannable
 import android.text.SpannableString
 import com.linc.inphoto.utils.view.span.SpanReplaceBuilder
+import java.util.*
 
 val String.Companion.EMPTY get() = ""
+
+fun String.capitalized(): String {
+    return this.replaceFirstChar {
+        if (it.isLowerCase())
+            it.titlecase(Locale.getDefault())
+        else it.toString()
+    }
+}
 
 fun String?.toException() = Exception(this)
 
