@@ -24,6 +24,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/padding_extra_huge"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,10 +56,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_general"
                 android:text="@string/random"
-                app:layout_constraintEnd_toStartOf="@id/uploadAvatarButton"
+                app:layout_constraintEnd_toStartOf="@id/uploadHeaderButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/headerImageView"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.4" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/uploadHeaderButton"
@@ -67,9 +69,9 @@
                 android:layout_marginTop="@dimen/margin_general"
                 android:text="@string/upload"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/randomAvatarButton"
+                app:layout_constraintStart_toEndOf="@id/randomHeaderButton"
                 app:layout_constraintTop_toBottomOf="@id/headerImageView"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.4" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/headerButtonsBarrier"
@@ -101,7 +103,7 @@
                 app:layout_constraintEnd_toStartOf="@id/uploadAvatarButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/avatarImageView"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.4" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/uploadAvatarButton"
@@ -113,7 +115,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/randomAvatarButton"
                 app:layout_constraintTop_toBottomOf="@id/avatarImageView"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.4" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/avatarButtonsBarrier"

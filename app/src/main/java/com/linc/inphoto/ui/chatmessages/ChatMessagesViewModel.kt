@@ -2,7 +2,6 @@ package com.linc.inphoto.ui.chatmessages
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.ChatRepository
 import com.linc.inphoto.data.repository.MessageRepository
 import com.linc.inphoto.entity.chat.Message
@@ -205,7 +204,6 @@ class ChatMessagesViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             ATTACHMENT_SOURCE_RESULT,
-            resourceProvider.getString(R.string.choose_attachment_source),
             AttachmentSource.getAvailableSources()
         )
         router.showDialog(pickerScreen)
@@ -222,7 +220,6 @@ class ChatMessagesViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             MESSAGE_ACTION_RESULT,
-            resourceProvider.getString(R.string.choose_message_action),
             MessageOperation.getMessageOperations()
         )
         router.showDialog(pickerScreen)

@@ -2,7 +2,6 @@ package com.linc.inphoto.ui.cropimage
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.data.repository.SettingsRepository
 import com.linc.inphoto.entity.media.image.AspectRatio
@@ -60,7 +59,6 @@ class CropImageViewModel @Inject constructor(
         router.showDialog(
             NavScreen.ChooseOptionScreen(
                 CHOOSE_SHAPE_RESULT,
-                resourceProvider.getString(R.string.choose_crop_shape),
                 shapeOptions
             )
         )

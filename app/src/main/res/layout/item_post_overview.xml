@@ -27,11 +27,25 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:textSize="@dimen/font_small"
-        tools:text="Username"
+        app:layout_constraintBottom_toTopOf="@id/dateTextView"
+        app:layout_constraintEnd_toStartOf="@id/moreImageView"
+        app:layout_constraintStart_toEndOf="@id/userAvatarImageView"
+        app:layout_constraintTop_toTopOf="@id/userAvatarImageView"
+        tools:text="Username" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/dateTextView"
+        style="@style/TextField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:textColor="@color/black_50"
+        android:textSize="@dimen/font_tiny"
+        app:layout_constraintTop_toBottomOf="@id/usernameTextView"
         app:layout_constraintBottom_toBottomOf="@id/userAvatarImageView"
         app:layout_constraintEnd_toStartOf="@id/moreImageView"
         app:layout_constraintStart_toEndOf="@id/userAvatarImageView"
-        app:layout_constraintTop_toTopOf="@id/userAvatarImageView" />
+        tools:text="01.01.2022" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/moreImageView"
@@ -89,10 +103,10 @@
         app:lottie_speed="2" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/likeImageTextView"
+        android:id="@+id/likeImageView"
         style="@style/TextFieldBold"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/icon_medium"
+        android:layout_height="@dimen/icon_medium"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
         app:layout_constraintTop_toBottomOf="@id/postImageView"
@@ -102,19 +116,19 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/commentImageView"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/icon_medium"
+        android:layout_height="@dimen/icon_medium"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
         app:layout_constraintTop_toBottomOf="@id/postImageView"
         app:srcCompat="@drawable/ic_comment_outlined"
-        app:layout_constraintStart_toEndOf="@id/likeImageTextView"
+        app:layout_constraintStart_toEndOf="@id/likeImageView"
         app:tint="@color/black" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/bookmarkImageView"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/icon_medium"
+        android:layout_height="@dimen/icon_medium"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:layout_marginTop="@dimen/margin_small"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,7 +142,7 @@
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="
-        likeImageTextView,
+        likeImageView,
         commentImageView,
         bookmarkImageView" />
 

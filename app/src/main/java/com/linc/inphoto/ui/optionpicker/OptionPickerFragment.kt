@@ -21,18 +21,15 @@ class OptionPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_opt
 
     companion object {
         private const val RESULT_KEY_ARG = "result_key"
-        private const val TITLE_ARG = "title"
         private const val OPTIONS_ARG = "options"
 
         @JvmStatic
         fun newInstance(
             resultKey: String,
-            title: String,
             options: List<OptionModel>
         ) = OptionPickerFragment().apply {
             arguments = bundleOf(
                 RESULT_KEY_ARG to resultKey,
-                TITLE_ARG to title,
                 OPTIONS_ARG to options
             )
         }
@@ -51,7 +48,7 @@ class OptionPickerFragment : BaseBottomSheetDialogFragment(R.layout.fragment_opt
         super.onViewCreated(view, savedInstanceState)
         val options = getArgument<List<OptionModel>>(OPTIONS_ARG)
         with(binding) {
-            titleTextView.text = getArgument(TITLE_ARG)
+//            titleTextView.text = getArgument(TITLE_ARG)
             optionsRecyclerView.apply {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = optionsAdapter

@@ -122,15 +122,11 @@ class PostOverviewViewModel @Inject constructor(
                 PostOperation.Share -> sharePost(selectedPost)
             }
         }
-        val pickerScreen = NavScreen.ChooseOptionScreen(
-            POST_ACTION_RESULT,
-            resourceProvider.getString(R.string.choose_post_action),
-            when {
-                selectedPost.isCurrentUserAuthor -> PostOperation.getAuthorPostOperations()
-                else -> PostOperation.getGuestPostOperations()
-            }
-        )
-        router.showDialog(pickerScreen)
+        val postOperations = when {
+            selectedPost.isCurrentUserAuthor -> PostOperation.getAuthorPostOperations()
+            else -> PostOperation.getGuestPostOperations()
+        }
+        router.showDialog(NavScreen.ChooseOptionScreen(POST_ACTION_RESULT, postOperations))
     }
 
     private fun editPost(selectedPost: ExtendedPost) {

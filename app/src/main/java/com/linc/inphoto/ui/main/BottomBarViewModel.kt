@@ -15,6 +15,10 @@ class BottomBarViewModel @Inject constructor(
 
     override val _uiState = MutableStateFlow(BottomBarUiState())
 
+    fun selectTab(tab: MenuTab) {
+        _uiState.update { it.copy(tab = tab) }
+    }
+
     fun showBottomBar(show: Boolean = true) {
         _uiState.update { it.copy(visible = show) }
     }

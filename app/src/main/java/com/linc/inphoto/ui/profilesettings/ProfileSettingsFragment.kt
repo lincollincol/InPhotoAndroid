@@ -103,12 +103,7 @@ class ProfileSettingsFragment : BaseFragment(R.layout.fragment_profile_settings)
             exitTransition = Fade(Fade.OUT)
             reenterTransition = Fade(Fade.IN)
         }
-        bottomBarViewModel.showBottomBar()
-    }
-
-    override fun onKeyboardStateChanged(hidden: Boolean) {
-        super.onKeyboardStateChanged(hidden)
-        bottomBarViewModel.hideBottomBar(hidden)
+        bottomBarViewModel.hideBottomBar()
     }
 
 }

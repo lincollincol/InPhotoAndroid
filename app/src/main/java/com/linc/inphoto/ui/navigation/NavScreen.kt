@@ -23,10 +23,12 @@ import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.feed.FeedFragment
 import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
+import com.linc.inphoto.ui.helpsettings.HelpSettingsFragment
 import com.linc.inphoto.ui.home.HomeFragment
 import com.linc.inphoto.ui.imagesticker.ImageStickerFragment
 import com.linc.inphoto.ui.imagesticker.model.ImageStickerIntent
 import com.linc.inphoto.ui.infodialog.InfoMessageFragment
+import com.linc.inphoto.ui.languagesettings.LanguageSettingsFragment
 import com.linc.inphoto.ui.main.MainFragment
 import com.linc.inphoto.ui.main.MenuTab
 import com.linc.inphoto.ui.managepost.ManagePostFragment
@@ -47,6 +49,7 @@ import com.linc.inphoto.ui.splash.SplashFragment
 import com.linc.inphoto.ui.storiesoverview.StoriesOverviewFragment
 import com.linc.inphoto.ui.tab.TabFragment
 import com.linc.inphoto.ui.tagposts.TagPostsFragment
+import com.linc.inphoto.ui.webpage.WebPageFragment
 import java.util.*
 
 
@@ -65,10 +68,9 @@ object NavScreen {
 
     fun ChooseOptionScreen(
         resultKey: String,
-        title: String,
         options: List<OptionModel>
     ) = DialogScreen {
-        OptionPickerFragment.newInstance(resultKey, title, options)
+        OptionPickerFragment.newInstance(resultKey, options)
     }
 
     fun DatePickerScreen(
@@ -178,6 +180,21 @@ object NavScreen {
 
     fun ProfileSettingsScreen() = FragmentScreen {
         ProfileSettingsFragment.newInstance()
+    }
+
+    fun HelpSettingsScreen() = FragmentScreen {
+        HelpSettingsFragment.newInstance()
+    }
+
+    fun WebPageScreen(
+        title: String,
+        pageUrl: String
+    ) = FragmentScreen {
+        WebPageFragment.newInstance(title, pageUrl)
+    }
+
+    fun LanguageSettingsScreen() = FragmentScreen {
+        LanguageSettingsFragment.newInstance()
     }
 
     fun PostCommentsScreen(postId: String) = FragmentScreen {

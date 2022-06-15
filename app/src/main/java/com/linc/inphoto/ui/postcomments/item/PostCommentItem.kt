@@ -26,7 +26,7 @@ class PostCommentItem(
             }
             contentTextView.apply {
                 text = String.format(
-                    Locale.US,
+                    Locale.getDefault(),
                     FORMAT_USER_COMMENT,
                     commentUiState.username,
                     commentUiState.comment
@@ -44,8 +44,7 @@ class PostCommentItem(
             }
             root.setOnThrottledClickListener { commentUiState.onCommentClicked() }
             dateTextView.text = DateFormatter.getRelativeTimeSpanString2(
-                commentUiState.createdTimestamp,
-                Locale.US
+                commentUiState.createdTimestamp
             )
         }
     }

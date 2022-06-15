@@ -41,7 +41,7 @@ object DateFormatter {
 
     fun getRelativeTimeSpanString2(
         millis: Long,
-        locale: Locale
+        locale: Locale = Locale.getDefault()
     ): String {
         val period = Instant.fromEpochMilliseconds(millis)
             .periodUntil(Clock.System.now(), TimeZone.currentSystemDefault())
@@ -99,7 +99,7 @@ object DateFormatter {
         )
     }
 
-    fun format(millis: Long, pattern: String, locale: Locale = Locale.US) =
+    fun format(millis: Long, pattern: String, locale: Locale = Locale.getDefault()) =
         SimpleDateFormat(pattern, locale).format(millis)
 
 }

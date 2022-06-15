@@ -49,6 +49,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), FragmentBackPressedLi
                 mainLayout,
                 bottomNavigationView
             )
+            state.tab?.id?.let(bottomNavigationView::selectTabById)
             bottomNavigationView.show(state.visible)
         }
     }
@@ -63,7 +64,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main), FragmentBackPressedLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.bottomNavigationView.onTabSelected = { tab ->
-            MenuTab.fromId(tab.id)?.let(navigator::selectTab)
+            MenuTab.fromId(tab.id)
+                ?.also(navigator::selectTab)
+                ?.also(bottomBarViewModel::selectTab)
         }
     }
 

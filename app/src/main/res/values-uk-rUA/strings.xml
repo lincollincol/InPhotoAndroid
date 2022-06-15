@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="option_avatar_gallery">Вибрати з галереї</string>
+    <string name="option_avatar_camera">Зробити фото</string>
+    <string name="got_it">Зрозуміло</string>
+
+    <string name="unavailable">Недоступно</string>
+    <string name="unavailable_function_description">Дана функція наразі недоступна!</string>
+
+    <string name="hint_password">пароль</string>
+    <string name="hint_email">електронна адреса</string>
+    <string name="welcome_back">Welcome\nBack!</string>
+    <string name="forgot_password">Забули Пароль?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="allow">Дозволити</string>
+    <string name="username">псевдонім</string>
+    <string name="users">Користувачі</string>
+    <string name="tags">Теги</string>
+    <string name="male">Чоловік</string>
+    <string name="female">Жінка</string>
+    <string name="repeat_password">repeat password</string>
+    <string name="create_account">Створити обліковий запис</string>
+
+    <string name="permissions">Дозволи</string>
+
+    <string name="profile_followers_count">%1$d читачі</string>
+    <string name="profile_following_count">%1$d відстежуються</string>
+    <string name="profile_permissions_message">Ви повинні надати принаймні один дозвіл на оновлення аватара профілю</string>
+    <string name="choose_option">Вибрати варіант</string>
+
+    <string name="crop_fixed_ratio">Фіксоване співвідношення</string>
+    <string name="settings_crop_shape">Фігура</string>
+    <string name="settings_crop_rectangle">Прямокутник</string>
+    <string name="settings_crop_circle">Коло</string>
+
+    <string name="crop">Обрізати</string>
+    <string name="filter">Фільтер</string>
+    <string name="text">Текст</string>
+    <string name="sticker">Наклейка</string>
+    <string name="edit">Редагувати</string>
+    <string name="delete">Видалити</string>
+    <string name="mute">Вимкнути сповіщення</string>
+    <string name="pin">Закріпити</string>
+    <string name="share">Поширити</string>
+    <string name="report">Повідомити</string>
+
+    <string name="publications_toolbar">Дописи</string>
+    <string name="edit_image_toolbar">Редагувати картинку</string>
+    <string name="crop_image_toolbar">Обрізати картинку</string>
+    <string name="select_image_toolbar">Вибрати картинку</string>
+    <string name="manage_post_toolbar">Керування дописом</string>
+    <string name="description">Опис</string>
+    <string name="stickers">Наклейка</string>
+
+    <string name="not_found">Не знайдено!</string>
+    <string name="image_not_found">Картинку не знайдено!</string>
+
+    <string name="empty_description_error">Будь ласка, опишіть допис!</string>
+    <string name="empty_tags_list_error">Будь ласка, додайте принаймні один тег!</string>
+
+    <string name="share_post_template">
+        Переглянь %1$s\'s публікації!\n\n
+        %2$s\n
+        %3$s\n\n
+        %4$s\n\n
+        Приєднайся до InPhoto
+    </string>
+
+    <string name="posts_count">%1$s публікацій</string>
+    <string name="tag_title">#%1$s</string>
+
+    <string name="settings_title">Налаштування</string>
+    <string name="settings_profile">Профіль</string>
+    <string name="settings_privacy">Конфіденційність</string>
+    <string name="settings_language">Мова</string>
+    <string name="settings_help">Допомога</string>
+    <string name="settings_sign_out">Вийти</string>
+    <string name="privacy_policy">Політика конфіденційності</string>
+    <string name="terms_and_conditions">Положення &amp; Умови</string>
+
+    <string name="title_username">Псевдонім</string>
+    <string name="title_status">Статус</string>
+    <string name="cancel">Скасувати</string>
+    <string name="confirm">Прийняти</string>
+
+    <string name="choose_story_duration">Тривалість слайду</string>
+    <string name="choose_story_expiration">Термін дії</string>
+    <string name="choose_crop_shape">Фігура</string>
+
+    <string name="settings_cancel_changes_title">Скасувати зміни?</string>
+    <string name="settings_cancel_changes_description">Ви оновили деяку інформацію свого профілю. Ви впевнені, що хочете скасувати зміни??</string>
+    <string name="settings_invalid_username_error">Недійсний псевдонім!</string>
+    <string name="settings_invalid_data">Недійсні дані профілю!</string>
+    <string name="settings_invalid_data_description">Деякі поля містять недійсні дані. Будь ласка, переконайтеся, що ви ввели правильні дані</string>
+
+    <string name="permission_gallery_description">Щоб отримати доступ до галереї, ви повинні надати дозвіл на читання сховища на цьому пристрої</string>
+    <string name="permission_camera_description">Щоб отримати доступ до камери, надайте дозвіл камері на цьому пристрої</string>
+    <string name="comments">Коментарі</string>
+
+    <plurals name="date_period_short_week">
+        <item quantity="one">%1$d тиждень</item>
+        <item quantity="other">%1$d тижні</item>
+        <item quantity="few">%1$d тижні</item>
+        <item quantity="many">%1$d тижні</item>
+    </plurals>
+    <string name="date_period_short_day">%1$d д.</string>
+    <string name="date_period_short_hour">%1$d год.</string>
+    <string name="date_period_short_minute">%1$d хв.</string>
+    <string name="date_period_short_second">%1$d сек.</string>
+    <string name="date_period_short_now">зараз</string>
+
+    <plurals name="date_period_long_year">
+        <item quantity="one">%1$d рік</item>
+        <item quantity="other">%1$d роки</item>
+        <item quantity="few">%1$d роки</item>
+        <item quantity="many">%1$d роки</item>
+    </plurals>
+    <plurals name="date_period_long_month">
+        <item quantity="one">%1$d місяць</item>
+        <item quantity="other">%1$d місяців</item>
+        <item quantity="few">%1$d місяців</item>
+        <item quantity="many">%1$d місяців</item>
+    </plurals>
+    <plurals name="date_period_long_week">
+        <item quantity="one">%1$d тиждень</item>
+        <item quantity="other">%1$d тижнів</item>
+        <item quantity="few">%1$d тижнів</item>
+        <item quantity="many">%1$d тижнів</item>
+    </plurals>
+    <plurals name="date_period_long_day">
+        <item quantity="one">%1$d день</item>
+        <item quantity="other">%1$d днів</item>
+        <item quantity="few">%1$d днів</item>
+        <item quantity="many">%1$d днів</item>
+    </plurals>
+    <plurals name="date_period_long_hour">
+        <item quantity="one">%1$d година</item>
+        <item quantity="other">%1$d годин</item>
+        <item quantity="few">%1$d годин</item>
+        <item quantity="many">%1$d годин</item>
+    </plurals>
+    <plurals name="date_period_long_minute">
+        <item quantity="one">%1$d хвилина</item>
+        <item quantity="other">%1$d хвилин</item>
+        <item quantity="few">%1$d хвилин</item>
+        <item quantity="many">%1$d хвилин</item>
+    </plurals>
+    <plurals name="date_period_long_second">
+        <item quantity="one">%1$d секунда</item>
+        <item quantity="other">%1$d секунд</item>
+        <item quantity="few">%1$d секунд</item>
+        <item quantity="many">%1$d секунд</item>
+    </plurals>
+
+    <string name="no_messages">Немає повідомлень</string>
+    <string name="attachments">Вкладення</string>
+    <string name="message">Повідомлення</string>
+    <string name="messages">Повідомлення</string>
+    <string name="search">Пошук</string>
+    <string name="unfollow">Скасувати підписку</string>
+    <string name="follow">Стежити</string>
+    <string name="following">Відстежуються</string>
+    <string name="followers">Читачі</string>
+    <string name="nothing_found">Не знайдено</string>
+    <string name="show_all">Показати все</string>
+    <string name="home">Головна</string>
+    <string name="chat">Чат</string>
+    <string name="chats">Чати</string>
+    <string name="profile">Профіль</string>
+    <string name="contacts">Контакти</string>
+    <string name="edited">відредаговано</string>
+    <string name="media_review">Перегляд медіа</string>
+    <string name="random">Випадково</string>
+    <string name="upload">Завантажити</string>
+    <string name="posts">Дописи</string>
+    <string name="your_story">Розповідь</string>
+    <string name="create_story">Створити розповідь</string>
+    <string name="expire_at">Закінчиться</string>
+    <string name="preview_duration">Час перегляду</string>
+    <string name="expiration_time">Термін дії</string>
+
+
+</resources>

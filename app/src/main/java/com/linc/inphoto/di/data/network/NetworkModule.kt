@@ -9,9 +9,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -22,18 +22,19 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(
-        converterFactory: Converter.Factory,
+        gsonConverterFactory: GsonConverterFactory,
+        scalarsConverterFactory: ScalarsConverterFactory,
         okHttpClient: OkHttpClient
     ): Retrofit = Retrofit.Builder()
         .baseUrl(BuildConfig.BASE_URL)
-        .addConverterFactory(converterFactory)
+        .addConverterFactory(gsonConverterFactory)
+        .addConverterFactory(scalarsConverterFactory)
         .client(okHttpClient)
         .build()
 
     @Provides
     @Singleton
     fun provideOkHttpClient(
-//        loggingInterceptor: DebugLoggingInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
         tokenInterceptor: TokenInterceptor,
         tokenAuthenticator: TokenAuthenticator
@@ -55,16 +56,12 @@ object NetworkModule {
             }
         }
 
-//    @Provides
-//    @Singleton
-//    fun provideLoggingInterceptor(): DebugLoggingInterceptor =
-//        DebugLoggingInterceptor(
-//            level = HttpLoggingInterceptor.Level.BODY,
-//            skipMultipartBody = true
-//        )
+    @Provides
+    @Singleton
+    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Provides
     @Singleton
-    fun provideConverterFactory(): Converter.Factory = GsonConverterFactory.create()
+    fun provideScalarsConverterFactory(): ScalarsConverterFactory = ScalarsConverterFactory.create()
 
 }

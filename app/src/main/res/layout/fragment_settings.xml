@@ -13,7 +13,6 @@
         android:elevation="@dimen/elevation_general"
         android:paddingHorizontal="@dimen/padding_general"
         app:cancelIcon="@drawable/ic_arrow_back"
-        app:doneIcon="@drawable/ic_check"
         app:doneVisible="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

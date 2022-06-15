@@ -4,7 +4,9 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemHomePostBinding
 import com.linc.inphoto.ui.home.model.HomePostUiState
+import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.autoAnimateTargets
+import com.linc.inphoto.utils.extensions.pattern.DATE_PATTERN_DMY_DOT
 import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.viewbinding.BindableItem
 import com.xwray.groupie.viewbinding.GroupieViewHolder
@@ -26,7 +28,7 @@ class HomePostItem(
                     onSingleClick = { homePostUiState.onImage() },
                     onDoubleClick = {
                         autoAnimateTargets(root, likeAnimationView)
-                        likeImageTextView.select()
+                        likeImageView.select()
                         likeAnimationView.playOneTime { homePostUiState.onDoubleTap() }
                     }
                 )
@@ -43,18 +45,20 @@ class HomePostItem(
                     homePostUiState.onBookmark()
                 }
             }
-            likeImageTextView.apply {
+            likeImageView.apply {
                 select(homePostUiState.isLiked)
                 setOnClickListener {
                     toggleSelect()
                     homePostUiState.onLike()
                 }
             }
-            commentImageView.apply {
-                setOnClickListener { homePostUiState.onComment() }
-            }
-            tagsChipGroup.addChips(homePostUiState.tags, R.layout.item_tag_chip)
+            commentImageView.setOnClickListener { homePostUiState.onComment() }
             moreImageView.setOnClickListener { homePostUiState.onMore() }
+            dateTextView.text = DateFormatter.format(
+                homePostUiState.createdTimestamp,
+                DATE_PATTERN_DMY_DOT
+            )
+            tagsChipGroup.addChips(homePostUiState.tags, R.layout.item_tag_chip)
         }
     }
 

@@ -58,6 +58,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             exitTransition = Fade(Fade.OUT)
             reenterTransition = Fade(Fade.IN)
         }
-        bottomBarViewModel.showBottomBar()
+        bottomBarViewModel.hideBottomBar()
     }
 }

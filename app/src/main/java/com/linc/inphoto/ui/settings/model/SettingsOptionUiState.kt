@@ -1,6 +1,6 @@
 package com.linc.inphoto.ui.settings.model
 
 data class SettingsOptionUiState(
-    val entry: SettingsEntry,
+    val entry: SettingsOption,
     val onClick: () -> Unit
 )

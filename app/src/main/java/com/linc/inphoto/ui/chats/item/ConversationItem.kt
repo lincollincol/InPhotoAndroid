@@ -7,14 +7,13 @@ import com.linc.inphoto.ui.chats.model.ConversationUiState
 import com.linc.inphoto.ui.chats.model.isEmptyConversation
 import com.linc.inphoto.ui.chats.model.isLastMessageAttachmentsOnly
 import com.linc.inphoto.utils.DateFormatter
-import com.linc.inphoto.utils.extensions.getString
+import com.linc.inphoto.utils.extensions.context
 import com.linc.inphoto.utils.extensions.view.clearImage
 import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
 import com.xwray.groupie.viewbinding.GroupieViewHolder
-import java.util.*
 
 class ConversationItem(
     private val conversationUiState: ConversationUiState
@@ -28,14 +27,13 @@ class ConversationItem(
             }
             nameTextView.text = conversationUiState.username
             lastMessageTextView.text = when {
-                conversationUiState.isEmptyConversation -> getString(R.string.no_messages)
-                conversationUiState.isLastMessageAttachmentsOnly -> getString(R.string.attachments)
+                conversationUiState.isEmptyConversation -> context.getString(R.string.no_messages)
+                conversationUiState.isLastMessageAttachmentsOnly -> context.getString(R.string.attachments)
                 else -> conversationUiState.lastMessage
             }
             lastMessageTimeTextView.apply {
                 text = DateFormatter.getRelativeTimeSpanString2(
-                    conversationUiState.lastMessageTimestamp,
-                    Locale.US
+                    conversationUiState.lastMessageTimestamp
                 )
                 show(!conversationUiState.isEmptyConversation)
             }

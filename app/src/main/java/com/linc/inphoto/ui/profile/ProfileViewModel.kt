@@ -1,7 +1,6 @@
 package com.linc.inphoto.ui.profile
 
 import androidx.lifecycle.viewModelScope
-import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.post.Post
@@ -105,7 +104,6 @@ class ProfileViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             IMAGE_SOURCE_RESULT,
-            resourceProvider.getString(R.string.choose_post_source),
             ImageSource.getAvailableSources()
         )
         router.showDialog(pickerScreen)
