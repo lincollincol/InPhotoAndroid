@@ -22,16 +22,6 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
-    /**
-     *
-     * TODO:
-     * - add language picker screen to settings
-     * - fix views size according to localization
-     *
-     * https://github.com/akexorcist/Localization
-     *
-     * */
-
     companion object {
         @JvmStatic
         fun newInstance() = SettingsFragment()

@@ -10,11 +10,13 @@ import androidx.transition.Slide
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentLanguageSettingsBinding
+import com.linc.inphoto.ui.base.activity.LocaleActivity
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.languagesettings.item.LanguageItem
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.createAdapter
+import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +38,10 @@ class LanguageSettingsFragment : BaseFragment(R.layout.fragment_language_setting
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
             languageSection.update(state.languages.map(::LanguageItem))
+            state.newLocale?.let { locale ->
+                requireActivity().safeCast<LocaleActivity>()?.setLocale(locale)
+                viewModel.localeShown()
+            }
         }
     }
 

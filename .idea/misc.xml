@@ -40,6 +40,7 @@
         <entry key="app/src/main/res/drawable/shape_round_50.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/drawable/shape_top_round_25.xml" value="0.340625" />
         <entry key="app/src/main/res/drawable/stroke_black_round_50.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/layout/activity_locale_reload.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.31833910034602075" />
         <entry key="app/src/main/res/layout/dialog_choose_option.xml" value="0.3234375" />
         <entry key="app/src/main/res/layout/dialog_confirm.xml" value="0.18" />
