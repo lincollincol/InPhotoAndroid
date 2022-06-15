@@ -14,7 +14,6 @@ import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
 import com.xwray.groupie.viewbinding.GroupieViewHolder
-import java.util.*
 
 class ConversationItem(
     private val conversationUiState: ConversationUiState
@@ -34,8 +33,7 @@ class ConversationItem(
             }
             lastMessageTimeTextView.apply {
                 text = DateFormatter.getRelativeTimeSpanString2(
-                    conversationUiState.lastMessageTimestamp,
-                    Locale.US
+                    conversationUiState.lastMessageTimestamp
                 )
                 show(!conversationUiState.isEmptyConversation)
             }

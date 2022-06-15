@@ -2,9 +2,6 @@
 <resources>
 
     <dimen name="app_toolbar_height">56dp</dimen>
-    <dimen name="size_icon_small">24dp</dimen>
-    <dimen name="size_icon_medium">32dp</dimen>
-    <dimen name="size_icon_large">48dp</dimen>
 
     <!--Elevation-->
     <dimen name="elevation_none">0dp</dimen>
@@ -55,7 +52,6 @@
     <dimen name="translation_middle">16dp</dimen>
     <dimen name="translation_top">24dp</dimen>
 
-    <!--Translation Z-->
     <dimen name="icon_tiny">12dp</dimen>
     <dimen name="icon_small">24dp</dimen>
     <dimen name="icon_general">36dp</dimen>
@@ -63,5 +59,10 @@
     <dimen name="icon_extra_large">72dp</dimen>
     <dimen name="icon_huge">96dp</dimen>
     <dimen name="icon_extra_huge">128dp</dimen>
+
+    <dimen name="divider_tiny">1dp</dimen>
+    <dimen name="divider_small">2dp</dimen>
+    <dimen name="divider_general">4dp</dimen>
+    <dimen name="divider_large">8dp</dimen>
 
 </resources>

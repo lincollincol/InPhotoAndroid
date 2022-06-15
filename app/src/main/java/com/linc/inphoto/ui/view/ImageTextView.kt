@@ -52,7 +52,7 @@ class ImageTextView(
         )
         iconSize = attributes.getDimensionPixelSize(
             R.styleable.ImageTextView_iconSize,
-            resources.getDimensionPixelSize(R.dimen.size_icon_small)
+            resources.getDimensionPixelSize(R.dimen.icon_small)
         )
         attributes.recycle()
     }

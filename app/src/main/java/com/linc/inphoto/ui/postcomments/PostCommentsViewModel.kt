@@ -1,7 +1,6 @@
 package com.linc.inphoto.ui.postcomments
 
 import androidx.lifecycle.viewModelScope
-import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.PostRepository
 import com.linc.inphoto.entity.post.Comment
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -128,7 +126,6 @@ class PostCommentsViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             COMMENT_ACTION_RESULT,
-            resourceProvider.getString(R.string.choose_comment_action),
             CommentAction.getCommentActions()
         )
         router.showDialog(pickerScreen)

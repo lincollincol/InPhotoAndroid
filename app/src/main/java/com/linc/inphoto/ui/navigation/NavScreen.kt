@@ -68,10 +68,9 @@ object NavScreen {
 
     fun ChooseOptionScreen(
         resultKey: String,
-        title: String,
         options: List<OptionModel>
     ) = DialogScreen {
-        OptionPickerFragment.newInstance(resultKey, title, options)
+        OptionPickerFragment.newInstance(resultKey, options)
     }
 
     fun DatePickerScreen(

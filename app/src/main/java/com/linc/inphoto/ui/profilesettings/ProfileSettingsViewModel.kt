@@ -119,19 +119,13 @@ class ProfileSettingsViewModel @Inject constructor(
     }
 
     fun updateAvatar() {
-        selectImageSource(
-            PROFILE_AVATAR_RESULT,
-            resourceProvider.getString(R.string.choose_avatar_source)
-        ) { avatarUri ->
+        selectImageSource(PROFILE_AVATAR_RESULT) { avatarUri ->
             _uiState.update { it.copy(avatarUri = avatarUri) }
         }
     }
 
     fun updateHeader() {
-        selectImageSource(
-            PROFILE_HEADER_RESULT,
-            resourceProvider.getString(R.string.choose_header_source)
-        ) { headerUri ->
+        selectImageSource(PROFILE_HEADER_RESULT) { headerUri ->
             _uiState.update { it.copy(headerUri = headerUri) }
         }
     }
@@ -172,7 +166,6 @@ class ProfileSettingsViewModel @Inject constructor(
 
     private fun selectImageSource(
         resultKey: String,
-        title: String,
         action: (Uri?) -> Unit
     ) {
         router.setResultListener(IMAGE_SOURCE_RESULT) { result ->
@@ -189,7 +182,6 @@ class ProfileSettingsViewModel @Inject constructor(
         }
         val pickerScreen = NavScreen.ChooseOptionScreen(
             IMAGE_SOURCE_RESULT,
-            title,
             ImageSource.getAvailableSources()
         )
         router.showDialog(pickerScreen)

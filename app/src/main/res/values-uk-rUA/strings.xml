@@ -38,10 +38,10 @@
     <string name="crop">Обрізати</string>
     <string name="filter">Фільтер</string>
     <string name="text">Текст</string>
-    <string name="sticker">Наліпки</string>
+    <string name="sticker">Наклейка</string>
     <string name="edit">Редагувати</string>
     <string name="delete">Видалити</string>
-    <string name="mute">Mute</string>
+    <string name="mute">Вимкнути сповіщення</string>
     <string name="pin">Закріпити</string>
     <string name="share">Поширити</string>
     <string name="report">Повідомити</string>
@@ -52,14 +52,13 @@
     <string name="select_image_toolbar">Вибрати картинку</string>
     <string name="manage_post_toolbar">Керування дописом</string>
     <string name="description">Опис</string>
-    <string name="stickers">Наліпки</string>
+    <string name="stickers">Наклейка</string>
 
     <string name="not_found">Не знайдено!</string>
     <string name="image_not_found">Картинку не знайдено!</string>
 
     <string name="empty_description_error">Будь ласка, опишіть допис!</string>
     <string name="empty_tags_list_error">Будь ласка, додайте принаймні один тег!</string>
-
 
     <string name="share_post_template">
         Переглянь %1$s\'s публікації!\n\n
@@ -86,15 +85,6 @@
     <string name="cancel">Скасувати</string>
     <string name="confirm">Прийняти</string>
 
-    <string name="choose_attachment_source">Attachments source</string>
-    <string name="choose_post_source">Post source</string>
-    <string name="choose_avatar_source">Avatar source</string>
-    <string name="choose_header_source">Header source</string>
-    <string name="choose_story_source">Story source</string>
-    <string name="choose_comment_action">Comment actions</string>
-    <string name="choose_post_action">Post actions</string>
-    <string name="choose_message_action">Message actions</string>
-    <string name="choose_chat_action">Chat actions</string>
     <string name="choose_story_duration">Тривалість слайду</string>
     <string name="choose_story_expiration">Термін дії</string>
     <string name="choose_crop_shape">Фігура</string>
@@ -112,6 +102,8 @@
     <plurals name="date_period_short_week">
         <item quantity="one">%1$d тиждень</item>
         <item quantity="other">%1$d тижні</item>
+        <item quantity="few">%1$d тижні</item>
+        <item quantity="many">%1$d тижні</item>
     </plurals>
     <string name="date_period_short_day">%1$d д.</string>
     <string name="date_period_short_hour">%1$d год.</string>
@@ -122,30 +114,44 @@
     <plurals name="date_period_long_year">
         <item quantity="one">%1$d рік</item>
         <item quantity="other">%1$d роки</item>
+        <item quantity="few">%1$d роки</item>
+        <item quantity="many">%1$d роки</item>
     </plurals>
     <plurals name="date_period_long_month">
         <item quantity="one">%1$d місяць</item>
         <item quantity="other">%1$d місяців</item>
+        <item quantity="few">%1$d місяців</item>
+        <item quantity="many">%1$d місяців</item>
     </plurals>
     <plurals name="date_period_long_week">
         <item quantity="one">%1$d тиждень</item>
         <item quantity="other">%1$d тижнів</item>
+        <item quantity="few">%1$d тижнів</item>
+        <item quantity="many">%1$d тижнів</item>
     </plurals>
     <plurals name="date_period_long_day">
         <item quantity="one">%1$d день</item>
         <item quantity="other">%1$d днів</item>
+        <item quantity="few">%1$d днів</item>
+        <item quantity="many">%1$d днів</item>
     </plurals>
     <plurals name="date_period_long_hour">
         <item quantity="one">%1$d година</item>
         <item quantity="other">%1$d годин</item>
+        <item quantity="few">%1$d годин</item>
+        <item quantity="many">%1$d годин</item>
     </plurals>
     <plurals name="date_period_long_minute">
         <item quantity="one">%1$d хвилина</item>
         <item quantity="other">%1$d хвилин</item>
+        <item quantity="few">%1$d хвилин</item>
+        <item quantity="many">%1$d хвилин</item>
     </plurals>
     <plurals name="date_period_long_second">
         <item quantity="one">%1$d секунда</item>
         <item quantity="other">%1$d секунд</item>
+        <item quantity="few">%1$d секунд</item>
+        <item quantity="many">%1$d секунд</item>
     </plurals>
 
     <string name="no_messages">Немає повідомлень</string>

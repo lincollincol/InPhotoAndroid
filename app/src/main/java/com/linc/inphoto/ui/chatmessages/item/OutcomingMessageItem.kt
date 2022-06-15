@@ -12,7 +12,6 @@ import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
-import java.util.*
 
 class OutcomingMessageItem(
     private val messageUiState: MessageUiState
@@ -25,8 +24,7 @@ class OutcomingMessageItem(
             }
             timeTextView.text = DateFormatter.format(
                 messageUiState.createdTimestamp,
-                TIME_PATTERN_SEMICOLON,
-                Locale.US
+                TIME_PATTERN_SEMICOLON
             )
             fileImageView.apply {
                 loadImage(

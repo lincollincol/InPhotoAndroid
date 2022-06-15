@@ -1,7 +1,6 @@
 package com.linc.inphoto.ui.chats
 
 import androidx.lifecycle.viewModelScope
-import com.linc.inphoto.R
 import com.linc.inphoto.data.repository.ChatRepository
 import com.linc.inphoto.data.repository.UserRepository
 import com.linc.inphoto.entity.chat.Chat
@@ -120,7 +119,6 @@ class ChatsViewModel @Inject constructor(
         router.showDialog(
             NavScreen.ChooseOptionScreen(
                 CHAT_ACTION_RESULT,
-                resourceProvider.getString(R.string.choose_chat_action),
                 ChatOperation.getChatOperations()
             )
         )

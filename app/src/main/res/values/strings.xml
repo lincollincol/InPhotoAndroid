@@ -1,15 +1,11 @@
 <resources>
     <string name="app_name" translatable="false">InPhoto</string>
-
     <string name="example_lorem_ipsum" translatable="false">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</string>
-
     <string name="option_avatar_gallery">Open from gallery</string>
     <string name="option_avatar_camera">Take a picture</string>
     <string name="got_it">Got It</string>
-
     <string name="unavailable">Unavailable</string>
     <string name="unavailable_function_description">This function is currently unavailable!</string>
-
     <string name="hint_password">password</string>
     <string name="hint_email">email</string>
     <string name="welcome_back">Welcome\nBack!</string>
@@ -24,20 +20,15 @@
     <string name="female">Female</string>
     <string name="repeat_password">repeat password</string>
     <string name="create_account">Create Account</string>
-
     <string name="permissions">Permissions</string>
-
     <string name="profile_followers_count">%1$d followers</string>
     <string name="profile_following_count">%1$d following</string>
     <string name="profile_permissions_message">You must allow at least one permission to update profile avatar</string>
-
     <string name="choose_option">Choose Option</string>
-
     <string name="crop_fixed_ratio">Fixed ratio</string>
     <string name="settings_crop_shape">Crop shape</string>
     <string name="settings_crop_rectangle">Rectangle</string>
     <string name="settings_crop_circle">Circle</string>
-
     <string name="crop">Crop</string>
     <string name="filter">Filter</string>
     <string name="text">Text</string>
@@ -48,7 +39,6 @@
     <string name="pin">Pin</string>
     <string name="share">Share</string>
     <string name="report">Report</string>
-
     <string name="publications_toolbar">Publications</string>
     <string name="edit_image_toolbar">Edit Image</string>
     <string name="crop_image_toolbar">Crop Image</string>
@@ -56,26 +46,13 @@
     <string name="manage_post_toolbar">Manage Post</string>
     <string name="description">Description</string>
     <string name="stickers">Stickers</string>
-
     <string name="not_found">Not Found!</string>
     <string name="image_not_found">Image not found!</string>
-
     <string name="empty_description_error">Please, describe content!</string>
     <string name="empty_tags_list_error">Please, add at least one tag!</string>
-
-
-    <!--Share content description te,plates-->
-    <string name="share_post_template">
-        Check out %1$s\'s post!\n\n
-        %2$s\n
-        %3$s\n\n
-        %4$s\n\n
-        Join InPhoto
-    </string>
-
+    <string name="share_post_template">Check out %1$s\'s post!\n\n%2$s\n%3$s\n\n%4$s\n\nJoin InPhoto</string>
     <string name="posts_count">%1$s posts</string>
     <string name="tag_title">#%1$s</string>
-
     <string name="settings_title">Settings</string>
     <string name="settings_profile">Profile</string>
     <string name="settings_privacy">Privacy</string>
@@ -84,45 +61,56 @@
     <string name="settings_sign_out">Sign out</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_and_conditions">Terms &amp; Conditions</string>
-
     <string name="title_username">Username</string>
     <string name="title_status">Status</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
-
-    <string name="choose_attachment_source">Attachments source</string>
-    <string name="choose_post_source">Post source</string>
-    <string name="choose_avatar_source">Avatar source</string>
-    <string name="choose_header_source">Header source</string>
-    <string name="choose_story_source">Story source</string>
-    <string name="choose_comment_action">Comment actions</string>
-    <string name="choose_post_action">Post actions</string>
-    <string name="choose_message_action">Message actions</string>
-    <string name="choose_chat_action">Chat actions</string>
     <string name="choose_story_duration">Slide duration</string>
     <string name="choose_story_expiration">Expiration time</string>
     <string name="choose_crop_shape">Crop shape</string>
-
     <string name="settings_cancel_changes_title">Discard changes?</string>
     <string name="settings_cancel_changes_description">You have updated some of your profile information. Are you sure you want to undo the changes?</string>
     <string name="settings_invalid_username_error">Invalid username!</string>
     <string name="settings_invalid_data">Invalid profile data!</string>
     <string name="settings_invalid_data_description">Some fields contain invalid data. Please make sure you have entered the correct data</string>
-
     <string name="permission_gallery_description">To access the gallery, you should allow permission to read the storage on this device</string>
     <string name="permission_camera_description">To access the camera, you should allow camera permission on this device</string>
     <string name="comments">Comments</string>
-
-    <plurals name="date_period_short_week">
-        <item quantity="one">%1$d week</item>
-        <item quantity="other">%1$d weeks</item>
-    </plurals>
     <string name="date_period_short_day">%1$d d.</string>
     <string name="date_period_short_hour">%1$d hr.</string>
     <string name="date_period_short_minute">%1$d min.</string>
     <string name="date_period_short_second">%1$d sec.</string>
     <string name="date_period_short_now">just now</string>
-
+    <string name="no_messages">No messages here yet</string>
+    <string name="attachments">Attachments</string>
+    <string name="message">Message</string>
+    <string name="messages">Messages</string>
+    <string name="search">Search</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="follow">Follow</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
+    <string name="nothing_found">Nothing Found</string>
+    <string name="show_all">Show All</string>
+    <string name="home">Home</string>
+    <string name="chat">Chat</string>
+    <string name="chats">Chats</string>
+    <string name="profile">Profile</string>
+    <string name="contacts">Contacts</string>
+    <string name="edited">edited</string>
+    <string name="media_review">Media Review</string>
+    <string name="random">Random</string>
+    <string name="upload">Upload</string>
+    <string name="posts">Posts</string>
+    <string name="your_story">Your story</string>
+    <string name="create_story">Create story</string>
+    <string name="expire_at">Expire at</string>
+    <string name="preview_duration">Preview duration</string>
+    <string name="expiration_time">Expiration time</string>
+    <plurals name="date_period_short_week">
+        <item quantity="one">%1$d week</item>
+        <item quantity="other">%1$d weeks</item>
+    </plurals>
     <plurals name="date_period_long_year">
         <item quantity="one">%1$d year</item>
         <item quantity="other">%1$d years</item>
@@ -151,33 +139,4 @@
         <item quantity="one">%1$d second</item>
         <item quantity="other">%1$d seconds</item>
     </plurals>
-
-    <string name="no_messages">No messages here yet</string>
-    <string name="attachments">Attachments</string>
-    <string name="message">Message</string>
-    <string name="messages">Messages</string>
-    <string name="search">Search</string>
-    <string name="unfollow">Unfollow</string>
-    <string name="follow">Follow</string>
-    <string name="following">Following</string>
-    <string name="followers">Followers</string>
-    <string name="nothing_found">Nothing Found</string>
-    <string name="show_all">Show All</string>
-    <string name="home">Home</string>
-    <string name="chat">Chat</string>
-    <string name="chats">Chats</string>
-    <string name="profile">Profile</string>
-    <string name="contacts">Contacts</string>
-    <string name="edited">edited</string>
-    <string name="media_review">Media Review</string>
-    <string name="random">Random</string>
-    <string name="upload">Upload</string>
-    <string name="posts">Posts</string>
-    <string name="your_story">Your story</string>
-    <string name="create_story">Create story</string>
-    <string name="expire_at">Expire at</string>
-    <string name="preview_duration">Preview duration</string>
-    <string name="expiration_time">Expiration time</string>
-
-
 </resources>
