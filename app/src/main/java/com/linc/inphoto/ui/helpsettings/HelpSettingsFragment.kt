@@ -55,6 +55,6 @@ class HelpSettingsFragment : BaseFragment(R.layout.fragment_help_settings) {
             reenterTransition = Fade(Fade.IN)
         }
         viewModel.loadHelpOptions()
-        bottomBarViewModel.showBottomBar()
+        bottomBarViewModel.hideBottomBar()
     }
 }
