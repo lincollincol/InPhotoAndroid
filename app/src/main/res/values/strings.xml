@@ -107,6 +107,8 @@
     <string name="expire_at">Expire at</string>
     <string name="preview_duration">Preview duration</string>
     <string name="expiration_time">Expiration time</string>
+    <string name="show_more">more</string>
+    <string name="show_less">less</string>
     <plurals name="date_period_short_week">
         <item quantity="one">%1$d week</item>
         <item quantity="other">%1$d weeks</item>

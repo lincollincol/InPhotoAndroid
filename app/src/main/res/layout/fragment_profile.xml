@@ -194,16 +194,13 @@
             app:constraint_referenced_ids="followersLayout, followingLayout" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/statusTectView"
+            android:id="@+id/statusTextView"
             style="@style/TextField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
             android:textColor="@color/black_50"
-            android:gravity="center"
-            android:maxLines="3"
-            android:ellipsize="end"
-            tools:text="@string/mock_status"
+            tools:text="@string/example_lorem_ipsum"
             app:layout_constraintTop_toBottomOf="@id/usernameSpace"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -220,7 +217,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintEnd_toEndOf="@id/centerGuideline"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/statusTectView"
+            app:layout_constraintTop_toBottomOf="@id/statusTextView"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
@@ -235,7 +232,7 @@
             app:layout_constraintEnd_toEndOf="@id/centerGuideline"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/statusTectView"
+            app:layout_constraintTop_toBottomOf="@id/statusTextView"
             tools:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
@@ -249,7 +246,7 @@
             tools:visibility="visible"
             app:layout_constraintStart_toStartOf="@id/centerGuideline"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/statusTectView"
+            app:layout_constraintTop_toBottomOf="@id/statusTextView"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline

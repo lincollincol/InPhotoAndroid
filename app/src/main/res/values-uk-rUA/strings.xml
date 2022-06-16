@@ -180,6 +180,7 @@
     <string name="expire_at">Закінчиться</string>
     <string name="preview_duration">Час перегляду</string>
     <string name="expiration_time">Термін дії</string>
-
+    <string name="show_more">більше</string>
+    <string name="show_less">менше</string>
 
 </resources>

@@ -149,5 +149,5 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
     implementation 'com.akexorcist:localization:1.2.11'
-
+    implementation 'com.github.noowenz:ShowMoreLess:1.0.3'
 }
