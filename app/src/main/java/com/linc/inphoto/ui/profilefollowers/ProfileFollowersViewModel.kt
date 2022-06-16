@@ -70,6 +70,7 @@ class ProfileFollowersViewModel @Inject constructor(
         userRepository.loadUserFollowers(userId)
             .sortedBy { it.name }
             .map { it.toUiState { selectUser(it.id) } }
+            .distinctBy { it.getStateItemId() }
             .also { followers.update(it) }
     }
 
@@ -77,6 +78,7 @@ class ProfileFollowersViewModel @Inject constructor(
         userRepository.loadUserFollowing(userId)
             .sortedBy { it.name }
             .map { it.toUiState { selectUser(it.id) } }
+            .distinctBy { it.getStateItemId() }
             .also { following.update(it) }
     }
 

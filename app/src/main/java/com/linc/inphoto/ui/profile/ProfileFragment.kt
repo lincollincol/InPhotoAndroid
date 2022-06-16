@@ -19,10 +19,7 @@ import com.linc.inphoto.ui.navigation.TabStateListener
 import com.linc.inphoto.ui.profile.item.NewPostItem
 import com.linc.inphoto.ui.profile.item.ProfilePostItem
 import com.linc.inphoto.utils.extensions.*
-import com.linc.inphoto.utils.extensions.view.loadImage
-import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
-import com.linc.inphoto.utils.extensions.view.show
-import com.linc.inphoto.utils.extensions.view.verticalSquareGridLayoutManager
+import com.linc.inphoto.utils.extensions.view.*
 import com.linc.inphoto.utils.view.recyclerview.decorator.GridSpaceItemDecoration
 import com.linc.inphoto.utils.view.recyclerview.listener.VerticalRecyclerScrollListener
 import com.xwray.groupie.Section
@@ -34,6 +31,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
 
     companion object {
         private const val ROW_IMAGES_COUNT = 3
+        private const val STATUS_MAX_LINES = 2
         private const val USER_ID_ARG = "user_id"
 
         @JvmStatic
@@ -54,14 +52,21 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), TabStateListene
                 profileMotionLayout,
                 followButton,
                 messageButton,
-                backButton,
+                backButton
             )
-            statusTectView.show(state.isStatusValid)
+            statusTextView.show(state.isStatusValid)
             userPostsSection.update(state.posts.map(::ProfilePostItem))
             state.newPostUiState?.let(::NewPostItem)?.let(userPostsSection::setHeader)
             state.user?.let { user ->
                 profileNameTextField.text = user.name
-                statusTectView.text = user.status
+                statusTextView.apply {
+                    text = user.status
+                    setExpandable(
+                        STATUS_MAX_LINES,
+                        R.string.show_more,
+                        R.string.show_less
+                    )
+                }
                 avatarImageView.loadImage(image = user.avatarUrl)
                 headerImageView.loadImage(image = user.headerUrl)
                 followButton.show(!user.isLoggedInUser && !user.isFollowingUser)
