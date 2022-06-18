@@ -15,7 +15,7 @@ sealed class AttachmentSource(
 
     companion object {
         @JvmStatic
-        fun getAvailableSources() = listOf(Gallery, Camera)
+        fun getAvailableSources() = listOf(Gallery, Camera, Audio)
     }
 
     @Parcelize
@@ -23,5 +23,8 @@ sealed class AttachmentSource(
 
     @Parcelize
     object Gallery : AttachmentSource(R.string.option_avatar_gallery, true, R.drawable.ic_image)
+
+    @Parcelize
+    object Audio : AttachmentSource(R.string.option_audio_file, true, R.drawable.ic_audio_file)
 
 }

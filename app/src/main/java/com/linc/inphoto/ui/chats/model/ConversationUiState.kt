@@ -1,6 +1,5 @@
 package com.linc.inphoto.ui.chats.model
 
-import android.net.Uri
 import com.linc.inphoto.entity.chat.Chat
 import com.linc.inphoto.ui.base.state.ItemUiState
 
@@ -11,7 +10,7 @@ data class ConversationUiState(
     val username: String,
     val lastMessage: String?,
     val lastMessageTimestamp: Long,
-    val lastMessageFiles: List<Uri>,
+    val lastMessageFilesCount: Int,
     val onClick: () -> Unit,
     val onMenuClick: () -> Unit,
     val onUserClick: () -> Unit,
@@ -25,7 +24,7 @@ val ConversationUiState.isEmptyConversation
     get() = lastMessage == null
 
 val ConversationUiState.isLastMessageTextOnly
-    get() = !lastMessage.isNullOrEmpty() && lastMessageFiles.isEmpty()
+    get() = !lastMessage.isNullOrEmpty() && lastMessageFilesCount == 0
 
 val ConversationUiState.isLastMessageAttachmentsOnly get() = !isLastMessageTextOnly
 
@@ -40,7 +39,7 @@ fun Chat.toUiState(
     username = username,
     lastMessage = lastMessage,
     lastMessageTimestamp = lastMessageTimestamp,
-    lastMessageFiles = lastMessageFiles,
+    lastMessageFilesCount = lastMessageFilesCount,
     onClick = onClick,
     onMenuClick = onMenuClick,
     onUserClick = onUserClick

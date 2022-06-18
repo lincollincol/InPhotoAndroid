@@ -22,6 +22,10 @@ class MediaRepository @Inject constructor(
         return@withContext mediaLocalDataSource.loadDCIMFiles()
     }
 
+    suspend fun loadAudioFiles() = withContext(ioDispatcher) {
+        return@withContext mediaLocalDataSource.loadAudioFiles()
+    }
+
     suspend fun loadRandomUserAvatar(gender: Gender?) = withContext(ioDispatcher) {
         return@withContext contentApiService.getRandomAvatar(gender?.name).body
     }

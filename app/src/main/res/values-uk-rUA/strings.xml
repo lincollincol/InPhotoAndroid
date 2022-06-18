@@ -3,6 +3,7 @@
 
     <string name="option_avatar_gallery">Вибрати з галереї</string>
     <string name="option_avatar_camera">Зробити фото</string>
+    <string name="option_audio_file">Вибрати аудіо файл</string>
     <string name="got_it">Зрозуміло</string>
 
     <string name="unavailable">Недоступно</string>

@@ -2,8 +2,8 @@ package com.linc.inphoto.data.network.firebase
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.linc.inphoto.data.mapper.toChatModel
 import com.linc.inphoto.data.network.model.chat.ChatFirebaseModel
-import com.linc.inphoto.utils.getList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -33,7 +33,7 @@ class ChatsCollection @Inject constructor(
                 if (error != null) {
                     error(error)
                 }
-                trySend(snapshot?.documents?.map(::getChatFirebaseModel).orEmpty())
+                trySend(snapshot?.documents?.map(DocumentSnapshot::toChatModel).orEmpty())
             }
         awaitClose { listener.remove() }
     }.flowOn(ioDispatcher)
@@ -43,7 +43,7 @@ class ChatsCollection @Inject constructor(
             .whereArrayContains("participants", userId)
             .get()
             .await()
-            .map(::getChatFirebaseModel)
+            .map(DocumentSnapshot::toChatModel)
     }
 
     suspend fun loadChat(chatId: String): ChatFirebaseModel = withContext(ioDispatcher) {
@@ -51,7 +51,7 @@ class ChatsCollection @Inject constructor(
             .document(chatId)
             .get()
             .await()
-            .let(::getChatFirebaseModel)
+            .toChatModel()
     }
 
     suspend fun createChat(
@@ -78,7 +78,4 @@ class ChatsCollection @Inject constructor(
             .await()
     }
 
-    private fun getChatFirebaseModel(document: DocumentSnapshot) = ChatFirebaseModel(
-        participants = document.getList("participants")
-    ).also { it.id = document.id }
 }

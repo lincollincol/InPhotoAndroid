@@ -8,19 +8,21 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import androidx.documentfile.provider.DocumentFile
+import com.linc.inphoto.data.android.model.MediaFile
 import com.linc.inphoto.entity.LocalMedia
 import com.linc.inphoto.utils.extensions.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import linc.com.amplituda.Amplituda
 import timber.log.Timber
 import java.io.File
 import java.io.InputStream
-import java.util.*
 import javax.inject.Inject
 
 class MediaLocalDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val amplituda: Amplituda,
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
@@ -52,12 +54,10 @@ class MediaLocalDataSource @Inject constructor(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         it.getLong(idIndex)
                     )
-
                     val mediaExist = when {
                         Build.VERSION.SDK_INT < Build.VERSION_CODES.R -> File(data).exists()
                         else -> DocumentFile.fromSingleUri(context, contentUri)?.exists() ?: false
                     }
-
                     if (mediaExist) {
                         content.add(LocalMedia(name, date, contentUri))
                     }
@@ -67,9 +67,68 @@ class MediaLocalDataSource @Inject constructor(
         return@withContext content
     }
 
-    suspend fun createTempFile(uri: Uri?): File? = withContext(ioDispatcher) {
+    suspend fun loadAudioFiles(): List<LocalMedia> = withContext(ioDispatcher) {
+        val content = mutableListOf<LocalMedia>()
+        val cursor = context.contentResolver.query(
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            arrayOf(
+                MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.DATE_ADDED,
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DATA,
+            ),
+            null,
+            null,
+            "${MediaStore.MediaColumns.DATE_ADDED} DESC"
+        )
+        cursor?.use {
+            if (it.moveToFirst()) {
+                do {
+                    val idIndex = it.getColumnIndex(MediaStore.Audio.Media._ID)
+                    val nameIndex = it.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)
+                    val dateIndex = it.getColumnIndex(MediaStore.Audio.Media.DATE_ADDED)
+                    val dataIndex = it.getColumnIndex(MediaStore.Audio.Media.DATA)
+                    val name = it.getString(nameIndex)
+                    val date = it.getLong(dateIndex)
+                    val data = it.getString(dataIndex)
+                    val contentUri = ContentUris.withAppendedId(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        it.getLong(idIndex)
+                    )
+                    val mediaExist = when {
+                        Build.VERSION.SDK_INT < Build.VERSION_CODES.R -> File(data).exists()
+                        else -> DocumentFile.fromSingleUri(context, contentUri)?.exists() ?: false
+                    }
+                    if (mediaExist) {
+                        content.add(LocalMedia(name, date, contentUri))
+                    }
+                } while (it.moveToNext())
+            }
+        }
+        return@withContext content
+    }
+
+    @Deprecated("Future release feature")
+    suspend fun createTempMediaFile(uri: Uri?): MediaFile? = withContext(ioDispatcher) {
         uri ?: return@withContext null
-        return@withContext context.createTempFile(uri)
+        val file = createTempFile(uri) ?: return@withContext null
+        val mimeType = uri.getMimeTypePrefix(context) ?: return@withContext null
+        return@withContext when {
+            mimeType.isAudioMimeType() ->
+                MediaFile.Audio(
+                    file,
+                    mimeType,
+                    amplituda.processAudio(file).get().amplitudesAsList()
+                )
+            mimeType.isImageMimeType() -> MediaFile.Image(file, mimeType)
+            mimeType.isVideoMimeType() -> MediaFile.Video(file, mimeType)
+            mimeType.isDocMimeType() -> MediaFile.Document(file, mimeType)
+            else -> null
+        }
+    }
+
+    suspend fun createTempFile(uri: Uri?): File? = withContext(ioDispatcher) {
+        return@withContext uri?.let(context::createTempFile)?.also(File::deleteOnExit)
     }
 
     fun createTempUri(): Uri = context.createTempUri()

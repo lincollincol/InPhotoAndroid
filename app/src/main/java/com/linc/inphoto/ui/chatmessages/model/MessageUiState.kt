@@ -1,13 +1,13 @@
 package com.linc.inphoto.ui.chatmessages.model
 
-import android.net.Uri
+import com.linc.inphoto.entity.chat.Attachment
 import com.linc.inphoto.entity.chat.Message
 import com.linc.inphoto.ui.base.state.ItemUiState
 
 data class MessageUiState(
     val id: String,
     val text: String,
-    val files: List<Uri>,
+    val attachments: List<Attachment>,
     val createdTimestamp: Long,
     val isIncoming: Boolean,
     val isSystem: Boolean,
@@ -21,11 +21,11 @@ data class MessageUiState(
         fun getPendingMessageInstance(
             messageId: String,
             text: String,
-            files: List<Uri>
+            attachments: List<Attachment>
         ) = MessageUiState(
             id = messageId,
             text = text,
-            files = files,
+            attachments = attachments,
             createdTimestamp = System.currentTimeMillis(),
             isIncoming = false,
             isSystem = false,
@@ -41,9 +41,9 @@ data class MessageUiState(
     }
 }
 
-val MessageUiState.hasAttachments get() = files.isNotEmpty()
-val MessageUiState.hasSingleAttachment get() = files.count() == 1
-val MessageUiState.hasMultipleAttachments get() = files.count() > 1
+val MessageUiState.hasAttachments get() = attachments.isNotEmpty()
+val MessageUiState.hasSingleAttachment get() = attachments.count() == 1
+val MessageUiState.hasMultipleAttachments get() = attachments.count() > 1
 val MessageUiState.isTextOnlyMessage get() = text.isNotEmpty() && !hasAttachments
 
 fun Message.toUiState(
@@ -52,7 +52,7 @@ fun Message.toUiState(
 ) = MessageUiState(
     id = id,
     text = text,
-    files = files.map(Uri::parse),
+    attachments = attachments,
     createdTimestamp = createdTimestamp,
     isIncoming = isIncoming,
     isSystem = isSystem,

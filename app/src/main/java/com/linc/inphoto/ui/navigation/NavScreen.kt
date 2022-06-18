@@ -6,6 +6,8 @@ import android.provider.Settings
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.BuildConfig
+import com.linc.inphoto.ui.audiolibrary.AudioLibraryFragment
+import com.linc.inphoto.ui.audiolibrary.model.AudioLibraryIntent
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
@@ -112,6 +114,10 @@ object NavScreen {
 
     fun GalleryScreen(intent: GalleryIntent) = FragmentScreen {
         GalleryFragment.newInstance(intent)
+    }
+
+    fun AudioLibraryScreen(intent: AudioLibraryIntent) = FragmentScreen {
+        AudioLibraryFragment.newInstance(intent)
     }
 
     fun MediaReviewScreen(files: List<Uri>) = FragmentScreen {

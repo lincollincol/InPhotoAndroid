@@ -4,7 +4,7 @@ data class Message(
     val id: String,
     val userId: String,
     val text: String,
-    val files: List<String>,
+    val attachments: List<Attachment>,
     val createdTimestamp: Long,
     val isIncoming: Boolean,
     val isSystem: Boolean,

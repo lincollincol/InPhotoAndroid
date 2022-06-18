@@ -8,4 +8,4 @@ data class MessageAttachmentUiState(
     val onRemoveClick: () -> Unit
 ) : UiState
 
-fun Collection<MessageAttachmentUiState>.toUriList() = map { it.uri }
+//fun Collection<MessageAttachmentUiState>.toUriList() = map { it.uri }

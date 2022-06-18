@@ -1,7 +1,16 @@
 package com.linc.inphoto.utils.extensions
 
 import com.linc.inphoto.utils.collections.ImmutableDeque
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
+
+suspend fun <T, R> Iterable<T>.mapAsync(
+    transform: suspend (T) -> R
+): List<Deferred<R>> = coroutineScope {
+    return@coroutineScope map { async { transform(it) } }
+}
 
 fun <T> ArrayDeque<T>?.toImmutableDeque() = ImmutableDeque(this ?: ArrayDeque())
 

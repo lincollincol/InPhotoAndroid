@@ -28,11 +28,11 @@ class IncomingMessageItem(
             )
             fileImageView.apply {
                 loadImage(
-                    messageUiState.files.firstOrNull(),
+                    messageUiState.attachments.firstOrNull()?.uri,
                     overrideOriginalSize = true,
                     diskCacheStrategy = DiskCacheStrategy.ALL
                 )
-                show(messageUiState.files.isNotEmpty())
+                show(messageUiState.attachments.isNotEmpty())
                 fileImageView.setOnThrottledClickListener { messageUiState.onImageClick() }
                 setOnLongClickListener {
                     messageUiState.onClick()

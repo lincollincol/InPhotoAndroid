@@ -6,7 +6,7 @@ import com.linc.inphoto.utils.extensions.EMPTY
 data class MessageFirebaseModel(
     val userId: String,
     val text: String,
-    val files: List<String>,
+    val attachments: List<AttachmentFirebaseModel>,
     val createdTimestamp: Long,
     val isSystem: Boolean,
     val isEdited: Boolean
@@ -16,11 +16,11 @@ data class MessageFirebaseModel(
         fun getChatMessageInstance(
             userId: String,
             text: String,
-            files: List<String>
+            attachments: List<AttachmentFirebaseModel>
         ) = MessageFirebaseModel(
             userId,
             text,
-            files,
+            attachments,
             System.currentTimeMillis(),
             isSystem = false,
             isEdited = false
