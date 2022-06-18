@@ -2,6 +2,7 @@ package com.linc.inphoto.ui.audiolibrary
 
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.MediaRepository
+import com.linc.inphoto.ui.audiolibrary.model.AudioUiState
 import com.linc.inphoto.ui.audiolibrary.model.toUiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
@@ -19,17 +20,23 @@ class AudioLibraryViewModel @Inject constructor(
 ) : BaseViewModel<AudioLibraryUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(AudioLibraryUiState())
+    private var audios: List<AudioUiState> = listOf()
 
     fun loadAudioList() {
         viewModelScope.launch {
             try {
-                val audios = mediaRepository.loadAudioFiles()
+                audios = mediaRepository.loadAudioFiles()
                     .map { it.toUiState { } }
                 _uiState.update { it.copy(audios = audios) }
             } catch (e: Exception) {
                 Timber.e(e)
             }
         }
+    }
+
+    fun updateSearchQuery(query: String) {
+        val foundAudios = audios.filter { it.name.contains(query, ignoreCase = true) }
+        _uiState.update { it.copy(searchQuery = query, audios = foundAudios) }
     }
 
 }

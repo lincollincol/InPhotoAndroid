@@ -51,6 +51,7 @@
     <string name="edit_image_toolbar">Редагувати картинку</string>
     <string name="crop_image_toolbar">Обрізати картинку</string>
     <string name="select_image_toolbar">Вибрати картинку</string>
+    <string name="select_audio_toolbar">Вибрати аудіо</string>
     <string name="manage_post_toolbar">Керування дописом</string>
     <string name="description">Опис</string>
     <string name="stickers">Наклейка</string>

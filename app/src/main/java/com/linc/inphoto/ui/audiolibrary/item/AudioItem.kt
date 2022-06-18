@@ -4,13 +4,19 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemLibraryAudioBinding
 import com.linc.inphoto.ui.audiolibrary.model.AudioUiState
+import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.xwray.groupie.viewbinding.BindableItem
 
 class AudioItem(
     private val audioUiState: AudioUiState
-) : BindableItem<ItemLibraryAudioBinding>() {
+) : BindableItem<ItemLibraryAudioBinding>(audioUiState.getStateItemId()) {
     override fun bind(viewBinding: ItemLibraryAudioBinding, position: Int) {
-        viewBinding.audioTextView.text = audioUiState.name
+        with(viewBinding) {
+            nameTextView.text = audioUiState.name
+            root.setOnThrottledClickListener {
+                audioUiState.onClick()
+            }
+        }
     }
 
     override fun getLayout(): Int = R.layout.item_library_audio

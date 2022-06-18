@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.audiolibrary
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
@@ -37,6 +38,7 @@ class AudioLibraryFragment : BaseFragment(R.layout.fragment_audio_library) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+//            audiosSection.update(state.audios.map(::AudioItem))
             audiosSection.replaceAll(state.audios.map(::AudioItem))
         }
     }
@@ -53,6 +55,12 @@ class AudioLibraryFragment : BaseFragment(R.layout.fragment_audio_library) {
                 layoutManager = verticalLinearLayoutManager()
                 adapter = createAdapter(audiosSection)
                 itemAnimator = FadeInDownAnimator()
+            }
+            searchEditText.doOnTextChanged { text, _, _, _ ->
+                viewModel.updateSearchQuery(text.toString())
+            }
+            audiosToolbarView.setOnCancelClickListener {
+                viewModel.onBackPressed()
             }
         }
     }
