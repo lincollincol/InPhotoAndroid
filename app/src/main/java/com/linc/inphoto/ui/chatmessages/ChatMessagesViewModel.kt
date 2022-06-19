@@ -188,18 +188,6 @@ class ChatMessagesViewModel @Inject constructor(
 //        }
     }
 
-    private fun selectAttachmentSource(onResult: (AttachmentSource?) -> Unit) {
-        router.setResultListener(ATTACHMENT_SOURCE_RESULT) { result ->
-            onResult(result.safeCast<AttachmentSource>())
-        }
-        router.showDialog(
-            NavScreen.ChooseOptionScreen(
-                ATTACHMENT_SOURCE_RESULT,
-                AttachmentSource.getAvailableSources()
-            )
-        )
-    }
-
     private fun openAttachmentSource(source: AttachmentSource?) {
         val screen = when (source) {
             AttachmentSource.Gallery ->
@@ -217,31 +205,21 @@ class ChatMessagesViewModel @Inject constructor(
         router.navigateTo(screen)
     }
 
-    //    private fun handleSelectedAttachments(attachments: List<Uri>) {
     private fun handleSelectedAttachments(attachments: List<LocalMedia>) {
-        // ------------------- V1 -------------------
-//        val attachments = currentState.messageAttachments.toMutableDeque()
-//        if (attachments.firstOrNull { it.uri == uri } != null) {
-//            return
-//        }
-//        val attachmentUiState = MessageAttachmentUiState(uri) { deleteMessageAttachment(uri) }
-//        attachments.addFirst(attachmentUiState)
-//        _uiState.update { it.copy(messageAttachments = attachments) }
-        // ------------------- V2 -------------------
         val screen = NavScreen.MessageAttachmentsScreen(chatId, receiverId, attachments)
         router.showDialog(screen)
     }
 
     fun selectAttachments() {
-        if (currentState.attachmentSource != null) {
-            openAttachmentSource(currentState.attachmentSource)
-            return
-        } else {
-            selectAttachmentSource { source ->
-                _uiState.update { it.copy(attachmentSource = source) }
-                openAttachmentSource(source)
-            }
+        router.setResultListener(ATTACHMENT_SOURCE_RESULT) { result ->
+            openAttachmentSource(result.safeCast<AttachmentSource>())
         }
+        router.showDialog(
+            NavScreen.ChooseOptionScreen(
+                ATTACHMENT_SOURCE_RESULT,
+                AttachmentSource.getAvailableSources()
+            )
+        )
     }
 
     private fun selectMessage(message: Message) {
