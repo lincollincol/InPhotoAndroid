@@ -2,7 +2,7 @@ package com.linc.inphoto.ui.audiolibrary
 
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.MediaRepository
-import com.linc.inphoto.entity.LocalMedia
+import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.ui.audiolibrary.model.AudioLibraryIntent
 import com.linc.inphoto.ui.audiolibrary.model.AudioUiState
 import com.linc.inphoto.ui.audiolibrary.model.toUiState

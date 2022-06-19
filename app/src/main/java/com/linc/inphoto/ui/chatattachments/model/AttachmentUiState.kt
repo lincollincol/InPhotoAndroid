@@ -1,6 +1,6 @@
 package com.linc.inphoto.ui.chatattachments.model
 
-import com.linc.inphoto.entity.LocalMedia
+import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.ui.base.state.ItemUiState
 import com.linc.inphoto.utils.extensions.isAudioMimeType
 import com.linc.inphoto.utils.extensions.isDocMimeType

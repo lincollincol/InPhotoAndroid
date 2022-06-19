@@ -1,6 +1,6 @@
 package com.linc.inphoto.ui.audiolibrary.model
 
-import com.linc.inphoto.entity.LocalMedia
+import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.ui.base.state.ItemUiState
 
 data class AudioUiState(

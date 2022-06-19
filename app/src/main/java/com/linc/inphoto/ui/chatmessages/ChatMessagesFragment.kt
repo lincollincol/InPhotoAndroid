@@ -28,6 +28,7 @@ import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.FadeInUpAnimator
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
@@ -80,6 +81,7 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.loadConversation(getArgumentNotNull(CONVERSATION_ARG))
+        Timber.tag("CHAT_VM_REF").d(viewModel.toString())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

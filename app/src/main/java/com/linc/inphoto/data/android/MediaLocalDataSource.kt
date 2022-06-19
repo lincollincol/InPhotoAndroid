@@ -9,7 +9,7 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.documentfile.provider.DocumentFile
 import com.linc.inphoto.data.android.model.MediaFile
-import com.linc.inphoto.entity.LocalMedia
+import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.utils.extensions.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher

@@ -4,8 +4,8 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.ChatRepository
 import com.linc.inphoto.data.repository.MessageRepository
-import com.linc.inphoto.entity.LocalMedia
 import com.linc.inphoto.entity.chat.Message
+import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.ui.audiolibrary.model.AudioLibraryIntent
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.camera.model.CameraIntent
@@ -140,7 +140,7 @@ class ChatMessagesViewModel @Inject constructor(
                         chatId,
                         messageId,
                         messageText,
-                        attachments
+                        listOf()
                     )
                 }
             } catch (e: Exception) {
@@ -228,7 +228,8 @@ class ChatMessagesViewModel @Inject constructor(
 //        attachments.addFirst(attachmentUiState)
 //        _uiState.update { it.copy(messageAttachments = attachments) }
         // ------------------- V2 -------------------
-        router.showDialog(NavScreen.MessageAttachmentsScreen(attachments))
+        val screen = NavScreen.MessageAttachmentsScreen(chatId, receiverId, attachments)
+        router.showDialog(screen)
     }
 
     fun selectAttachments() {

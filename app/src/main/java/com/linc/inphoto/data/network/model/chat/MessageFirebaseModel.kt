@@ -1,14 +1,14 @@
 package com.linc.inphoto.data.network.model.chat
 
 import com.google.firebase.firestore.Exclude
+import com.linc.inphoto.data.network.model.media.RemoteMediaApiModel
 import com.linc.inphoto.utils.extensions.EMPTY
 
 data class MessageFirebaseModel(
     val userId: String,
     val text: String,
-    val attachments: List<AttachmentFirebaseModel>,
+    val attachments: List<RemoteMediaApiModel>,
     val createdTimestamp: Long,
-    val isSystem: Boolean,
     val isEdited: Boolean
 ) {
     companion object {
@@ -16,13 +16,12 @@ data class MessageFirebaseModel(
         fun getChatMessageInstance(
             userId: String,
             text: String,
-            attachments: List<AttachmentFirebaseModel>
+            attachments: List<RemoteMediaApiModel>
         ) = MessageFirebaseModel(
             userId,
             text,
             attachments,
             System.currentTimeMillis(),
-            isSystem = false,
             isEdited = false
         )
 
@@ -32,7 +31,6 @@ data class MessageFirebaseModel(
             String.EMPTY,
             listOf(),
             System.currentTimeMillis(),
-            isSystem = true,
             isEdited = false
         )
     }

@@ -8,12 +8,13 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentChatAttachmentsBinding
-import com.linc.inphoto.entity.LocalMedia
+import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.ui.base.fragment.BaseBottomSheetDialogFragment
 import com.linc.inphoto.ui.chatattachments.item.AttachmentItem
 import com.linc.inphoto.utils.extensions.collect
 import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getArgument
+import com.linc.inphoto.utils.extensions.getArgumentNotNull
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.update
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
@@ -25,13 +26,21 @@ import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 class ChatAttachmentsFragment : BaseBottomSheetDialogFragment(R.layout.fragment_chat_attachments) {
 
     companion object {
+        private const val CHAT_ID_ARG = "chat_id"
+        private const val RECEIVER_ID_ARG = "receiver_id"
         private const val ATTACHMENTS_ARG = "attachments"
 
         @JvmStatic
         fun newInstance(
+            chatId: String?,
+            receiverId: String?,
             attachments: List<LocalMedia>
         ) = ChatAttachmentsFragment().apply {
-            arguments = bundleOf(ATTACHMENTS_ARG to attachments)
+            arguments = bundleOf(
+                CHAT_ID_ARG to chatId,
+                RECEIVER_ID_ARG to receiverId,
+                ATTACHMENTS_ARG to attachments
+            )
         }
     }
 
@@ -48,8 +57,11 @@ class ChatAttachmentsFragment : BaseBottomSheetDialogFragment(R.layout.fragment_
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val items = getArgument<List<LocalMedia>>(ATTACHMENTS_ARG).orEmpty()
-        viewModel.applyAttachments(items)
+        viewModel.applyAttachments(
+            getArgument(CHAT_ID_ARG),
+            getArgument(RECEIVER_ID_ARG),
+            getArgumentNotNull(ATTACHMENTS_ARG)
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

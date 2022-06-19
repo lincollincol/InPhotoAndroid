@@ -158,7 +158,7 @@
     </plurals>
 
     <string name="no_messages">Немає повідомлень</string>
-    <string name="attachments">Вкладення</string>
+    <string name="attachments">Вкладений файл</string>
     <string name="message">Повідомлення</string>
     <string name="messages">Повідомлення</string>
     <string name="search">Пошук</string>

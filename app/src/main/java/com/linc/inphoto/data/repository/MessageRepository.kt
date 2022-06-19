@@ -4,11 +4,11 @@ import android.net.Uri
 import com.linc.inphoto.data.android.MediaLocalDataSource
 import com.linc.inphoto.data.mapper.toModel
 import com.linc.inphoto.data.network.api.ContentApiService
-import com.linc.inphoto.data.network.firebase.MediaStorage
+import com.linc.inphoto.data.network.datasource.MediaRemoteDateSource
 import com.linc.inphoto.data.network.firebase.MessagesCollection
-import com.linc.inphoto.data.network.model.chat.AttachmentFirebaseModel
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.chat.Message
+import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.utils.extensions.isUrl
 import com.linc.inphoto.utils.extensions.mapAsync
 import com.linc.inphoto.utils.extensions.toMultipartBody
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class MessageRepository @Inject constructor(
     private val messagesCollection: MessagesCollection,
-    private val mediaStorage: MediaStorage,
+    private val mediaRemoteDateSource: MediaRemoteDateSource,
     private val contentApiService: ContentApiService,
     private val authPreferences: AuthPreferences,
     private val mediaLocalDataSource: MediaLocalDataSource,
@@ -42,13 +42,10 @@ class MessageRepository @Inject constructor(
         chatId: String?,
         messageId: String,
         message: String,
-        attachments: List<Uri>
+        localAttachments: List<LocalMedia>
     ) = withContext(ioDispatcher) {
-        val attachmentUrls = attachments
-            .mapAsync {
-                val file = mediaLocalDataSource.createTempMediaFile(it) ?: return@mapAsync null
-                AttachmentFirebaseModel(mediaStorage.uploadFile(file).orEmpty(), file.type)
-            }
+        val uploadedAttachments = localAttachments
+            .mapAsync(mediaRemoteDateSource::uploadFile)
             .awaitAll()
             .filterNotNull()
         messagesCollection.sendChatMessages(
@@ -56,8 +53,7 @@ class MessageRepository @Inject constructor(
             messageId,
             authPreferences.userId,
             message,
-            // TODO: replace with real attachments
-            listOf()
+            uploadedAttachments
         )
     }
 

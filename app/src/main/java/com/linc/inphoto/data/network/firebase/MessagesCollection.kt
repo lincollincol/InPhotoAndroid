@@ -1,17 +1,17 @@
 package com.linc.inphoto.data.network.firebase
 
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.linc.inphoto.data.mapper.toMessageModel
-import com.linc.inphoto.data.network.model.chat.AttachmentFirebaseModel
 import com.linc.inphoto.data.network.model.chat.MessageFirebaseModel
+import com.linc.inphoto.data.network.model.media.RemoteMediaApiModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -32,11 +32,7 @@ class MessagesCollection @Inject constructor(
             if (error != null) {
                 error(error)
             }
-            launch {
-                loadLastChatMessage("")
-//                trySend(snapshot?.documents?.map(DocumentSnapshot::toMessageModel).orEmpty())
-                trySend(snapshot?.documents?.map { it.toMessageModel() }.orEmpty())
-            }
+            trySend(snapshot?.documents?.map(DocumentSnapshot::toMessageModel).orEmpty())
         }
         awaitClose { listener.remove() }
     }.flowOn(ioDispatcher)
@@ -48,8 +44,7 @@ class MessagesCollection @Inject constructor(
         return@withContext getMessagesCollection(chatId)
             .get()
             .await()
-            .map { it.toMessageModel() }
-//            .map(DocumentSnapshot::toMessageModel)
+            .map(DocumentSnapshot::toMessageModel)
     }
 
     suspend fun loadChatMessage(
@@ -79,7 +74,7 @@ class MessagesCollection @Inject constructor(
         messageId: String,
         userId: String,
         text: String,
-        attachments: List<AttachmentFirebaseModel>
+        attachments: List<RemoteMediaApiModel>
     ) = withContext(ioDispatcher) {
         if (chatId.isNullOrEmpty()) error("Chat not found!")
         val message = MessageFirebaseModel.getChatMessageInstance(userId, text, attachments)

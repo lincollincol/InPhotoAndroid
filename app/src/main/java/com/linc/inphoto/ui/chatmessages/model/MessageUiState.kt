@@ -1,16 +1,15 @@
 package com.linc.inphoto.ui.chatmessages.model
 
-import com.linc.inphoto.entity.chat.Attachment
 import com.linc.inphoto.entity.chat.Message
+import com.linc.inphoto.entity.media.RemoteMedia
 import com.linc.inphoto.ui.base.state.ItemUiState
 
 data class MessageUiState(
     val id: String,
     val text: String,
-    val attachments: List<Attachment>,
+    val attachments: List<RemoteMedia>,
     val createdTimestamp: Long,
     val isIncoming: Boolean,
-    val isSystem: Boolean,
     val isEdited: Boolean,
     val isProcessing: Boolean,
     val onClick: () -> Unit,
@@ -21,14 +20,13 @@ data class MessageUiState(
         fun getPendingMessageInstance(
             messageId: String,
             text: String,
-            attachments: List<Attachment>
+            attachments: List<RemoteMedia>
         ) = MessageUiState(
             id = messageId,
             text = text,
             attachments = attachments,
             createdTimestamp = System.currentTimeMillis(),
             isIncoming = false,
-            isSystem = false,
             isProcessing = true,
             isEdited = false,
             onClick = { /* Not implemented */ },
@@ -55,7 +53,6 @@ fun Message.toUiState(
     attachments = attachments,
     createdTimestamp = createdTimestamp,
     isIncoming = isIncoming,
-    isSystem = isSystem,
     isProcessing = false,
     isEdited = isEdited,
     onClick = onClick,

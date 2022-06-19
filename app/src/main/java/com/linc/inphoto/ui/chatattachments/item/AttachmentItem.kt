@@ -11,7 +11,7 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class AttachmentItem(
     private val attachmentUiState: AttachmentUiState
-) : BindableItem<ItemMediaAttachmentBinding>() {
+) : BindableItem<ItemMediaAttachmentBinding>(attachmentUiState.getStateItemId()) {
     override fun bind(viewBinding: ItemMediaAttachmentBinding, position: Int) {
         val localMedia = attachmentUiState.localMedia
         with(viewBinding) {

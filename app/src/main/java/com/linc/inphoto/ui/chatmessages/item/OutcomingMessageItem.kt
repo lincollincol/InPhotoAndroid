@@ -1,14 +1,12 @@
 package com.linc.inphoto.ui.chatmessages.item
 
 import android.view.View
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemMessageOutcomingBinding
 import com.linc.inphoto.ui.chatmessages.model.MessageUiState
 import com.linc.inphoto.ui.chatmessages.model.hasMultipleAttachments
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
-import com.linc.inphoto.utils.extensions.view.loadImage
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
@@ -27,11 +25,11 @@ class OutcomingMessageItem(
                 TIME_PATTERN_SEMICOLON
             )
             fileImageView.apply {
-                loadImage(
-                    messageUiState.attachments.firstOrNull()?.uri,
-                    overrideOriginalSize = true,
-                    diskCacheStrategy = DiskCacheStrategy.ALL
-                )
+//                loadImage(
+//                    messageUiState.attachments.firstOrNull()?.uri,
+//                    overrideOriginalSize = true,
+//                    diskCacheStrategy = DiskCacheStrategy.ALL
+//                )
                 show(messageUiState.attachments.isNotEmpty())
                 fileImageView.setOnThrottledClickListener { messageUiState.onImageClick() }
                 setOnLongClickListener {

@@ -1,4 +1,4 @@
-package com.linc.inphoto.entity
+package com.linc.inphoto.entity.media
 
 import android.net.Uri
 import java.io.Serializable
