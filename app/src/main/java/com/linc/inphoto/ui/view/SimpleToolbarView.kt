@@ -136,6 +136,20 @@ class SimpleToolbarView(
         binding?.titleTextView?.text = title
     }
 
+    fun setDoneVisible(visible: Boolean) {
+        if (this.doneVisible != visible) {
+            this.doneVisible = visible
+            binding?.doneImageView?.show(visible)
+        }
+    }
+
+    fun setCancelVisible(visible: Boolean) {
+        if (this.cancelVisible != visible) {
+            this.cancelVisible = visible
+            binding?.cancelImageView?.show(visible)
+        }
+    }
+
     fun loadAvatarImage(imageUrl: String?) {
         this.avatarImageUrl = imageUrl
         binding?.toolbarImageView?.loadImage(imageUrl, reloadImage = false)

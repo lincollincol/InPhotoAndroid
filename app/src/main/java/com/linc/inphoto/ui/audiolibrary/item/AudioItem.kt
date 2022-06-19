@@ -1,10 +1,14 @@
 package com.linc.inphoto.ui.audiolibrary.item
 
 import android.view.View
+import androidx.core.view.children
+import androidx.transition.Fade
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemLibraryAudioBinding
 import com.linc.inphoto.ui.audiolibrary.model.AudioUiState
+import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
+import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
 
 class AudioItem(
@@ -12,8 +16,11 @@ class AudioItem(
 ) : BindableItem<ItemLibraryAudioBinding>(audioUiState.getStateItemId()) {
     override fun bind(viewBinding: ItemLibraryAudioBinding, position: Int) {
         with(viewBinding) {
-            nameTextView.text = audioUiState.name
+            animateTargets(Fade(), root, root.children)
+            nameTextView.text = audioUiState.localMedia.name
+            selectedImageView.show(audioUiState.isSelected)
             root.setOnThrottledClickListener {
+                selectedImageView.show(!audioUiState.isSelected)
                 audioUiState.onClick()
             }
         }

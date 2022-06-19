@@ -6,12 +6,14 @@ import android.provider.Settings
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.BuildConfig
+import com.linc.inphoto.entity.LocalMedia
 import com.linc.inphoto.ui.audiolibrary.AudioLibraryFragment
 import com.linc.inphoto.ui.audiolibrary.model.AudioLibraryIntent
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
 import com.linc.inphoto.ui.camera.model.CameraIntent
+import com.linc.inphoto.ui.chatattachments.ChatAttachmentsFragment
 import com.linc.inphoto.ui.chatmessages.ChatMessagesFragment
 import com.linc.inphoto.ui.chatmessages.model.ConversationParams
 import com.linc.inphoto.ui.chats.ChatsFragment
@@ -178,6 +180,10 @@ object NavScreen {
 
     fun ChatMessagesScreen(conversation: ConversationParams) = FragmentScreen {
         ChatMessagesFragment.newInstance(conversation)
+    }
+
+    fun MessageAttachmentsScreen(attachments: List<LocalMedia>) = DialogScreen {
+        ChatAttachmentsFragment.newInstance(attachments)
     }
 
     fun SettingsScreen() = FragmentScreen {

@@ -13,5 +13,10 @@ fun String?.isImageMimeType() = isMime(MIME_IMAGE_PREFIX)
 fun String?.isFontMimeType() = isMime(MIME_FONT_PREFIX)
 fun String?.isDocMimeType() = isMime(MIME_APPLICATION_PREFIX, MIME_TEXT_PREFIX)
 
+fun String.getMimeTypePrefix(): String? = when {
+    contains("/") -> substringBefore("/")
+    else -> null
+}
+
 private fun String?.isMime(vararg prefix: String) =
     this?.let { mime -> prefix.any { mime.startsWith(it, ignoreCase = true) } } ?: false

@@ -76,6 +76,7 @@
     <string name="settings_invalid_data">Invalid profile data!</string>
     <string name="settings_invalid_data_description">Some fields contain invalid data. Please make sure you have entered the correct data</string>
     <string name="permission_gallery_description">To access the gallery, you should allow permission to read the storage on this device</string>
+    <string name="permission_audio_description">To access the audio library, you should allow permission to read the storage on this device</string>
     <string name="permission_camera_description">To access the camera, you should allow camera permission on this device</string>
     <string name="comments">Comments</string>
     <string name="date_period_short_day">%1$d d.</string>

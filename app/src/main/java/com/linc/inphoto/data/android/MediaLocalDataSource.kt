@@ -26,6 +26,8 @@ class MediaLocalDataSource @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
+    // TODO: refactor this functions
+    // refactor to single function
     suspend fun loadDCIMFiles(): List<LocalMedia> = withContext(ioDispatcher) {
         val content = mutableListOf<LocalMedia>()
         val cursor = context.contentResolver.query(
@@ -33,6 +35,7 @@ class MediaLocalDataSource @Inject constructor(
             arrayOf(
                 MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.DATE_ADDED,
+                MediaStore.Audio.Media.MIME_TYPE,
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Images.Media.DATA,
             ),
@@ -45,9 +48,11 @@ class MediaLocalDataSource @Inject constructor(
                 do {
                     val idIndex = it.getColumnIndex(MediaStore.Images.Media._ID)
                     val nameIndex = it.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)
+                    val mimeTypeIndex = it.getColumnIndex(MediaStore.Audio.Media.MIME_TYPE)
                     val dateIndex = it.getColumnIndex(MediaStore.Images.Media.DATE_ADDED)
                     val dataIndex = it.getColumnIndex(MediaStore.Images.Media.DATA)
                     val name = it.getString(nameIndex)
+                    val mimeType = it.getString(mimeTypeIndex)
                     val date = it.getLong(dateIndex)
                     val data = it.getString(dataIndex)
                     val contentUri = ContentUris.withAppendedId(
@@ -59,7 +64,7 @@ class MediaLocalDataSource @Inject constructor(
                         else -> DocumentFile.fromSingleUri(context, contentUri)?.exists() ?: false
                     }
                     if (mediaExist) {
-                        content.add(LocalMedia(name, date, contentUri))
+                        content.add(LocalMedia(name, mimeType, date, contentUri))
                     }
                 } while (it.moveToNext())
             }
@@ -74,6 +79,7 @@ class MediaLocalDataSource @Inject constructor(
             arrayOf(
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.DATE_ADDED,
+                MediaStore.Audio.Media.MIME_TYPE,
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DATA,
             ),
@@ -86,9 +92,11 @@ class MediaLocalDataSource @Inject constructor(
                 do {
                     val idIndex = it.getColumnIndex(MediaStore.Audio.Media._ID)
                     val nameIndex = it.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)
+                    val mimeTypeIndex = it.getColumnIndex(MediaStore.Audio.Media.MIME_TYPE)
                     val dateIndex = it.getColumnIndex(MediaStore.Audio.Media.DATE_ADDED)
                     val dataIndex = it.getColumnIndex(MediaStore.Audio.Media.DATA)
                     val name = it.getString(nameIndex)
+                    val mimeType = it.getString(mimeTypeIndex)
                     val date = it.getLong(dateIndex)
                     val data = it.getString(dataIndex)
                     val contentUri = ContentUris.withAppendedId(
@@ -100,7 +108,7 @@ class MediaLocalDataSource @Inject constructor(
                         else -> DocumentFile.fromSingleUri(context, contentUri)?.exists() ?: false
                     }
                     if (mediaExist) {
-                        content.add(LocalMedia(name, date, contentUri))
+                        content.add(LocalMedia(name, mimeType, date, contentUri))
                     }
                 } while (it.moveToNext())
             }

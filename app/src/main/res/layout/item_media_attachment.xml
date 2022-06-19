@@ -7,7 +7,7 @@
     android:background="?selectableItemBackground">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/audioImageView"
+        android:id="@+id/previewImageView"
         android:layout_width="@dimen/icon_large"
         android:layout_height="@dimen/icon_large"
         android:layout_marginHorizontal="@dimen/margin_general"
@@ -22,37 +22,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
         app:roundPercent="1"
-        app:srcCompat="@drawable/ic_music_note"
-        app:tint="@color/black" />
-
-    <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/selectedImageView"
-        android:layout_width="@dimen/icon_small"
-        android:layout_height="@dimen/icon_small"
-        android:background="@color/black"
-        android:elevation="@dimen/elevation_tiny"
-        android:padding="@dimen/padding_tiny"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@id/audioImageView"
-        app:layout_constraintEnd_toEndOf="@id/audioImageView"
-        app:layout_constraintStart_toEndOf="@id/audioImageView"
-        app:roundPercent="1"
-        app:srcCompat="@drawable/ic_check"
-        app:tint="@color/white" />
+        tools:srcCompat="@drawable/ic_music_note" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/nameTextView"
-        style="@style/TextFieldBold"
+        style="@style/TextField"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_general"
-        android:ellipsize="end"
-        android:lines="1"
         android:textSize="@dimen/font_small"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/typeTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/audioImageView"
+        app:layout_constraintStart_toEndOf="@id/previewImageView"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="music" />
+        tools:text="xlinc" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/typeTextView"
+        style="@style/TextField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:textColor="@color/black_50"
+        android:textSize="@dimen/font_tiny"
+        app:layout_constraintBottom_toBottomOf="@id/previewImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/previewImageView"
+        app:layout_constraintTop_toBottomOf="@id/nameTextView"
+        tools:text="Musician" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

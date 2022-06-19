@@ -5,5 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 sealed class AudioLibraryIntent : Parcelable {
     @Parcelize
-    data class Result(val resultKey: String) : AudioLibraryIntent()
+    data class SingleResult(val resultKey: String) : AudioLibraryIntent()
+
+    @Parcelize
+    data class MultipleResult(val resultKey: String) : AudioLibraryIntent()
 }

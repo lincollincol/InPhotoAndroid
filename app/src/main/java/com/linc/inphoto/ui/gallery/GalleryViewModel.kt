@@ -23,10 +23,8 @@ class GalleryViewModel @Inject constructor(
 ) : BaseViewModel<GalleryUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(GalleryUiState())
-    private var intent: GalleryIntent? = null
 
     fun loadImages(intent: GalleryIntent?) {
-        this.intent = intent
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(galleryPermissionsGranted = true) }

@@ -98,6 +98,7 @@
     <string name="settings_invalid_data_description">Деякі поля містять недійсні дані. Будь ласка, переконайтеся, що ви ввели правильні дані</string>
 
     <string name="permission_gallery_description">Щоб отримати доступ до галереї, ви повинні надати дозвіл на читання сховища на цьому пристрої</string>
+    <string name="permission_audio_description">Щоб отримати доступ до аудіо бібліотеки, ви повинні надати дозвіл на читання сховища на цьому пристрої</string>
     <string name="permission_camera_description">Щоб отримати доступ до камери, надайте дозвіл камері на цьому пристрої</string>
     <string name="comments">Коментарі</string>
 

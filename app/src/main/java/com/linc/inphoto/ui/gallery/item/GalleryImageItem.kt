@@ -1,6 +1,5 @@
 package com.linc.inphoto.ui.gallery.item
 
-import android.graphics.Color
 import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemGalleryImageBinding
@@ -16,16 +15,11 @@ class GalleryImageItem(
 
     override fun bind(viewBinding: ItemGalleryImageBinding, position: Int) {
         with(viewBinding) {
-            galleryImageView.loadImage(
-                image = imageUiState.uri,
-                placeholderTint = Color.BLACK,
-                errorTint = Color.BLACK
-            )
+            galleryImageView.loadImage(imageUiState.uri)
             root.setOnClickListener {
                 imageUiState.onClick()
             }
         }
-
     }
 
     override fun unbind(viewHolder: GroupieViewHolder<ItemGalleryImageBinding>) {
