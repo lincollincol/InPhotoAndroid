@@ -65,7 +65,10 @@
     <string name="terms_and_conditions">Terms &amp; Conditions</string>
     <string name="title_username">Username</string>
     <string name="title_status">Status</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">сancel</string>
+    <string name="cap_cancel">Cancel</string>
+    <string name="send">send</string>
+    <string name="cap_send">Send</string>
     <string name="confirm">Confirm</string>
     <string name="choose_story_duration">Slide duration</string>
     <string name="choose_story_expiration">Expiration time</string>

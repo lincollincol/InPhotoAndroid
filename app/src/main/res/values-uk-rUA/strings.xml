@@ -84,7 +84,10 @@
 
     <string name="title_username">Псевдонім</string>
     <string name="title_status">Статус</string>
-    <string name="cancel">Скасувати</string>
+    <string name="cap_cancel">Скасувати</string>
+    <string name="cancel">скасувати</string>
+    <string name="send">надіслати</string>
+    <string name="cap_send">Надіслати</string>
     <string name="confirm">Прийняти</string>
 
     <string name="choose_story_duration">Тривалість слайду</string>

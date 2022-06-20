@@ -13,7 +13,8 @@ data class MessageUiState(
     val isEdited: Boolean,
     val isProcessing: Boolean,
     val onClick: () -> Unit,
-    val onImageClick: () -> Unit
+    val onImageClick: () -> Unit,
+    val onAudioClick: () -> Unit
 ) : ItemUiState {
     companion object {
         @JvmStatic
@@ -30,7 +31,8 @@ data class MessageUiState(
             isProcessing = true,
             isEdited = false,
             onClick = { /* Not implemented */ },
-            onImageClick = { /* Not implemented */ }
+            onImageClick = { /* Not implemented */ },
+            onAudioClick = { /* Not implemented */ },
         )
     }
 
@@ -46,7 +48,8 @@ val MessageUiState.isTextOnlyMessage get() = text.isNotEmpty() && !hasAttachment
 
 fun Message.toUiState(
     onClick: () -> Unit,
-    onImageClick: () -> Unit
+    onImageClick: () -> Unit,
+    onAudioClick: () -> Unit
 ) = MessageUiState(
     id = id,
     text = text,
@@ -57,4 +60,5 @@ fun Message.toUiState(
     isEdited = isEdited,
     onClick = onClick,
     onImageClick = onImageClick,
+    onAudioClick = onAudioClick
 )

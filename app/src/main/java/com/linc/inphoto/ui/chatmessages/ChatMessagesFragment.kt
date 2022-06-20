@@ -17,7 +17,7 @@ import com.linc.inphoto.databinding.FragmentChatMessagesBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.chatmessages.item.IncomingMessageItem
 import com.linc.inphoto.ui.chatmessages.item.MessageAttachmentItem
-import com.linc.inphoto.ui.chatmessages.item.OutcomingMessageItem
+import com.linc.inphoto.ui.chatmessages.item.OutcomingAudioMessageItem
 import com.linc.inphoto.ui.chatmessages.model.ConversationParams
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.animateTargets
@@ -59,7 +59,8 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
             messagesSection.update(state.messages.map {
                 when {
                     it.isIncoming -> IncomingMessageItem(it)
-                    else -> OutcomingMessageItem(it)
+//                    else -> OutcomingMessageItem(it)
+                    else -> OutcomingAudioMessageItem(it)
                 }
             })
             inputLayout.apply {

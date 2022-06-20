@@ -44,7 +44,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/indicatorView"
             tools:itemCount="4"
-            tools:listitem="@layout/item_option" />
+            tools:listitem="@layout/item_media_attachment" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/captionEditText"
@@ -52,7 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_general"
-            android:hint="Caption"
+            android:hint="@string/message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/attachmentsRecyclerView" />
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_general"
             android:layout_marginVertical="@dimen/margin_small"
-            android:text="send"
+            android:text="@string/send"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/captionEditText" />
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_general"
-            android:text="cancel"
+            android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="@id/sendButton"
             app:layout_constraintEnd_toStartOf="@id/sendButton"
             app:layout_constraintTop_toTopOf="@id/sendButton" />

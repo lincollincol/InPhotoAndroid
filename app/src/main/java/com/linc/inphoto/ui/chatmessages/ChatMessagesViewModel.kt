@@ -2,6 +2,7 @@ package com.linc.inphoto.ui.chatmessages
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.linc.inphoto.android.AudioPlaybackManager
 import com.linc.inphoto.data.repository.ChatRepository
 import com.linc.inphoto.data.repository.MessageRepository
 import com.linc.inphoto.entity.chat.Message
@@ -31,7 +32,8 @@ import javax.inject.Inject
 class ChatMessagesViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val chatRepository: ChatRepository,
-    private val messageRepository: MessageRepository
+    private val messageRepository: MessageRepository,
+    private val audioPlaybackManager: AudioPlaybackManager
 ) : BaseViewModel<ChatMessagesUiState>(navContainerHolder) {
 
     companion object {
@@ -43,6 +45,15 @@ class ChatMessagesViewModel @Inject constructor(
     override val _uiState = MutableStateFlow(ChatMessagesUiState())
     private var chatId: String? = null
     private var receiverId: String? = null
+
+    init {
+        audioPlaybackManager.initializeController()
+    }
+
+    override fun onCleared() {
+        audioPlaybackManager.releaseController()
+        super.onCleared()
+    }
 
     fun updateMessage(message: String?) {
         _uiState.update { it.copy(message = message) }
@@ -95,7 +106,11 @@ class ChatMessagesViewModel @Inject constructor(
                     .map {
                         it.toUiState(
                             onClick = { selectMessage(it) },
-                            onImageClick = { /*selectMessageFiles(it.attachments.map(Uri::parse))*/ }
+                            onImageClick = { /*selectMessageFiles(it.attachments.map(Uri::parse))*/ },
+                            onAudioClick = {
+                                audioPlaybackManager.setAudio(it.attachments.first())
+                                audioPlaybackManager.play()
+                            }
                         )
                     }
                 _uiState.update {
