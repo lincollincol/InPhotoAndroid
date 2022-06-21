@@ -4,14 +4,13 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemMessageOutcomingBinding
 import com.linc.inphoto.ui.chatmessages.model.MessageUiState
-import com.linc.inphoto.ui.chatmessages.model.hasMultipleAttachments
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
 
-class OutcomingMessageItem(
+class OutTextMessageItem(
     private val messageUiState: MessageUiState
 ) : BindableItem<ItemMessageOutcomingBinding>(messageUiState.getStateItemId()) {
     override fun bind(viewBinding: ItemMessageOutcomingBinding, position: Int) {
@@ -24,23 +23,6 @@ class OutcomingMessageItem(
                 messageUiState.createdTimestamp,
                 TIME_PATTERN_SEMICOLON
             )
-            fileImageView.apply {
-//                loadImage(
-//                    messageUiState.attachments.firstOrNull()?.uri,
-//                    overrideOriginalSize = true,
-//                    diskCacheStrategy = DiskCacheStrategy.ALL
-//                )
-                show(messageUiState.attachments.isNotEmpty())
-                fileImageView.setOnThrottledClickListener { messageUiState.onImageClick() }
-                setOnLongClickListener {
-                    messageUiState.onClick()
-                    return@setOnLongClickListener false
-                }
-            }
-            showAllButton.apply {
-                show(messageUiState.hasMultipleAttachments)
-                setOnThrottledClickListener { messageUiState.onImageClick() }
-            }
             root.setOnThrottledClickListener { messageUiState.onClick() }
             processingProgressBar.show(messageUiState.isProcessing)
             editedTextView.show(messageUiState.isEdited && !messageUiState.isProcessing)

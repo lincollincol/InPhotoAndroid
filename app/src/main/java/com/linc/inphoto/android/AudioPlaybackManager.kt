@@ -28,6 +28,7 @@ class AudioPlaybackManager @Inject constructor(
     private val controller: MediaController?
         get() = if (controllerFuture?.isDone == true) controllerFuture?.get() else null
 
+    private var currentAudioUri: Uri? = null
     private var handler: Handler? = null
 
     fun setAudio(remoteMedia: RemoteMedia) {
@@ -35,9 +36,12 @@ class AudioPlaybackManager @Inject constructor(
     }
 
     fun setAudio(uri: Uri, title: String) {
+        if (currentAudioUri == uri) {
+            return
+        }
+        currentAudioUri = uri
         val mmd = MediaMetadata.Builder()
             .setTitle(title)
-//            .setArtist("")
             .build()
         val rmd = MediaItem.RequestMetadata.Builder()
             .setMediaUri(uri)
@@ -47,7 +51,6 @@ class AudioPlaybackManager @Inject constructor(
             .setMediaMetadata(mmd)
             .setRequestMetadata(rmd)
             .build()
-
         controller?.setMediaItem(mediaItem)
         controller?.prepare()
     }

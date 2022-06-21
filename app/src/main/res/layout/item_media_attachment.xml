@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/previewImageView"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="xlinc" />
+        tools:text="Title" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/typeTextView"
@@ -49,6 +49,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/previewImageView"
         app:layout_constraintTop_toBottomOf="@id/nameTextView"
-        tools:text="Musician" />
+        tools:text="Media type" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

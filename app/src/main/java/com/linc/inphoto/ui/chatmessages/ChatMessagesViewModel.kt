@@ -15,6 +15,7 @@ import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.collect
+import com.linc.inphoto.utils.extensions.mapIf
 import com.linc.inphoto.utils.extensions.safeCast
 import com.linc.inphoto.utils.extensions.toMutableDeque
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,10 +51,19 @@ class ChatMessagesViewModel @Inject constructor(
         audioPlaybackManager.initializeController()
     }
 
-    override fun onCleared() {
+    override fun onBackPressed() {
+        super.onBackPressed()
+        audioPlaybackManager.pause()
+        audioPlaybackManager.clearAudio()
         audioPlaybackManager.releaseController()
-        super.onCleared()
     }
+
+//    override fun onCleared() {
+//        audioPlaybackManager.pause()
+//        audioPlaybackManager.clearAudio()
+//        audioPlaybackManager.releaseController()
+//        super.onCleared()
+//    }
 
     fun updateMessage(message: String?) {
         _uiState.update { it.copy(message = message) }
@@ -108,8 +118,7 @@ class ChatMessagesViewModel @Inject constructor(
                             onClick = { selectMessage(it) },
                             onImageClick = { /*selectMessageFiles(it.attachments.map(Uri::parse))*/ },
                             onAudioClick = {
-                                audioPlaybackManager.setAudio(it.attachments.first())
-                                audioPlaybackManager.play()
+                                handleMessageAudio(it)
                             }
                         )
                     }
@@ -139,7 +148,7 @@ class ChatMessagesViewModel @Inject constructor(
                         messageId,
                         messageText,
                         // TODO: replace with attachments
-                        listOf()
+                        null
                     )
                 )
                 _uiState.update {
@@ -251,6 +260,24 @@ class ChatMessagesViewModel @Inject constructor(
             MessageOperation.getMessageOperations()
         )
         router.showDialog(pickerScreen)
+    }
+
+    private fun handleMessageAudio(message: Message) {
+        val messageUiState = currentState.messages
+            .firstOrNull { it.id == message.id }
+            ?: return
+        audioPlaybackManager.setAudio(message.attachments.first())
+        when {
+            messageUiState.isAudioPlaying -> audioPlaybackManager.pause()
+            else -> audioPlaybackManager.play()
+        }
+        val messages = currentState.messages
+            .map { it.copy(isAudioPlaying = false) }
+            .mapIf(
+                condition = { it.id == message.id },
+                transform = { it.copy(isAudioPlaying = !messageUiState.isAudioPlaying) }
+            )
+        _uiState.update { it.copy(messages = messages) }
     }
 
     private fun selectMessageFiles(files: List<Uri>) {

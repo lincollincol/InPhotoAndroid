@@ -15,10 +15,11 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.FragmentChatMessagesBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
-import com.linc.inphoto.ui.chatmessages.item.IncomingMessageItem
-import com.linc.inphoto.ui.chatmessages.item.MessageAttachmentItem
-import com.linc.inphoto.ui.chatmessages.item.OutcomingAudioMessageItem
+import com.linc.inphoto.ui.chatmessages.item.*
 import com.linc.inphoto.ui.chatmessages.model.ConversationParams
+import com.linc.inphoto.ui.chatmessages.model.isAudioMessage
+import com.linc.inphoto.ui.chatmessages.model.isImageMessage
+import com.linc.inphoto.ui.chatmessages.model.isTextOnlyMessage
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.animateTargets
 import com.linc.inphoto.utils.extensions.collect
@@ -56,13 +57,17 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 loadAvatarImage(state.userAvatarUrl)
             }
             attachmentsSection.update(state.messageAttachments.map(::MessageAttachmentItem))
-            messagesSection.update(state.messages.map {
-                when {
-                    it.isIncoming -> IncomingMessageItem(it)
-//                    else -> OutcomingMessageItem(it)
-                    else -> OutcomingAudioMessageItem(it)
+            messagesSection.update(
+                state.messages.mapNotNull {
+                    when {
+                        it.isIncoming && it.isImageMessage -> IncomingMessageItem(it)
+                        it.isTextOnlyMessage -> OutTextMessageItem(it)
+                        it.isImageMessage -> OutImageMessageItem(it)
+                        it.isAudioMessage -> OutAudioMessageItem(it)
+                        else -> null
+                    }
                 }
-            })
+            )
             inputLayout.apply {
                 animateTargets(Fade(), root, root.children)
                 attachmentsRecyclerView.show(state.hasAttachments)

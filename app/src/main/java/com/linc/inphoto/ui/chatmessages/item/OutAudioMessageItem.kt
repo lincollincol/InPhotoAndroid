@@ -4,14 +4,24 @@ import android.view.View
 import com.linc.inphoto.R
 import com.linc.inphoto.databinding.ItemAudioMessageOutcomingBinding
 import com.linc.inphoto.ui.chatmessages.model.MessageUiState
-import com.linc.inphoto.ui.chatmessages.model.hasMultipleAttachments
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
 import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
 
-class OutcomingAudioMessageItem(
+/**
+ *
+ * TODO:
+ * make single message item (only for the first release version)
+ *
+ * clear audio session onBackPressed
+ * add file support
+ * add video support
+ *
+ * */
+
+class OutAudioMessageItem(
     private val messageUiState: MessageUiState
 ) : BindableItem<ItemAudioMessageOutcomingBinding>(messageUiState.getStateItemId()) {
     override fun bind(viewBinding: ItemAudioMessageOutcomingBinding, position: Int) {
@@ -24,14 +34,18 @@ class OutcomingAudioMessageItem(
                 messageUiState.createdTimestamp,
                 TIME_PATTERN_SEMICOLON
             )
-            playButton.setOnThrottledClickListener {
-                messageUiState.onAudioClick()
+            playButton.apply {
+                setImageResource(
+                    when {
+                        messageUiState.isAudioPlaying -> R.drawable.ic_pause
+                        else -> R.drawable.ic_play_arrow
+                    }
+                )
+                setOnThrottledClickListener {
+                    messageUiState.onAudioClick()
+                }
             }
-            waveformView.setSampleFrom(intArrayOf(1, 1, 1, 0, 0, 0, 1, 1, 1))
-            showAllButton.apply {
-                show(messageUiState.hasMultipleAttachments)
-                setOnThrottledClickListener { messageUiState.onImageClick() }
-            }
+            titleTextView.text = messageUiState.attachment?.name
             root.setOnThrottledClickListener { messageUiState.onClick() }
             processingProgressBar.show(messageUiState.isProcessing)
             editedTextView.show(messageUiState.isEdited && !messageUiState.isProcessing)

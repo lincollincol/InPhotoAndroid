@@ -3,15 +3,20 @@ package com.linc.inphoto.ui.chatmessages.model
 import com.linc.inphoto.entity.chat.Message
 import com.linc.inphoto.entity.media.RemoteMedia
 import com.linc.inphoto.ui.base.state.ItemUiState
+import com.linc.inphoto.utils.extensions.isAudioMimeType
+import com.linc.inphoto.utils.extensions.isDocMimeType
+import com.linc.inphoto.utils.extensions.isImageMimeType
+import com.linc.inphoto.utils.extensions.isVideoMimeType
 
 data class MessageUiState(
     val id: String,
     val text: String,
-    val attachments: List<RemoteMedia>,
+    val attachment: RemoteMedia?,
     val createdTimestamp: Long,
     val isIncoming: Boolean,
     val isEdited: Boolean,
     val isProcessing: Boolean,
+    val isAudioPlaying: Boolean,
     val onClick: () -> Unit,
     val onImageClick: () -> Unit,
     val onAudioClick: () -> Unit
@@ -21,14 +26,15 @@ data class MessageUiState(
         fun getPendingMessageInstance(
             messageId: String,
             text: String,
-            attachments: List<RemoteMedia>
+            attachment: RemoteMedia?
         ) = MessageUiState(
             id = messageId,
             text = text,
-            attachments = attachments,
+            attachment = attachment,
             createdTimestamp = System.currentTimeMillis(),
             isIncoming = false,
             isProcessing = true,
+            isAudioPlaying = false,
             isEdited = false,
             onClick = { /* Not implemented */ },
             onImageClick = { /* Not implemented */ },
@@ -41,9 +47,12 @@ data class MessageUiState(
     }
 }
 
-val MessageUiState.hasAttachments get() = attachments.isNotEmpty()
-val MessageUiState.hasSingleAttachment get() = attachments.count() == 1
-val MessageUiState.hasMultipleAttachments get() = attachments.count() > 1
+val MessageUiState.isAudioMessage get() = hasAttachments && attachment?.mimeType.isAudioMimeType()
+val MessageUiState.isImageMessage get() = hasAttachments && attachment?.mimeType.isImageMimeType()
+val MessageUiState.isVideoMessage get() = hasAttachments && attachment?.mimeType.isVideoMimeType()
+val MessageUiState.isDocumentMessage get() = hasAttachments && attachment?.mimeType.isDocMimeType()
+
+val MessageUiState.hasAttachments get() = attachment != null
 val MessageUiState.isTextOnlyMessage get() = text.isNotEmpty() && !hasAttachments
 
 fun Message.toUiState(
@@ -53,10 +62,11 @@ fun Message.toUiState(
 ) = MessageUiState(
     id = id,
     text = text,
-    attachments = attachments,
+    attachment = attachments.firstOrNull(),
     createdTimestamp = createdTimestamp,
     isIncoming = isIncoming,
     isProcessing = false,
+    isAudioPlaying = false,
     isEdited = isEdited,
     onClick = onClick,
     onImageClick = onImageClick,
