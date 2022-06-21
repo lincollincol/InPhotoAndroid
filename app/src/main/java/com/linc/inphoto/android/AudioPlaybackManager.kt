@@ -56,6 +56,7 @@ class AudioPlaybackManager @Inject constructor(
     }
 
     fun clearAudio() {
+        controller?.stop()
         controller?.clearMediaItems()
     }
 
@@ -93,6 +94,7 @@ class AudioPlaybackManager @Inject constructor(
 
     fun releaseController() {
         controllerFuture?.let(MediaController::releaseFuture)
+        controllerFuture = null
     }
 
     private fun setController() {

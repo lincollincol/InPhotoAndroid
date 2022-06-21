@@ -52,18 +52,14 @@ class ChatMessagesViewModel @Inject constructor(
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        audioPlaybackManager.pause()
         audioPlaybackManager.clearAudio()
-        audioPlaybackManager.releaseController()
+        super.onBackPressed()
     }
 
-//    override fun onCleared() {
-//        audioPlaybackManager.pause()
-//        audioPlaybackManager.clearAudio()
-//        audioPlaybackManager.releaseController()
-//        super.onCleared()
-//    }
+    override fun onCleared() {
+        audioPlaybackManager.releaseController()
+        super.onCleared()
+    }
 
     fun updateMessage(message: String?) {
         _uiState.update { it.copy(message = message) }

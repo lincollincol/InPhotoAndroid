@@ -10,17 +10,6 @@ import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
 import com.linc.inphoto.utils.extensions.view.show
 import com.xwray.groupie.viewbinding.BindableItem
 
-/**
- *
- * TODO:
- * make single message item (only for the first release version)
- *
- * clear audio session onBackPressed
- * add file support
- * add video support
- *
- * */
-
 class OutAudioMessageItem(
     private val messageUiState: MessageUiState
 ) : BindableItem<ItemAudioMessageOutcomingBinding>(messageUiState.getStateItemId()) {
