@@ -49,7 +49,7 @@
         <entry key="app/src/main/res/layout/dialog_single_option.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_audio_library.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_chat_attachments.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_chat_attachments.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_chat_messages.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_create_story.xml" value="0.32708333333333334" />

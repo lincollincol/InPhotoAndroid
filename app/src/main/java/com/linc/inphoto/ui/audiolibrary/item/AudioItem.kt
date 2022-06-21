@@ -20,7 +20,6 @@ class AudioItem(
             nameTextView.text = audioUiState.localMedia.name
             selectedImageView.show(audioUiState.isSelected)
             root.setOnThrottledClickListener {
-                selectedImageView.show(!audioUiState.isSelected)
                 audioUiState.onClick()
             }
         }

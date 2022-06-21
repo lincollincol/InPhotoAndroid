@@ -183,11 +183,12 @@ object NavScreen {
     }
 
     fun MessageAttachmentsScreen(
+        resultKey: String,
         chatId: String?,
         receiverId: String?,
         attachments: List<LocalMedia>
     ) = DialogScreen {
-        ChatAttachmentsFragment.newInstance(chatId, receiverId, attachments)
+        ChatAttachmentsFragment.newInstance(resultKey, chatId, receiverId, attachments)
     }
 
     fun SettingsScreen() = FragmentScreen {

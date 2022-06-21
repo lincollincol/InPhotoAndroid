@@ -7,6 +7,7 @@ import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.utils.extensions.exitWithResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,12 +27,7 @@ class CameraViewModel @Inject constructor(
             is CameraIntent.NewAvatar -> EditorIntent.NewAvatar(intent.resultKey)
             is CameraIntent.NewPost -> EditorIntent.NewPost
             is CameraIntent.NewStory -> EditorIntent.NewStory
-            is CameraIntent.Result -> {
-                return router.run {
-                    sendResult(intent.resultKey, imageUri)
-                    exit()
-                }
-            }
+            is CameraIntent.Result -> return router.exitWithResult(intent.resultKey, imageUri)
             else -> return
         }
         router.navigateTo(NavScreen.EditImageScreen(editorIntent, imageUri))

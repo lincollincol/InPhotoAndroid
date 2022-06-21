@@ -7,6 +7,7 @@ import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.chatattachments.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
+import com.linc.inphoto.utils.extensions.exitWithResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -42,9 +43,10 @@ class ChatAttachmentsViewModel @Inject constructor(
         _uiState.update { it.copy(captionText = caption) }
     }
 
-    fun sendAttachmentsMessage() {
+    fun sendAttachmentsMessage(resultKey: String) {
         viewModelScope.launch {
             try {
+                _uiState.update { it.copy(isLoading = true) }
                 if (chatId.isNullOrEmpty()) {
                     chatId = chatRepository.createChat(receiverId)
                 }
@@ -57,9 +59,11 @@ class ChatAttachmentsViewModel @Inject constructor(
                     messageText,
                     attachments
                 )
-                router.closeDialog()
+                router.exitWithResult(resultKey, Unit, dialog = true)
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }

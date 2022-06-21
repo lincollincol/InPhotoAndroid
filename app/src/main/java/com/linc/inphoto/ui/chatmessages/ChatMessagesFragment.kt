@@ -78,7 +78,10 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 cancelButton.show(state.isEditorState)
                 inputEditText.update(state.message)
             }
-            if (state.isScrollDownOnUpdate) messagesRecyclerView.smoothScrollToStart()
+            if (state.isScrollDownOnUpdate) {
+                messagesRecyclerView.smoothScrollToStart()
+                viewModel.messagesScrolledDown()
+            }
             messagesNotFoundLayout.root.show(!state.isLoading && state.messages.isEmpty())
             progressBar.show(state.isLoading && state.messages.isEmpty())
         }

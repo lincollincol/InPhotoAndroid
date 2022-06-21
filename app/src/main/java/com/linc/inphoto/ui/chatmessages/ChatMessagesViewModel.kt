@@ -1,6 +1,7 @@
 package com.linc.inphoto.ui.chatmessages
 
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.android.AudioPlaybackManager
 import com.linc.inphoto.data.repository.ChatRepository
@@ -40,7 +41,8 @@ class ChatMessagesViewModel @Inject constructor(
     companion object {
         private const val MESSAGE_ACTION_RESULT = "message_action_result"
         private const val ATTACHMENT_SOURCE_RESULT = "attachment_source_result"
-        private const val ATTACHMENT_RESULT = "attachment_result"
+        private const val ATTACHMENT_FILE_RESULT = "attachment_file_result"
+        private const val ATTACHMENT_SEND_STATE_RESULT = "attachment_send_state_result"
     }
 
     override val _uiState = MutableStateFlow(ChatMessagesUiState())
@@ -73,6 +75,10 @@ class ChatMessagesViewModel @Inject constructor(
 
     fun selectUserProfile() {
         router.navigateTo(NavScreen.ProfileScreen(receiverId))
+    }
+
+    fun messagesScrolledDown() {
+        _uiState.update { it.copy(isScrollDownOnUpdate = false) }
     }
 
     fun loadConversation(conversation: ConversationParams) {
@@ -112,10 +118,8 @@ class ChatMessagesViewModel @Inject constructor(
                     .map {
                         it.toUiState(
                             onClick = { selectMessage(it) },
-                            onImageClick = { /*selectMessageFiles(it.attachments.map(Uri::parse))*/ },
-                            onAudioClick = {
-                                handleMessageAudio(it)
-                            }
+                            onImageClick = { handleMessageImage(it) },
+                            onAudioClick = { handleMessageAudio(it) }
                         )
                     }
                 _uiState.update {
@@ -211,22 +215,30 @@ class ChatMessagesViewModel @Inject constructor(
     private fun openAttachmentSource(source: AttachmentSource?) {
         val screen = when (source) {
             AttachmentSource.Gallery ->
-                NavScreen.GalleryScreen(GalleryIntent.Result(ATTACHMENT_RESULT))
+                NavScreen.GalleryScreen(GalleryIntent.Result(ATTACHMENT_FILE_RESULT))
             AttachmentSource.Camera ->
-                NavScreen.CameraScreen(CameraIntent.Result(ATTACHMENT_RESULT))
+                NavScreen.CameraScreen(CameraIntent.Result(ATTACHMENT_FILE_RESULT))
             AttachmentSource.Audio ->
-                NavScreen.AudioLibraryScreen(AudioLibraryIntent.MultipleResult(ATTACHMENT_RESULT))
+                NavScreen.AudioLibraryScreen(AudioLibraryIntent.SingleResult(ATTACHMENT_FILE_RESULT))
             else -> return
         }
-        router.setResultListener(ATTACHMENT_RESULT) { result ->
-            val uri = result.safeCast<List<LocalMedia>>() ?: return@setResultListener
+        router.setResultListener(ATTACHMENT_FILE_RESULT) { result ->
+            val uri = result.safeCast<LocalMedia>() ?: return@setResultListener
             handleSelectedAttachments(uri)
         }
         router.navigateTo(screen)
     }
 
-    private fun handleSelectedAttachments(attachments: List<LocalMedia>) {
-        val screen = NavScreen.MessageAttachmentsScreen(chatId, receiverId, attachments)
+    private fun handleSelectedAttachments(attachment: LocalMedia) {
+        val screen = NavScreen.MessageAttachmentsScreen(
+            ATTACHMENT_SEND_STATE_RESULT,
+            chatId,
+            receiverId,
+            listOf(attachment)
+        )
+        router.setResultListener(ATTACHMENT_SEND_STATE_RESULT) {
+            _uiState.update { it.copy(isScrollDownOnUpdate = true) }
+        }
         router.showDialog(screen)
     }
 
@@ -259,6 +271,9 @@ class ChatMessagesViewModel @Inject constructor(
     }
 
     private fun handleMessageAudio(message: Message) {
+        if (message.attachments.isEmpty()) {
+            return
+        }
         val messageUiState = currentState.messages
             .firstOrNull { it.id == message.id }
             ?: return
@@ -276,8 +291,12 @@ class ChatMessagesViewModel @Inject constructor(
         _uiState.update { it.copy(messages = messages) }
     }
 
-    private fun selectMessageFiles(files: List<Uri>) {
-        router.navigateTo(NavScreen.MediaReviewScreen(files))
+    private fun handleMessageImage(message: Message) {
+        if (message.attachments.isEmpty()) {
+            return
+        }
+        val images = message.attachments.map { it.url.toUri() }
+        router.navigateTo(NavScreen.MediaReviewScreen(images))
     }
 
     private fun deleteMessageAttachment(uri: Uri) {

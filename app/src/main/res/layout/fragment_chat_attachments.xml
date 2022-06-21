@@ -80,6 +80,31 @@
             app:layout_constraintEnd_toStartOf="@id/sendButton"
             app:layout_constraintTop_toTopOf="@id/sendButton" />
 
+        <FrameLayout
+            android:id="@+id/uploadingLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_top_round_25"
+            android:backgroundTint="@color/white_75"
+            android:elevation="@dimen/elevation_general"
+            android:scaleType="centerInside"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/uploadLottieView"
+                android:layout_width="@dimen/icon_extra_huge"
+                android:layout_height="@dimen/icon_extra_huge"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/anim_upload" />
+        </FrameLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.linc.inphoto.ui.confirmdialog
 import com.linc.inphoto.ui.base.state.EmptyUiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.navigation.NavContainerHolder
+import com.linc.inphoto.utils.extensions.exitWithResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -29,9 +30,6 @@ class ConfirmViewModel @Inject constructor(
 
     private fun finishWithResult(result: Boolean) {
         resultKey ?: return
-        router.run {
-            closeDialog()
-            sendResult(resultKey.orEmpty(), result)
-        }
+        router.exitWithResult(resultKey.orEmpty(), result, dialog = true)
     }
 }
