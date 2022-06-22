@@ -58,6 +58,7 @@
         <entry key="app/src/main/res/layout/fragment_duration_picker.xml" value="0.17864583333333334" />
         <entry key="app/src/main/res/layout/fragment_edit_image.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/fragment_file_manager.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/fragment_filter_image.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/fragment_followers_list.xml" value="0.1296875" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.21" />

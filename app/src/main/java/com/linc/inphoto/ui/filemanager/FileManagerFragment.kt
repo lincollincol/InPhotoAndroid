@@ -1,4 +1,4 @@
-package com.linc.inphoto.ui.audiolibrary
+package com.linc.inphoto.ui.filemanager
 
 import android.Manifest
 import android.os.Bundle
@@ -11,15 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.transition.Fade
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.linc.inphoto.R
-import com.linc.inphoto.databinding.FragmentAudioLibraryBinding
-import com.linc.inphoto.ui.audiolibrary.item.AudioItem
-import com.linc.inphoto.ui.audiolibrary.model.AudioLibraryIntent
+import com.linc.inphoto.databinding.FragmentFileManagerBinding
 import com.linc.inphoto.ui.base.fragment.BaseFragment
+import com.linc.inphoto.ui.filemanager.item.FileItem
+import com.linc.inphoto.ui.filemanager.model.FileManagerIntent
 import com.linc.inphoto.ui.main.BottomBarViewModel
-import com.linc.inphoto.utils.extensions.collect
-import com.linc.inphoto.utils.extensions.createAdapter
-import com.linc.inphoto.utils.extensions.getArgument
-import com.linc.inphoto.utils.extensions.permissionDisabled
+import com.linc.inphoto.utils.extensions.*
 import com.linc.inphoto.utils.extensions.view.show
 import com.linc.inphoto.utils.extensions.view.verticalLinearLayoutManager
 import com.xwray.groupie.Section
@@ -27,41 +24,49 @@ import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator
 
 @AndroidEntryPoint
-class AudioLibraryFragment : BaseFragment(R.layout.fragment_audio_library) {
+class FileManagerFragment : BaseFragment(R.layout.fragment_file_manager) {
 
     companion object {
+        private const val MIME_TYPE_ARG = "mime"
         private const val INTENT_ARG = "intent"
 
         @JvmStatic
         fun newInstance(
-            intent: AudioLibraryIntent
-        ) = AudioLibraryFragment().apply {
-            arguments = bundleOf(INTENT_ARG to intent)
+            mimeType: String,
+            intent: FileManagerIntent
+        ) = FileManagerFragment().apply {
+            arguments = bundleOf(
+                MIME_TYPE_ARG to mimeType,
+                INTENT_ARG to intent
+            )
         }
     }
 
-    override val viewModel: AudioLibraryViewModel by viewModels()
+    override val viewModel: FileManagerViewModel by viewModels()
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
-    private val binding by viewBinding(FragmentAudioLibraryBinding::bind)
+    private val binding by viewBinding(FragmentFileManagerBinding::bind)
     private val audiosSection by lazy { Section() }
 
     private val permissionsResult = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { allowed ->
         when {
-            allowed -> viewModel.loadAudioList(getArgument(INTENT_ARG))
+            allowed -> viewModel.loadFiles(
+                getArgumentNotNull(MIME_TYPE_ARG),
+                getArgument(INTENT_ARG)
+            )
             else -> viewModel.permissionDenied()
         }
     }
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            audiosSection.replaceAll(state.audios.map(::AudioItem))
-//            audiosSection.update(state.audios.map(::AudioItem))
+            toolbarView.setDoneVisible(state.allowMultipleSelection)
+            audiosSection.replaceAll(state.files.map(::FileItem))
             audiosRecyclerView.show(state.storagePermissionsGranted)
-            audiosToolbarView.setDoneVisible(state.allowMultipleSelection)
             permissionsLayout.root.show(!state.storagePermissionsGranted)
-            progressBar.show(state.isLoading && state.audios.isEmpty())
+            progressBar.show(state.isLoading && state.files.isEmpty())
+            notFoundLayout.root.show(!state.isLoading && state.files.isEmpty())
         }
     }
 
@@ -76,7 +81,7 @@ class AudioLibraryFragment : BaseFragment(R.layout.fragment_audio_library) {
             searchEditText.doOnTextChanged { text, _, _, _ ->
                 viewModel.updateSearchQuery(text.toString())
             }
-            audiosToolbarView.apply {
+            toolbarView.apply {
                 setOnDoneClickListener { viewModel.confirmSelectedAudios() }
                 setOnCancelClickListener { viewModel.onBackPressed() }
             }

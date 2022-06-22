@@ -7,7 +7,7 @@
     android:background="?selectableItemBackground">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/audioImageView"
+        android:id="@+id/previewImageView"
         android:layout_width="@dimen/icon_large"
         android:layout_height="@dimen/icon_large"
         android:layout_marginHorizontal="@dimen/margin_general"
@@ -22,8 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
         app:roundPercent="1"
-        app:srcCompat="@drawable/ic_music_note"
-        app:tint="@color/black" />
+        tools:srcCompat="@drawable/ic_music_note" />
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/selectedImageView"
@@ -33,26 +32,49 @@
         android:elevation="@dimen/elevation_tiny"
         android:padding="@dimen/padding_tiny"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@id/audioImageView"
-        app:layout_constraintEnd_toEndOf="@id/audioImageView"
-        app:layout_constraintStart_toEndOf="@id/audioImageView"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/previewImageView"
+        app:layout_constraintEnd_toEndOf="@id/previewImageView"
+        app:layout_constraintStart_toEndOf="@id/previewImageView"
+        tools:visibility="visible"
         app:roundPercent="1"
         app:srcCompat="@drawable/ic_check"
         app:tint="@color/white" />
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/previewBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="previewImageView, selectedImageView" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/nameTextView"
-        style="@style/TextFieldBold"
+        style="@style/TextField"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_general"
+        android:textSize="@dimen/font_small"
         android:ellipsize="end"
         android:lines="1"
-        android:textSize="@dimen/font_small"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/typeTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/audioImageView"
+        app:layout_constraintStart_toEndOf="@id/previewBarrier"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="music" />
+        tools:text="Title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/typeTextView"
+        style="@style/TextField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_general"
+        android:textColor="@color/black_50"
+        android:textSize="@dimen/font_tiny"
+        app:layout_constraintBottom_toBottomOf="@id/previewImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/previewBarrier"
+        app:layout_constraintTop_toBottomOf="@id/nameTextView"
+        tools:text="Media type" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

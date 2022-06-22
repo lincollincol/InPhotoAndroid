@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name" translatable="false">InPhoto</string>
     <string name="example_lorem_ipsum" translatable="false">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</string>
-    <string name="option_avatar_gallery">Open from gallery</string>
+    <string name="option_avatar_gallery">Choose image file</string>
     <string name="option_avatar_camera">Take a picture</string>
     <string name="option_audio_file">Choose audio file</string>
+    <string name="option_video_file">Choose video file</string>
+    <string name="option_document_file">Choose document file</string>
     <string name="got_it">Got It</string>
     <string name="unavailable">Unavailable</string>
     <string name="unavailable_function_description">This function is currently unavailable!</string>
@@ -45,6 +47,7 @@
     <string name="crop_image_toolbar">Crop Image</string>
     <string name="select_image_toolbar">Select Image</string>
     <string name="select_audio_toolbar">Select Audio</string>
+    <string name="select_file_toolbar">Select File</string>
     <string name="manage_post_toolbar">Manage Post</string>
     <string name="description">Description</string>
     <string name="stickers">Stickers</string>

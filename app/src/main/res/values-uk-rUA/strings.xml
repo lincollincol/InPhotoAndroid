@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="option_avatar_gallery">Вибрати з галереї</string>
+    <string name="option_avatar_gallery">Вибрати фото</string>
     <string name="option_avatar_camera">Зробити фото</string>
     <string name="option_audio_file">Вибрати аудіо файл</string>
+    <string name="option_video_file">Вибрати відео</string>
+    <string name="option_document_file">Вибрати документ</string>
     <string name="got_it">Зрозуміло</string>
 
     <string name="unavailable">Недоступно</string>
@@ -52,6 +54,7 @@
     <string name="crop_image_toolbar">Обрізати картинку</string>
     <string name="select_image_toolbar">Вибрати картинку</string>
     <string name="select_audio_toolbar">Вибрати аудіо</string>
+    <string name="select_file_toolbar">Вибрати файл</string>
     <string name="manage_post_toolbar">Керування дописом</string>
     <string name="description">Опис</string>
     <string name="stickers">Наклейка</string>

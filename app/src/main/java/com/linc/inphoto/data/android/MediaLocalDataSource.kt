@@ -6,9 +6,10 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.provider.MediaStore
+import androidx.annotation.RequiresApi
 import androidx.documentfile.provider.DocumentFile
-import com.linc.inphoto.data.android.model.MediaFile
 import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.utils.extensions.*
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,68 +21,56 @@ import java.io.File
 import java.io.InputStream
 import javax.inject.Inject
 
+
 class MediaLocalDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val amplituda: Amplituda,
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    // TODO: refactor this functions
-    // refactor to single function
-    suspend fun loadDCIMFiles(): List<LocalMedia> = withContext(ioDispatcher) {
-        val content = mutableListOf<LocalMedia>()
-        val cursor = context.contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            arrayOf(
-                MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.DATE_ADDED,
-                MediaStore.Audio.Media.MIME_TYPE,
-                MediaStore.Images.Media.DISPLAY_NAME,
-                MediaStore.Images.Media.DATA,
-            ),
-            null,
-            null,
-            "${MediaStore.MediaColumns.DATE_ADDED} DESC"
-        )
-        cursor?.use {
-            if (it.moveToFirst()) {
-                do {
-                    val idIndex = it.getColumnIndex(MediaStore.Images.Media._ID)
-                    val nameIndex = it.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)
-                    val mimeTypeIndex = it.getColumnIndex(MediaStore.Audio.Media.MIME_TYPE)
-                    val dateIndex = it.getColumnIndex(MediaStore.Images.Media.DATE_ADDED)
-                    val dataIndex = it.getColumnIndex(MediaStore.Images.Media.DATA)
-                    val name = it.getString(nameIndex)
-                    val mimeType = it.getString(mimeTypeIndex)
-                    val date = it.getLong(dateIndex)
-                    val data = it.getString(dataIndex)
-                    val contentUri = ContentUris.withAppendedId(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        it.getLong(idIndex)
-                    )
-                    val mediaExist = when {
-                        Build.VERSION.SDK_INT < Build.VERSION_CODES.R -> File(data).exists()
-                        else -> DocumentFile.fromSingleUri(context, contentUri)?.exists() ?: false
-                    }
-                    if (mediaExist) {
-                        content.add(LocalMedia(name, mimeType, date, contentUri))
-                    }
-                } while (it.moveToNext())
-            }
+    suspend fun loadLocalFiles(mimeType: String): List<LocalMedia> = withContext(ioDispatcher) {
+        return@withContext when {
+            mimeType.isAudioMimeType() -> loadAudioFiles()
+            mimeType.isImageMimeType() -> loadImageFiles()
+            mimeType.isVideoMimeType() -> loadVideoFiles()
+            mimeType.isDocMimeType() -> loadDocumentsFiles()
+            else -> emptyList()
         }
-        return@withContext content
+    }
+
+    suspend fun loadImageFiles(): List<LocalMedia> = withContext(ioDispatcher) {
+        return@withContext loadExternalFiles(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+    }
+
+    suspend fun loadVideoFiles(): List<LocalMedia> = withContext(ioDispatcher) {
+        return@withContext loadExternalFiles(MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
     }
 
     suspend fun loadAudioFiles(): List<LocalMedia> = withContext(ioDispatcher) {
+        return@withContext loadExternalFiles(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
+    }
+
+    suspend fun loadDocumentsFiles(): List<LocalMedia> = withContext(ioDispatcher) {
+        val files = when {
+            SDK_INT >= Build.VERSION_CODES.Q -> loadDownloadsFiles()
+            else -> loadExternalFiles(MediaStore.Files.getContentUri("external"))
+        }
+        return@withContext files.filter { it.mimeType.isDocMimeType() }
+    }
+
+    private suspend fun loadExternalFiles(
+        externalContentUri: Uri
+    ): List<LocalMedia> = withContext(ioDispatcher) {
         val content = mutableListOf<LocalMedia>()
         val cursor = context.contentResolver.query(
-            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            externalContentUri,
             arrayOf(
-                MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.DATE_ADDED,
-                MediaStore.Audio.Media.MIME_TYPE,
-                MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DATA,
+                MediaStore.MediaColumns._ID,
+                MediaStore.MediaColumns.DATE_ADDED,
+                MediaStore.MediaColumns.MIME_TYPE,
+                MediaStore.MediaColumns.DISPLAY_NAME,
+                MediaStore.MediaColumns.TITLE,
+                MediaStore.MediaColumns.DATA,
             ),
             null,
             null,
@@ -90,17 +79,65 @@ class MediaLocalDataSource @Inject constructor(
         cursor?.use {
             if (it.moveToFirst()) {
                 do {
-                    val idIndex = it.getColumnIndex(MediaStore.Audio.Media._ID)
-                    val nameIndex = it.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)
-                    val mimeTypeIndex = it.getColumnIndex(MediaStore.Audio.Media.MIME_TYPE)
-                    val dateIndex = it.getColumnIndex(MediaStore.Audio.Media.DATE_ADDED)
-                    val dataIndex = it.getColumnIndex(MediaStore.Audio.Media.DATA)
+                    val idIndex = it.getColumnIndex(MediaStore.MediaColumns._ID)
+                    val nameIndex = it.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
+                    val titleIndex = it.getColumnIndex(MediaStore.MediaColumns.TITLE)
+                    val mimeTypeIndex = it.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
+                    val dateIndex = it.getColumnIndex(MediaStore.MediaColumns.DATE_ADDED)
+                    val dataIndex = it.getColumnIndex(MediaStore.MediaColumns.DATA)
+                    val name = it.getString(nameIndex)
+                    val title = it.getString(titleIndex)
+                    val mimeType = it.getString(mimeTypeIndex)
+                    val date = it.getLong(dateIndex)
+                    val data = it.getString(dataIndex)
+                    val contentUri = ContentUris.withAppendedId(
+                        externalContentUri,
+                        it.getLong(idIndex)
+                    )
+                    val mediaExist = when {
+                        Build.VERSION.SDK_INT < Build.VERSION_CODES.R -> File(data).exists()
+                        else -> DocumentFile.fromSingleUri(context, contentUri)?.exists() ?: false
+                    }
+                    if (mediaExist) {
+//                        content.add(LocalMedia(name, mimeType, date, contentUri))
+                        content.add(LocalMedia(title, mimeType, date, contentUri))
+                    }
+                } while (it.moveToNext())
+            }
+        }
+        return@withContext content
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private suspend fun loadDownloadsFiles(): List<LocalMedia> = withContext(ioDispatcher) {
+        val content = mutableListOf<LocalMedia>()
+        val cursor = context.contentResolver.query(
+            MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+            arrayOf(
+                MediaStore.DownloadColumns._ID,
+                MediaStore.DownloadColumns.DATE_ADDED,
+                MediaStore.DownloadColumns.MIME_TYPE,
+                MediaStore.DownloadColumns.DISPLAY_NAME,
+                MediaStore.DownloadColumns.DATA,
+            ),
+            null,
+            null,
+            "${MediaStore.MediaColumns.DATE_ADDED} DESC"
+        )
+        cursor?.use {
+            if (it.moveToFirst()) {
+                do {
+                    val idIndex = it.getColumnIndex(MediaStore.DownloadColumns._ID)
+                    val nameIndex = it.getColumnIndex(MediaStore.DownloadColumns.DISPLAY_NAME)
+                    val mimeTypeIndex = it.getColumnIndex(MediaStore.DownloadColumns.MIME_TYPE)
+                    val dateIndex = it.getColumnIndex(MediaStore.DownloadColumns.DATE_ADDED)
+                    val dataIndex = it.getColumnIndex(MediaStore.DownloadColumns.DATA)
                     val name = it.getString(nameIndex)
                     val mimeType = it.getString(mimeTypeIndex)
                     val date = it.getLong(dateIndex)
                     val data = it.getString(dataIndex)
                     val contentUri = ContentUris.withAppendedId(
-                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        MediaStore.Downloads.EXTERNAL_CONTENT_URI,
                         it.getLong(idIndex)
                     )
                     val mediaExist = when {
@@ -114,25 +151,6 @@ class MediaLocalDataSource @Inject constructor(
             }
         }
         return@withContext content
-    }
-
-    @Deprecated("Future release feature")
-    suspend fun createTempMediaFile(uri: Uri?): MediaFile? = withContext(ioDispatcher) {
-        uri ?: return@withContext null
-        val file = createTempFile(uri) ?: return@withContext null
-        val mimeType = uri.getMimeTypePrefix(context) ?: return@withContext null
-        return@withContext when {
-            mimeType.isAudioMimeType() ->
-                MediaFile.Audio(
-                    file,
-                    mimeType,
-                    amplituda.processAudio(file).get().amplitudesAsList()
-                )
-            mimeType.isImageMimeType() -> MediaFile.Image(file, mimeType)
-            mimeType.isVideoMimeType() -> MediaFile.Video(file, mimeType)
-            mimeType.isDocMimeType() -> MediaFile.Document(file, mimeType)
-            else -> null
-        }
     }
 
     suspend fun createTempFile(uri: Uri?): File? = withContext(ioDispatcher) {

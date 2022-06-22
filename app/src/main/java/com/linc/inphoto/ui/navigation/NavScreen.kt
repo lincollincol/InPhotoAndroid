@@ -7,8 +7,6 @@ import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.BuildConfig
 import com.linc.inphoto.entity.media.LocalMedia
-import com.linc.inphoto.ui.audiolibrary.AudioLibraryFragment
-import com.linc.inphoto.ui.audiolibrary.model.AudioLibraryIntent
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
@@ -25,6 +23,8 @@ import com.linc.inphoto.ui.datepicker.DurationPickerFragment
 import com.linc.inphoto.ui.editimage.EditImageFragment
 import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.feed.FeedFragment
+import com.linc.inphoto.ui.filemanager.FileManagerFragment
+import com.linc.inphoto.ui.filemanager.model.FileManagerIntent
 import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.helpsettings.HelpSettingsFragment
@@ -118,8 +118,11 @@ object NavScreen {
         GalleryFragment.newInstance(intent)
     }
 
-    fun AudioLibraryScreen(intent: AudioLibraryIntent) = FragmentScreen {
-        AudioLibraryFragment.newInstance(intent)
+    fun AudioLibraryScreen(
+        mimeType: String,
+        intent: FileManagerIntent
+    ) = FragmentScreen {
+        FileManagerFragment.newInstance(mimeType, intent)
     }
 
     fun MediaReviewScreen(files: List<Uri>) = FragmentScreen {

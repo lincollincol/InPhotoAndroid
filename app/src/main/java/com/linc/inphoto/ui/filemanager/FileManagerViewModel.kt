@@ -1,12 +1,12 @@
-package com.linc.inphoto.ui.audiolibrary
+package com.linc.inphoto.ui.filemanager
 
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.MediaRepository
 import com.linc.inphoto.entity.media.LocalMedia
-import com.linc.inphoto.ui.audiolibrary.model.AudioLibraryIntent
-import com.linc.inphoto.ui.audiolibrary.model.AudioUiState
-import com.linc.inphoto.ui.audiolibrary.model.toUiState
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
+import com.linc.inphoto.ui.filemanager.model.FileManagerIntent
+import com.linc.inphoto.ui.filemanager.model.FileUiState
+import com.linc.inphoto.ui.filemanager.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
 import com.linc.inphoto.utils.extensions.mapIf
@@ -21,33 +21,36 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class AudioLibraryViewModel @Inject constructor(
+class FileManagerViewModel @Inject constructor(
     navContainerHolder: NavContainerHolder,
     private val mediaRepository: MediaRepository
-) : BaseViewModel<AudioLibraryUiState>(navContainerHolder) {
+) : BaseViewModel<FileManagerUiState>(navContainerHolder) {
 
     companion object {
         private const val SEARCH_DEBOUNCE_TIME = 500L
     }
 
-    override val _uiState = MutableStateFlow(AudioLibraryUiState())
-    private var audios: List<AudioUiState> = listOf()
+    override val _uiState = MutableStateFlow(FileManagerUiState())
+    private var files: List<FileUiState> = listOf()
     private var searchJob: Job? = null
-    private var intent: AudioLibraryIntent? = null
+    private var intent: FileManagerIntent? = null
 
-    fun loadAudioList(intent: AudioLibraryIntent?) {
+    fun loadFiles(
+        mimeType: String,
+        intent: FileManagerIntent?
+    ) {
         this.intent = intent
         viewModelScope.launch {
             try {
                 _uiState.update {
                     it.copy(
                         isLoading = true,
-                        allowMultipleSelection = intent is AudioLibraryIntent.MultipleResult
+                        allowMultipleSelection = intent is FileManagerIntent.MultipleResult
                     )
                 }
-                audios = mediaRepository.loadAudioFiles()
+                files = mediaRepository.loadLocalFiles(mimeType)
                     .map { it.toUiState { selectAudio(it) } }
-                _uiState.update { it.copy(audios = audios) }
+                _uiState.update { it.copy(files = files) }
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {
@@ -66,20 +69,20 @@ class AudioLibraryViewModel @Inject constructor(
     }
 
     fun confirmSelectedAudios() {
-        val intent = intent?.safeCast<AudioLibraryIntent.MultipleResult>() ?: return
-        val result = audios.filter { it.isSelected }.map { it.localMedia }
+        val intent = intent?.safeCast<FileManagerIntent.MultipleResult>() ?: return
+        val result = files.filter { it.isSelected }.map { it.localMedia }
         router.exit()
         router.sendResult(intent.resultKey, result)
     }
 
     private fun selectAudio(localMedia: LocalMedia) {
         val intent = intent ?: return
-        if (intent is AudioLibraryIntent.SingleResult) {
+        if (intent is FileManagerIntent.SingleResult) {
             router.exit()
             router.sendResult(intent.resultKey, localMedia)
             return
-        } else if (intent is AudioLibraryIntent.MultipleResult) {
-            audios = audios.mapIf(
+        } else if (intent is FileManagerIntent.MultipleResult) {
+            files = files.mapIf(
                 condition = { it.localMedia == localMedia },
                 transform = { it.copy(isSelected = !it.isSelected) }
             )
@@ -92,12 +95,12 @@ class AudioLibraryViewModel @Inject constructor(
             try {
                 val query = currentState.searchQuery
                 val foundAudios = when {
-                    query.isNullOrEmpty() -> audios
-                    else -> audios.filter {
+                    query.isNullOrEmpty() -> files
+                    else -> files.filter {
                         it.localMedia.name.contains(query.orEmpty(), ignoreCase = true)
                     }
                 }
-                _uiState.update { it.copy(audios = foundAudios) }
+                _uiState.update { it.copy(files = foundAudios) }
             } catch (e: Exception) {
                 Timber.e(e)
             }

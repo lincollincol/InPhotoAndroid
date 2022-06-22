@@ -8,17 +8,14 @@ import com.linc.inphoto.data.repository.ChatRepository
 import com.linc.inphoto.data.repository.MessageRepository
 import com.linc.inphoto.entity.chat.Message
 import com.linc.inphoto.entity.media.LocalMedia
-import com.linc.inphoto.ui.audiolibrary.model.AudioLibraryIntent
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.camera.model.CameraIntent
 import com.linc.inphoto.ui.chatmessages.model.*
+import com.linc.inphoto.ui.filemanager.model.FileManagerIntent
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
-import com.linc.inphoto.utils.extensions.collect
-import com.linc.inphoto.utils.extensions.mapIf
-import com.linc.inphoto.utils.extensions.safeCast
-import com.linc.inphoto.utils.extensions.toMutableDeque
+import com.linc.inphoto.utils.extensions.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -219,7 +216,20 @@ class ChatMessagesViewModel @Inject constructor(
             AttachmentSource.Camera ->
                 NavScreen.CameraScreen(CameraIntent.Result(ATTACHMENT_FILE_RESULT))
             AttachmentSource.Audio ->
-                NavScreen.AudioLibraryScreen(AudioLibraryIntent.SingleResult(ATTACHMENT_FILE_RESULT))
+                NavScreen.AudioLibraryScreen(
+                    MIME_AUDIO_PREFIX,
+                    FileManagerIntent.SingleResult(ATTACHMENT_FILE_RESULT)
+                )
+            AttachmentSource.Video ->
+                NavScreen.AudioLibraryScreen(
+                    MIME_VIDEO_PREFIX,
+                    FileManagerIntent.SingleResult(ATTACHMENT_FILE_RESULT)
+                )
+            AttachmentSource.Document ->
+                NavScreen.AudioLibraryScreen(
+                    MIME_APPLICATION_PREFIX,
+                    FileManagerIntent.SingleResult(ATTACHMENT_FILE_RESULT)
+                )
             else -> return
         }
         router.setResultListener(ATTACHMENT_FILE_RESULT) { result ->
