@@ -53,6 +53,8 @@ class MediaRepository @Inject constructor(
         return tempUriCopy
     }
 
+    fun getMediaFromUri(uri: Uri) = mediaLocalDataSource.getMediaFromUri(uri)
+
     /**
      * Create temporary copy of `uri`
      */

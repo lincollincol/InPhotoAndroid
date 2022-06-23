@@ -79,9 +79,11 @@ class ChatAttachmentsFragment : BaseBottomSheetDialogFragment(R.layout.fragment_
                 viewModel.updateCation(text.toString())
             }
             sendButton.setOnThrottledClickListener {
+                hideKeyboard()
                 viewModel.sendAttachmentsMessage(getArgumentNotNull(RESULT_KEY_ARG))
             }
             cancelButton.setOnThrottledClickListener {
+                hideKeyboard()
                 viewModel.cancelAttachments()
             }
             uploadingLayout.setOnClickListener {

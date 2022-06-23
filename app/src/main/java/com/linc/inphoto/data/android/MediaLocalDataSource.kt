@@ -11,8 +11,11 @@ import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.documentfile.provider.DocumentFile
 import com.linc.inphoto.entity.media.LocalMedia
+import com.linc.inphoto.entity.media.Media
+import com.linc.inphoto.entity.media.RemoteMedia
 import com.linc.inphoto.utils.extensions.*
 import dagger.hilt.android.qualifiers.ApplicationContext
+import jodd.net.MimeTypes
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import linc.com.amplituda.Amplituda
@@ -98,10 +101,18 @@ class MediaLocalDataSource @Inject constructor(
                         Build.VERSION.SDK_INT < Build.VERSION_CODES.R -> File(data).exists()
                         else -> DocumentFile.fromSingleUri(context, contentUri)?.exists() ?: false
                     }
-                    if (mediaExist) {
-//                        content.add(LocalMedia(name, mimeType, date, contentUri))
-                        content.add(LocalMedia(title, mimeType, date, contentUri))
+                    if (!mediaExist) {
+                        continue
                     }
+                    val media = LocalMedia(
+                        contentUri,
+                        title,
+                        mimeType,
+                        MimeTypes.findExtensionsByMimeTypes(mimeType, false)
+                            .firstOrNull()
+                            .orEmpty()
+                    )
+                    content.add(media)
                 } while (it.moveToNext())
             }
         }
@@ -144,9 +155,18 @@ class MediaLocalDataSource @Inject constructor(
                         Build.VERSION.SDK_INT < Build.VERSION_CODES.R -> File(data).exists()
                         else -> DocumentFile.fromSingleUri(context, contentUri)?.exists() ?: false
                     }
-                    if (mediaExist) {
-                        content.add(LocalMedia(name, mimeType, date, contentUri))
+                    if (!mediaExist) {
+                        continue
                     }
+                    val media = LocalMedia(
+                        contentUri,
+                        name,
+                        mimeType,
+                        MimeTypes.findExtensionsByMimeTypes(mimeType, false)
+                            .firstOrNull()
+                            .orEmpty()
+                    )
+                    content.add(media)
                 } while (it.moveToNext())
             }
         }
@@ -167,6 +187,17 @@ class MediaLocalDataSource @Inject constructor(
         val result = createTempUri()
         context.copyFileUri(src, result)
         return result
+    }
+
+    fun getMediaFromUri(uri: Uri): Media? {
+        val mimeType = uri.getMimeType(context) ?: return null
+        val extension = MimeTypes.findExtensionsByMimeTypes(mimeType, false)
+            .firstOrNull()
+            ?: return null
+        return when {
+            uri.isUrl() -> RemoteMedia(uri, String.EMPTY, mimeType, extension)
+            else -> LocalMedia(uri, String.EMPTY, mimeType, extension)
+        }
     }
 
     fun deleteUri(uri: Uri?) = context.deleteFileUri(uri)

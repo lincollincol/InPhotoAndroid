@@ -19,7 +19,8 @@ data class MessageUiState(
     val isAudioPlaying: Boolean,
     val onClick: () -> Unit,
     val onImageClick: () -> Unit,
-    val onAudioClick: () -> Unit
+    val onAudioClick: () -> Unit,
+    val onVideoClick: () -> Unit
 ) : ItemUiState {
     companion object {
         @JvmStatic
@@ -39,6 +40,7 @@ data class MessageUiState(
             onClick = { /* Not implemented */ },
             onImageClick = { /* Not implemented */ },
             onAudioClick = { /* Not implemented */ },
+            onVideoClick = { /* Not implemented */ },
         )
     }
 
@@ -53,12 +55,13 @@ val MessageUiState.isVideoMessage get() = hasAttachments && attachment?.mimeType
 val MessageUiState.isDocumentMessage get() = hasAttachments && attachment?.mimeType.isDocMimeType()
 
 val MessageUiState.hasAttachments get() = attachment != null
-val MessageUiState.isTextOnlyMessage get() = text.isNotEmpty() && !hasAttachments
+val MessageUiState.isTextMessage get() = text.isNotEmpty() && !hasAttachments
 
 fun Message.toUiState(
     onClick: () -> Unit,
     onImageClick: () -> Unit,
-    onAudioClick: () -> Unit
+    onAudioClick: () -> Unit,
+    onVideoClick: () -> Unit
 ) = MessageUiState(
     id = id,
     text = text,
@@ -70,5 +73,6 @@ fun Message.toUiState(
     isEdited = isEdited,
     onClick = onClick,
     onImageClick = onImageClick,
-    onAudioClick = onAudioClick
+    onAudioClick = onAudioClick,
+    onVideoClick = onVideoClick
 )

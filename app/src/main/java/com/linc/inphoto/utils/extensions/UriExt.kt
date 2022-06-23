@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import com.linc.inphoto.utils.extensions.pattern.URL_REGEX
+import jodd.net.MimeTypes
 import java.net.URL
 import java.util.*
 
@@ -26,13 +27,21 @@ fun Uri.getFileExtension(context: Context): String? = MimeTypeMap.getSingleton()
     .getMimeTypeFromExtension(context.contentResolver.getType(this))
 
 fun Uri.getMimeType(context: Context): String? {
-    return when (scheme) {
-        ContentResolver.SCHEME_CONTENT -> context.contentResolver.getType(this)
-        ContentResolver.SCHEME_FILE -> MimeTypeMap.getSingleton().getMimeTypeFromExtension(
-            MimeTypeMap.getFileExtensionFromUrl(toString()).lowercase(Locale.US)
-        )
-        else -> null
+    var mimeType: String? = null
+    if (scheme == ContentResolver.SCHEME_CONTENT) {
+        mimeType = context.contentResolver.getType(this)
     }
+    val ext = MimeTypeMap.getFileExtensionFromUrl(toString()).lowercase(Locale.US)
+    if (scheme == ContentResolver.SCHEME_FILE && mimeType.isNullOrEmpty()) {
+        mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext)
+    }
+    if (mimeType.isNullOrEmpty()) {
+        mimeType = MimeTypes.getMimeType(ext)
+    }
+    if (mimeType.isNullOrEmpty()) {
+        MimeTypes.getMimeType(ext)
+    }
+    return mimeType
 }
 
 fun Uri.getMimeTypePrefix(context: Context): String? =

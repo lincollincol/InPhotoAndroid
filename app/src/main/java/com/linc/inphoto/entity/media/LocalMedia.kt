@@ -6,8 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class LocalMedia(
-    val name: String,
-    val mimeType: String,
-    val date: Long,
-    val uri: Uri
-) : Parcelable
+    override val uri: Uri,
+    override val name: String,
+    override val mimeType: String,
+    override val extension: String
+) : Media(), Parcelable

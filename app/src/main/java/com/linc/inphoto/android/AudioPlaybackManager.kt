@@ -32,7 +32,7 @@ class AudioPlaybackManager @Inject constructor(
     private var handler: Handler? = null
 
     fun setAudio(remoteMedia: RemoteMedia) {
-        setAudio(Uri.parse(remoteMedia.url), remoteMedia.name)
+        setAudio(remoteMedia.uri, remoteMedia.name)
     }
 
     fun setAudio(uri: Uri, title: String) {

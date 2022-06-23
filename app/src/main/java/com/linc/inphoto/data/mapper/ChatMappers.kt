@@ -57,5 +57,6 @@ fun DocumentSnapshot.toChatModel() =
 fun HashMap<String, Any>.toRemoteMediaModel() = RemoteMediaApiModel(
     get("url").toString(),
     get("name").toString(),
-    get("mimeType").toString()
+    get("mimeType").toString(),
+    get("extension").toString(),
 )

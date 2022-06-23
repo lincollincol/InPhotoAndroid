@@ -1,7 +1,6 @@
 package com.linc.inphoto.ui.chatmessages
 
 import android.net.Uri
-import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.android.AudioPlaybackManager
 import com.linc.inphoto.data.repository.ChatRepository
@@ -116,7 +115,8 @@ class ChatMessagesViewModel @Inject constructor(
                         it.toUiState(
                             onClick = { selectMessage(it) },
                             onImageClick = { handleMessageImage(it) },
-                            onAudioClick = { handleMessageAudio(it) }
+                            onAudioClick = { handleMessageAudio(it) },
+                            onVideoClick = { handleMessageImage(it) },
                         )
                     }
                 _uiState.update {
@@ -305,7 +305,7 @@ class ChatMessagesViewModel @Inject constructor(
         if (message.attachments.isEmpty()) {
             return
         }
-        val images = message.attachments.map { it.url.toUri() }
+        val images = message.attachments.map { it.uri }
         router.navigateTo(NavScreen.MediaReviewScreen(images))
     }
 

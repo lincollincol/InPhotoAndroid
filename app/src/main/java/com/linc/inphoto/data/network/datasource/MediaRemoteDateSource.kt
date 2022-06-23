@@ -20,12 +20,17 @@ class MediaRemoteDateSource @Inject constructor(
         localMedia: LocalMedia
     ): RemoteMediaApiModel? = withContext(ioDispatcher) {
         val folder = localMedia.mimeType.getMimeTypePrefix()
-        val path = "${folder}/${UUID.randomUUID()}"
+        val path = "${folder}/${UUID.randomUUID()}.${localMedia.extension}"
         reference.child(path)
             .putFile(localMedia.uri)
             .await()
         val mediaFileUrl = getFileUrl(path) ?: return@withContext null
-        return@withContext RemoteMediaApiModel(mediaFileUrl, localMedia.name, localMedia.mimeType)
+        return@withContext RemoteMediaApiModel(
+            mediaFileUrl,
+            localMedia.name,
+            localMedia.mimeType,
+            localMedia.extension
+        )
     }
 
     suspend fun getFileUrl(path: String): String? = withContext(ioDispatcher) {

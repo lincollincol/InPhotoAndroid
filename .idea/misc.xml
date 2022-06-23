@@ -66,6 +66,7 @@
         <entry key="app/src/main/res/layout/fragment_help_settings.xml" value="0.1515625" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_image_editor.xml" value="0.14895833333333333" />
+        <entry key="app/src/main/res/layout/fragment_image_overview.xml" value="0.228125" />
         <entry key="app/src/main/res/layout/fragment_image_picker.xml" value="0.15260416666666668" />
         <entry key="app/src/main/res/layout/fragment_image_sticker.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_info_message.xml" value="0.25" />
@@ -91,6 +92,7 @@
         <entry key="app/src/main/res/layout/fragment_tab.xml" value="0.32447916666666665" />
         <entry key="app/src/main/res/layout/fragment_tag_posts.xml" value="0.32708333333333334" />
         <entry key="app/src/main/res/layout/fragment_user_stories.xml" value="0.15729166666666666" />
+        <entry key="app/src/main/res/layout/fragment_video_overview.xml" value="0.2664233576642336" />
         <entry key="app/src/main/res/layout/fragment_web_page.xml" value="0.15052083333333333" />
         <entry key="app/src/main/res/layout/item_audio.xml" value="0.22708333333333333" />
         <entry key="app/src/main/res/layout/item_audio_message_outcoming.xml" value="0.3260416666666667" />
@@ -135,6 +137,7 @@
         <entry key="app/src/main/res/layout/item_stories_bar.xml" value="0.3260416666666667" />
         <entry key="app/src/main/res/layout/item_tag_chip.xml" value="0.31023550724637683" />
         <entry key="app/src/main/res/layout/item_user_story.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_video_message_outcoming.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_chat_input.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/layout_comment_input.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_crop_image.xml" value="0.25" />

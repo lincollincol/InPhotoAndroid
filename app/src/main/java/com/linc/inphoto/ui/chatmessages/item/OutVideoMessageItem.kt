@@ -3,29 +3,30 @@ package com.linc.inphoto.ui.chatmessages.item
 import android.view.View
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.linc.inphoto.R
-import com.linc.inphoto.databinding.ItemImageMessageOutcomingBinding
+import com.linc.inphoto.databinding.ItemVideoMessageOutcomingBinding
 import com.linc.inphoto.ui.chatmessages.model.MessageUiState
 import com.linc.inphoto.ui.chatmessages.model.hasAttachments
 import com.linc.inphoto.utils.DateFormatter
 import com.linc.inphoto.utils.extensions.pattern.TIME_PATTERN_SEMICOLON
-import com.linc.inphoto.utils.extensions.view.loadImage
-import com.linc.inphoto.utils.extensions.view.setOnThrottledClickListener
-import com.linc.inphoto.utils.extensions.view.show
+import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.viewbinding.BindableItem
 
-class OutImageMessageItem(
+class OutVideoMessageItem(
     private val messageUiState: MessageUiState
-) : BindableItem<ItemImageMessageOutcomingBinding>(messageUiState.getStateItemId()) {
-    override fun bind(viewBinding: ItemImageMessageOutcomingBinding, position: Int) {
+) : BindableItem<ItemVideoMessageOutcomingBinding>(messageUiState.getStateItemId()) {
+    override fun bind(viewBinding: ItemVideoMessageOutcomingBinding, position: Int) {
         with(viewBinding) {
             fileImageView.apply {
                 loadImage(
                     messageUiState.attachment?.uri,
+                    size = THUMB_SMALL,
+                    blurRadius = IMAGE_BLUR_LARGE,
                     overrideOriginalSize = true,
                     diskCacheStrategy = DiskCacheStrategy.ALL
                 )
                 show(messageUiState.hasAttachments)
-                fileImageView.setOnThrottledClickListener { messageUiState.onImageClick() }
+                playButton.setOnThrottledClickListener { messageUiState.onVideoClick() }
+                fileImageView.setOnThrottledClickListener { messageUiState.onVideoClick() }
                 setOnLongClickListener {
                     messageUiState.onClick()
                     return@setOnLongClickListener false
@@ -45,7 +46,7 @@ class OutImageMessageItem(
         }
     }
 
-    override fun getLayout(): Int = R.layout.item_image_message_outcoming
+    override fun getLayout(): Int = R.layout.item_video_message_outcoming
 
-    override fun initializeViewBinding(view: View) = ItemImageMessageOutcomingBinding.bind(view)
+    override fun initializeViewBinding(view: View) = ItemVideoMessageOutcomingBinding.bind(view)
 }
