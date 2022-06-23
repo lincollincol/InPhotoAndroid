@@ -57,7 +57,10 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
             messagesSection.update(
                 state.messages.mapNotNull {
                     when {
-                        it.isIncoming && it.isImageMessage -> IncomingMessageItem(it)
+                        it.isIncoming && it.isTextMessage -> InTextMessageItem(it)
+                        it.isIncoming && it.isImageMessage -> InImageMessageItem(it)
+                        it.isIncoming && it.isVideoMessage -> InVideoMessageItem(it)
+                        it.isIncoming && it.isAudioMessage -> InAudioMessageItem(it)
                         it.isTextMessage -> OutTextMessageItem(it)
                         it.isImageMessage -> OutImageMessageItem(it)
                         it.isVideoMessage -> OutVideoMessageItem(it)
