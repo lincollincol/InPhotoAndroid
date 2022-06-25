@@ -11,19 +11,19 @@
     <string name="unavailable">Недоступно</string>
     <string name="unavailable_function_description">Дана функція наразі недоступна!</string>
 
-    <string name="hint_password">пароль</string>
-    <string name="hint_email">електронна адреса</string>
-    <string name="welcome_back">Welcome\nBack!</string>
-    <string name="forgot_password">Забули Пароль?</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="sign_in">Sign In</string>
+    <string name="hint_password">Пароль</string>
+    <string name="hint_email">Електронна адреса</string>
+    <string name="welcome_back">З поверненням!</string>
+    <string name="forgot_password">Забули пароль?</string>
+    <string name="sign_up">Зареєструватися</string>
+    <string name="sign_in">Увійти</string>
     <string name="allow">Дозволити</string>
-    <string name="username">псевдонім</string>
+    <string name="username">Псевдонім</string>
     <string name="users">Користувачі</string>
     <string name="tags">Теги</string>
     <string name="male">Чоловік</string>
     <string name="female">Жінка</string>
-    <string name="repeat_password">repeat password</string>
+    <string name="repeat_password">Підтвердити пароль</string>
     <string name="create_account">Створити обліковий запис</string>
 
     <string name="permissions">Дозволи</string>

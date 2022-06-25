@@ -87,17 +87,12 @@ class MessagesCollection @Inject constructor(
     suspend fun updateChatMessages(
         chatId: String?,
         messageId: String,
-        text: String,
-        files: List<String>,
+        text: String
     ) = withContext(ioDispatcher) {
         if (chatId.isNullOrEmpty()) error("Chat not found!")
         getMessagesCollection(chatId)
             .document(messageId)
-            .update(
-                "text", text,
-                "files", files,
-                "edited", true
-            )
+            .update("text", text, "edited", true)
     }
 
     suspend fun deleteChatMessages(

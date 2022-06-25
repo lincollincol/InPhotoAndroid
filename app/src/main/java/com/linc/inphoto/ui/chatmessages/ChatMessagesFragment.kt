@@ -18,15 +18,11 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.chatmessages.item.*
 import com.linc.inphoto.ui.chatmessages.model.*
 import com.linc.inphoto.ui.main.BottomBarViewModel
-import com.linc.inphoto.utils.extensions.animateTargets
-import com.linc.inphoto.utils.extensions.collect
-import com.linc.inphoto.utils.extensions.createAdapter
-import com.linc.inphoto.utils.extensions.getArgumentNotNull
+import com.linc.inphoto.utils.extensions.*
 import com.linc.inphoto.utils.extensions.view.*
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.FadeInUpAnimator
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
@@ -53,9 +49,8 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 setToolbarTitle(state.username)
                 loadAvatarImage(state.userAvatarUrl)
             }
-            attachmentsSection.update(state.messageAttachments.map(::MessageAttachmentItem))
             messagesSection.update(
-                state.messages.mapNotNull {
+                items = state.messages.mapNotNull {
                     when {
                         it.isIncoming && it.isTextMessage -> InTextMessageItem(it)
                         it.isIncoming && it.isImageMessage -> InImageMessageItem(it)
@@ -67,6 +62,9 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                         it.isAudioMessage -> OutAudioMessageItem(it)
                         else -> null
                     }
+                },
+                onNewItemAdded = {
+                    messagesRecyclerView.smoothScrollToStart()
                 }
             )
             inputLayout.apply {
@@ -77,11 +75,12 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 sendButton.show(!state.isEditorState)
                 doneButton.show(state.isEditorState)
                 cancelButton.show(state.isEditorState)
+                attachmentsButton.show(!state.isEditorState)
                 inputEditText.update(state.message)
             }
-            if (state.isScrollDownOnUpdate) {
-                messagesRecyclerView.smoothScrollToStart()
-                viewModel.messagesScrolledDown()
+            if (state.isHideKeyboard) {
+                hideKeyboard()
+                viewModel.keyboardHidden()
             }
             messagesNotFoundLayout.root.show(!state.isLoading && state.messages.isEmpty())
             progressBar.show(state.isLoading && state.messages.isEmpty())
@@ -91,7 +90,6 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.loadConversation(getArgumentNotNull(CONVERSATION_ARG))
-        Timber.tag("CHAT_VM_REF").d(viewModel.toString())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -134,9 +132,9 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 }
             }
             enterTransition = TransitionSet().apply {
-                addTransition(Slide(Gravity.TOP).addTarget(chatToolbarView))
                 addTransition(Slide(Gravity.BOTTOM).addTarget(inputLayout.root))
             }
+            exitTransition = Fade(Fade.OUT)
             reenterTransition = Fade(Fade.IN)
         }
         bottomBarViewModel.hideBottomBar()

@@ -70,6 +70,7 @@ class VideoOverviewFragment : BaseFragment(R.layout.fragment_video_overview) {
         player?.run {
             binding.videoPlayerView.player = this
             repeatMode = ExoPlayer.REPEAT_MODE_ALL
+            playWhenReady = true
             setMediaItem(MediaItem.fromUri(getArgumentNotNull<Uri>(VIDEO_ARG)))
             prepare()
         }
