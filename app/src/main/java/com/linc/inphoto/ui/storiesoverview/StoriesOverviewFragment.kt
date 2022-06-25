@@ -60,7 +60,7 @@ class StoriesOverviewFragment : BaseFragment(R.layout.fragment_stories_review) {
         with(binding) {
             storiesViewPager.apply {
                 adapter = userStoriesPageAdapter
-                storiesViewPager.setPageTransformer(CubeRotationTransformer())
+                setPageTransformer(CubeRotationTransformer())
                 registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)

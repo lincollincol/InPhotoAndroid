@@ -17,7 +17,6 @@ import com.linc.inphoto.ui.base.fragment.BaseFragment
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.ui.mediareview.item.MediaReviewItem
 import com.linc.inphoto.utils.extensions.collect
-import com.linc.inphoto.utils.extensions.createAdapter
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.reduceDragSensitivity
 import com.linc.inphoto.utils.extensions.view.setSafeOffscreenPageLimit
@@ -43,9 +42,14 @@ class MediaReviewFragment : BaseFragment(R.layout.fragment_media_review) {
     private val bottomBarViewModel: BottomBarViewModel by activityViewModels()
     private val binding by viewBinding(FragmentMediaReviewBinding::bind)
     private val filesSection by lazy { Section() }
+    private var mediaPageAdapter: MediaPageAdapter? = null
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
+            mediaPageAdapter?.apply {
+                setPages(state.files)
+//                storiesViewPager.setSafeOffscreenPageLimit(state.stories.count())
+            }
             filesSection.update(state.files.map(::MediaReviewItem))
             filesViewPager.setSafeOffscreenPageLimit(state.files.count())
         }
@@ -53,6 +57,7 @@ class MediaReviewFragment : BaseFragment(R.layout.fragment_media_review) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mediaPageAdapter = MediaPageAdapter(this)
         viewModel.applyMediaFiles(getArgument(MEDIA_FILES_ARG) ?: emptyList())
     }
 
@@ -60,9 +65,11 @@ class MediaReviewFragment : BaseFragment(R.layout.fragment_media_review) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             filesViewPager.apply {
-                adapter = createAdapter(filesSection)
-                reduceDragSensitivity()
+                adapter = mediaPageAdapter
                 setPageTransformer(DepthPageTransformer())
+                reduceDragSensitivity()
+//                adapter = createAdapter(filesSection)
+//                setPageTransformer(DepthPageTransformer())
             }
             reviewToolbarView.setOnCancelClickListener {
                 viewModel.onBackPressed()

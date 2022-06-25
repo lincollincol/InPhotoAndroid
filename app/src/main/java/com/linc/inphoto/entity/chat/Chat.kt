@@ -1,7 +1,5 @@
 package com.linc.inphoto.entity.chat
 
-import android.net.Uri
-
 data class Chat(
     val id: String,
     val userId: String,
@@ -9,5 +7,5 @@ data class Chat(
     val userAvatarUrl: String,
     val lastMessage: String?,
     val lastMessageTimestamp: Long,
-    val lastMessageFiles: List<Uri>
+    val lastMessageFilesCount: Int
 )

@@ -21,3 +21,10 @@ fun LottieAnimationView.playOneTime(
         override fun onAnimationRepeat(p0: Animator?) {}
     })
 }
+
+fun LottieAnimationView.play(play: Boolean) {
+    when {
+        play -> playAnimation()
+        else -> cancelAnimation()
+    }
+}

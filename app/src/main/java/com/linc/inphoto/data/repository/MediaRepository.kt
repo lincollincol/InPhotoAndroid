@@ -19,7 +19,15 @@ class MediaRepository @Inject constructor(
 ) {
 
     suspend fun loadGalleryImages() = withContext(ioDispatcher) {
-        return@withContext mediaLocalDataSource.loadDCIMFiles()
+        return@withContext mediaLocalDataSource.loadImageFiles()
+    }
+
+    suspend fun loadLocalFiles(mimeType: String) = withContext(ioDispatcher) {
+        return@withContext mediaLocalDataSource.loadLocalFiles(mimeType)
+    }
+
+    suspend fun loadAudioFiles() = withContext(ioDispatcher) {
+        return@withContext mediaLocalDataSource.loadAudioFiles()
     }
 
     suspend fun loadRandomUserAvatar(gender: Gender?) = withContext(ioDispatcher) {
@@ -44,6 +52,8 @@ class MediaRepository @Inject constructor(
         deleteLocalUri(uri)
         return tempUriCopy
     }
+
+    fun getMediaFromUri(uri: Uri) = mediaLocalDataSource.getMediaFromUri(uri)
 
     /**
      * Create temporary copy of `uri`

@@ -52,7 +52,7 @@
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_general"
                 android:layout_weight="50"
-                android:text="@string/cancel" />
+                android:text="@string/cap_cancel" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/confirmButton"

@@ -1,7 +1,7 @@
 package com.linc.inphoto.ui.gallery.model
 
 import android.net.Uri
-import com.linc.inphoto.entity.LocalMedia
+import com.linc.inphoto.entity.media.LocalMedia
 
 data class ImageUiState(
     val uri: Uri,

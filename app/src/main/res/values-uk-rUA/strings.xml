@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="option_avatar_gallery">Вибрати з галереї</string>
+    <string name="option_avatar_gallery">Вибрати фото</string>
     <string name="option_avatar_camera">Зробити фото</string>
+    <string name="option_audio_file">Вибрати аудіо файл</string>
+    <string name="option_video_file">Вибрати відео</string>
+    <string name="option_document_file">Вибрати документ</string>
     <string name="got_it">Зрозуміло</string>
 
     <string name="unavailable">Недоступно</string>
     <string name="unavailable_function_description">Дана функція наразі недоступна!</string>
 
-    <string name="hint_password">пароль</string>
-    <string name="hint_email">електронна адреса</string>
-    <string name="welcome_back">Welcome\nBack!</string>
-    <string name="forgot_password">Забули Пароль?</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="sign_in">Sign In</string>
+    <string name="hint_password">Пароль</string>
+    <string name="hint_email">Електронна адреса</string>
+    <string name="welcome_back">З поверненням!</string>
+    <string name="forgot_password">Забули пароль?</string>
+    <string name="sign_up">Зареєструватися</string>
+    <string name="sign_in">Увійти</string>
     <string name="allow">Дозволити</string>
-    <string name="username">псевдонім</string>
+    <string name="username">Псевдонім</string>
     <string name="users">Користувачі</string>
     <string name="tags">Теги</string>
     <string name="male">Чоловік</string>
     <string name="female">Жінка</string>
-    <string name="repeat_password">repeat password</string>
+    <string name="repeat_password">Підтвердити пароль</string>
     <string name="create_account">Створити обліковий запис</string>
 
     <string name="permissions">Дозволи</string>
@@ -50,6 +53,8 @@
     <string name="edit_image_toolbar">Редагувати картинку</string>
     <string name="crop_image_toolbar">Обрізати картинку</string>
     <string name="select_image_toolbar">Вибрати картинку</string>
+    <string name="select_audio_toolbar">Вибрати аудіо</string>
+    <string name="select_file_toolbar">Вибрати файл</string>
     <string name="manage_post_toolbar">Керування дописом</string>
     <string name="description">Опис</string>
     <string name="stickers">Наклейка</string>
@@ -82,7 +87,10 @@
 
     <string name="title_username">Псевдонім</string>
     <string name="title_status">Статус</string>
-    <string name="cancel">Скасувати</string>
+    <string name="cap_cancel">Скасувати</string>
+    <string name="cancel">скасувати</string>
+    <string name="send">надіслати</string>
+    <string name="cap_send">Надіслати</string>
     <string name="confirm">Прийняти</string>
 
     <string name="choose_story_duration">Тривалість слайду</string>
@@ -96,6 +104,7 @@
     <string name="settings_invalid_data_description">Деякі поля містять недійсні дані. Будь ласка, переконайтеся, що ви ввели правильні дані</string>
 
     <string name="permission_gallery_description">Щоб отримати доступ до галереї, ви повинні надати дозвіл на читання сховища на цьому пристрої</string>
+    <string name="permission_audio_description">Щоб отримати доступ до аудіо бібліотеки, ви повинні надати дозвіл на читання сховища на цьому пристрої</string>
     <string name="permission_camera_description">Щоб отримати доступ до камери, надайте дозвіл камері на цьому пристрої</string>
     <string name="comments">Коментарі</string>
 
@@ -155,7 +164,7 @@
     </plurals>
 
     <string name="no_messages">Немає повідомлень</string>
-    <string name="attachments">Вкладення</string>
+    <string name="attachments">Вкладений файл</string>
     <string name="message">Повідомлення</string>
     <string name="messages">Повідомлення</string>
     <string name="search">Пошук</string>

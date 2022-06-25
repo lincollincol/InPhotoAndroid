@@ -1,14 +1,15 @@
 package com.linc.inphoto.ui.gallery
 
-import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.linc.inphoto.data.repository.MediaRepository
+import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.ui.base.viewmodel.BaseViewModel
 import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.gallery.model.toUiState
 import com.linc.inphoto.ui.navigation.NavContainerHolder
 import com.linc.inphoto.ui.navigation.NavScreen
+import com.linc.inphoto.utils.extensions.exitWithResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -23,10 +24,8 @@ class GalleryViewModel @Inject constructor(
 ) : BaseViewModel<GalleryUiState>(navContainerHolder) {
 
     override val _uiState = MutableStateFlow(GalleryUiState())
-    private var intent: GalleryIntent? = null
 
     fun loadImages(intent: GalleryIntent?) {
-        this.intent = intent
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(galleryPermissionsGranted = true) }
@@ -35,7 +34,7 @@ class GalleryViewModel @Inject constructor(
                 }
                 _uiState.update { it.copy(isLoading = true) }
                 val images = mediaRepository.loadGalleryImages()
-                    .map { it.toUiState(onClick = { selectImage(intent, it.uri) }) }
+                    .map { it.toUiState(onClick = { selectImage(intent, it) }) }
                 _uiState.update { it.copy(images = images) }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -57,20 +56,15 @@ class GalleryViewModel @Inject constructor(
         router.exit()
     }
 
-    private fun selectImage(intent: GalleryIntent?, imageUri: Uri) {
+    private fun selectImage(intent: GalleryIntent?, localMedia: LocalMedia) {
         val editorIntent = when (intent) {
             is GalleryIntent.NewPost -> EditorIntent.NewPost
             is GalleryIntent.NewStory -> EditorIntent.NewStory
             is GalleryIntent.NewAvatar -> EditorIntent.NewAvatar(intent.resultKey)
-            is GalleryIntent.Result -> {
-                return router.run {
-                    sendResult(intent.resultKey, imageUri)
-                    exit()
-                }
-            }
+            is GalleryIntent.Result -> return router.exitWithResult(intent.resultKey, localMedia)
             else -> return
         }
-        router.navigateTo(NavScreen.EditImageScreen(editorIntent, imageUri))
+        router.navigateTo(NavScreen.EditImageScreen(editorIntent, localMedia.uri))
     }
 
 }

@@ -7,7 +7,7 @@
     android:background="?selectableItemBackground">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/avatarImageView"
+        android:id="@+id/tagImageView"
         android:layout_width="@dimen/icon_large"
         android:layout_height="@dimen/icon_large"
         android:layout_marginHorizontal="@dimen/margin_general"
@@ -32,9 +32,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_general"
         android:textSize="@dimen/font_small"
+        android:ellipsize="end"
+        android:lines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatarImageView"
+        app:layout_constraintStart_toEndOf="@id/tagImageView"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="music" />
 

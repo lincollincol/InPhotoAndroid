@@ -1,20 +1,25 @@
 package com.linc.inphoto.data.repository
 
-import android.net.Uri
 import com.linc.inphoto.data.android.MediaLocalDataSource
 import com.linc.inphoto.data.mapper.toModel
 import com.linc.inphoto.data.network.api.ContentApiService
+import com.linc.inphoto.data.network.datasource.MediaRemoteDateSource
 import com.linc.inphoto.data.network.firebase.MessagesCollection
 import com.linc.inphoto.data.preferences.AuthPreferences
 import com.linc.inphoto.entity.chat.Message
-import com.linc.inphoto.utils.extensions.isUrl
-import com.linc.inphoto.utils.extensions.toMultipartBody
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import com.linc.inphoto.entity.media.LocalMedia
+import com.linc.inphoto.utils.extensions.mapAsync
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MessageRepository @Inject constructor(
     private val messagesCollection: MessagesCollection,
+    private val mediaRemoteDateSource: MediaRemoteDateSource,
     private val contentApiService: ContentApiService,
     private val authPreferences: AuthPreferences,
     private val mediaLocalDataSource: MediaLocalDataSource,
@@ -37,45 +42,30 @@ class MessageRepository @Inject constructor(
         chatId: String?,
         messageId: String,
         message: String,
-        files: List<Uri>
+        localAttachments: List<LocalMedia>
     ) = withContext(ioDispatcher) {
-        val filesUrls = files.map { fileUri ->
-            async {
-                mediaLocalDataSource.createTempFile(fileUri)?.let {
-                    it.deleteOnExit()
-                    contentApiService.uploadChatContent(it.toMultipartBody()).body
-                }
-            }
-        }.awaitAll()
+        val uploadedAttachments = localAttachments
+            .mapAsync(mediaRemoteDateSource::uploadFile)
+            .awaitAll()
+            .filterNotNull()
         messagesCollection.sendChatMessages(
             chatId,
             messageId,
             authPreferences.userId,
             message,
-            filesUrls.filterNotNull()
+            uploadedAttachments
         )
     }
 
     suspend fun updateChatMessage(
         chatId: String?,
         messageId: String,
-        text: String,
-        files: List<Uri>
+        text: String
     ) = withContext(ioDispatcher) {
-        val filesUrls = files.map { fileUri ->
-            async {
-                if (fileUri.isUrl()) return@async fileUri.toString()
-                mediaLocalDataSource.createTempFile(fileUri)?.let {
-                    it.deleteOnExit()
-                    contentApiService.uploadChatContent(it.toMultipartBody()).body
-                }
-            }
-        }.awaitAll()
         messagesCollection.updateChatMessages(
             chatId,
             messageId,
-            text,
-            filesUrls.filterNotNull()
+            text
         )
     }
 

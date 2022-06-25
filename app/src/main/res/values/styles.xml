@@ -17,6 +17,8 @@
 
     <style name="TopRoundedBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/TopRoundedBottomSheet</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateVisible</item>
     </style>
 
     <style name="TopRoundedBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
@@ -34,7 +36,7 @@
     <style name="MaterialButton" parent="Widget.MaterialComponents.Button">
         <item name="android:lines">1</item>
         <item name="android:ellipsize">end</item>
-        <item name="cornerRadius">@dimen/corner_large</item>
+        <item name="cornerRadius">@dimen/corner_huge</item>
         <item name="textAllCaps">false</item>
         <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.MediumComponent
         </item>

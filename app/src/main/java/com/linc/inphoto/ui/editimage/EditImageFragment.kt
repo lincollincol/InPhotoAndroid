@@ -19,7 +19,7 @@ import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.main.BottomBarViewModel
 import com.linc.inphoto.utils.extensions.getArgument
 import com.linc.inphoto.utils.extensions.view.horizontalLinearLayoutManager
-import com.linc.inphoto.utils.extensions.view.loadUriImage
+import com.linc.inphoto.utils.extensions.view.loadImage
 import com.xwray.groupie.GroupieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator
@@ -52,7 +52,7 @@ class EditImageFragment : BaseFragment(R.layout.fragment_edit_image) {
 
     override suspend fun observeUiState() = with(binding) {
         viewModel.uiState.collect { state ->
-            previewImageView.loadUriImage(state.imageUri)
+            previewImageView.loadImage(state.imageUri)
             editorActionsAdapter.update(state.editOperations.map(::EditOperationItem))
         }
     }

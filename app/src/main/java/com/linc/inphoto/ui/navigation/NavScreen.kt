@@ -6,10 +6,12 @@ import android.provider.Settings
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.linc.inphoto.BuildConfig
+import com.linc.inphoto.entity.media.LocalMedia
 import com.linc.inphoto.ui.auth.signin.SignInFragment
 import com.linc.inphoto.ui.auth.signup.SignUpFragment
 import com.linc.inphoto.ui.camera.CameraFragment
 import com.linc.inphoto.ui.camera.model.CameraIntent
+import com.linc.inphoto.ui.chatattachments.ChatAttachmentsFragment
 import com.linc.inphoto.ui.chatmessages.ChatMessagesFragment
 import com.linc.inphoto.ui.chatmessages.model.ConversationParams
 import com.linc.inphoto.ui.chats.ChatsFragment
@@ -21,6 +23,8 @@ import com.linc.inphoto.ui.datepicker.DurationPickerFragment
 import com.linc.inphoto.ui.editimage.EditImageFragment
 import com.linc.inphoto.ui.editimage.model.EditorIntent
 import com.linc.inphoto.ui.feed.FeedFragment
+import com.linc.inphoto.ui.filemanager.FileManagerFragment
+import com.linc.inphoto.ui.filemanager.model.FileManagerIntent
 import com.linc.inphoto.ui.gallery.GalleryFragment
 import com.linc.inphoto.ui.gallery.model.GalleryIntent
 import com.linc.inphoto.ui.helpsettings.HelpSettingsFragment
@@ -114,6 +118,13 @@ object NavScreen {
         GalleryFragment.newInstance(intent)
     }
 
+    fun AudioLibraryScreen(
+        mimeType: String,
+        intent: FileManagerIntent
+    ) = FragmentScreen {
+        FileManagerFragment.newInstance(mimeType, intent)
+    }
+
     fun MediaReviewScreen(files: List<Uri>) = FragmentScreen {
         MediaReviewFragment.newInstance(files)
     }
@@ -172,6 +183,15 @@ object NavScreen {
 
     fun ChatMessagesScreen(conversation: ConversationParams) = FragmentScreen {
         ChatMessagesFragment.newInstance(conversation)
+    }
+
+    fun MessageAttachmentsScreen(
+        resultKey: String,
+        chatId: String?,
+        receiverId: String?,
+        attachments: List<LocalMedia>
+    ) = DialogScreen {
+        ChatAttachmentsFragment.newInstance(resultKey, chatId, receiverId, attachments)
     }
 
     fun SettingsScreen() = FragmentScreen {

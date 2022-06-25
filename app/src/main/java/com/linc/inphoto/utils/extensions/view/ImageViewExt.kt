@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.graphics.Matrix
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.util.Size
 import android.widget.ImageView
 import androidx.annotation.ColorInt
@@ -47,59 +46,12 @@ fun ImageView.clearImage() {
     Glide.with(this).clear(this)
 }
 
-fun ImageView.loadUrlImage(
-    url: String?,
-    size: Size? = null,
-    blurRadius: Int? = null,
-    @DrawableRes placeholder: Int = R.drawable.ic_image,
-    @DrawableRes errorPlaceholder: Int = R.drawable.ic_broken_image,
-    diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
-    skipMemoryCache: Boolean = true
-) {
-    loadImage(
-        url,
-        size,
-        blurRadius,
-//        placeholder,
-        errorPlaceholder,
-        null,
-        null,
-        diskCacheStrategy,
-        skipMemoryCache
-    )
-}
-
-fun ImageView.loadUriImage(
-    uri: Uri?,
-    size: Size? = null,
-    blurRadius: Int? = null,
-    @DrawableRes placeholder: Int = R.drawable.ic_image,
-    @DrawableRes errorPlaceholder: Int = R.drawable.ic_broken_image,
-    diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE,
-    skipMemoryCache: Boolean = true
-) {
-    loadImage(
-        uri,
-        size,
-        blurRadius,
-//        placeholder,
-        errorPlaceholder,
-        null,
-        null,
-        diskCacheStrategy,
-        skipMemoryCache,
-
-        )
-}
-
 fun ImageView.loadImage(
     image: Any?,
     size: Size? = null,
     blurRadius: Int? = null,
-//    @DrawableRes placeholder: Int? = R.drawable.ic_image,
+    scaleType: ImageView.ScaleType? = null,
     @DrawableRes errorPlaceholder: Int = R.drawable.ic_broken_image,
-    @ColorInt placeholderTint: Int? = null,
-    @ColorInt errorTint: Int? = null,
     diskCacheStrategy: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC,
     skipMemoryCache: Boolean = false,
     reloadImage: Boolean = true,
@@ -148,6 +100,8 @@ fun ImageView.loadImage(
     if (overrideOriginalSize) {
         builder = builder.override(Target.SIZE_ORIGINAL)
     }
+
+    scaleType?.let(::setScaleType)
 
     builder.into(this)
 }

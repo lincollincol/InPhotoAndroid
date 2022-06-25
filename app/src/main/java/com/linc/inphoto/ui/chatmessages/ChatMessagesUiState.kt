@@ -13,6 +13,7 @@ data class ChatMessagesUiState(
     val messageAttachments: List<MessageAttachmentUiState> = listOf(),
     val isLoading: Boolean = false,
     val isScrollDownOnUpdate: Boolean = false,
+    val isHideKeyboard: Boolean = false
 ) : UiState
 
 val ChatMessagesUiState.hasAttachments get() = messageAttachments.isNotEmpty()
