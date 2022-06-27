@@ -4,7 +4,6 @@
 ![GitHub stars](https://img.shields.io/github/stars/lincollincol/InPhotoAndroid?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/lincollincol/InPhotoAndroid?style=social)
 
-Simple social app
 Simple social network android application. 
 Used technologies:
 * Kotlin
