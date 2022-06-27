@@ -64,20 +64,12 @@ class ChatMessagesViewModel @Inject constructor(
 
     fun cancelMessageEditor() {
         _uiState.update {
-            it.copy(
-                editableMessageId = null,
-                message = null,
-                messageAttachments = listOf()
-            )
+            it.copy(editableMessageId = null, message = null)
         }
     }
 
     fun selectUserProfile() {
         router.navigateTo(NavScreen.ProfileScreen(receiverId))
-    }
-
-    fun messagesScrolledDown() {
-//        _uiState.update { it.copy(isScrollDownOnUpdate = false) }
     }
 
     fun keyboardHidden() {
@@ -154,12 +146,7 @@ class ChatMessagesViewModel @Inject constructor(
                     )
                 )
                 _uiState.update {
-                    it.copy(
-                        messages = messages,
-                        message = null,
-                        messageAttachments = listOf(),
-                        isScrollDownOnUpdate = true
-                    )
+                    it.copy(messages = messages, message = null, isScrollDownOnUpdate = true)
                 }
                 launch {
                     messageRepository.sendChatMessage(
@@ -198,12 +185,7 @@ class ChatMessagesViewModel @Inject constructor(
                     )
                 }
                 _uiState.update {
-                    it.copy(
-                        messages = messages,
-                        editableMessageId = null,
-                        message = null,
-                        messageAttachments = listOf()
-                    )
+                    it.copy(messages = messages, editableMessageId = null, message = null)
                 }
             } catch (e: Exception) {
                 Timber.e(e)

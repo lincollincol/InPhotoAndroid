@@ -5,7 +5,6 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
-//    id 'kotlin-parcelize'
 }
 
 android {
@@ -25,13 +24,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"https://cryptic-stream-96477.herokuapp.com/\""
-//            buildConfigField "String", "BASE_URL", "\"http://192.168.88.19:8885\""
         }
-
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", "\"http://8e65-195-114-96-145.ngrok.io\""
+            buildConfigField "String", "BASE_URL", "\"https://cryptic-stream-96477.herokuapp.com/\""
         }
     }
 
@@ -76,7 +73,6 @@ dependencies {
     implementation "androidx.camera:camera-camera2:$camerax_version"
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-video:$camerax_version"
-
     implementation "androidx.camera:camera-view:$camerax_version"
     implementation "androidx.camera:camera-extensions:$camerax_version"
 
@@ -116,7 +112,6 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'com.github.CanHub:Android-Image-Cropper:4.1.0'
 
     // RecyclerView/Groupie
     def groupie_version = "2.9.0"
@@ -124,25 +119,10 @@ dependencies {
     implementation "com.github.lisawray.groupie:groupie-viewbinding:$groupie_version"
     implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
 
-    // Animations, effects
-    def bouncy_version = "1.8"
-    implementation "com.github.valkriaine:bouncy:$bouncy_version"
-    implementation 'com.airbnb.android:lottie:5.0.3'
-
     // Hilt
     def hilt_version = "2.38.1"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-
-    //Cicerone
-    implementation "com.github.terrakok:cicerone:7.1"
-
-    // Widgets, views
-    implementation 'com.eightbitlab:blurview:1.6.6'
-    implementation 'nl.joery.animatedbottombar:library:1.1.0'
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-    implementation "io.github.geniusrus:multiprogressbar:1.4.0"
-    implementation  'com.github.massoudss:waveformSeekBar:5.0.1'
 
     // Media3 libraries
     def media3_version = "1.0.0-beta01"
@@ -150,7 +130,17 @@ dependencies {
     implementation "androidx.media3:media3-session:$media3_version"
     implementation "androidx.media3:media3-ui:$media3_version"
 
+    // Widgets, views
+    implementation 'com.eightbitlab:blurview:1.6.6'
+    implementation 'nl.joery.animatedbottombar:library:1.1.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation "io.github.geniusrus:multiprogressbar:1.4.0"
+    implementation  'com.github.massoudss:waveformSeekBar:5.0.1'
+    implementation 'com.airbnb.android:lottie:5.0.3'
+    implementation 'com.github.CanHub:Android-Image-Cropper:4.1.0'
+
     // Utils
+    implementation "com.github.terrakok:cicerone:7.1"
     implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.3'
     implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'

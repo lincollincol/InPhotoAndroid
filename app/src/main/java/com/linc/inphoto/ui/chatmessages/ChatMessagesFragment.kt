@@ -69,7 +69,6 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
             )
             inputLayout.apply {
                 animateTargets(Fade(), root, root.children)
-                attachmentsRecyclerView.show(state.hasAttachments)
                 sendButton.enable(state.isMessageValid)
                 doneButton.enable(state.isMessageValid)
                 sendButton.show(!state.isEditorState)
@@ -101,11 +100,6 @@ class ChatMessagesFragment : BaseFragment(R.layout.fragment_chat_messages) {
                 itemAnimator = FadeInUpAnimator()
             }
             inputLayout.apply {
-                attachmentsRecyclerView.apply {
-                    layoutManager = horizontalLinearLayoutManager()
-                    adapter = createAdapter(attachmentsSection)
-                    itemAnimator = FadeInUpAnimator()
-                }
                 messagesNotFoundLayout.apply {
                     notFoundImageView.setImageResource(R.drawable.ic_chat)
                     notFoundTextView.setText(R.string.no_messages)
