@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:elevation="@dimen/elevation_small">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/attachmentsRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
-        android:clipToPadding="true"
-        android:paddingHorizontal="@dimen/padding_small"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="1"
-        tools:listitem="@layout/item_message_attachment" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/cancelButton"
@@ -63,7 +49,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/controllersBarrier"
-        app:layout_constraintTop_toBottomOf="@id/attachmentsRecyclerView">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/inputEditText"
@@ -102,98 +88,3 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--
-    <?xml version="1.0" encoding="utf-8"?>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:background="@drawable/background_bottom_bar"
-        android:elevation="@dimen/elevation_general">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_small"
-            android:padding="@dimen/padding_small"
-            android:background="?actionBarItemBackground"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_close"
-            app:tint="@color/black" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/attachmentsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_small"
-            android:background="?actionBarItemBackground"
-            android:padding="@dimen/padding_small"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cancelButton"
-            app:srcCompat="@drawable/ic_attachment_vertical"
-            app:tint="@color/black" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/inputEditText"
-            style="@style/TextInputField"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/message"
-            android:imeOptions="actionDone"
-            android:inputType="textMultiLine"
-            android:maxLines="6"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/sendButton"
-            app:layout_constraintStart_toEndOf="@id/attachmentsButton" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/sendButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_small"
-            android:padding="@dimen/padding_small"
-            android:background="?actionBarItemBackground"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/doneButton"
-            app:srcCompat="@drawable/ic_send"
-            app:tint="@drawable/selector_icon_enable_color" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/doneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_small"
-            android:background="?actionBarItemBackground"
-            android:padding="@dimen/padding_small"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_check"
-            app:tint="@drawable/selector_icon_enable_color" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/attachmentsRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:itemCount="1"
-            tools:listitem="@layout/item_message_attachment"
-            app:layout_constraintTop_toBottomOf="@id/inputEditText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    -->
