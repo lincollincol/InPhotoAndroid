@@ -1,4 +1,4 @@
-# InPhotoAndroid <img src="https://github.com/lincollincol/InPhotoAndroid/blob/master/screenshot/inphoto_icon.png" width="150" height="150" align="right">   
+# InPhotoAndroid <img src="https://github.com/lincollincol/InPhotoAndroid/blob/master/screenshot/inphoto_icon.png" width="20%" align="right">   
 
 ![GitHub followers](https://img.shields.io/github/followers/lincollincol?style=social)
 ![GitHub stars](https://img.shields.io/github/stars/lincollincol/InPhotoAndroid?style=social)
@@ -11,7 +11,7 @@ Used technologies:
 * Firebase
 * Cicerone
 * Groupie
-* Coroutines  
+* Coroutines/Flow   
 * etc
 
 ## Screenshots  
